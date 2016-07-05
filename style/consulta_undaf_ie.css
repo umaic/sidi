@@ -1,0 +1,160 @@
+li.consulta_proy_boton {
+	width:230px;
+}
+
+
+/* Tabs */
+/*--------------------------------------------------
+  REQUIRED to hide the non-active tab content.
+  But do not hide them in the print stylesheet!
+  --------------------------------------------------*/
+.tabberlive .tabbertabhide {
+ display:none;
+}
+
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+
+}
+.tabberlive {
+ margin-top:1em;
+}
+
+/*--------------------------------------------------
+  ul.tabbernav = the tab navigation list
+  li.tabberactive = the active tab
+  --------------------------------------------------*/
+ul.tabbernav{
+ margin:0;
+ padding: 6px 0;
+ border-bottom: 1px solid #0288D8;
+ font: bold 12px Arial, Verdana, sans-serif;
+ list-style: none;
+}
+
+
+ul.tabbernav li{
+ margin: 0;
+ display: inline; 
+ padding: 0px 0 0px 14px;
+ margin-right: 3px;
+ border-bottom: 0px solid #0288D8;
+ background: #D9EDF9 url(../images/undaf/home/tab_left_off.gif) no-repeat top left;
+}
+
+ul.tabbernav li a{
+ padding: 6px 14px 6px 0;
+ border-bottom: none;
+ text-decoration: none;
+ font-size: 12px;
+ font-weight: bold;
+ /*background: #D9EDF9 url(../images/undaf/home/tab_right_off.gif) no-repeat top right;*/
+}
+
+ul.tabbernav li a:link { color: #0288D8; }
+ul.tabbernav li a:visited { color: #FFFFFF; }
+
+ul.tabbernav li a:hover{
+	text-decoration: underline;
+	 font-size: 12px;
+}
+
+ul.tabbernav li.tabberactive{
+  background: #0288D8 url(../images/undaf/home/tab_left.gif) no-repeat top left;
+  border-bottom: 1px solid #0288D8;
+}
+
+ul.tabbernav li.tabberactive a{
+ color: #FFFFFF;
+ border-bottom: 1px solid #0288D8;
+ background: #0288D8 url(../images/undaf/home/tab_right.gif) no-repeat top right;
+ }
+
+ul.tabbernav li.tabberactive a:hover{
+/*	
+ color: #000;
+ background: white;
+ border-bottom: 1px solid white;
+ */
+}
+
+/*--------------------------------------------------
+  .tabbertab = the tab content
+  Add style only after the tabber interface is set up (.tabberlive)
+  --------------------------------------------------*/
+.tabberlive .tabbertab {
+ padding: 5px 15px 10px 15px;
+ border-right: 1px solid #0288D8;
+ border-bottom: 1px solid #0288D8;
+ border-left: 1px solid #0288D8;
+ border-top:0;
+
+ /* If you don't want the tab size changing whenever a tab is changed
+    you can set a fixed height */
+
+  /*height:200px; */
+
+ /* If you set a fix height set overflow to auto and you will get a
+    scrollbar when necessary */
+
+  /*overflow:auto;*/ 
+}
+
+.tabberlive .tabbertab ul{
+	list-style: none
+}
+
+.tabberlive .tabbertab ul li{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.tabberlive .tabbertab ul li a{
+	color: #777777;
+	font-size: 11px;
+}
+.tabberlive .tabbertab ul li a:visited{
+	color: #777777;
+	font-size: 11px;
+}
+.tabberlive .tabbertab ul li a:hover{
+	color: #0288D8;
+	text-decoration: underline;
+	font-size: 11px;
+}
+
+
+/* If desired, hide the heading since a heading is provided by the tab */
+.tabberlive .tabbertab h2 {
+ display:none;
+}
+.tabberlive .tabbertab h3 {
+ display:none;
+}
+
+/* Example of using an ID to set different styles for the tabs on the page */
+.tabberlive#alimentacion {
+    height:640px;
+}
+.tabberlive#tab2 {
+}
+.tabberlive#home_proy_list .tabbertab {
+    overflow: auto;
+    height: 100%;
+}
+.tabberlive#home_proy_list .tabbertab ul{
+	margin-bottom: 5px;
+}
+.tabberlive#home_proy_list .tabbertab ul li{
+	background: #f4f4f4;
+	margin-top: 2px;
+	padding: 4px;
+	border-bottom: 1px solid #d9d9d9;
+}
+.tabberlive#alimentacion .tabbertab {
+    background:#0288D8;
+}
+

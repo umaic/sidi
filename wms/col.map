@@ -1,0 +1,67 @@
+MAP
+  NAME Colombia 
+  STATUS ON
+  SIZE 900 918
+  EXTENT -161112 -462196 1653895 1386463
+  UNITS meters
+  SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+  IMAGECOLOR 255 255 255
+
+WEB
+  IMAGEPATH "/srv/www/htdocs/tmp/"
+#  IMAGEURL "/tmp/"
+  METADATA
+    "wms_title"     "WMS Ocha"  ##required
+    "wms_onlineresource" "http://localhost/cgi-bin/col"   ##required
+    "wms_srs"       "epsg:4326"  ##recommended
+  END
+END
+
+
+  PROJECTION
+    "init=epsg:4326"
+  END
+#
+# Start of layer definitions
+#
+
+LAYER
+  NAME "depto"
+  METADATA
+    "wms_title"    "Departamentos"   ##required
+  END
+  TYPE POLYGON
+  STATUS On
+  DATA "COLDPTO3.shp"
+  PROJECTION
+    "init=epsg:4326"   ##recommended
+  END
+  CLASS
+    NAME "Departamentos"
+    STYLE
+      COLOR 239 239 239
+      OUTLINECOLOR 206 207 204
+    END
+  END
+END # Layer
+
+LAYER
+  NAME "mpio"
+  METADATA
+    "wms_title"    "Municipios"  ##required
+  END
+  TYPE POLYGON
+  STATUS ON
+  DATA "colmun3corregido.shp"
+  PROJECTION
+    "init=epsg:4326"   ##recommended
+  END
+  CLASS
+    NAME "Municipios"
+    STYLE
+      COLOR 255 255 255
+      OUTLINECOLOR 120 120 120
+    END
+  END
+END # Layer
+END

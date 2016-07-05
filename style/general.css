@@ -1,0 +1,238 @@
+html, body {
+	margin: 0px;
+    background-color: #f3f3f3 !important;
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    height: 100%;
+}
+
+h1 {
+    font-size: 2em !important;
+}
+
+/* Links*/
+
+a:link {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #0000FF;
+	text-decoration: none;
+}
+a:hover {
+	color: #0000FF;
+	text-decoration: underline;
+}
+a:active {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+/* Capas de diagramacion */
+#cabecera {
+    height: 70px;
+    background-color: #0066ff; /* #0066FF;*/
+}
+#cabecera span {
+    font-size: 30px;
+    color: white;
+    width: 300px;
+    margin: 20px auto;
+}
+#cabecera-logo-sidih {
+    background: url(../images/cabecera-consulta.png) 0 0 no-repeat;
+    height: 50px;
+    width: 151px;
+    margin: 10px 20px;
+}
+#cabecera-logo-umaic {
+	background: url(../images/cabecera-consulta-umaic.png) 0 0 no-repeat;
+    height: 50px;
+    width: 151px;
+    margin: 10px 20px;
+}
+
+#navgral {
+    margin: 0px;
+    padding: 0px;
+    text-align: right;
+    height: 28px;
+    background-color: #0099ff !important; /* #0099FF;*/
+}
+#navgral a {
+    color: white !important;
+}
+#navgral > ul{
+    margin: 0px;
+    list-style: none;
+}	
+#navgral > ul > li {
+    display: inline-block;
+    font-size: 13px;
+    padding: 5px 10px;
+    color: white !important;
+}
+
+#navgral li:hover{
+    background-color: #0066ff;
+}
+
+#navesp {
+    background-color: #0099ff;
+	height: 20px;
+	font-size: 10px;
+	text-align: right;
+}
+
+#navesp a:link{
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+#navesp a:visited{
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+#navesp a:hover {
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+#navlat {
+	background-color: #efefef;
+	width: 200px;
+	font-size: 11px;
+	float: left;
+	height: 100%;
+	margin-right: 5px;
+}
+
+#cuerpo {
+	float: none;
+}
+
+#cont {
+	padding: 5px;
+	z-index: 2;
+    font-size: 1em;
+}
+#cont > form > table {
+    background-color: white;
+    padding: 10px;
+}
+
+#footer {
+    border-top: 1px solid #dddddd;
+    margin-top: 20px;
+}
+#footer #logos {
+    padding-top: 30px;
+    text-align: center;
+    width: 800px;
+    margin: 0 auto;
+}
+#footer .logo {
+    width: 33%;
+    float: left;
+}
+/* Items de menus de navegacion */
+
+#navegaciongeneral {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+#menulat {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+#menulat li {
+	margin: 2px;
+	padding: 2px;
+	float: none;
+}
+
+#menu_regresar {
+	padding: 10px;
+}
+
+/* Estilos para formularios */
+form {
+	margin: 5px;
+	padding: 5px;
+}
+
+.boton {
+	text-align: left;
+	margin: 10px 10px 0 0;
+	padding: 8px;
+	background:#e1e1e1;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d1d1d1));
+	background-image: -moz-linear-gradient(top, #ffffff, #d1d1d1);
+    border: 1px solid #f1f1f1;
+	border-radius: 5px;
+}
+.boton:hover {
+    box-shadow: 0 1px 2px #e1e1e1;
+    border: 1px solid #e1e1e1;
+    text-decoration: none;
+}
+
+/* Generales */
+.left {
+    float: left;
+    clear: none !important;
+}
+.right {
+    float: right;
+    clear: none !important;
+}
+.inline {
+    display: inline;
+}
+.clear {
+    clear: both;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+.half {
+    width: 45%;
+}
+.third {
+    width: 30%;
+}
+.quarter {
+    width: 22%;
+}
+.hide {
+    display: none;
+}
+.middle {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tr_hover:hover td{
+    background-color: #e1e1e1;
+}
+
+.text_center {
+    text-align: center !important;
+}
+.relative {
+    position: relative !important;
+}
+
+.a_big {
+    font-size: 130%;
+    font-weight: bold;
+}

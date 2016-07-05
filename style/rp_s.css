@@ -1,0 +1,94 @@
+*{
+    font-family: Arial, Vedana;
+}
+
+body{
+    width: 1000px;
+    padding: 10px;
+    margin: 0 auto 0 auto;
+}
+
+#logo{
+    background: url('../images/logos/ocha_rp_s.png');
+    float: left;
+    width: 200px;
+    height: 70px;
+    padding: 0;
+}
+
+#titulo{
+    float: left;
+    margin: 10px 0 0 20px;
+}
+#titulo h1, #titulo h2 {
+    margin: 0;
+    font-size: 20px;
+}
+#idioma{
+    float: right;
+}
+#idioma a, #idioma a:visited{
+    color: #3366ff;
+}
+#clear{
+    clear: both;
+}
+
+#destacado, #map{
+    padding: 10px 10px 10px 30px;
+    border: 1px solid #e1e1e1;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	box-shadow: 0 1px 1px rgba(0,0,0, .2);
+}
+#destacado{
+    background-color: #99ccff;
+    padding: 10px 10px 10px 30px;
+    font-style: italic;
+}
+#destacado h1{
+    font-size: 20px;
+}
+
+#footer{
+    background-color: #3366ff;
+    padding: 15px;
+    color: #fff;
+    text-align: center;
+	-webkit-border-radius: 1em;
+	-moz-border-radius: 1em;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0, .2);
+	box-shadow: 0 1px 1px rgba(0,0,0, .2);
+}
+
+/**
+ * Map Examples Specific
+ */
+.smallmap {
+    height: 990px;
+    text-align: center;
+}
+
+#tags {
+    display: none;
+}
+
+#docs p {
+    margin-bottom: 0.5em;
+}
+
+.labelSpan{
+    font-size: 12px;
+}
+
+/* Mapa Popup */
+.map_popup{
+    padding: 15px 5px 15px 5px;
+    font-size: 12px;
+    width: 250px;
+}
+
+

@@ -1,0 +1,25 @@
+<!-- MapServer Template -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+  <head>
+    <title>MapServer Template Sample</title>
+  </head>
+
+  <body>
+    MapServer Template Sample<br>
+<form name="the_form" method=GET action="[program]">
+  <table width="100%">
+    <tr>
+      <td width="60%">
+      	<input name="img" type="image" src="[img]"
+              border=2></td>
+    			  </tr>
+			</table>
+        <input type="hidden" name="imgxy" value="320 240">
+     <input type="hidden" name="imgext" value="[mapext]">
+     <input type="hidden" name="map" value="[map]">
+     <input type="hidden" name="program" value="[program]">
+   </form>
+  </body>
+</html>

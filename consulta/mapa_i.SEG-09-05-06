@@ -1,0 +1,314 @@
+<?
+//LIBRERIAS
+include_once("consulta/lib/libs_mapa_i.php");
+
+//INICIALIZACION DE VARIABLES
+$depto_dao = New DeptoDAO();
+$municipio_vo = New Municipio();
+$municipio_dao = New MunicipioDAO();
+$org_dao = New OrganizacionDAO();
+$proy_dao = New ProyectoDAO();
+$eve_dao = New EventoDAO();
+
+$id_depto = Array();
+$num_deptos = 0;
+if (isset($_GET['id_depto'])){
+	$id_depto_s = split(",",$_GET['id_depto']);
+	$id_depto = $id_depto_s[0];
+	$num_deptos = count($id_depto_s);
+	$id_depto = $id_depto_s;
+	$id_depto_url = $id_depto;
+}
+
+$vista = 1;
+if (isset($_GET["vista"]) && $_GET["vista"] == 2){
+  if ($_GET["vista"] == 2){
+    $vista = 2;
+  }  
+}
+
+
+//REPORTE EXCEL
+if (isset($_POST["reportar"])){
+    //ORGS
+	if ($_POST['id_orgs'] != ""){
+	    $org_dao->ReporteOrganizacion($_POST['id_orgs'],2,$_POST['basico']);
+	}
+	//PROYS
+    if ($_POST['id_proyectos'] != ""){
+	    $proy_dao->ReporteProyecto($_POST['id_proyectos'],2,$_POST['basico']);
+	}
+	//EVENTOS
+    if ($_POST['id_eventos'] != ""){
+	    $eve_dao->ReporteEvento($_POST['id_eventos'],2,$_POST['basico']);
+	}
+}
+
+?>
+
+<script>
+function validarComboM(ob){
+  	selected = new Array();
+	for (var i = 0; i < ob.options.length; i++){ 
+	  if (ob.options[ i ].selected) 
+		  selected.push(ob.options[ i ].value);
+	}
+	
+	if (selected.length == 0){
+	  return false;
+	}
+	else{
+	  return true;
+	}
+}
+function validar_criterios(){
+  	
+  	var error = 1;
+  	var error_que = 0;
+  	var error_sede = 0;
+  	var filtros = Array('id_depto');
+  	
+  	if (document.getElementById('id_depto').type == "select-one"){
+	  	for (f=0;f<filtros.length;f++){
+		  	if (validarComboM(document.getElementById(filtros[f]))){
+			    error = 0;
+			}
+		}
+	}
+	else{
+	  if (document.getElementById('id_depto').value != ""){
+		  error = 0;
+	  }
+	}
+
+	if (document.getElementById('que_org').checked == false && document.getElementById('que_proy').checked == false && document.getElementById('que_eve').checked == false){
+		error_que = 1;
+	}
+	if (document.getElementById('que_org').checked == true){
+	  if (document.getElementById('sede').checked == false && document.getElementById('cobertura').checked == false){
+	    error_sede = 1;  
+	  }
+	}
+	
+  	if (error == 1 && error_que == 1){
+	    alert("Seleccione algún Departamento y lo que desea consultar (Organizaciones, Proyectos o Eventos)");
+	    return false;
+	}
+
+  	else if (error == 1 && error_que == 0){
+	    alert("Seleccione algún Departamento");
+	    return false;
+	}
+
+  	else if (error == 0 && error_que == 1){
+	    alert("Seleccione lo que desea consultar (Organizaciones, Proeyctos o Eventos)");
+	    return false;
+	}
+	
+	else if (error == 0 && error_que == 0 && error_sede == 1){
+	    alert("Especifique si la Organización debe tener Sede o Cobertura en la Ubicación seleccionada");
+	    return false;
+	}
+	
+	else{
+	  return true;
+	}
+   
+}
+
+</script>
+
+<?
+if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
+  ?>
+
+<form action="index.php?m_e=mapa_i&accion=consultar&class=MapaI" method="POST">
+<table align='center' cellspacing="1" cellpadding="3" border="0">
+	<tr><td align='center' class='titulo_lista' colspan=2>CONSULTA POR UBICACION GEOGRAFICA</td></tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr><td colspan=2>
+		Este módulo le permite consultar Organizaciones, Proyectos o Eventos en un Departamento o Municipio
+		<br>&nbsp;
+	</td></tr>
+	<tr>
+		<td id="td_cobertura">
+			<table cellspacing="1" cellpadding="5" border="0" width="450" class="tabla_consulta">
+			<? 
+			//MAPA INTERACTIVO
+			if ($vista == 1){ ?>
+				<tr class="titulo_lista"><td><b>Seleccione el Departamento</b></td></tr>
+				<tr><td><iframe src="consulta/swf/mapa_i.html" height="300" width="400" frameborder="0"></iframe></td></tr>
+			</table>			
+			<input type="hidden" id="id_depto" name="id_depto[]">
+			<input type="hidden" id="id_muns" name="id_muns[]" disabled>
+			<? 
+			}
+			else if ($vista == 2){ ?>
+			
+				<tr class="titulo_lista"><td><b>Seleccione el Departamento</b></td></tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td>
+						<select id="id_depto" name="id_depto[]"  multiple size="8" class="select">
+							<?
+							//DEPTO
+							$depto_dao->ListarCombo('combo',$id_depto,'');
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+				  <td>
+				  <a href="#" onclick="enviar_deptos('index.php?accion=consultar&class=MapaI');">Listar Muncipios del Depto. para refinar la consulta</a>
+				  </td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				
+				<? if (isset($_GET['id_depto'])){ ?>
+				<tr class="titulo_lista"><td><b>Seleccione el Municipio</b></td></tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td>
+						<select id="id_muns" name="id_muns[]" multiple size="8" class="select">
+							<?
+							//MUNICIPIO
+							for($d=0;$d<$num_deptos;$d++){
+							  $id = "'".$id_depto[$d]."'";
+								$depto = $depto_dao->Get($id);
+								$muns = $municipio_dao->GetAllArray('ID_DEPTO ='.$id);
+								
+								echo "<option value='' disabled>-------- ".$depto->nombre." --------</option>";
+								foreach ($muns as $mun){
+								  echo "<option value='".$mun->id."'>".$mun->nombre."</option>";
+								}
+								
+							} 
+							?>
+			  			</select>
+					</td>
+				</tr>
+				<tr>
+			    <? } ?>
+			    
+			</table>
+			
+			<? } ?>
+		</td>
+		<td valign="top">
+			<table cellspacing="1" cellpadding="5" border="0" width="300" align="right" class="tabla_consulta">
+				<tr class='titulo_lista'><td><b>Que desea consultar</b></td></tr>
+				<tr><td><input id="que_org" type="radio" name="que" value="1">&nbsp;Organizaciones<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="sede" name="sede">&nbsp;Sede&nbsp;&nbsp;<input type="checkbox" id="cobertura" name="cobertura">Cobertura&nbsp;</td></tr>
+				<tr><td><input id="que_proy" type="radio" name="que" value="2">&nbsp;Proyectos</td></tr>
+				<tr><td><input id="que_eve" type="radio" name="que" value="3">&nbsp;Eventos</td></tr>
+			</table>
+		</td>
+	</tr>	  
+
+	<tr><td>&nbsp;</td></tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr><td align='center' colspan="2">
+		<input type="hidden" name="accion" value="consultar" />
+		<input type="submit" name="submit" value="Siguiente" onclick="return validar_criterios()" class="boton" />	
+	</td></tr>					
+	</table>
+</form>
+<?
+}
+//REPORTE
+if (isset($_POST["submit"])){
+
+	$que = $_POST["que"];
+	
+	echo "<form action='index.php?m_e=org&accion=consultar&class=MapaI' method='POST'>";		
+	echo "<table align='center' cellspacing='0' cellpadding='0'>";
+	if ($que == 1){
+		echo "<tr><td>";
+		$org_dao->ReportarMapaI();
+		echo "</td></tr>";
+	}
+	if ($que == 2){
+		echo "<tr><td>";
+		$proy_dao->ReportarMapaI();
+		echo "</td></tr>";
+	}
+	if ($que == 3){
+		echo "<tr><td>";
+		$eve_dao->ReportarMapaI();
+		echo "</td></tr>";
+	}
+	echo "</table>";
+	echo "<input type='hidden' id='pdf' name='pdf'>";
+	echo "</form>";
+	
+}
+
+if (isset($_POST["pdf"]) && !isset($_POST["reportar"])){  
+  
+	if ($_POST['pdf'] == 1){
+		echo "<form action='admin/reporte_pdf.php' method='POST' target='_blank'>";
+		$t = "PDF";
+	}
+	else{
+		echo "<form action='index.php?m_e=org&accion=consultar&class=MapaI' method='POST'>";
+		$t = "CSV (Excel)";
+	}
+	
+	$id_orgs = "";
+	if (isset($_POST["que_org"])){
+	  $id_orgs = $_POST["id_orgs"];
+	}
+
+	$id_proyectos = "";
+	if (isset($_POST["que_proy"])){
+	  $id_proyectos = $_POST["id_proyectos"];
+	}
+
+	$id_eventos = "";
+	if (isset($_POST["que_eve"])){
+	  $id_eventos = $_POST["id_eventos"];
+	}
+	
+    ?>
+	<table align='center' cellspacing="1" cellpadding="3" border="0" width="750">
+		<tr><td align='center' class='titulo_lista' colspan=2>REPORTE EN FORMATO <?=$t?></td></tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td colspan=2>
+			Seleccione el formato del reporte:<br>&nbsp;
+		</td></tr>
+		<tr>
+		  <td>
+		  <?
+		  if (isset($_POST["que_org"])){
+		    echo "<input type='radio' name='basico' value='1' checked>&nbsp;<b>Reporte Básico:</b>: Muestra los datos básico de la Organización (Nombre,Sigla,Tipo,Cobertura)";
+		  }
+		  if (isset($_POST["que_proy"])){
+		    echo "<input type='radio' name='basico' value='1' checked>&nbsp;<b>Reporte Básico</b>: Muestra los datos básico de la Proyecto (Nombre,Estado,Objetivo,Fecha)";
+		  }
+		  if (isset($_POST["que_eve"])){
+		    echo "<input type='radio' name='basico' value='1' checked>&nbsp;<b>Reporte Estándar</b>";
+		  }
+		  ?>
+		  </td>
+		</tr>
+		<?
+		if (isset($_POST["que_org"]) || isset($_POST["que_proy"])){
+		?>
+			<tr><td><input type="radio" name="basico" value="2">&nbsp;<b>Reporte Detallado</b>: Muestra toda la información</td></tr>
+		<? } ?>
+		<tr><td>&nbsp;</td></tr>
+		<tr><td align='center'>
+			<input type="hidden" name="pdf" value="<?=$_POST['pdf']?>" />
+			<input type="hidden" name="id_orgs" value="<?=$id_orgs?>" />
+			<input type="hidden" name="id_proyectos" value="<?=$id_proyectos?>" />
+			<input type="hidden" name="id_eventos" value="<?=$id_eventos?>" />
+			<input type="hidden" name="class" value="MapaI" />
+			<input type="hidden" name="method" value="ReporteMapaI" />
+			<input type="submit" name="reportar" value="Siguiente" class="boton" />
+		</td></tr>
+	</table>
+	</form>
+<?  
+  }
+
+?>

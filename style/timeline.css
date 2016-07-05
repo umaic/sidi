@@ -1,0 +1,26 @@
+body {
+    font-family: Trebuchet MS, Helvetica, Arial, sans serif;
+    font-size: 8pt;
+	margin: 10px 5px 5px 5px;
+}
+
+#top h2{
+	font-size: 16px;
+	text-align: center;
+}
+
+.timeline-event-icon, .timeline-event-label, .timeline-event-tape{
+	/*width : 150px;*/
+	position: absolute;
+	cursor: pointer;
+}
+
+#div_timeline{
+	height: 470px;
+	border: 1px solid #aaa;
+}
+
+.timeline-event-bubble-body{
+	max-height: 400px;
+	overflow-y: auto;
+}

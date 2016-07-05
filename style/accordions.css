@@ -1,0 +1,54 @@
+body, p {
+	font-family : Arial, Helvetica, sans-serif;
+}
+.panelheader {
+	padding:2px;
+	background:#cccccc;
+	color:#FFFFFF;
+	border-bottom:1px solid #FFF;
+	cursor:pointer;
+	font-size: 12px;
+	padding-left:8px;
+}
+
+.mdHover {
+  background-color : #0066ff;
+  color : #ffffff;
+}
+.mdSelected {
+  background-color : #0066ff;
+  color : #ffffff;
+  font-weight : bold;
+  
+}
+.panelContent {
+  border-left : 1px solid #BBB;
+  border-right : 1px solid #BBB;
+  font-size: smaller;
+  overflow: auto;
+  background:#EEE;
+}
+
+.panelContent table{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.last_accordion table{
+	border-bottom : 1px solid #BBB;
+}
+
+#opciones_consulta{
+	padding:0px;
+	width:350px;
+	position:absolute;
+	left:2px;
+	top:1px;
+	z-index:2;
+}
+
+* {
+	margin:0;
+	/*padding:0;*/
+	list-style:none;
+}

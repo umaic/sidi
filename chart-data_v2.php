@@ -1,0 +1,18 @@
+<? include_once('/srv/www/htdocs/sissh/admin/lib/common/open-flash-chart/php-ofc-library_v2/sidihChart.php' );
+$bar_stack = new bar_stack();
+$bar_stack->append_stack(array(1,25));
+$y = new y_axis();
+$y->set_range( 0, 30, (30/10) );
+$y->set_colour('#FFFFFF');
+$y->set_grid_colour('#FFFFFF');
+$x = new x_axis();
+$x->set_labels_from_array( array( 'Ene 13' ) );
+$x->set_colour('#FFFFFF');
+$x->set_grid_colour('#FFFFFF');
+$chart = new sidihChart();
+$title = new title( "Víctimas con Mina" );
+$chart->set_title($title );
+$chart->add_element( $bar_stack );
+$chart->set_x_axis( $x );
+$chart->add_y_axis( $y );
+echo $chart->toPrettyString();
