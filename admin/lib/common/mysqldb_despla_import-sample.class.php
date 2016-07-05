@@ -15,9 +15,9 @@ class MysqlDb {
 
 		$this->host_db = "localhost";
 
-        $this->user_db = "sissh";
-        $this->password_db = "mjuiokm";
-        $this->db_name = "ocha_sissh_despla_import";
+        $this->user_db = "";
+        $this->password_db = "";
+        $this->db_name = "";
 
 		if ($this->mysqli == 0){
 			$this->conn = mysql_connect($this->host_db,$this->user_db,$this->password_db);
