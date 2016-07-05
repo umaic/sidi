@@ -1,0 +1,475 @@
+/* CSS Document */
+
+@import "general.css";
+
+/* Estilos para trucos */
+
+.info {
+	visibility:hidden;
+	height: 0px;
+	width: 0px;
+	position: absolute;
+}
+
+/* Estilos para formularios */
+
+
+form {
+	margin: 5px;
+	padding: 5px;
+}
+
+.area {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #F9FFD1;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	height: 100px;
+}
+
+.textfield, .textarea_fuente_desc, .textarea_fuente_refer {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	/*font-weight: bold;*/
+	background-color: #F9FFD1;
+	padding: 2px;
+	border: 1px solid #e1e1e1;
+}
+
+
+.check {
+
+}
+
+.radio {
+
+}
+
+.select {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	background-color: #F9FFD1;
+}
+
+
+/*PATHWAY*/
+.pathway {
+	/*background-color: #F3F3F3;*/
+	height: 20px;
+	color: #006699;
+}
+.pathway a{
+	color: #FFFFFF;
+	text-decoration: none;
+	color: #006699;
+}
+.pathway a:hover{
+	text-decoration: underline;
+}
+
+/*Home alimentacion*/
+.home_alimentacion{
+	border: 1px solid #E1E1E1;
+	background-color: #f9f9f9;
+	color: #999999;
+	width: 380px;
+}
+
+.home_alimentacion:hover{
+	background-color: #EEF1FF;
+}
+
+.home_alimentacion h1  {
+	color: #000000;
+	font-size: 24px;
+	margin: 0px;
+}
+.clear {
+    clear: both;
+}
+
+#home_alimentacion .modulo {
+    float: left;
+    width: 300px;
+    height: 250px;
+    padding: 5px;
+    margin: 0 0 0 10px;
+}
+#home_alimentacion .modulo ul {
+    list-style: none;
+    padding: 0 0 0 10px;
+}
+#home_alimentacion .modulo ul li {
+    margin: 3px 0;
+}
+#home_alimentacion .modulo ul li a {
+    font-size: 14px !important;
+}
+
+/* Orgs */
+.tabla_input_org{
+	background-color: #000000;	
+}
+.tabla_input_org td{
+	background-color: #FFFFFF;	
+}
+
+/*Contactos*/
+.tabla_input_contacto{
+}
+.tabla_input_contacto td {
+    background-color: #f0f0f0;
+}
+.tabla_input_contacto td a.n {
+    font-size: 20px;
+}
+
+/* Estilos para parrilla de registros */
+.titulo_lista{
+  background-color: #EAEAEA;
+  font-weight: bold;
+}
+
+.fila_lista{
+  background-color: #F9F9F9;
+}
+
+/* Estilos para Reportes */
+.tabla_reporte{
+  background-color: #E1E1E1;
+	width: 99%;
+}
+.tabla_consulta{
+  border: 1px solid #EAEAEA;
+}
+.titulo_reporte_semanal{
+	font-family: Arial;
+	font-size: 24px;
+	font-style: italic;
+	font-weight: bold;
+	color: #0099FF;
+}
+.pie_reporte_semanal{
+	font-family: Arial;
+	font-size: 8px;
+	color: #0099FF;
+}
+
+.mapa_centro{
+  position: absolute;
+  top: 220px;
+  left: 500px;
+  z-index: 1;
+}
+
+.mapa_iz{
+  position: absolute;
+  top: 320px;
+  left: 30px;
+  z-index: 1;
+}
+
+.div_bcg{
+	position: absolute;
+	visibility: hidden;
+	top: 0px;
+	z-index: 3;
+	background-color: #6B6B6B;
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+	moz-opacity: 0.75;
+}
+
+.div_mapa{
+	position: absolute;
+	top: 5px;
+	left: 50px;
+	visibility: hidden;
+	z-index: 3;
+	border: 1px solid #515151;
+	background-color: #E1E1E1;
+	padding: 2px 2px 2px 2px;
+}
+
+/* BackGrounds */
+.bcg_0000000_FFFFFF {
+	font-family: Arial;
+	font-size: 12px;
+	background-color: #000000;
+  	color: #FFFFFF;
+}
+
+.bcg_0000000_FFFFFF a{
+	font-family: Arial;
+	font-size: 12px;
+  	color: #FFFFFF;
+}
+
+.bcg_0000000_FFFFFF a:visited{
+	font-family: Arial;
+	font-size: 12px;
+  	color: #FFFFFF;
+}
+
+.bcg_E1FF6C_0000FF {
+	font-family: Arial;
+	font-size: 12px;
+	background-color: #E1FF6C;
+  	color: #0000FF;
+}
+
+.bcg_E1FF6C_0000FF a{
+	font-family: Arial;
+	font-size: 12px;
+  	color: #0000FF;
+}
+
+.bcg_E1FF6C_0000FF a:visited{
+	font-family: Arial;
+	font-size: 12px;
+  	color: #0000FF;
+}
+
+/* Ocurrencia de Orgs */
+.ocurrenciasOrg{
+	position: absolute;
+	border: 1px solid #000000;
+	background-color: #F9FFD1;
+	z-index: 2;
+	font-size: 10px;
+	width: 750px;
+	padding: 5px;
+}
+.titulo_ocurrenciasOrg {
+	background-color: #C4D0A8;
+}
+.fila_ocurrenciasOrg {
+	background-color: #F1F1F1;
+}
+.titulo_filtro{
+	font-size: 18px;
+	font-weight: bold;
+	background: url(../images/gra_resumen/desplazamiento/bg_filtro.jpg);
+}
+/* Ocurrencia de Actor de Evento */
+.ocurrenciasActor{
+	position: absolute;
+	border: 1px solid #000000;
+	background-color: #F9FFD1;
+	z-index: 2;
+	font-size: 10px;
+	width: 300px;
+	padding: 5px;
+}
+.titulo_ocurrenciasActor {
+	background-color: #C4D0A8;
+}
+.fila_ocurrenciasActor {
+	background-color: #F1F1F1;
+}
+
+/* Importacion */
+.div_preCarga {
+	position: absolute;
+	visibility: hidden;
+	top: 200px;
+	left: 150px;
+	border: 1px solid #000000;
+	z-index: 2;
+	width: 750px;
+}
+.tabla_preCarga{
+	background-color: #000000;
+}
+.tabla_preCarga td{
+	background-color: #FFFFFF;
+}
+.nota{
+	font-size: 9px;
+}
+
+/*Eventos Conflicto */
+.tabla_input {
+	background-color: #F9F9F9;	
+}
+.tabla_input_victima {
+	background-color: #F9DDDD;	
+	border: 1px solid #CCCCCC;
+	width: 800px;
+}
+.titulo_lista_victima{
+	background-color: #ff0000;
+	color: #ffffff;
+}
+.tabla_input_desc {
+	background-color: #f1f1f1;	
+	border: 1px solid #CCCCCC;
+	width: 950px;
+}
+.tabla_input td{
+
+}
+.link_victima{
+	background-color: #F9DDDD;	
+	border-top: 1px solid #F9FFD1;
+	border-bottom: 1px solid #F9FFD1;
+	border-right: 1px solid #F9FFD1;
+}
+.textarea_fuente_desc{
+	width:295px;
+	height:90px;
+}
+.textarea_fuente_refer{
+	width:170px;
+	height:90px;	
+}
+
+/* Tooltips */
+
+.tool-tip {
+	float: left;
+	background: #ffc;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	max-width: 220px;
+}
+
+.tool-title {
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	/*background: url(../images/tips/selector-arrow.png) no-repeat;*/
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.tool-text {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+/* Tabs */
+/*--------------------------------------------------
+  REQUIRED to hide the non-active tab content.
+  But do not hide them in the print stylesheet!
+  --------------------------------------------------*/
+.tabberlive .tabbertabhide {
+ display:none;
+}
+
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+}
+.tabberlive {
+ margin-top:1em;
+}
+
+/*--------------------------------------------------
+  ul.tabbernav = the tab navigation list
+  li.tabberactive = the active tab
+  --------------------------------------------------*/
+ul.tabbernav
+{
+ margin:0;
+ padding: 3px 0;
+ border-bottom: 1px solid #778;
+ font: bold 12px Arial, Verdana, sans-serif;
+}
+
+ul.tabbernav li
+{
+ list-style: none;
+ margin: 0;
+ display: inline;
+}
+
+ul.tabbernav li a
+{
+ padding: 3px 0em;
+ margin-left: 3px;
+ border: 1px solid #778;
+ border-bottom: none;
+ background: #eaeaea;
+ text-decoration: none;
+ font-size: 34px;
+}
+
+ul.tabbernav li a:link { color: #688A00; }
+ul.tabbernav li a:visited { color: #667; }
+
+ul.tabbernav li a:hover
+{
+ /*color: #ffffff;
+ background: #688A00;
+ border-color: #778;*/
+ text-decoration: none;
+}
+
+ul.tabbernav li.tabberactive a
+{
+ background-color: #fff;
+ border-bottom: 1px solid #fff;
+}
+
+ul.tabbernav li.tabberactive a:hover
+{
+ color: #000;
+ background: white;
+ border-bottom: 1px solid white;
+}
+
+/*--------------------------------------------------
+  .tabbertab = the tab content
+  Add style only after the tabber interface is set up (.tabberlive)
+  --------------------------------------------------*/
+.tabberlive .tabbertab {
+ padding:5px;
+ border:1px solid #aaa;
+ border-top:0;
+
+ /* If you don't want the tab size changing whenever a tab is changed
+    you can set a fixed height */
+
+ /* height:200px; */
+
+ /* If you set a fix height set overflow to auto and you will get a
+    scrollbar when necessary */
+
+ /* overflow:auto; */
+}
+
+/* If desired, hide the heading since a heading is provided by the tab */
+.tabberlive .tabbertab h2 {
+ display:none;
+}
+.tabberlive .tabbertab h3 {
+ display:none;
+}
+
+/* Example of using an ID to set different styles for the tabs on the page */
+.tabberlive#tab1 {
+}
+.tabberlive#tab2 {
+}
+.tabberlive#tab2 .tabbertab {
+ height:200px;
+ overflow:auto;
+}
+
+.td_dotted_top {
+	border-top: 1px dotted #000000;
+}
+

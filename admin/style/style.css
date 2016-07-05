@@ -1,0 +1,21 @@
+body, td {
+	font-family: Arial;
+	font-size: 12px;
+}
+
+input,select,textarea {
+	font-family: Arial;
+	font-size: 12px;
+}
+
+.tabla_lista_reg {
+  border: 1px solid #CCCCCC;
+}
+
+.titulo_lista_reg {
+	background-color: #E6E6E6;
+	font-weight: bold;
+	text-align: center;
+}
+
+

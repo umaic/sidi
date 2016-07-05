@@ -1,0 +1,157 @@
+@import "general.css";
+
+#navegaciongeneral td {
+	padding-right: 5px;
+	/*float: right;*/
+}
+
+/* Estilos para trucos */
+
+.info {
+	visibility:hidden;
+	height: 0px;
+	width: 0px;
+	position: absolute;
+}
+
+/* Estilos para formularios */
+
+
+form {
+	margin: 5px;
+	padding: 5px;
+}
+
+.boton {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	background-color: #666666;
+	padding: 2px;
+	border-top-color: #82B4FF;
+	border-right-color: #82B4FF;
+	border-bottom-color: #82B4FF;
+	border-left-color: #82B4FF;
+}
+
+.area {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #E6E6E6;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	height: 100px;
+}
+
+.textfield {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	background-color: #E6E6E6;
+	padding: 2px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+
+
+.check {
+
+}
+
+.radio {
+
+}
+
+.select {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	background-color: #E6E6E6;
+}
+
+
+/* Estilos para parrilla de registros */
+.tabla_lista{
+	min-width: 600px;
+}
+
+.tabla_lista td{
+	padding: 3px 3px 3px 5px;
+}
+
+
+a.tabla_lista , .tabla_lista a:visited{
+	color: #000000;
+}
+
+
+.tabla_lista a:hover{
+	color: #0099ff;
+	text-decoration: underline;
+}
+
+.titulo_tabla_lista{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.titulo_lista{
+	background: url(../admin/images/grid/titulo_bcg.gif) left bottom repeat-x;
+	font-weight: bold;
+}
+
+.fila_lista td{
+	border-bottom: 1px solid #cccccc;
+	background-color: #F8F8F8;
+}
+
+
+.tabla_consulta{
+  border: 1px solid #EAEAEA;
+}
+
+.tabla_home_admin h1{
+	font-size: 14px !important;
+	margin-top: 5px;
+}
+
+.tabla_home_admin ul ul{
+	padding: 2px;
+}
+
+.tabla_home_admin li{
+	font-size: 12px;
+	padding: 4px;
+	margin-left: 5px;
+}
+
+.division_dotted{
+	background: url(../admin/images/fondo_division_index.gif);
+}
+
+.tabla_insertar{
+	width: 100%;
+	margin-top: 10px;
+}
+td.tabla_insertar {
+	padding: 5px;
+}
+
+/* EXT JS */
+#windowIU .x-window-mc {
+   background-color: #ffffff;
+}
+
+#windowIU .x-window-mc td{
+   padding: 5px;
+}
+
+.x-window-dlg {
+	background-color: #e4e4e4;
+}

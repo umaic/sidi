@@ -1,0 +1,2 @@
+label /srv/www/htdocs/sissh/consulta/fonts/copy0856
+arial /srv/www/htdocs/sissh/consulta/fonts/Arial

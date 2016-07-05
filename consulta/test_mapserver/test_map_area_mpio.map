@@ -1,0 +1,25 @@
+MAP
+				NAME "MPIOS"
+				SIZE 700 710
+				IMAGECOLOR 252 243 208
+				EXTENT 650592.316958813 760399.440574257 830573.314697181 1027774.00632577
+				SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+				
+				WEB
+					IMAGEPATH "/srv/www/htdocs/tmp/"
+					IMAGEURL "/tmp/"
+				END
+				
+				LAYER
+					NAME "mpios"
+					TYPE line
+					DATA "colmun3corregido"
+					FILTERITEM "departamen"
+					FILTER "NORTE DE SANTANDER"
+					TEMPLATE "bodytemplate_mpio.html"
+					#HEADER "imapheader_mpio.html"
+					#FOOTER "imapfooter_mpio.html"
+			
+				END # end layer mpios
+			
+			END

@@ -1,0 +1,31 @@
+DATO_1|Población Cabecera
+DATO_2|Población Resto
+DATO_3|Población Total
+DATO_4|Personas en NBI - Total
+DATO_5|Indice de Riesgo de Situación Humanitaria
+DATO_6|Subindice Social - Indice de Riesgo de Situación Humanitaria
+DATO_7|Subindice Económico - Indice de Riesgo de Situación Humanitaria
+DATO_8|Subindice Capacidades - Indice de Riesgo de Situación Humanitaria
+DATO_9|Subindice Conflicto - Indice de Riesgo de Situación Humanitaria
+DATO_10|Tasa de mortalidad infantil x 1000
+DATO_11|Tasa de mortalidad Infantil de < 5 años x 1000
+DATO_12|Desnutrición crónica menores de 5 años
+DATO_13|Desnutrición global menores de 5 años
+DATO_14|Afiliación Salud
+DATO_15|Tasa de Asistencia Escolar
+DATO_16|Tasa de Analfabetismo
+DATO_17|Cobertura vacunación
+DATO_18|Viviendas con material inadecuado en paredes -Total
+DATO_19|Cobertura Vivienda SISBEN con Servicio de Acueducto
+DATO_20|Cobertura Vivienda SISBEN con Alcantarillado
+DATO_21|Cobertura Vivienda SISBEN con Servicio Energía Eléctrica
+DATO_22|Viviendas con material inadecuado en paredes -Cabecera y centro poblado
+DATO_23|Viviendas con material inadecuado en paredes -Rural Disperso
+DATO_24|Viviendas con material inadecuado en piso -Cabecera y centro poblado
+DATO_25|Viviendas con material inadecuado en piso - Rural Disperso
+DATO_26|Viviendas con material inadecuado en piso - Total
+DATO_27|Cobertura Vivienda SISBEN con Recolección de Basuras
+DATO_28|Cobertura Vivienda SISBEN con Conexión a Gas
+DATO_29|Cobertura Servicio Alcantarillado
+DATO_30|Cobertura Servicio Energía Eléctrica
+DATO_31|Cobertura Servicio de Acueducto

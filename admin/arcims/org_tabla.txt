@@ -1,0 +1,59 @@
+O_TIPO_1|Agencia Cooperación
+O_TIPO_2|Agencia ONU
+O_TIPO_3|Gobierno Departamental
+O_TIPO_4|Gobierno Local
+O_TIPO_5|Gobierno Nacional
+O_TIPO_6|Hogar/Albergue/Centro Asistenc
+O_TIPO_7|Iglesia/Otro
+O_TIPO_8|Media
+O_TIPO_9|Mvto Cruz Roja
+O_TIPO_10|ONG Internacional
+O_TIPO_11|ONG Nacional
+O_TIPO_12|Organismo Internacional
+O_TIPO_13|Organización de Base
+O_TIPO_14|Organización de Desplazados
+O_TIPO_15|Organización de Víctimas
+O_TIPO_16|Sector Privado - Asociaciones
+O_TIPO_17|Sector Privado - Consultores
+O_TIPO_18|Sector Privado - Cooperativa
+O_TIPO_19|Sector Privado - Coorporación
+O_TIPO_20|Sector Privado - Fundaciones
+O_TIPO_21|Sector Privado - Proveedores
+O_TIPO_22|Universidad/Académico
+O_SEC_1|Ambiental
+O_SEC_2|Asistencia de Emergencia
+O_SEC_3|Asistencia Juridica
+O_SEC_4|Asistencia Psicosocial
+O_SEC_5|Bienestar Familiar
+O_SEC_6|Comunicación
+O_SEC_7|Desarrollo
+O_SEC_8|Educación
+O_SEC_9|Fortalecimiento Institucional
+O_SEC_10|Generación de Ingresos
+O_SEC_11|Infraestructura y Vivienda
+O_SEC_12|Investigación
+O_SEC_13|No Determinado
+O_SEC_14|Protección y Prevención
+O_SEC_15|Salud
+O_SEC_16|Seguridad Alimentaria
+O_SEC_17|Todos
+O_SEC_18|Transición SocioEconómica
+O_POB_1|Adultos Mayores
+O_POB_2|Afro-Descendientes
+O_POB_3|Campesinos
+O_POB_4|Desmovilizados
+O_POB_5|Desplazados
+O_POB_6|Foro Social
+O_POB_7|Indígenas
+O_POB_8|Jóvenes
+O_POB_9|Mestizo
+O_POB_10|Mujeres
+O_POB_11|Niños
+O_POB_12|Otros
+O_POB_13|Población Confinada
+O_POB_14|Población Receptora
+O_POB_15|Población Retornada
+O_POB_16|Población Reubicada
+O_POB_17|Reinsertados
+O_POB_18|Sindical
+O_POB_19|Victimas

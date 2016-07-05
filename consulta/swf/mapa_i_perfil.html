@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>gral</title>
+<script>
+function asignarVariablesH(id_depto,id_mun){
+  parent.document.getElementById('id_depto').value = id_depto;
+  if (id_mun != 0){
+      parent.document.getElementById('id_muns').disabled = false;
+	  parent.document.getElementById('id_muns').value = id_mun;
+  }
+
+}
+</script>
+</head>
+
+<body bgcolor="#ffffff">
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="700" height="570" id="gral" align="middle">
+<param name="allowScriptAccess" value="sameDomain" />
+<param name="movie" value="mapa_i.swf" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#ffffff" />
+<embed src="mapa_i.swf" width="700" height="570" align="middle" quality="high" bgcolor="#ffffff" name="gral" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object>
+</body>
+</html>

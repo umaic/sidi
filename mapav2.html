@@ -1,0 +1,51 @@
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="js/ol3.js" type="text/javascript"></script>
+<script src="js/mapav2.js" type="text/javascript"></script>
+<script src="js/select2.min.js" type="text/javascript"></script>
+
+<link href="style/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="style/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="style/ol3.css" rel="stylesheet" type="text/css"></style />
+<link href="style/mapav2.css" rel="stylesheet" type="text/css"></style />
+<link href="style/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<div id="div_dropdown">
+    <select id="id_deptos" class="select2 form-control">
+        <option value="91">Amazonas</option>
+        <option value="05">Antioquia</option>
+        <option value="81">Arauca</option>
+        <option value="08">Atlántico</option>
+        <option value="11">Bogotá D.C.</option>
+        <option value="13">Bolivar</option>
+        <option value="15">Boyacá</option>
+        <option value="17">Caldas</option>
+        <option value="18">Caquetá</option>
+        <option value="85">Casanare</option>
+        <option value="19">Cauca</option>
+        <option value="20">Cesar</option>
+        <option value="27">Chocó</option>
+        <option value="23">Córdoba</option>
+        <option value="25">Cundinamarca</option>
+        <option value="94">Guainía</option>
+        <option value="95">Guaviare</option>
+        <option value="41">Huila</option>
+        <option value="44">La Guajira</option>
+        <option value="47">Magdalena</option>
+        <option value="50">Meta</option>
+        <option value="52">Nariño</option>
+        <option value="54">Norte de Santander</option>
+        <option value="86">Putumayo</option>
+        <option value="63">Quindío</option>
+        <option value="66">Risaralda</option><option value="88">San Andrés</option><option value="68">Santander</option><option value="70">Sucre</option><option value="73">Tolima</option><option value="76">Valle del Cauca</option><option value="97">Vaupés</option><option value="99">Vichada</option>
+    </select>
+    <div id="div_mun"></div>
+</div>
+<div id="div_mapa">
+    <div id="map">
+        <div id="popup" class="ol-popup">
+            <div id="popup-content"></div>
+        </div>
+    </div>
+    <input type="hidden" id="mun_ubi" value="" />
+    <input type="hidden" id="depto_ubi" value="" />
+</div>

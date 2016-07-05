@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local(OpenSans.woff) format('woff');
+}
+#brand {
+    line-height: 25px;
+    background-color: #BC2227;
+    color: #ffffff;
+    font-family: 'Open Sans';
+    font-size: 18px;
+    padding: 3px 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+#brand:before {
+    content: "SalaHumanitaria.co"
+}
+
+a.brand, a.brand {
+    text-decoration: none !important;
+}

@@ -1,0 +1,19 @@
+API para servir información al portal EHP
+
+URL: http://sidih.salahumanitaria.co/sissh/api/portal_hr.php
+
+Parametros obligatorios:
+
+1. Módulo a consultar, esta dado por el parametro: mod, con posibles valores: 'contactos','3w','4w'
+
+	?mod=[contacto,3w,4w]
+
+2. Localización, cualquier módulo se puede filtrar por localización con el parámetro: departamento, que corresponde al
+divipola que son 2 digitos
+
+	&departamento=[0-9]{2}
+
+	Ejemplo: Consultar contactos de Antioquia(divipola='05') => http://sidih.salahumanitaria.co/sissh/api/portal_hr.php?mod=contactos&departamento=05
+
+
+

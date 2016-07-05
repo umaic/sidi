@@ -1,0 +1,64 @@
+MAP
+	NAME "FIRST"
+	SIZE 500 510
+	IMAGECOLOR 252 243 208
+	IMAGETYPE GIF
+	EXTENT -161112 -462196 1653895 1386463
+	SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+	FONTSET "/srv/www/htdocs/sissh/consulta/fonts/fontset.txt"
+	
+	WEB
+		TEMPLATE "/srv/www/htdocs/sissh/consulta/test_mapserver/second.html"
+		IMAGEPATH "/srv/www/htdocs/tmp/"
+		IMAGEURL "/tmp/"
+	END
+	
+	LAYER
+		NAME "deptos"
+		STATUS default
+		TYPE line
+		CONNECTIONTYPE postgis
+    	CONNECTION "host=localhost port=5432 dbname=sissh user=postgres password="
+		DATA "the_geom FROM depto"
+		#DATA "COLDPTO3"
+		LABELITEM "departamen"
+		LABELCACHE on
+		
+		CLASS
+			STYLE
+				COLOR 255 4 4
+			END
+			LABEL
+				TYPE truetype
+				FONT "arial"
+				COLOR 0 0 0
+				SIZE 14
+			END
+		END
+	END # end layer deptos
+	
+	LAYER
+		NAME "mpios"
+		STATUS on
+		TYPE line
+		CONNECTIONTYPE postgis
+    	CONNECTION "host=localhost port=5432 dbname=sissh user=postgres password="
+		DATA "the_geom FROM mpio"
+		#DATA "colmun3corregido"
+		LABELITEM "municipio"
+		
+		CLASS
+			STYLE
+				COLOR 4 6 255
+			END
+			#LABEL
+			#	TYPE truetype
+			#	FONT "label"
+			#	COLOR 0 0 0
+			#	OUTLINECOLOR 255 4 4
+			#	SIZE 16
+			#END
+		END
+	END # end layer mpios
+	
+END

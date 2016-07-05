@@ -1,0 +1,42 @@
+#home_bt h1 {
+    font-size: 22px !important;
+    margin-bottom: 0px !important;
+    font-weight: bold;
+}
+#home_bt h2 {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+#home_bt h3 {
+    font-size: 16px !important;
+    font-weight: bold;
+}
+#home_bt img {
+    margin-right: 20px;
+}
+#home_item {
+}
+
+#home_item > .row {
+    font-size: 14px;
+}
+
+#home_item a {
+    color: #0066ff !important;
+    text-decoration: underline;
+}
+
+
+#home_item a.white {
+    color: #ffffff !important;
+}
+
+div.d2 {
+    border-radius: 5px;
+    font-size: 13px !important;
+}
+
+.panel {
+    min-height: 300px;
+}
+
