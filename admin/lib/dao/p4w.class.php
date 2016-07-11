@@ -154,7 +154,7 @@ Class P4wDAO {
      * Consulta los deptos que cubre el proyecto
      * @access public
      * @param int $id ID del Proyecto
-     * @param string $cond condicion de ubicaci�n
+     * @param string $cond condicion de ubicación
      * @return array
      */
     function getIdDeptosCobertura($id,$cond=''){
@@ -169,7 +169,7 @@ Class P4wDAO {
 
         return $deptos;
     }
-
+    
     /**
      * Consulta los mpios que cubre el proyecto
      * @access public
@@ -3567,7 +3567,7 @@ Class P4wDAO {
         $donantes_top = array();
         $deptos_top = array();
         $ejecutoras_top = array();
-        $cache = true;
+        $cache = false;
 
         $fdepto = $fmun = false;
         $filtro_periodo = $filtro_cluster = $filtro_ejecutora = false;
@@ -3722,11 +3722,13 @@ Class P4wDAO {
         }
 
 
+        /*
         if (!empty($params['id_mun_filtro'])) {
             $id_mpio = $params['id_mun_filtro'];
             $fmun = true;
             $fnal = false;
         }
+         */
 
         if (!empty($params['c']) && $params['c'] == 'proy' && !empty($params['id'])) {
             $cond .= " AND p.id_proy IN (".$params['id'].")";
@@ -3744,7 +3746,7 @@ Class P4wDAO {
 
         $ejecutora_filtro = $donante_filtro = array();
         $implementadora_filtro = $cluster_filtro = array();
-        $estado_filtro = $ubicacion_filtro = array();
+        $estado_filtro = $departamento_filtro = $municipio_filtro = array();
         $periodo_filtro = array();
         $aporte_donantes = 0;
         $pres2gob = 0;
@@ -3873,11 +3875,25 @@ Class P4wDAO {
                     $deptos = $this->getIdDeptosCobertura($id_proy);
                     foreach($deptos as $id_depto) {
 
-                        if (!array_key_exists($id_depto, $ubicacion_filtro)) {
-                            $ubicacion_filtro[$id_depto] = 1;
+                        if (!array_key_exists($id_depto, $departamento_filtro)) {
+                            $departamento_filtro[$id_depto] = 1;
                         }
                         else {
-                            $ubicacion_filtro[$id_depto] += 1;
+                            $departamento_filtro[$id_depto] += 1;
+                        }
+                    }
+
+                    // Consulta municipios si hay filtro de depto
+                    if ($fdepto) {
+                        $mpios = $this->getMpiosCobertura($id_proy, "id_depto = '".$filtros['id_depto']."'")['id'];
+                        foreach($muns as $id_mun) {
+
+                            if (!array_key_exists($id_mun, $municipio_filtro)) {
+                                $municipio_filtro[$id_mun] = 1;
+                            }
+                            else {
+                                $municipio_filtro[$id_mun] += 1;
+                            }
                         }
                     }
 
@@ -4256,8 +4272,9 @@ Class P4wDAO {
                         'donante' => 'Donante',
                         'implementadora' => 'Implementadora',
                         'cluster' => 'Cluster',
-                        //'undaf' => 'UNDAF',
-                        'ubicacion' => 'Ubicaci&oacute;n',
+                        //'ubicacion' => 'Ubicaci&oacute;n',
+                        'departamento' => 'Departamento',
+                        'municipio' => 'Municipio',
                         'estado' => 'Estado',
                         'periodo' => 'Periodo'
                         );
@@ -4270,7 +4287,6 @@ Class P4wDAO {
                         else {
                             ksort($fil);
                         }
-                        //$html .= '<div id="fcu_'.$t.'" class="hide">'.$this->getFiltrosConsulta($t, $filtros).'</div>';
                         $html .= '<div id="fcu_'.$t.'" class="hide">'.$this->getFiltrosConsulta($t, $fil).'</div>';
                     }
                // }
@@ -4811,7 +4827,8 @@ Class P4wDAO {
                            'ejecutora' => 'organizacion',
                            'implementadora' => 'organizacion',
                            'donante' => 'organizacion',
-                           'ubicacion' => 'departamento',
+                           'departamento' => 'departamento',
+                           'municipio' => 'municipio',
                            'estado' => 'estado_proy');
 
             $cid_proy = 'id_proy';
@@ -4857,10 +4874,18 @@ Class P4wDAO {
                     $vino = true;
                 break;
 
-                case 'ubicacion':
+                case 'departamento':
                     $cid = 'id_depto';
                     $cnom = 'nom_depto';
                     $sqlc = "LEFT JOIN depto_proy USING($cid)";
+                    $cond = '1=1';
+                    $extra_1 = ', centroide_dd AS extra_1';
+                break;
+                
+                case 'municipio':
+                    $cid = 'id_mun';
+                    $cnom = 'nom_mun';
+                    $sqlc = "LEFT JOIN mun_proy USING($cid)";
                     $cond = '1=1';
                     $extra_1 = ', centroide_dd AS extra_1';
                 break;
@@ -4917,7 +4942,7 @@ Class P4wDAO {
                     }
 
                     $_attrs = 'lon="'.$lon.'" lat="'.$lat.'"';
-                    //$_id .= '|'.$lon.','.$lat;
+
                 }
 
                 $class = (!empty($_SESSION['4w_f']) && in_array($_id, $_SESSION['4w_f']['id'])) ? 'selected' : '';
@@ -4971,288 +4996,6 @@ Class P4wDAO {
 
         return $html;
 
-    }
-
-    /**
-     * Retorna temas, orgs con # proyectos de mayor a menor
-     * @access public
-     * @param string $c Cual filtro
-     * @param array $f Arreglo de condicionales
-     * @return array $t
-     */
-    function getFiltrosConsultaOLD($c, $f=array()) {
-        // Casos para contar proyectos
-        $cases = array('cluster' => 'tema', 'undaf' => 'tema', 'ejecutora' => 'agencia', 'donante' => 'agencia', 'depto' => '');
-        $sqld = $sqlc = $cond = $condd = $extra_1 = '';
-
-        $condc = ' AND '.$this->_setConditionSi();
-        $vino = false;
-
-        if ($c != 'periodo') {
-
-            $tabla = array('cluster' => 'tema',
-                           'undaf' => 'tema',
-                           'ejecutora' => 'organizacion',
-                           'implementadora' => 'organizacion',
-                           'donante' => 'organizacion',
-                           'ubicacion' => 'departamento',
-                           'estado' => 'estado_proy');
-
-            $ts = array();
-            $cid_proy = 'id_proy';
-
-            switch($c) {
-                case 'cluster':
-                    $cid = 'id_tema';
-                    $cnom = 'nom_tema';
-                    $sqlc = "LEFT JOIN proyecto_tema USING($cid)";
-                    $cond = 'id_clasificacion = 2 AND id_tema != 159';
-                break;
-                case 'undaf':
-                    $cid = 'id_tema';
-                    $cnom = 'nom_tema';
-                    $cond = 'id_clasificacion = 1';
-                break;
-
-                case 'ejecutora':
-                    $cid = 'id_org';
-                    $cnom = 'nom_org';
-                    $sqlc = "LEFT JOIN vinculorgpro USING($cid)";
-                    $cond = ' id_tipo_vinorgpro = 1';
-                    $vino = true;
-                break;
-
-                case 'implementadora':
-                    $cid = 'id_org';
-                    $cnom = 'nom_org';
-                    $sqlc = "LEFT JOIN vinculorgpro USING($cid)";
-                    $cond = ' id_tipo_vinorgpro = 3';
-                    $vino = true;
-                break;
-
-                case 'donante':
-                    $cid = 'id_org';
-                    $cnom = 'nom_org';
-                    $sqlc = "LEFT JOIN vinculorgpro USING($cid)";
-                    $cond = 'id_tipo_vinorgpro = 2';
-                    $vino = true;
-                break;
-
-                case 'ubicacion':
-                    $cid = 'id_depto';
-                    $cnom = 'nom_depto';
-                    $sqlc = "LEFT JOIN depto_proy USING($cid)";
-                    $cond = '1=1';
-                    $extra_1 = ', centroide_dd AS extra_1';
-                break;
-
-                case 'estado':
-                    $cid = 'id_estp';
-                    $cnom = 'nom_estp';
-                    //$sqlc = "LEFT JOIN depto_proy USING($cid)";
-                    $cond = "p.$cid = t.$cid";
-                    $cid_proy = $cid;
-                break;
-            }
-
-            if (!empty($f['id_depto']) && $c != 'ubicacion') {
-                $sqld = ' LEFT JOIN depto_proy USING(id_proy)';
-                $condd = " AND id_depto IN (".$f['id_depto'].")";
-            }
-
-            if (!empty($f['id_tema']) && $cid != 'id_tema') {
-                //$sqld = ' JOIN proyecto_tema USING(id_proy)';
-                $condd = ' AND id_tema IN ('.$f['id_tema'].')';
-            }
-
-            //if (!empty($f['id_org']) && $cid == 'id_tema') {
-            if (!empty($f['id_org']) && $c != 'ejecutora' && $c != 'donante' && $c != 'implementadora') {
-
-                if (!$vino) {
-                    $sqld = ' JOIN vinculorgpro USING(id_proy)';
-                    $vino = true;
-                }
-
-                $condd = ' AND id_tipo_vinorgpro = '.$f['t_org'].' AND id_org IN ('.$f['id_org'].')';
-            }
-            else if (!empty($f['id_org']) && ($c == 'ejecutora' || $c == 'donante' || $c == 'implementadora')) {
-                $condd = ' AND id_proy IN (SELECT id_proy FROM vinculorgpro WHERE id_org = '.$f['id_org'].' AND id_tipo_vinorgpro = '.$f['t_org'].')';
-            }
-
-            if (!empty($f['periodo'])) {
-                $yyyy = $_SESSION['4w_f']['id'][array_search('periodo',$_SESSION['4w_f']['c'])];
-                $y = explode(',',$yyyy);
-                $ny = count($y);
-
-                switch ($f['periodo_que']) {
-                    case 'i':
-                        if ($ny == 1) {
-                            $condd .= " AND YEAR(inicio_proy) = $yyyy";
-                        }
-                        else {
-                            $cy = array();
-                            foreach($y as $_y) {
-                                $cy[] = "YEAR(inicio_proy) = $yyyy";
-                            }
-                            $condd .= " AND ".implode(' OR ', $cy);
-                        }
-                    break;
-                    case 'f':
-                        if ($ny == 1) {
-                            $condd .= " AND YEAR(fin_proy) = $id";
-                        }
-                        else {
-                            $cy = array();
-                            foreach($y as $_y) {
-                                $cy[] = "YEAR(fin_proy) = $yyyy";
-                            }
-                            $condd .= " AND ".implode(' OR ', $cy);
-                        }
-                    break;
-                    case 'v':
-                        if ($ny == 1) {
-                            $condd .= " AND YEAR(fin_proy) >= ".$yyyy;
-                        }
-                        else {
-                            $condd .= " AND YEAR(fin_proy) >= ".min($y);
-                        }
-                    break;
-                }
-            }
-
-            $sql = "SELECT t.$cid AS id, $cnom AS nom, COUNT(DISTINCT($this->columna_id)) AS n $extra_1 FROM ".$tabla[$c]." AS t ";
-
-            $sql .= "$sqlc JOIN proyecto AS p USING($cid_proy)";
-
-            // Siempre con proyecto_tema por el filtro id_tema != 139
-            if ($c != 'cluster') {
-                $sql .= ' LEFT JOIN proyecto_tema USING (id_proy) ';
-            }
-
-            if (!$vino) {
-                $sql .= "LEFT JOIN vinculorgpro USING($this->columna_id)";
-                $condd .= ' AND id_tipo_vinorgpro = 1';
-            }
-
-            $sql .= "$sqld";
-
-            $col_order = 'n';
-        }
-        else {
-            $cid = 'YEAR(fin_proy)';
-            $cond = "$cid > 2005";
-            $sql = "SELECT $cid AS id, $cid AS nom, COUNT(DISTINCT($this->columna_id)) AS n $extra_1
-                    FROM $this->tabla ";
-
-            $sql .= "LEFT JOIN vinculorgpro USING($this->columna_id)";
-            $sql .= ' LEFT JOIN proyecto_tema USING (id_proy) ';
-
-            $col_order = 'id';
-        }
-
-
-        $sql .=  " WHERE $cond $condd $condc GROUP BY $cid ORDER BY $col_order DESC";
-
-        echo '<br /><br />'.$sql;
-
-        $rs = $this->conn->OpenRecordset($sql);
-        while ($row = $this->conn->FetchObject($rs)) {
-
-            // Totales proyectos, beneficiarios, orgs por sector/org
-            //$resum = $this->resumenMapa($c, $row[0]);
-            $ts[] = array('id' => $row->id,
-                         'nom' => $row->nom,
-                         'num' => $row->n,
-                         'extra_1' => ((!empty($extra_1)) ? $row->extra_1 : '')
-                         //'np' => $resum['p'],
-                         //'nb' => $resum['b'],
-                         //'no' => $resum['o']
-                     );
-        }
-
-        $html = '';
-        $_attrs = '';
-        $w = 18;
-
-        if (!empty($ts)) {
-            $fr = $w / $ts[0]['num'];
-            foreach($ts as $_t) {
-                $_id = $_t['id'];
-
-                if ($c == 'ubicacion') {
-
-                    if ($_id == '11') {
-                        $lon = -74.0833333;
-                        $lat = 4.6;
-                    }
-                    else if ($_id == '00') {
-                        $lon = 0;
-                        $lat = 0;
-                    }
-                    else {
-                        if (!empty($_t['extra_1'])) {
-                            $_l = explode(',', $_t['extra_1']);
-                            if (count($_l)) {
-                                $lon = $_l[0];
-                                $lat = $_l[1];
-                            }
-                        }
-                    }
-
-                    $_attrs = 'lon="'.$lon.'" lat="'.$lat.'"';
-                    //$_id .= '|'.$lon.','.$lat;
-                }
-
-                $class = (!empty($_SESSION['4w_f']) && in_array($_id, $_SESSION['4w_f']['id'])) ? 'selected' : '';
-
-                // Depto
-                if (!empty($_SESSION['4w_f']['id_depto_filtro']) &&
-                    $_SESSION['4w_f']['id_depto_filtro'] == $_id
-                ) {
-                    $class = 'selected';
-                }
-
-                $nombre = '<span class="nom">'.$_t['nom'].'</span>';
-
-                // Tipo org en ejecutor
-                if ($c == 'ejecutora' || $c == 'donante') {
-
-                    // Sigla
-                    $sql = 'SELECT sig_org FROM organizacion WHERE id_org =  '.$_id;
-                    $rs = $this->conn->OpenRecordset($sql);
-                    $row = $this->conn->FetchRow($rs);
-
-                    $nombre .= '<span class="sigla_tipo">';
-
-                    if ($row[0] != $_t['nom']) {
-                        $nombre .= '<i>'.$row[0].'</i> | ';
-                    }
-
-                    $nombre .= '</span>';
-
-                    // Tipo de org
-                    $sql = 'SELECT nomb_tipo_es FROM tipo_org JOIN organizacion USING(id_tipo) WHERE id_org =  '.$_id;
-                    $rs = $this->conn->OpenRecordset($sql);
-                    $row = $this->conn->FetchRow($rs);
-
-                    $nombre .= '<i>'.$row[0].'</i>';
-
-                }
-
-                $html .=  '<div class="row f'.$c.' '.$class.'" id="'.$_id.'" '.$_attrs.'><div class="nom">'.$nombre.'</div>';
-
-                if ($_t['num'] > 0 && $c != 'periodo') {
-                    $html .=  '<div class="num">'.$_t['num'].'</div>';
-                }
-
-                $html .=  '<div class="clear"></div></div>';
-            }
-        }
-        else {
-            $html .= '<div class="row">No existe informaci&oacute;n</div>';
-        }
-
-        return $html;
     }
 
     /**
@@ -5418,6 +5161,7 @@ Class P4wDAO {
                         $_SESSION['4w_f']['id'][$_i] = $_id;
                     }
                 }
+                var_dump($_SESSION['4w_f']['c']);
                 var_dump($_SESSION['4w_f']['id']);
             }
         }
@@ -6025,101 +5769,65 @@ Class P4wDAO {
 
                 //echo "meses_filtro = $meses_filtro <br />";
 
-                // Se deja como est� para 2013 por las cifras ya socializadas.....
-                /*
-                if ($filtro_ini == 2013 && $filtro_fin == 2013) {
-                    if ($yini < $filtro_ini && $yfin > $filtro_fin) {
-                        // Retorna la misma cantidad
-                        $real = $cant;
-                    }
-                    else if ($yini == $filtro_ini && $yfin < $filtro_fin) {
-                        // Retorna la misma cantidad
-                        $real = $cant;
-                    }
-                    else if ($yini > $filtro_ini && $yfin == $filtro_fin) {
-                        // Retorna la misma cantidad
-                        $real = $cant;
-                    }
-                    else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
-                        $real = 0;
-                    }
-                    else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini == $filtro_fin) {
-                        $real = 0;
-                    }
-                    else if ($yini < $filtro_ini && $filtro_fin >= $yfin) {
-                        $real = $mfin * $pm;
-                    }
-                    else if ($yini == $filtro_ini && $filtro_fin <= $yfin) {
-
-                        $real = (12 - $mini + 1) * $pm;
-                    }
-                    // El filtro de a�o esta entre ini y fin
-                    else if ($yini < $filtro_ini && $yfin > $filtro_fin) {
-                        $real = $pm * 12;
-                    }
+                // El filtro de a�o esta entre ini y fin
+                if ($yini < $filtro_ini && $yfin > $filtro_fin) {
+                    //$real = $pm * $meses_filtro;
+                    //echo "entro con $cant y dio: $real<br />";
+                    $real = 12 * $pm;
                 }
-                else {
-*/
-                    // El filtro de a�o esta entre ini y fin
-                    if ($yini < $filtro_ini && $yfin > $filtro_fin) {
-                        //$real = $pm * $meses_filtro;
-                        //echo "entro con $cant y dio: $real<br />";
-                        $real = 12 * $pm;
-                    }
-                    // El a�o de filtro es mayor que el periodo del proy
-                    else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini == $filtro_fin) {
-                        $real = 0;
-                    }
-                    // El a�o de filtro es mayor que el periodo del proy
-                    else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = $mfin * $pm;
-                    }
-                    // El filtro de mas de 1 a�o toma unos meses del proyecto
-                    else if ($yini < $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = 0;
-                    }
-                    // El filtro de mas de 1 a�o toma unos meses del proyecto
-                    else if ($yini < $filtro_ini && $filtro_fin == $yfin && $filtro_ini == $filtro_fin) {
-                        $real = $mfin * $pm;
-                    }
-                    // El filtro de mas de 1 a�o toma unos meses del proyecto
-                    else if ($yini < $filtro_ini && $yfin == $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = ($meses_filtro - (12 - $mfin)) * $pm;
-                    }
-                    // Retorna la misma cantidad
-                    //else if ($yini < $filtro_ini && $yfin > $filtro_fin) {
-                    //    $real = 12 * $pm;
-                   // }
-                    // El a�o de filtro es menor que el periodo del proy
-                    else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
-                        $real = 0;
-                    }
-                    else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = (12 - $mini + 1) * $pm;
-                    }
-                    else if ($yini > $filtro_ini && $yfin == $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = $cant;
-                    }
-                    else if ($yini > $filtro_ini && $yfin < $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = $cant;
-                    }
-                    else if ($yini == $filtro_ini && $filtro_fin == $yfin && $filtro_ini < $filtro_fin) {
-                        $real = ((12 - $mini + 1) * $pm) + ($mfin * $pm);
-                    }
-                    else if ($yini == $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
-                        $real = ((12 - $mini + 1) * $pm) + ($mfin * $pm);
-                    }
-                    else if ($yini == $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
-                        $real = (12 - $mini + 1) * $pm;
-                    }
-                    // Retorna la misma cantidad
-                    else if ($yini == $filtro_ini && $yfin < $filtro_fin) {
-                        $real = $cant;
-                    }
-                    // Filtro es de 1 a�o y es el mismo del proyecto
-                    else if ($yini == $filtro_ini && $yfin == $filtro_fin) {
-                        $real = $cant;
-                    }
+                // El a�o de filtro es mayor que el periodo del proy
+                else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini == $filtro_fin) {
+                    $real = 0;
+                }
+                // El a�o de filtro es mayor que el periodo del proy
+                else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = $mfin * $pm;
+                }
+                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                else if ($yini < $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = 0;
+                }
+                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                else if ($yini < $filtro_ini && $filtro_fin == $yfin && $filtro_ini == $filtro_fin) {
+                    $real = $mfin * $pm;
+                }
+                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                else if ($yini < $filtro_ini && $yfin == $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = ($meses_filtro - (12 - $mfin)) * $pm;
+                }
+                // Retorna la misma cantidad
+                //else if ($yini < $filtro_ini && $yfin > $filtro_fin) {
+                //    $real = 12 * $pm;
+                // El a�o de filtro es menor que el periodo del proy
+                else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
+                    $real = 0;
+                }
+                else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = (12 - $mini + 1) * $pm;
+                }
+                else if ($yini > $filtro_ini && $yfin == $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = $cant;
+                }
+                else if ($yini > $filtro_ini && $yfin < $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = $cant;
+                }
+                else if ($yini == $filtro_ini && $filtro_fin == $yfin && $filtro_ini < $filtro_fin) {
+                    $real = ((12 - $mini + 1) * $pm) + ($mfin * $pm);
+                }
+                else if ($yini == $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
+                    $real = ((12 - $mini + 1) * $pm) + (12 * $pm);
+                }
+                else if ($yini == $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
+                    $real = (12 - $mini + 1) * $pm;
+                }
+                // Retorna la misma cantidad
+                else if ($yini == $filtro_ini && $yfin < $filtro_fin) {
+                    $real = $cant;
+                }
+                // Filtro es de 1 a�o y es el mismo del proyecto
+                else if ($yini == $filtro_ini && $yfin == $filtro_fin) {
+                    $real = $cant;
+                }
 
                 //}
 

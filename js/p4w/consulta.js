@@ -312,9 +312,7 @@ function addMapserverLayer(f,i) {
 
 
     // Depto
-    //if ($j('#depto :selected').html() != 'Nacional') {
     if (id_depto != '00' && !rm_id_depto) {
-        //urld = '&id_depto_filtro=' + $j('#depto').val().split('|')[0];
         urld = '&id_depto_filtro=' + id_depto;
     }
 
@@ -419,7 +417,6 @@ function addProysToMap(c, k, v) {
 
                 // Depto
                 if (id_depto != '00' && !rm_id_depto) {
-                    //urlj += '&id_depto_filtro=' + id_depto;
                     urlj = addURLParameter(urlj, [['id_depto_filtro', id_depto]]);
                 }
 
@@ -743,7 +740,6 @@ function changeTotales() {
     // Actualiza filtros
     if (request) {
 
-        //$j('div.f').not('div#ubicacion,div.f.c').each(function(){
         $j('div.f').not('div.f.c').each(function(){
             $j('div#' + $j(this).attr('id')).find('div.c').html($j('div#fcu_' + $j(this).attr('id')).html());
         });
@@ -1066,7 +1062,8 @@ function addEventosFiltros() {
     ts['donante'] = 'Donante';
     ts['estado'] = 'Estado';
     ts['periodo'] = 'Periodo';
-    ts['ubicacion'] = 'Departamento';
+    ts['departamento'] = 'Departamento';
+    ts['municipio'] = 'Municipio';
 
     for (var id in ts) {
         $j('#filtros').find('div.f' + id).each(function(){
@@ -1079,34 +1076,22 @@ function addEventosFiltros() {
 
                 var _i = $j(this).attr('class').split(' ')[1].substr(1);
 
-                if (_i == 'ubicacion') {
+                if (_i == 'departamento') {
                     var _i = 'id_depto_filtro';
                     var _id = _ii = '';
 
-                    //var _s = $j(this).attr('id').split('|');
                     var h2 = 'Departamento';
                     var h1 =  $j(this).find('span.nom').html();
 
                     id_depto = $j(this).attr('id');
 
-                    //id_depto = _s[0];
-                    //xy_depto = ;
-
                     if (mtipo == 'f') {
-                        //_c = _s[1].split(',');
-                        //setDeptoCenter(_c[0], _c[1]);
                         setDeptoCenter($j(this).attr('lon'),$j(this).attr('lat'));
                     }
 
                     // Titulo Ficha
                     $j('#btn_fpdf > a').html('Ficha Departamental');
-                    //addProysToMap(mtipo,'','');
-                    //changeTitulo(h1, h2, 'id_depto_filtro', '');
-                    //applyFiltros(mtipo,'','',h1,h2,'id_depto_filtro','');
                     addFiltertoList(h1, h2, 'id_depto_filtro', id_depto);
-
-                    //$j('#applyFiltros').fadeToggle();
-
                 }
                 else {
                     zoomDepto = false;
@@ -1119,13 +1104,8 @@ function addEventosFiltros() {
                         h1 = _pq[getPeriodoQue()] + ' en: ' + h1;
                     }
 
-                    //addProysToMap(mtipo, _i, _id);
-                    //changeTitulo(h1, ts[_i], _i, _id);
-                    //applyFiltros(mtipo,_i, _id,h1,ts[_i],_i_id);
-
                     addFiltertoList(h1, ts[_i], _i, _id);
 
-                    //$j('#applyFiltros_div').show();
                 }
 
                 hideFiltros();
