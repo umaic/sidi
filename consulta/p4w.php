@@ -4,7 +4,7 @@ include_once("consulta/lib/libs_p4w.php");
 
 // Check cache
 $sissh = FactoryDAO::factory('sissh');
-$cache = true;
+$cache = false;
 
 $si_proy = $_GET['si_proy'];
 $_SESSION['si_proy'] = $si_proy;
@@ -407,7 +407,8 @@ else {
                 'cluster' => array($cluster_label, 'f_s', $cluster_label),
                 'estado' => array('Estado', 'f_e', 'Estado'),
                 'periodo' => array('Periodo', 'f_p', 'Periodo'),
-                'ubicacion' => array('Ubicaci&oacute;n', 'f_u', 'Ubicaci&oacute;n'),
+                'departamento' => array('Departamento', 'f_u', 'Departamento'),
+                'municipio' => array('Municipio', 'f_u', 'Municipio'),
             );
 
             foreach($fs as $_f => $_a) {
