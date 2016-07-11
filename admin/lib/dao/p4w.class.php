@@ -2712,9 +2712,11 @@ Class P4wDAO {
         if (array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
             $id_depto_filtro = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
         }
+        if (array_search('id_mun_filtro', $_SESSION['4w_f']['c']) !== false) {
+            $id_mun_filtro = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
+        }
         $daos = array();
         if ($geo) {
-            //$condu = "id_mun like '15%'";
             $condu = '';
             if (!empty($id_depto_filtro)) {
                 $condu = ($dmi == 0) ? "id_mun like '$id_depto_filtro%'" : "id_depto = '$id_depto_filtro'";
@@ -3560,6 +3562,7 @@ Class P4wDAO {
         $html = '';
         $fnal = true;
         $id_depto = null;
+        $id_mun = null;
         $condc = '';
         $ed = 'Ejecutor: ';
         $tv = 1;
@@ -3697,14 +3700,14 @@ Class P4wDAO {
             }
         }
 
-        if (!empty($_SESSION['4w_f']['c'])
-            && array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
+        if (!empty($_SESSION['4w_f']['c'])) {
+            if(array_search('id_mun_filtro', $_SESSION['4w_f']['c']) !== false) {
 
-                $id_depto = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
+                $id_mun = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
 
                 // Varios departamentos
-                if (strpos($id_depto, ',') !== false) {
-                    $idds = explode(',', $id_depto);
+                if (strpos($id_mun, ',') !== false) {
+                    $idds = explode(',', $id_mun);
                     foreach($idds as $idd) {
                         $cc[] = " id_mun LIKE '$idd%'";
                     }
@@ -3712,13 +3715,38 @@ Class P4wDAO {
                     $condc = '('.implode(' OR ', $cc).')';
                 }
                 else {
-                    $condc = " id_mun LIKE '$id_depto%'";
+                    $condc = " id_mun LIKE '$id_mun%'";
                 }
+                $fmun = true;
+                $fnal = false;
+
+                $filtros['id_mun'] = $id_mun;
+            }
+
+            if (array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
+
+                $id_depto = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
+
+                if (!$fmun) {
+                    // Varios departamentos
+                    if (strpos($id_depto, ',') !== false) {
+                        $idds = explode(',', $id_depto);
+                        foreach($idds as $idd) {
+                            $cc[] = " id_mun LIKE '$idd%'";
+                        }
+
+                        $condc = '('.implode(' OR ', $cc).')';
+                    }
+                    else {
+                        $condc = " id_mun LIKE '$id_depto%'";
+                    }
+                }
+
                 $fdepto = true;
                 $fnal = false;
 
                 $filtros['id_depto'] = $id_depto;
-
+            }
         }
 
 
@@ -3871,21 +3899,26 @@ Class P4wDAO {
                         }
                     }
 
-                    // Lista filtro ubicacion
-                    $deptos = $this->getIdDeptosCobertura($id_proy);
-                    foreach($deptos as $id_depto) {
+                    // Lista filtro ubicacion, actualiza la lista de filtro solo
+                    // cuando no tenga filtro de depto, esto es para poder
+                    // seleccionar varios
+                    if (!$fdepto && !$fmun) {
+                        $deptos = $this->getIdDeptosCobertura($id_proy);
+                        foreach($deptos as $id_depto) {
 
-                        if (!array_key_exists($id_depto, $departamento_filtro)) {
-                            $departamento_filtro[$id_depto] = 1;
-                        }
-                        else {
-                            $departamento_filtro[$id_depto] += 1;
+                            if (!array_key_exists($id_depto, $departamento_filtro)) {
+                                $departamento_filtro[$id_depto] = 1;
+                            }
+                            else {
+                                $departamento_filtro[$id_depto] += 1;
+                            }
                         }
                     }
 
-                    // Consulta municipios si hay filtro de depto
-                    if ($fdepto) {
-                        $mpios = $this->getMpiosCobertura($id_proy, "id_depto = '".$filtros['id_depto']."'")['id'];
+                    // Consulta municipios si hay filtro de depto y no de mun, para poder
+                    // seleccionar varios
+                    if ($fdepto && !$fmun) {
+                        $muns = $this->getMpiosCobertura($id_proy, "id_depto IN (".$filtros['id_depto'].")")['ids'];
                         foreach($muns as $id_mun) {
 
                             if (!array_key_exists($id_mun, $municipio_filtro)) {
@@ -4095,7 +4128,7 @@ Class P4wDAO {
                     $npres -= $pres_sin_donante;
                 }
 
-                // Totales, son leidos en la funci�n js/p4w/consulta.js:changeTotales()
+                // Totales, son leidos en la funcion js/p4w/consulta.js:changeTotales()
                 $html = '
                 <input type="hidden" id="4w_np" value="'.number_format($np).'" />
                 <input type="hidden" id="4w_no" value="'.number_format($no).'" />
@@ -4700,16 +4733,6 @@ Class P4wDAO {
                         $cond .= ' AND v.id_org = '.$id.' AND v.id_tipo_vinorgpro = 1';
                     break;
                     case 'donante':
-
-                        /*
-                        $tabla = 'v';
-
-                        if (in_array('ejecutora', $cs)) {
-                            $tabla = 'w';
-                            $sql .= " INNER JOIN vinculorgpro AS $tabla ON p.id_proy = $tabla.id_proy";
-                        }
-                         */
-
                         $tabla = 'w';
                         $sql .= " INNER JOIN vinculorgpro AS $tabla ON p.id_proy = $tabla.id_proy";
 
@@ -4719,13 +4742,6 @@ Class P4wDAO {
                     case 'implementadora':
 
                         $tabla = 'y';
-
-                        /*
-                        if (in_array('donante', $cs)) {
-                            $tabla = 'y';
-                            $sql .= " INNER JOIN vinculorgpro AS $tabla ON p.id_proy = $tabla.id_proy";
-                        }
-                         */
 
                         $sql .= " INNER JOIN vinculorgpro AS $tabla ON p.id_proy = $tabla.id_proy";
                         $cond .= " AND $tabla.id_org = $id AND $tabla.id_tipo_vinorgpro = 3";
@@ -4793,12 +4809,19 @@ Class P4wDAO {
             }
         }
 
-        if (!empty($_SESSION['4w_f']['c'])
-            && array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
+        if (!empty($_SESSION['4w_f']['c'])) {
+            if (array_search('id_mun_filtro', $_SESSION['4w_f']['c']) !== false) {
+
+                $id_mun = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
+                $sql .= ' JOIN mun_proy AS dp ON dp.id_proy = p.id_proy';
+                $cond .= " AND id_mun IN ($id_mun)";
+            }
+            else if (array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
 
                 $id_depto = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
                 $sql .= ' JOIN depto_proy AS dp ON dp.id_proy = p.id_proy';
                 $cond .= " AND id_depto IN ($id_depto)";
+            }
         }
 
         //$cond .= ' AND id_tipo_vinorgpro = '.$tv;
@@ -4887,7 +4910,7 @@ Class P4wDAO {
                     $cnom = 'nom_mun';
                     $sqlc = "LEFT JOIN mun_proy USING($cid)";
                     $cond = '1=1';
-                    $extra_1 = ', centroide_dd AS extra_1';
+                    $extra_1 = ', CONCAT_WS(",",longitude, latitude) AS extra_1';
                 break;
 
                 case 'estado':
@@ -4921,7 +4944,7 @@ Class P4wDAO {
 
                 }
 
-                if ($c == 'ubicacion') {
+                if ($c == 'departamento' || $c == 'municipio') {
 
                     if ($_id == '11') {
                         $lon = -74.0833333;
@@ -4950,6 +4973,13 @@ Class P4wDAO {
                 // Depto
                 if (!empty($_SESSION['4w_f']['id_depto_filtro']) &&
                     $_SESSION['4w_f']['id_depto_filtro'] == $_id
+                ) {
+                    $class = 'selected';
+                }
+                
+                // Mpio
+                if (!empty($_SESSION['4w_f']['id_mun_filtro']) &&
+                    $_SESSION['4w_f']['id_mun_filtro'] == $_id
                 ) {
                     $class = 'selected';
                 }
@@ -5110,7 +5140,7 @@ Class P4wDAO {
     }
 
     /**
-     * Maneja los filtros en variable de sesi�n
+     * Maneja los filtros en variable de sesión
      * @access private
      * @param array $params Arreglo de parametros
      */
@@ -5718,7 +5748,7 @@ Class P4wDAO {
      * @param string $fin yyyy-mm-dd
      * @param int $meses
      * @param int $id_depto Filtrar por este departamento
-     * @param int $yyyy Filtrar por este a�o
+     * @param int $yyyy Filtrar por este año
      */
     function getPresupuestoBeneficiariosRealMeses($id,$cant,$inicio,$fin,$meses,$id_depto_reporte=0,$yyyy=false) {
 
@@ -5727,6 +5757,7 @@ Class P4wDAO {
         if (isset($_SESSION['4w_f'])) {
             $filtro_periodo = array_search('periodo', $_SESSION['4w_f']['c']);
             $filtro_depto = array_search('id_depto_filtro', $_SESSION['4w_f']['c']);
+            $filtro_mun = array_search('id_mun_filtro', $_SESSION['4w_f']['c']);
         }
 
         //echo "\nId=$id, Cantidad original = $cant, Inicio=$inicio, Fin=$fin, Meses=$meses <br />";
@@ -5734,7 +5765,8 @@ Class P4wDAO {
         if (empty($meses) && $yyyy === false && empty($id_depto_reporte)) {
             return $cant;
         }
-        else if ($filtro_periodo === false && $filtro_depto === false && $yyyy === false && empty($id_depto_reporte)) {
+        else if ($filtro_periodo === false && $filtro_depto === false 
+                && $yyyy === false && empty($id_depto_reporte)) {
             return $cant;
         }
         else if (!empty($meses)) {
@@ -5798,7 +5830,7 @@ Class P4wDAO {
                 // Retorna la misma cantidad
                 //else if ($yini < $filtro_ini && $yfin > $filtro_fin) {
                 //    $real = 12 * $pm;
-                // El a�o de filtro es menor que el periodo del proy
+                // El año de filtro es menor que el periodo del proy
                 else if ($yini > $filtro_ini && $yfin > $filtro_fin && $filtro_ini == $filtro_fin) {
                     $real = 0;
                 }
@@ -5840,7 +5872,28 @@ Class P4wDAO {
                 }
             }
 
-            if ($yyyy === false && ($filtro_depto !== false || !empty($id_depto_reporte))) {
+            if ($yyyy === false && ($filtro_mun !== false || !empty($id_mun_reporte))) {
+                if (empty($id_mun_reporte)) {
+                    $muns = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
+                }
+                else {
+                    $muns = $id_mun_reporte;
+                }
+
+                //echo "<br />".$deptos."<br />";
+                $muns = $this->getMpiosCobertura($id);
+                $total_muns = count($muns['ids']);
+                //echo "\nproyecto=$id - total_muns=$total_muns - cant = $cant <br />";
+                if (!empty($total_muns)) {
+                    $pm = $cant / $total_muns;
+
+                    $cant = $pm;
+                }
+                else {
+                    $cant = 0;
+                }
+            }
+            else if ($yyyy === false && ($filtro_depto !== false || !empty($id_depto_reporte))) {
                 if (empty($id_depto_reporte)) {
                     $deptos = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
                 }
@@ -5863,8 +5916,6 @@ Class P4wDAO {
                 else {
                     $cant = 0;
                 }
-
-
             }
 
             //echo "Proyecto = $id, benef = $cant<br />";

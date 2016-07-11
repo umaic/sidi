@@ -143,13 +143,9 @@ function addBaseLayer(c){
                 var ly = new OpenLayers.Layer.XYZ(
                         "Openstreetmap",
                         [
-                            "http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",
-                            "http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",
-                            "http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png",
-                            "http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.png"
+                            'https://api.mapbox.com/styles/v1/mapbox/streets-v8/tiles/${z}/${x}/${y}?access_token=pk.eyJ1IjoicmF0YmlrZXIiLCJhIjoiY2loejFyM3B4MDQwcHRnbTF5MWlmOHJuNCJ9.H5A3WGVx60EdqY0hMzIMKg'
                         ],
                         {
-                            attribution: "Provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>",
                             transitionEffect: "resize",
                             zoomOffset: 6,
                             sphericalMercator: true,
@@ -608,10 +604,6 @@ function addFiltertoList(h1, h2, c, id, filter_map) {
                 rm_id_depto = true;
 
                 $j('#depto').val('00|0,0');
-                //addProysToMap(mtipo, '', '');
-            }
-            else {
-                //addProysToMap(mtipo, '-' + c, id);
             }
 
             var _id = $j(this).attr('data-id');
@@ -740,8 +732,17 @@ function changeTotales() {
     // Actualiza filtros
     if (request) {
 
-        $j('div.f').not('div.f.c').each(function(){
-            $j('div#' + $j(this).attr('id')).find('div.c').html($j('div#fcu_' + $j(this).attr('id')).html());
+        $j('div.f').not('div.f.c').each(function() {
+            var id = $j(this).attr('id');
+            var html = $j('div#fcu_' + id).html();
+
+            // Si es filtro de departamento o municipio solo actualiza cuando hay datos
+            if (id != 'departamento' && id != 'municipio') {
+                $j('div#' + id).find('div.c').html(html);
+            }
+            else if ((id == 'departamento' || id == 'municipio') && html != '<div class="fila">No existe información</div>') {
+                $j('div#' + id).find('div.c').html(html);
+            } 
         });
 
         addEventosFiltros();
@@ -785,50 +786,6 @@ function addEventosGrupos() {
         $j('#todo, #map').show();
 
     });
-
-    /*
-    // Grupos
-    $j('#grupo_ehp_a').click(function() {
-        $j('div#grupos').hide();
-        $j('#todo, #map').show();
-        var val = 'f_grupo_ehp';
-        $j('#m_grupos_select').val(val);
-    });
-    $j('#grupo_undaf_a').click(function() {
-        $j('div#grupos').hide();
-        $j('#todo, #map').show();
-        grupoProys('f_grupo_undaf', 'undaf');
-    });
-    $j('#grupo_otros_a').click(function() {
-        $j('div#grupos').hide();
-        $j('#todo, #map').show();
-
-        var val = 'f_grupo_otros';
-        grupoProys(val, '4w_otros');
-        $j('#m_grupos_select').val(val);
-    });
-    $j('#grupo_todos_a').click(function() {
-        $j('div#grupos').hide();
-        $j('#todo, #map').show();
-
-        var val = 'f_grupo_todos';
-        grupoProys(val, '4w_todos');
-        $j('#m_grupos_select').val(val);
-    });
-    // Se cambia a dropdown
-    var fg = [];
-
-    fg['f_grupo_ehp'] = '4w_ehp';
-    fg['f_grupo_otros'] = '4w_otros';
-    fg['f_grupo_todos'] = '4w_todos';
-    fg['f_grupo_undaf'] = 'undaf';
-    $j('#m_grupos_select').change(function(){
-        var g = $j(this).val();
-
-        grupoProys(g, g);
-    });
-    */
-
 }
 
 function grupoProys(sip) {
@@ -1026,11 +983,9 @@ function addEventos(c) {
 
         // Agrega opción regresar en la lista
         $div_c.prepend('<div><br /><a id="regresar_lista" onClick="regresarLista()" href="#">&laquo; Regresar a la lista</a></div>');
-        //$j('#titulo, #resumen').hide('slow');
 
     });
 
-    //$j(this).find('span.s').click(function(){
     $j('#proys').on('click', 'span.s', function(){
         clear = true;
         request = true;
@@ -1039,7 +994,6 @@ function addEventos(c) {
         changeTitulo($j(this).html(), 'Ejecutora');
     });
 
-    //$j(this).find('span.tema').click(function(){
     $j('#proys').on('click', 'span.tema', function(){
         clear = true;
         request = true;
@@ -1091,7 +1045,23 @@ function addEventosFiltros() {
 
                     // Titulo Ficha
                     $j('#btn_fpdf > a').html('Ficha Departamental');
+
                     addFiltertoList(h1, h2, 'id_depto_filtro', id_depto);
+                }
+                else if (_i == 'municipio') {
+                    var _i = 'id_mun_filtro';
+                    var _id = _ii = '';
+
+                    var h2 = 'Municipio';
+                    var h1 =  $j(this).find('span.nom').html();
+
+                    id_mun = $j(this).attr('id');
+
+                    if (mtipo == 'f') {
+                        setDeptoCenter($j(this).attr('lon'),$j(this).attr('lat'));
+                    }
+                    
+                    addFiltertoList(h1, h2, 'id_mun_filtro', id_mun);
                 }
                 else {
                     zoomDepto = false;

@@ -778,7 +778,7 @@ div.f {
     display: inline;
 }
 #filtros div.selected {
-    background-color: #FAF4AD;
+    background-color: #FAF4AD !important;
 }
 #filtros div#fmenu ul {
     margin: 10px;
