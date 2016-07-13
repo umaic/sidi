@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * DAO de 4w
  *
@@ -9,7 +9,7 @@
 Class P4wDAO {
 
     /**
-     * Conexiòn a la base de datos
+     * Conexión a la base de datos
      * @var object
      */
     var $conn;
@@ -193,7 +193,6 @@ Class P4wDAO {
             // Consulta si tiene municipios o marcaron solo el departamento
             $sqc = "SELECT COUNT(id_mun) 
                     FROM mun_proy 
-                    JOIN municipio USING(id_mun)
                     WHERE id_proy = $id";
             
             if (!empty($cond)) {
@@ -3508,6 +3507,7 @@ Class P4wDAO {
      * @param array $params
      */
     function getProysMapa($params) {
+
         // LIBRERIAS
         require_once 'admin/lib/common/date.class.php';
         require_once 'admin/lib/common/archivo.class.php';
@@ -3542,7 +3542,7 @@ Class P4wDAO {
         $donantes_top = array();
         $deptos_top = array();
         $ejecutoras_top = array();
-        $cache = false;
+        $cache = true;
 
         $fdepto = $fmun = false;
         $filtro_periodo = $filtro_cluster = $filtro_ejecutora = false;
@@ -3892,24 +3892,28 @@ Class P4wDAO {
                     if ($fdepto && !$fmun) {
 
                         foreach (explode(',',$filtros['id_depto']) as $idd) {
-                            $muns = $this->getMpiosCobertura($id_proy, "id_depto = $idd")['ids'];
+                            $muns_t = $this->getMpiosCobertura($id_proy, "id_depto = $idd");
+                            $muns = $muns_t['ids'];
 
-                            // Separador del departamento
+                            // Separador con el nombre del departamento
                             $dn = $depto_dao->GetName($idd);
+
                             if (!isset($municipio_filtro[$dn])) {
                                 $municipio_filtro[$dn] = array();
                             }
                             
-
                             foreach($muns as $id_mun) {
-
                                 if (!array_key_exists($id_mun, $municipio_filtro[$dn])) {
                                     $municipio_filtro[$dn][$id_mun] = 1;
                                 }
                                 else {
                                     $municipio_filtro[$dn][$id_mun] += 1;
                                 }
+                                
+                                if ($id_mun == '05380')  echo "OTRO PROYECTO PARA LA ESTRELLA => $id_proy <br>";
                             }
+
+
                         }
                     }
 
@@ -5302,7 +5306,7 @@ Class P4wDAO {
                 while ($row = $this->conn->FetchRow($rs)) {
 
                     $proy_id = $row[0];
-                    $pres = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,$yyyy);
+                    $pres = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,0,$yyyy);
 
                     // Si es desarrollo, el presupuesto por tema se divide
                     if ($desarrollo) {
@@ -5335,7 +5339,7 @@ Class P4wDAO {
                 $r[$_g]['eje']['b'][$y] = 0;
                 while ($row = $this->conn->FetchRow($rs)) {
                     $proy_id = $row[0];
-                    $benef = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,$yyyy);
+                    $benef = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,0,$yyyy);
 
                     // Si es desarrollo, los beneficiarios por tema se divide
                     if ($desarrollo) {
@@ -5397,7 +5401,7 @@ Class P4wDAO {
                 $r[$si_proy]['eje']['b'][$y] = 0;
                 while ($row = $this->conn->FetchRow($rs)) {
                     $id_proy = $row[0];
-                    $benef = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$row[1],$row[2],$row[3],$row[4],0,$yyyy);
+                    $benef = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$row[1],$row[2],$row[3],$row[4],0,0,$yyyy);
 
                     $r[$si_proy]['eje']['b'][$y] += $benef;
                 }
@@ -5413,238 +5417,11 @@ Class P4wDAO {
                 while ($row = $this->conn->FetchRow($rs)) {
 
                     $proy_id = $row[0];
-                    $pres = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,$yyyy);
+                    $pres = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,0,$yyyy);
 
                     $r[$si_proy]['eje']['pres'][$y] += $pres;
                 }
             }
-        }
-
-        return $r;
-    }
-
-    /**
-     * Retorna datos resumen para mapa
-     * @access public
-     * @return array $r
-     */
-    function resumenMapaOLD($case='total', $id='') {
-
-        // Grupos
-        $grs = array('4w_ehp', 'undaf' ,'4w_otros','4w_todos');
-        $yyyy = date('Y');
-        $yyyy_ant = $yyyy - 1;
-        $aaaa = array($yyyy_ant, $yyyy);
-        $num_top_sectores = 5;
-        $tema_dao = FactoryDAO::factory('tema');
-
-        // Orgs
-        $sqlo = "SELECT COUNT(DISTINCT(id_org)) FROM vinculorgpro v
-            JOIN proyecto USING(id_proy)
-            JOIN proyecto_tema USING(id_proy)
-                 WHERE id_tipo_vinorgpro = 1 ";
-
-        // Beneficiarios UNDAF y 4w
-        $sqlb = " SELECT DISTINCT(p.id_proy), cant_p4w_b, p.inicio_proy, p.fin_proy, p.duracion_proy
-            FROM p4w_beneficiario
-            JOIN proyecto AS p USING(id_proy)
-            JOIN vinculorgpro v USING(id_proy)
-            JOIN proyecto_tema USING(id_proy)
-            WHERE tipo_rel=1 AND genero_p4w_b IS NULL AND edad_p4w_b IS NULL
-            ";
-
-        $sqlp = 'SELECT COUNT(DISTINCT(id_proy)), costo_proy FROM '.$this->tabla.'
-            JOIN vinculorgpro v USING('.$this->columna_id.')
-            JOIN proyecto_tema USING(id_proy)
-            WHERE 1=1';
-
-        $sqlpre = 'SELECT DISTINCT(p.id_proy), p.costo_proy, p.inicio_proy, p.fin_proy, p.duracion_proy
-            FROM '.$this->tabla.' AS p
-            JOIN vinculorgpro v USING('.$this->columna_id.')
-            JOIN proyecto_tema USING(id_proy)
-            WHERE 1=1';
-
-        //echo "$sqlo <br />";
-        //echo "$sqlb <br />";
-        //echo "$sqlp <br />";
-
-        if ($case == 'total'){
-
-            foreach($grs as $_g) {
-
-                // Condiciones de si
-                $condg = $this->_setConditionSi(array('si' => $_g), false);
-
-                // totales para 2 a�os ejecuci�n
-                foreach($aaaa as $y => $yyyy) {
-
-                    $condgg = $condg." AND YEAR(fin_proy) >= $yyyy";
-                    $sectores = array();
-                    $sectores_top = array();
-
-                    // Presupuesto
-                    $rs = $this->conn->OpenRecordset("$sqlpre AND $condgg"); // x para own alias
-                    $r[$_g]['eje']['pres'][$y] = 0;
-                    while ($row = $this->conn->FetchRow($rs)) {
-                        //echo 'a';
-
-                        $proy_id = $row[0];
-                        $pres = $this->getPresupuestoBeneficiariosRealMeses($proy_id,$row[1],$row[2],$row[3],$row[4],0,$yyyy);
-                        $r[$_g]['eje']['pres'][$y] += $pres;
-
-                    }
-
-                    //echo $sqlb.' AND '.$condg.'<br />';
-                    //echo "$sqlb AND $condgg";
-                    $rs = $this->conn->OpenRecordset($sqlb.' AND '.$condgg);
-                    //$row = $this->conn->FetchRow($rs);
-                    $r[$_g]['eje']['b'][$y] = 0;
-                    while ($row = $this->conn->FetchRow($rs)) {
-                        $r[$_g]['eje']['b'][$y] += $this->getPresupuestoBeneficiariosRealMeses($row[0],$row[1],$row[2],$row[3],$row[4],0,$yyyy);
-                    }
-
-                    // Proyectos
-                    //echo $sqlp.' AND '.$condgg;
-                    $rs = $this->conn->OpenRecordset($sqlp.' AND '.$condgg);
-                    $row = $this->conn->FetchRow($rs);
-                    $r[$_g]['eje']['p'][$y] = $row[0];
-
-
-                    // Orgs
-                    //echo $sqlo.' AND '.$condg.'<br />';
-                    $rs = $this->conn->OpenRecordset($sqlo.' AND '.$condgg);
-                    $row = $this->conn->FetchRow($rs);
-                    $r[$_g]['eje']['o'][$y] = $row[0];
-
-                    $pres_total = $r[$_g]['eje']['pres'][$y];
-                    $sectores_top = $this->orderTopData($sectores,'tema',$pres_total,5);
-
-                    $r[$_g]['sectores_top'][$y] = $sectores_top;
-                }
-
-                $condg .= " AND YEAR(fin_proy) < '$yyyy-".date('n')."-".date('j')."'";
-
-                // Totales ejecutados
-                // Orgs
-                //echo $sqlo.' AND '.$condg.'<br />';
-                $rs = $this->conn->OpenRecordset($sqlo.' AND '.$condg);
-                $row = $this->conn->FetchRow($rs);
-                $r[$_g]['total']['o'] = $row[0];
-
-
-                //echo $sqlb.' AND '.$condg.'<br />';
-                $rs = $this->conn->OpenRecordset($sqlb.' AND '.$condg);
-                $row = $this->conn->FetchRow($rs);
-                $r[$_g]['total']['b'] = (empty($row[0]) ? 0 : $row[0]);
-
-
-                //$r['p'] = $this->numRecords('validado_cluster_proy=1');
-                //echo $sqlp.' AND '.$condg.'<br />';
-                $rs = $this->conn->OpenRecordset($sqlp.' AND '.$condg);
-                $row = $this->conn->FetchRow($rs);
-                $r[$_g]['total']['p'] = $row[0];
-
-                // Presupuesto
-                $rs = $this->conn->OpenRecordset("SELECT SUM(costo_proy) FROM ($sqlpre AND $condg) x"); // x para own alias
-                $row = $this->conn->FetchRow($rs);
-                $r[$_g]['total']['pres'] = $row[0];
-
-                // Min Year
-                $sql = 'SELECT MIN(YEAR(inicio_proy))
-                    FROM '.$this->tabla.'
-                    JOIN vinculorgpro USING('.$this->columna_id.')
-                    JOIN proyecto_tema USING(id_proy)
-                    WHERE id_tipo_vinorgpro = 1
-                    AND inicio_proy <> "" and inicio_proy <> 0
-                    AND '.$condg;
-                $rs = $this->conn->OpenRecordset($sql);
-                $row = $this->conn->FetchRow($rs);
-
-                $r[$_g]['min_year'] = $row[0];
-            }
-        }
-        // Caso de filtros por a�o, departamento, cluster, etc
-        else if ($case == 'filtros') {
-            $filtro_periodo = (!empty($_SESSION['4w_f']['c']) && in_array('periodo', $_SESSION['4w_f']['c'])) ? true : false;
-
-            foreach($grs as $_g) {
-
-                $np = 0;
-                $nb = 0;
-                $no = 0;
-                $npres = 0;
-                $id_orgs_e = array();
-
-                $sql_cond = $this->getSqlIDProys(array('si' => $_g));
-
-                $sql = $sql_cond['sql'];
-                $cond = $sql_cond['cond'];
-
-                $sql .= ' WHERE '.$cond;
-
-                $rs = $this->conn->OpenRecordset($sql);
-                while ($row = $this->conn->FetchObject($rs)) {
-
-                    // # de Orgs ejecutoras
-                    if (!in_array($row->id_org, $id_orgs_e)) {
-                        $no++;
-                        $id_orgs_e[] = $row->id_org;
-                    }
-
-                    $benf_proy = $this->getCantBenef($row->id);
-                    if (!empty($benf_proy['d']['total'])) {
-                        if (!empty($filtro_periodo)) {
-                            $nb += $this->getPresupuestoBeneficiariosRealMeses($row->id,$benf_proy['d']['total'],$row->inicio_proy,$row->fin_proy,$row->duracion_proy);
-                        }
-                        else {
-                            $nb += $benf_proy['d']['total'];
-                        }
-                    }
-
-                    if (!empty($row->costo_proy)) {
-                        if (!empty($filtro_periodo)) {
-                            $npres += $this->getPresupuestoBeneficiariosRealMeses($row->id,$row->costo_proy,$row->inicio_proy,$row->fin_proy,$row->duracion_proy);
-                        }
-                        else {
-                            $npres += $row->costo_proy;
-                        }
-                    }
-
-                    $np++;
-                }
-
-                $r[$_g]['o'] = $no;
-                $r[$_g]['b'] = $nb;
-                $r[$_g]['p'] = $np;
-                $r[$_g]['pres'] = $npres;
-            }
-        }
-        else {
-
-            $r['o'] = $r['b'] = $r['pres'] = 0;
-
-            $_idsv = $this->getIdProyectosReporte($case, $id, 2, 0);
-            $_ids = implode(',', $_idsv);
-
-                // Orgs
-                $sqlo .= " AND id_proy IN ($_ids)";
-                $rs = $this->conn->OpenRecordset($sqlo);
-                $row = $this->conn->FetchRow($rs);
-                $r['o'] = $row[0];
-
-                // Beneficiarios UNDAF y 4w
-                $sqlb .= " AND id_proy IN ($_ids)) a";
-                $rs = $this->conn->OpenRecordset($sqlb);
-                $row = $this->conn->FetchRow($rs);
-                $r['b'] = $row[0];
-
-                // Presupuesto
-                $sqlp .= " AND id_proy IN ($_ids)";
-                $rs = $this->conn->OpenRecordset($sqlp);
-                $row = $this->conn->FetchRow($rs);
-                $r['pres'] = $row[1];
-
-                $r['p'] = count($_idsv);
         }
 
         return $r;
@@ -6015,6 +5792,44 @@ Class P4wDAO {
         $sql = "UPDATE proyecto SET id_estp = 4 WHERE fin_proy <= now()";
         $this->conn->execute($sql);
 
+    }
+    
+    /**
+     * 
+     * Verifica cobertura de proyectos a nivel municipal
+     * cuando han sido marcado solo los departamentos
+     *
+     */
+    function checkMunsProyectos() {
+
+        $sql = "SELECT id_proy FROM proyecto WHERE verificado_muns = 0";
+        $rs = $this->conn->OpenRecordset($sql);
+        while ($row = $this->conn->FetchRow($rs)) {
+            $id_proy = $row[0];
+
+            $sqld = "SELECT id_depto FROM depto_proy WHERE id_proy = $id_proy";
+            $rsd = $this->conn->OpenRecordset($sqld);
+            while ($rowd = $this->conn->FetchRow($rsd)) {
+                $id_depto = $rowd[0];
+                $sqlm = "SELECT COUNT(id_proy) FROM mun_proy WHERE id_proy = $id_proy AND id_mun LIKE '$id_depto%'";
+                $rsm = $this->conn->OpenRecordset($sqlm);
+                $rowm = $this->conn->FetchRow($rsm);
+
+				if (empty($rowm[0])) {
+					$sqlin = "INSERT INTO mun_proy (id_proy,id_mun) 
+								SELECT $id_proy,id_mun FROM municipio WHERE id_depto ='$id_depto'";
+
+					echo "ProyectoId = $id_proy ==> $sqlin <br />";
+				}
+				else {
+					$sqlin = "UPDATE proyecto SET verificado_muns = 1 WHERE id_proy = $id_proy";
+					//$this->conn->Execute($sqlin);
+					echo "OK-Proyecto = $id_proy, depto=$id_depto ==> municipios = ".$rowm[0]." <br />";
+				}
+
+            }
+
+        }
     }
 }
 

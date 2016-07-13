@@ -468,12 +468,10 @@ switch ($object){
 
         $dao = new P4wAjax();
 
-        /*
         header("Content-Type: text/csv");
 	    header("Content-Disposition: attachment; filename=\"Proyectos4W_OCHA.csv\"");
         header("Pragma: no-cache");
         header("Expires: 0");
-         */
 
         $dao->reporteConteo($_GET);
 
@@ -529,6 +527,17 @@ switch ($object){
         $dao = new P4wDAO();
 
         $dao->updateEstadoProyectos();
+    break;
+        
+    // Verifica cobertura de proyectos a nivel municipal
+    // cuando han sido marcado solo los departamentos
+    case 'checkMunsProyectos':
+
+        include_once("consulta/lib/libs_p4w.php");
+
+        $dao = new P4wDAO();
+
+        $dao->checkMunsProyectos();
     break;
 
 }
