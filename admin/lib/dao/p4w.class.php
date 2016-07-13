@@ -174,7 +174,7 @@ Class P4wDAO {
      * Consulta los mpios que cubre el proyecto
      * @access public
      * @param int $id ID del Proyecto
-     * @param string $cond condicion de ubicaci�n
+     * @param string $cond condicion de ubicacion
      * @return array
      */
     function getMpiosCobertura($id,$cond=''){
@@ -190,8 +190,19 @@ Class P4wDAO {
             $sq = 'SELECT ID_MUN AS id, NOM_MUN AS nom, m.LATITUDE AS lat,
                     m.LONGITUDE AS lon, NOM_DEPTO AS nd, ID_DEPTO AS id_d';
 
-            // MDGD
-            $sqc = "SELECT COUNT(id_mun) FROM mun_proy WHERE id_proy = $id";
+            // Consulta si tiene municipios o marcaron solo el departamento
+            $sqc = "SELECT COUNT(id_mun) 
+                    FROM mun_proy 
+                    JOIN municipio USING(id_mun)
+                    WHERE id_proy = $id";
+            
+            if (!empty($cond)) {
+            //    $sqc .= ' AND '.$cond;
+            }
+
+            //echo "$sqc <br /><br>";
+            
+
             $rsc = $this->conn->OpenRecordset($sqc);
             $rowc = $this->conn->FetchRow($rsc);
 
@@ -208,6 +219,7 @@ Class P4wDAO {
 
                 $all = '';
             }
+            
 
             $sq .= ' JOIN departamento USING(id_depto) WHERE id_proy = '.$id;
         }
@@ -216,7 +228,7 @@ Class P4wDAO {
             $sq .= ' AND '.$cond;
         }
 
-        //echo $sq;
+        //echo "cond = $cond---sql=$sq <br /><br />";
 
         $rs_s = $this->conn->OpenRecordset($sq);
         while ($row = $this->conn->FetchObject($rs_s)){
@@ -2629,10 +2641,8 @@ Class P4wDAO {
         $col = $params['col']; //$col s=sector, o=org, d=donante
         $que = $params['que']; //$que p=proyectos, b=beneficiarios, pre=presupuesto
         $h = $cond = $condu = '';
-        //$condaa = "si_proy='".$params['si']."'";
         $condaa = $this->_setConditionSi();
 
-        //$clasifis = (in_array($params['si'], array('4w_ehp', '4w_otros'))) ? 2 : 1;
         $filtro_periodo = false;
         $titulo_reporte = 'Reporte por ';
 
@@ -2649,12 +2659,10 @@ Class P4wDAO {
             $clasifis = 2;
         }
 
-
         $geo = true;
         $cc = '';
 
         $_dao = array('d' => 'depto', 'm' => 'municipio', 's' => 'tema');
-        //$cn = 'nom';
         switch($row) {
             case 'd':
                 $dao = FactoryDAO::factory('depto');
@@ -2763,31 +2771,15 @@ Class P4wDAO {
             case 's':
                 $pdao = FactoryDAO::factory('tema');
                 $c = 'cluster';
-                //$cn = 'nombre';
-                //$cond = 'id_papa = 0';
                 $cond = 'id_papa NOT IN (133,168,169)';
 
                 $titulo_reporte .= ' y cluster';
-                /*
-                $nt = '';
-                $h .= ',,';
-
-                if (in_array($row, array('o', 'do'))) {
-                    $h .= ',';
-                }
-                */
 
                 $cls = array();
                 foreach(FactoryDAO::factory('clasificacion')->GetAllArray('id_clasificacion IN ('.$clasifis.')') as $clas) {
                     foreach ($pdao->GetAllArray($cond.' AND id_clasificacion='.$clas->id) as $t) {
 
                         $cls[] = array('id' => $t->id, 'n' => $t->nombre);
-                        /*
-                        if ($nt != $clas->nombre) {
-                            $h .= $clas->nombre;
-                        }
-                        $h .= ',';
-                        */
 
                         $nt = $clas->nombre;
                     }
@@ -2869,6 +2861,7 @@ Class P4wDAO {
         $h .= "\r\n";
 
         $id_depto_reporte = 0;
+        $id_mun_reporte = 0;
         foreach($daos as $id => $nom) {
 
             if ($geo) {
@@ -2876,8 +2869,8 @@ Class P4wDAO {
                 // Municipio agrega columna de departamento
                 if ($dmi == 0) {
                     $h .= $deptos_nombre[$id].',';
-                    $id_depto_reporte = substr($id, 0, 2);;
-
+                    $id_depto_reporte = substr($id, 0, 2);
+                    $id_mun_reporte = $id;
                 }
                 else {
                     $id_depto_reporte = $id;
@@ -2909,6 +2902,9 @@ Class P4wDAO {
                     $idsp = $this->getIdProyectosReporte($c, $cl_id, $dmi, $id, $condaa);
                 }
 
+                if ($id == '23001' && $cl_id = 172)
+                    print_r($idsp);
+
                 $n = '';
                 switch($que) {
                     case 'p':
@@ -2921,31 +2917,41 @@ Class P4wDAO {
                         foreach($idsp as $idp) {
                             $_b = $this->getCantBenef($idp);
                             if (!empty($_b['d']['total'])) {
-                                $benef = $this->getPresupuestoBeneficiariosRealMeses($idp,$_b['d']['total'],
-                                            $this->GetFieldValue($idp, 'inicio_proy'),
-                                            $this->GetFieldValue($idp, 'fin_proy'),
-                                            $this->GetFieldValue($idp, 'duracion_proy'),
-                                            $id_depto_reporte
-                                            );
+
+                                $benef = $_b['d']['total'];
 
                                 // Si no es humanitario los beneficiarios se dividen por resultado
-                                if ($desarrollo && ($c == 's' || $c == 'a_undaf')) {
-                                    $clasif = 4;
-                                    $benef_tema = $this->getBenefTema($idp,$benef,$clasif);
+                                if ($desarrollo && $c == 'cluster') {
+                                    
+                                    $cluster_id = ($dmi == 2) ? $id : $cl_id;
+                                    
+                                    $benef_tema = $this->getBenefTema($idp,$benef,$clasifis);
 
                                     // No para opcion TODOS
                                     if ($cc != 'a_undaf') {
-                                        $benef = $benef_tema[$cl_id];
+                                        $benef = (empty($benef_tema[$cluster_id])) ? 0 : $benef_tema[$cluster_id];
                                     }
                                     else {
-                                        $benef = 0;
-                                        foreach ($resultados[$cl_id] as $clh_id) {
+                                        $benef_area = 0;
+                                        foreach ($resultados[$cluster_id] as $clh_id) {
                                             if (isset($benef_tema[$clh_id])) {
-                                                $benef += $benef_tema[$clh_id];
+                                                $benef_area += (empty($benef_tema[$clh_id])) ? 0 : $benef_tema[$clh_id];
                                             }
                                         }
+
+                                        $benef = $benef_area;
                                     }
                                 }
+                                
+                                $benef = $this->getPresupuestoBeneficiariosRealMeses($idp,$benef,
+                                            $this->GetFieldValue($idp, 'inicio_proy'),
+                                            $this->GetFieldValue($idp, 'fin_proy'),
+                                            $this->GetFieldValue($idp, 'duracion_proy'),
+                                            $id_depto_reporte,
+                                            $id_mun_reporte
+                                        );
+
+                                //echo "proyecto_id = $idp -- benef_totales = ".$_b['d']['total']." -- fila_id = $id -- col_id =  -- benef_columna = $benef <br>";
 
                                 $n += ceil($benef);
                             }
@@ -2957,7 +2963,11 @@ Class P4wDAO {
                     case 'pre':
                         $n = 0;
                         foreach($idsp as $idp) {
+
+                            //echo "Fila_ID = $id, Columna_ID = $cl_id, proyecto_ID = $idp <br>";
+
                             $pres = $this->GetFieldValue($idp, 'costo_proy');
+                            
                             if (!empty($pres)) {
                                 // Columna Donante
                                 if ($c == 'donante') {
@@ -2965,11 +2975,11 @@ Class P4wDAO {
                                 }
 
                                 //echo "pres = $pres <br />";
-                                // Fila Sector
+                                // Area UNDAF
                                 if ($cc == 'a_undaf') {
                                     $cluster_id = ($dmi == 2) ? $id : $cl_id;
 
-                                    $pres_tema = $this->getPresTema($idp,$pres);
+                                    $pres_tema = $this->getPresTema($idp,$pres,$clasifis);
 
                                     $pres_area = 0;
                                     foreach ($resultados[$cluster_id] as $id_r) {
@@ -2981,7 +2991,7 @@ Class P4wDAO {
                                 else if ($dmi == 2 || $c == 'cluster') {
                                     $cluster_id = ($dmi == 2) ? $id : $cl_id;
 
-                                    $pres_tema = $this->getPresTema($idp,$pres);
+                                    $pres_tema = $this->getPresTema($idp,$pres,$clasifis);
                                     $pres = (empty($pres_tema[$cluster_id])) ? 0 : $pres_tema[$cluster_id];
                                 }
 
@@ -2990,7 +3000,8 @@ Class P4wDAO {
                                             $this->GetFieldValue($idp, 'inicio_proy'),
                                             $this->GetFieldValue($idp, 'fin_proy'),
                                             $this->GetFieldValue($idp, 'duracion_proy'),
-                                            $id_depto_reporte
+                                            $id_depto_reporte,
+                                            $id_mun_reporte
                                             ));
                             }
                         }
@@ -3283,7 +3294,6 @@ Class P4wDAO {
 
         $sql = "SELECT DISTINCT(p.id_proy) FROM ";
 
-
         if ($tabla != 'proyecto')	$sql .= " proyecto JOIN ";
 
         $sql .= " $tabla p ";
@@ -3300,41 +3310,27 @@ Class P4wDAO {
             $sql .= " LEFT JOIN proyecto_tema USING ($this->columna_id)";
         }
 
-        //Agrega el filtro por agencia en cobertura
-        /*
-        if ($case == 'cobertura' && $id_filtro > 0){
-            $sql .= " LEFT JOIN vinculorgpro v USING ($this->columna_id) ";
-            $join_vi = true;
-        }
-         */
-
         //Ubicacion geografica
         if ($depto == 1 && $ubicacion != 0){
-            //$sql .= " LEFT JOIN depto_proy USING($this->columna_id) WHERE id_depto = $ubicacion OR cobertura_nal_proy = 1";
             $sql .= " LEFT JOIN depto_proy USING($this->columna_id)";
             $_c = "id_depto = $ubicacion";
         }
         else if ($depto == 0  && $ubicacion != 0){
-            //$sql .= " LEFT JOIN mun_proy USING ($this->columna_id) WHERE id_mun = $ubicacion OR cobertura_nal_proy = 1";
             $sql .= " LEFT JOIN mun_proy USING ($this->columna_id)";
             $_c = "id_mun = $ubicacion";
         }
         // Toco usar 2 para cruzar con sector
         else if ($depto == 2){
-            //$sql .= " LEFT JOIN proyecto_tema USING ($this->columna_id)";
             $_c = "id_tema = $ubicacion";
             $join_vi = true;
         }
         // Toco usar 3 para cruzar con ejecutor
-        //else if ($depto == 3 && !$join_vi){
         else if ($depto == 3 && !$join_vi){
-            //$sql .= " LEFT JOIN vinculorgpro v UeSING ($this->columna_id)";
             $_c = "id_org = $ubicacion AND id_tipo_vinorgpro = 1";
             $join_vi = true;
         }
         // Toco usar 4 para cruzar con donante
         else if ($depto == 4 && !$join_vi){
-            //$sql .= " LEFT JOIN vinculorgpro v USING ($this->columna_id)";
             $_c = "id_org = $ubicacion AND id_tipo_vinorgpro = 2";
             $join_vi = true;
         }
@@ -3347,21 +3343,6 @@ Class P4wDAO {
         if (isset($_SESSION['4w_f']['c']) && $depto > 1 && array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
             $sql .= " LEFT JOIN depto_proy USING($this->columna_id)";
         }
-
-        /*
-        if (strpos($cond, 'id_depto')) {
-            $sql .= " LEFT JOIN depto_proy USING($this->columna_id)";
-        }
-       e
-        if (strpos($cond, 'id_mun')) {
-            $sql .= " LEFT JOIN mun_proy USING ($this->columna_id)";
-        }
-
-
-        if (!$join_vi) {
-            $sql .= " LEFT JOIN vinculorgpro v USING ($this->columna_id)";
-        }
-        */
 
         // Condicion
         $sql .= ' WHERE '.$_c;
@@ -3383,10 +3364,6 @@ Class P4wDAO {
         }
 
         $sql .= ' AND '.$this->_setConditionSi(array('no_o' => true));
-
-        //if (!empty($_SESSION['4w_f']['periodo_que']) &&
-        //    strpos('year', strtolower($cond) === false)) {
-        //
 
         // Caso Nacional o caso Departamental/Municipal
         $cobertura_nal_proy = ($ubicacion == 0) ? 1 : 0;
@@ -3463,7 +3440,6 @@ Class P4wDAO {
 
                     $cond .= " AND id_depto IN (".$id_depto_filtro.")";
                 }
-
             }
 
             // Aplica filtro de ejecutor en los reportes que no son por
@@ -3474,7 +3450,6 @@ Class P4wDAO {
 
                     $cond .= " AND id_org IN (".$id_org.")";
                 }
-
             }
 
             // Aplica filtro de cluster en los reportes que no son por
@@ -3485,7 +3460,6 @@ Class P4wDAO {
 
                     $cond .= " AND id_tema IN (".$id_tema.")";
                 }
-
             }
 
             // Aplica filtro de SRP
@@ -3501,8 +3475,7 @@ Class P4wDAO {
         //    echo "$sql <br />";
         }
 
-        //echo "\n$sql";
-        //die;
+        //echo "$sql <br />";
 
         $rs = $this->conn->OpenRecordset($sql);
 
@@ -3538,14 +3511,13 @@ Class P4wDAO {
         // LIBRERIAS
         require_once 'admin/lib/common/date.class.php';
         require_once 'admin/lib/common/archivo.class.php';
-        require_once 'admin/lib/dao/sissh.class.php';
-        require_once 'admin/lib/dao/org.class.php';
-        require_once 'admin/lib/dao/tema.class.php';
+        require_once 'admin/lib/dao/factory.class.php';
 
         $archivo = New Archivo();
-        $sissh = New SisshDAO();
-        $org_dao = New OrganizacionDAO();
-        $tema_dao = New TemaDAO();
+        $sissh = FactoryDAO::factory('sissh');
+        $org_dao = FactoryDAO::factory('org');
+        $tema_dao = FactoryDAO::factory('tema');
+        $depto_dao = FactoryDAO::factory('depto');
 
         $_SESSION['grupo'] = empty($params['grupo']) ? '' : $params['grupo'];
 
@@ -3918,14 +3890,25 @@ Class P4wDAO {
                     // Consulta municipios si hay filtro de depto y no de mun, para poder
                     // seleccionar varios
                     if ($fdepto && !$fmun) {
-                        $muns = $this->getMpiosCobertura($id_proy, "id_depto IN (".$filtros['id_depto'].")")['ids'];
-                        foreach($muns as $id_mun) {
 
-                            if (!array_key_exists($id_mun, $municipio_filtro)) {
-                                $municipio_filtro[$id_mun] = 1;
+                        foreach (explode(',',$filtros['id_depto']) as $idd) {
+                            $muns = $this->getMpiosCobertura($id_proy, "id_depto = $idd")['ids'];
+
+                            // Separador del departamento
+                            $dn = $depto_dao->GetName($idd);
+                            if (!isset($municipio_filtro[$dn])) {
+                                $municipio_filtro[$dn] = array();
                             }
-                            else {
-                                $municipio_filtro[$id_mun] += 1;
+                            
+
+                            foreach($muns as $id_mun) {
+
+                                if (!array_key_exists($id_mun, $municipio_filtro[$dn])) {
+                                    $municipio_filtro[$dn][$id_mun] = 1;
+                                }
+                                else {
+                                    $municipio_filtro[$dn][$id_mun] += 1;
+                                }
                             }
                         }
                     }
@@ -4313,8 +4296,22 @@ Class P4wDAO {
                         );
 
                     foreach($ts as $t => $ti) {
+                        
                         $fil = ${$t."_filtro"};
-                        if ($t != 'periodo') {
+                        
+                        if ($t == 'municipio') {
+                            $tmp = array();
+                            foreach ($fil as $d_nom => $l) {
+                                arsort($l);
+                                
+                                $tmp[] = $d_nom;
+
+                                $tmp = $tmp + $l;
+                            }
+
+                            $fil = $tmp;
+                        }
+                        else if ($t != 'periodo') {
                             arsort($fil);
                         }
                         else {
@@ -4929,92 +4926,97 @@ Class P4wDAO {
         $w = 18;
 
         if (!empty($ts)) {
-            $fr = $w / reset($ts);
             foreach($ts as $_id => $_t) {
                 //$_id = $_t['id'];
-
-                $_nom = $_id;
-
-                if ($c != 'periodo') {
-                    $sqln = "SELECT $cnom AS nom $extra_1 FROM ".$tabla[$c]." AS t WHERE $cid = '$_id'";
-                    $rsn = $this->conn->OpenRecordset($sqln);
-                    $rown = $this->conn->FetchObject($rsn);
-                    $_nom = $rown->nom;
-                    $_extra_1 = (!empty($rown->extra_1)) ? $rown->extra_1 : '';
-
+                
+                // El filtro es un separador
+                if (!is_numeric($_t)) {
+                    $html .=  '<div class="fila_separador"><div class="">'.$_t.'</div>';
                 }
+                else {
+                    $_nom = $_id;
 
-                if ($c == 'departamento' || $c == 'municipio') {
+                    if ($c != 'periodo') {
+                        $sqln = "SELECT $cnom AS nom $extra_1 FROM ".$tabla[$c]." AS t WHERE $cid = '$_id'";
+                        $rsn = $this->conn->OpenRecordset($sqln);
+                        $rown = $this->conn->FetchObject($rsn);
+                        $_nom = $rown->nom;
+                        $_extra_1 = (!empty($rown->extra_1)) ? $rown->extra_1 : '';
 
-                    if ($_id == '11') {
-                        $lon = -74.0833333;
-                        $lat = 4.6;
                     }
-                    else if ($_id == '00') {
-                        $lon = 0;
-                        $lat = 0;
-                    }
-                    else {
-                        if (!empty($extra_1)) {
-                            $_l = explode(',', $_extra_1);
-                            if (count($_l) > 1) {
-                                $lon = $_l[0];
-                                $lat = $_l[1];
+
+                    if ($c == 'departamento' || $c == 'municipio') {
+
+                        if ($_id == '11') {
+                            $lon = -74.0833333;
+                            $lat = 4.6;
+                        }
+                        else if ($_id == '00') {
+                            $lon = 0;
+                            $lat = 0;
+                        }
+                        else {
+                            if (!empty($extra_1)) {
+                                $_l = explode(',', $_extra_1);
+                                if (count($_l) > 1) {
+                                    $lon = $_l[0];
+                                    $lat = $_l[1];
+                                }
                             }
                         }
+
+                        $_attrs = 'lon="'.$lon.'" lat="'.$lat.'"';
+
                     }
 
-                    $_attrs = 'lon="'.$lon.'" lat="'.$lat.'"';
+                    $class = (!empty($_SESSION['4w_f']) && in_array($_id, $_SESSION['4w_f']['id'])) ? 'selected' : '';
 
-                }
-
-                $class = (!empty($_SESSION['4w_f']) && in_array($_id, $_SESSION['4w_f']['id'])) ? 'selected' : '';
-
-                // Depto
-                if (!empty($_SESSION['4w_f']['id_depto_filtro']) &&
-                    $_SESSION['4w_f']['id_depto_filtro'] == $_id
-                ) {
-                    $class = 'selected';
-                }
-                
-                // Mpio
-                if (!empty($_SESSION['4w_f']['id_mun_filtro']) &&
-                    $_SESSION['4w_f']['id_mun_filtro'] == $_id
-                ) {
-                    $class = 'selected';
-                }
-
-                $nombre = '<span class="nom">'.$_nom.'</span>';
-
-                // Tipo org en ejecutor
-                if ($c == 'ejecutora' || $c == 'donante' || $c == 'implementadora') {
-
-                    // Sigla
-                    $sql = 'SELECT sig_org FROM organizacion WHERE id_org =  '.$_id;
-                    $rs = $this->conn->OpenRecordset($sql);
-                    $row = $this->conn->FetchRow($rs);
-
-                    $nombre .= '<span class="sigla_tipo">';
-
-                    if ($row[0] != $_nom && !empty($row[0])) {
-                        $nombre = '<i>'.$row[0].'</i> - '.$nombre;
+                    // Depto
+                    if (!empty($_SESSION['4w_f']['id_depto_filtro']) &&
+                        $_SESSION['4w_f']['id_depto_filtro'] == $_id
+                    ) {
+                        $class = 'selected';
+                    }
+                    
+                    // Mpio
+                    if (!empty($_SESSION['4w_f']['id_mun_filtro']) &&
+                        $_SESSION['4w_f']['id_mun_filtro'] == $_id
+                    ) {
+                        $class = 'selected';
                     }
 
-                    $nombre .= '</span>';
+                    $nombre = '<span class="nom">'.$_nom.'</span>';
 
-                    // Tipo de org
-                    $sql = 'SELECT nomb_tipo_es FROM tipo_org JOIN organizacion USING(id_tipo) WHERE id_org =  '.$_id;
-                    $rs = $this->conn->OpenRecordset($sql);
-                    $row = $this->conn->FetchRow($rs);
+                    // Tipo org en ejecutor
+                    if ($c == 'ejecutora' || $c == 'donante' || $c == 'implementadora') {
 
-                    $nombre .= ' | <i>'.$row[0].'</i>';
+                        // Sigla
+                        $sql = 'SELECT sig_org FROM organizacion WHERE id_org =  '.$_id;
+                        $rs = $this->conn->OpenRecordset($sql);
+                        $row = $this->conn->FetchRow($rs);
 
-                }
+                        $nombre .= '<span class="sigla_tipo">';
 
-                $html .=  '<div class="fila f'.$c.' '.$class.'" id="'.$_id.'" '.$_attrs.'><div class="nom">'.$nombre.'</div>';
+                        if ($row[0] != $_nom && !empty($row[0])) {
+                            $nombre = '<i>'.$row[0].'</i> - '.$nombre;
+                        }
 
-                if ($_t > 0 && $c != 'periodo') {
-                    $html .=  '<div class="num">'.$_t.'</div>';
+                        $nombre .= '</span>';
+
+                        // Tipo de org
+                        $sql = 'SELECT nomb_tipo_es FROM tipo_org JOIN organizacion USING(id_tipo) WHERE id_org =  '.$_id;
+                        $rs = $this->conn->OpenRecordset($sql);
+                        $row = $this->conn->FetchRow($rs);
+
+                        $nombre .= ' | <i>'.$row[0].'</i>';
+
+                    }
+
+                    $html .=  '<div class="fila f'.$c.' '.$class.'" id="'.$_id.'" '.$_attrs.'><div class="nom">'.$nombre.'</div>';
+
+                    if ($_t > 0 && $c != 'periodo') {
+                        $html .=  '<div class="num">'.$_t.'</div>';
+                    }
                 }
 
                 $html .=  '<div class="clear"></div></div>';
@@ -5674,8 +5676,6 @@ Class P4wDAO {
 
         $pres_restante = $pres;
 
-        //$pres_eq = $pres/count($temas);
-
         foreach($temas['id'] as $c => $tema_id) {
 
             $hijos = $tema_dao->GetAllArray("id_papa = $tema_id");
@@ -5747,10 +5747,10 @@ Class P4wDAO {
      * @param string $inicio yyyy-mm-dd
      * @param string $fin yyyy-mm-dd
      * @param int $meses
-     * @param int $id_depto Filtrar por este departamento
+     * @param int $id_depto_reporte Filtrar por este departamento
      * @param int $yyyy Filtrar por este año
      */
-    function getPresupuestoBeneficiariosRealMeses($id,$cant,$inicio,$fin,$meses,$id_depto_reporte=0,$yyyy=false) {
+    function getPresupuestoBeneficiariosRealMeses($id,$cant,$inicio,$fin,$meses,$id_depto_reporte=0,$id_mun_reporte=0,$yyyy=false) {
 
         $filtro_periodo = false;
         $filtro_depto = false;
@@ -5873,17 +5873,9 @@ Class P4wDAO {
             }
 
             if ($yyyy === false && ($filtro_mun !== false || !empty($id_mun_reporte))) {
-                if (empty($id_mun_reporte)) {
-                    $muns = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
-                }
-                else {
-                    $muns = $id_mun_reporte;
-                }
 
-                //echo "<br />".$deptos."<br />";
                 $muns = $this->getMpiosCobertura($id);
                 $total_muns = count($muns['ids']);
-                //echo "\nproyecto=$id - total_muns=$total_muns - cant = $cant <br />";
                 if (!empty($total_muns)) {
                     $pm = $cant / $total_muns;
 
@@ -5910,7 +5902,7 @@ Class P4wDAO {
 
                     $muns_depto_filtro = $this->getMpiosCobertura($id,'id_depto IN ('.$deptos.')');
                     $num_muns_deptos_filtro = count($muns_depto_filtro['ids']);
-                    //echo "\nmunicipios en el departamento=$deptos es $num_muns_deptos_filtro";
+                    //echo "\nmunicipios en el departamento=$deptos es $num_muns_deptos_filtro <BR>";
                     $cant = $pm * $num_muns_deptos_filtro;
                 }
                 else {

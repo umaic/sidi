@@ -644,7 +644,7 @@ function filterMapLive() {
     // Filtra el mapa live
     setTimeout(function(){
         addProysToMap(mtipo,'','');
-        changeTotales();
+        //changeTotales();
     }, 500);
 }
 
@@ -740,7 +740,7 @@ function changeTotales() {
             if (id != 'departamento' && id != 'municipio') {
                 $j('div#' + id).find('div.c').html(html);
             }
-            else if ((id == 'departamento' || id == 'municipio') && html != '<div class="fila">No existe información</div>') {
+            else if ((id == 'departamento' || id == 'municipio') && html.indexOf('No existe') == -1) {
                 $j('div#' + id).find('div.c').html(html);
             } 
         });
