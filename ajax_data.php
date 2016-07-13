@@ -468,10 +468,12 @@ switch ($object){
 
         $dao = new P4wAjax();
 
+        /*
         header("Content-Type: text/csv");
 	    header("Content-Disposition: attachment; filename=\"Proyectos4W_OCHA.csv\"");
         header("Pragma: no-cache");
         header("Expires: 0");
+         */
 
         $dao->reporteConteo($_GET);
 

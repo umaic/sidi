@@ -805,6 +805,11 @@ div.f {
     float: left;
     width: 210px;
 }
+#filtros div.c div.fila_separador {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 7px 10px 10px;
+}
 
 
 #filtros div.g {
