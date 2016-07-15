@@ -3,59 +3,72 @@
  * DAO de 4w
  *
  * Contiene los métodos de la clase Proyecto
+
  * @author Ruben A. Rojas C.
  */
 
-Class P4wDAO {
+Class P4wDAO
+{
 
     /**
      * Conexión a la base de datos
+
      * @var object
      */
     var $conn;
 
     /**
      * Nombre de la Tabla en la Base de Datos
+     *
      * @var string
      */
     var $tabla;
 
     /**
      * Nombre de la columna ID de la Tabla en la Base de Datos
+
      * @var string
      */
     var $columna_id;
 
     /**
      * Nombre de la columna Nombre de la Tabla en la Base de Datos
+
      * @var string
      */
     var $columna_nombre;
 
     /**
      * Nombre de la columna para ordenar el RecordSet
+
      * @var string
      */
     var $columna_order;
 
     /**
-     * N�mero de Registros en Pantalla para ListarTAbla
+     * Numero de Registros en Pantalla para ListarTabla
+
      * @var string
      */
     var $num_reg_pag;
 
     /**
      * URL para redireccionar despues de Insertar, Actualizar o Borrar
+
      * @var string
      */
     var $url;
 
     /**
      * Constructor
-     * Crea la conexi�n a la base de datos
+     *
+     * Crea la conexion a la base de datos
      * @access public
+     *
+     * @return void
      */
-    function P4wDAO (){
+    function P4wDAO()
+    {
         $this->conn = MysqlDb::getInstance();
         $this->tabla = "proyecto";
         $this->columna_id = "ID_PROY";
@@ -69,8 +82,10 @@ Class P4wDAO {
 
     /**
      * Consulta los datos de una Proyecto
+     *
      * @access public
      * @param int $id ID del Proyecto
+     *
      * @return VO
      */
     function Get($id){
@@ -82,7 +97,7 @@ Class P4wDAO {
         $vo = New P4w();
 
         //Carga el VO
-        $vo = $this->GetFromResult($vo,$row_rs);
+        $vo = $this->GetFromResult($vo, $row_rs);
 
         //Retorna el VO
         return $vo;
@@ -90,27 +105,30 @@ Class P4wDAO {
 
     /**
      * Retorna el max ID
+     * 
      * @access public
      * @return int
      */
-    function GetMaxID(){
+    function GetMaxID()
+    {
         $sql = "SELECT max(ID_PROY) as maxid FROM ".$this->tabla;
         $rs = $this->conn->OpenRecordset($sql);
-        if($row_rs = $this->conn->FetchRow($rs)){
+        if ($row_rs = $this->conn->FetchRow($rs)) {
             return $row_rs[0];
-        }
-        else{
+        } else {
             return 0;
         }
     }
 
     /**
      * Consulta el nombre del Proyecto
+     *
      * @access public
-     * @param int $id ID del Proyecto
+     * @param  int $id ID del Proyecto
      * @return VO
      */
-    function GetName($id){
+    function GetName($id)
+    {
         $sql = "SELECT ".$this->columna_nombre." FROM ".$this->tabla." WHERE ".$this->columna_id." = ".$id;
         $rs = $this->conn->OpenRecordset($sql);
         $row_rs = $this->conn->FetchRow($rs);
@@ -120,20 +138,20 @@ Class P4wDAO {
     }
 
     /**
-	* Consulta el valor de un field
-	* @access public
-	* @param int $id ID del Proyecto
-	* @param string $field Field de la tabla org
-	* @return VO
-	*/
-	function GetFieldValue($id,$field){
-		$sql = "SELECT ".$field." FROM ".$this->tabla." WHERE ".$this->columna_id." = ".$id;
-		$rs = $this->conn->OpenRecordset($sql);
-		$row_rs = $this->conn->FetchRow($rs);
+    * Consulta el valor de un field
+    * @access public
+    * @param int $id ID del Proyecto
+    * @param string $field Field de la tabla org
+    * @return VO
+    */
+    function GetFieldValue($id,$field){
+        $sql = "SELECT ".$field." FROM ".$this->tabla." WHERE ".$this->columna_id." = ".$id;
+        $rs = $this->conn->OpenRecordset($sql);
+        $row_rs = $this->conn->FetchRow($rs);
 
-		//Retorna el campo
-		return $row_rs[0];
-	}
+        //Retorna el campo
+        return $row_rs[0];
+    }
 
     /**
      * Consulta si tiene cobertura nacional el Proyecto
@@ -169,7 +187,7 @@ Class P4wDAO {
 
         return $deptos;
     }
-    
+
     /**
      * Consulta los mpios que cubre el proyecto
      * @access public
@@ -191,16 +209,16 @@ Class P4wDAO {
                     m.LONGITUDE AS lon, NOM_DEPTO AS nd, ID_DEPTO AS id_d';
 
             // Consulta si tiene municipios o marcaron solo el departamento
-            $sqc = "SELECT COUNT(id_mun) 
-                    FROM mun_proy 
+            $sqc = "SELECT COUNT(id_mun)
+                    FROM mun_proy
                     WHERE id_proy = $id";
-            
+
             if (!empty($cond)) {
             //    $sqc .= ' AND '.$cond;
             }
 
             //echo "$sqc <br /><br>";
-            
+
 
             $rsc = $this->conn->OpenRecordset($sqc);
             $rowc = $this->conn->FetchRow($rsc);
@@ -218,7 +236,7 @@ Class P4wDAO {
 
                 $all = '';
             }
-            
+
 
             $sq .= ' JOIN departamento USING(id_depto) WHERE id_proy = '.$id;
         }
@@ -2921,9 +2939,9 @@ Class P4wDAO {
 
                                 // Si no es humanitario los beneficiarios se dividen por resultado
                                 if ($desarrollo && $c == 'cluster') {
-                                    
+
                                     $cluster_id = ($dmi == 2) ? $id : $cl_id;
-                                    
+
                                     $benef_tema = $this->getBenefTema($idp,$benef,$clasifis);
 
                                     // No para opcion TODOS
@@ -2941,7 +2959,7 @@ Class P4wDAO {
                                         $benef = $benef_area;
                                     }
                                 }
-                                
+
                                 $benef = $this->getPresupuestoBeneficiariosRealMeses($idp,$benef,
                                             $this->GetFieldValue($idp, 'inicio_proy'),
                                             $this->GetFieldValue($idp, 'fin_proy'),
@@ -2966,7 +2984,7 @@ Class P4wDAO {
                             //echo "Fila_ID = $id, Columna_ID = $cl_id, proyecto_ID = $idp <br>";
 
                             $pres = $this->GetFieldValue($idp, 'costo_proy');
-                            
+
                             if (!empty($pres)) {
                                 // Columna Donante
                                 if ($c == 'donante') {
@@ -3293,11 +3311,11 @@ Class P4wDAO {
 
         $sql = "SELECT DISTINCT(p.id_proy) FROM ";
 
-        if ($tabla != 'proyecto')	$sql .= " proyecto JOIN ";
+        if ($tabla != 'proyecto')   $sql .= " proyecto JOIN ";
 
         $sql .= " $tabla p ";
 
-        if ($tabla != 'proyecto')	$sql .= " USING ($this->columna_id) ";
+        if ($tabla != 'proyecto')   $sql .= " USING ($this->columna_id) ";
 
         //}
 
@@ -3468,7 +3486,7 @@ Class P4wDAO {
             }
         }
 
-        if ($cond != '')	$sql .= " AND $cond";
+        if ($cond != '')    $sql .= " AND $cond";
 
         if ($case == 'ejecutora' && in_array($id, array(303,329,402))) {
         //    echo "$sql <br />";
@@ -3518,6 +3536,7 @@ Class P4wDAO {
         $org_dao = FactoryDAO::factory('org');
         $tema_dao = FactoryDAO::factory('tema');
         $depto_dao = FactoryDAO::factory('depto');
+        $cache = true;
 
         $_SESSION['grupo'] = empty($params['grupo']) ? '' : $params['grupo'];
 
@@ -3542,7 +3561,6 @@ Class P4wDAO {
         $donantes_top = array();
         $deptos_top = array();
         $ejecutoras_top = array();
-        $cache = true;
 
         $fdepto = $fmun = false;
         $filtro_periodo = $filtro_cluster = $filtro_ejecutora = false;
@@ -3901,7 +3919,7 @@ Class P4wDAO {
                             if (!isset($municipio_filtro[$dn])) {
                                 $municipio_filtro[$dn] = array();
                             }
-                            
+
                             foreach($muns as $id_mun) {
                                 if (!array_key_exists($id_mun, $municipio_filtro[$dn])) {
                                     $municipio_filtro[$dn][$id_mun] = 1;
@@ -3909,7 +3927,7 @@ Class P4wDAO {
                                 else {
                                     $municipio_filtro[$dn][$id_mun] += 1;
                                 }
-                                
+
                                 if ($id_mun == '05380')  echo "OTRO PROYECTO PARA LA ESTRELLA => $id_proy <br>";
                             }
 
@@ -4300,14 +4318,14 @@ Class P4wDAO {
                         );
 
                     foreach($ts as $t => $ti) {
-                        
+
                         $fil = ${$t."_filtro"};
-                        
+
                         if ($t == 'municipio') {
                             $tmp = array();
                             foreach ($fil as $d_nom => $l) {
                                 arsort($l);
-                                
+
                                 $tmp[] = $d_nom;
 
                                 $tmp = $tmp + $l;
@@ -4905,7 +4923,7 @@ Class P4wDAO {
                     $cond = '1=1';
                     $extra_1 = ', centroide_dd AS extra_1';
                 break;
-                
+
                 case 'municipio':
                     $cid = 'id_mun';
                     $cnom = 'nom_mun';
@@ -4932,7 +4950,7 @@ Class P4wDAO {
         if (!empty($ts)) {
             foreach($ts as $_id => $_t) {
                 //$_id = $_t['id'];
-                
+
                 // El filtro es un separador
                 if (!is_numeric($_t)) {
                     $html .=  '<div class="fila_separador"><div class="">'.$_t.'</div>';
@@ -4981,7 +4999,7 @@ Class P4wDAO {
                     ) {
                         $class = 'selected';
                     }
-                    
+
                     // Mpio
                     if (!empty($_SESSION['4w_f']['id_mun_filtro']) &&
                         $_SESSION['4w_f']['id_mun_filtro'] == $_id
@@ -5542,7 +5560,7 @@ Class P4wDAO {
         if (empty($meses) && $yyyy === false && empty($id_depto_reporte)) {
             return $cant;
         }
-        else if ($filtro_periodo === false && $filtro_depto === false 
+        else if ($filtro_periodo === false && $filtro_depto === false
                 && $yyyy === false && empty($id_depto_reporte)) {
             return $cant;
         }
@@ -5721,10 +5739,9 @@ Class P4wDAO {
         else {
             return $cant;
         }
-
     }
 
-    /* Ordena y limita data para Top
+    /** Ordena y limita data para Top
      *
      * @param array $data Arreglo a ordenar
      * @param string $caso Que se va a ordenar
@@ -5732,7 +5749,8 @@ Class P4wDAO {
      *
      * @return array $top
      */
-    public function orderTopData($data,$caso,$total,$num_top=0) {
+    public function orderTopData($data,$caso,$total,$num_top=0)
+    {
 
         $dao = FactoryDAO::factory($caso);
 
@@ -5781,8 +5799,10 @@ Class P4wDAO {
     /**
      * Actualiza el estado de los proyectos mediante cronjob
      *
+     * @return void
      */
-    function updateEstadoProyectos() {
+    function updateEstadoProyectos()
+    {
 
         // Ejecucion
         $sql = "UPDATE proyecto SET id_estp = 3 WHERE fin_proy > now()";
@@ -5793,16 +5813,17 @@ Class P4wDAO {
         $this->conn->execute($sql);
 
     }
-    
+
     /**
-     * 
      * Verifica cobertura de proyectos a nivel municipal
      * cuando han sido marcado solo los departamentos
      *
+     * @return void
      */
-    function checkMunsProyectos() {
+    function checkMunsProyectos()
+    {
 
-        $sql = "SELECT id_proy FROM proyecto WHERE verificado_muns = 0";
+        $sql = "SELECT id_proy FROM proyecto WHERE verificado_muns = 0 && cobertura_nal_proy = 0";
         $rs = $this->conn->OpenRecordset($sql);
         while ($row = $this->conn->FetchRow($rs)) {
             $id_proy = $row[0];
@@ -5810,25 +5831,21 @@ Class P4wDAO {
             $sqld = "SELECT id_depto FROM depto_proy WHERE id_proy = $id_proy";
             $rsd = $this->conn->OpenRecordset($sqld);
             while ($rowd = $this->conn->FetchRow($rsd)) {
-                $id_depto = $rowd[0];
-                $sqlm = "SELECT COUNT(id_proy) FROM mun_proy WHERE id_proy = $id_proy AND id_mun LIKE '$id_depto%'";
+                $id_depto = $rowd[0];                 $sqlm = "SELECT COUNT(id_proy) FROM mun_proy WHERE id_proy = $id_proy AND id_mun LIKE '$id_depto%'";
                 $rsm = $this->conn->OpenRecordset($sqlm);
                 $rowm = $this->conn->FetchRow($rsm);
 
-				if (empty($rowm[0])) {
-					$sqlin = "INSERT INTO mun_proy (id_proy,id_mun) 
-								SELECT $id_proy,id_mun FROM municipio WHERE id_depto ='$id_depto'";
+                if (empty($rowm[0])) {
+                    $sqlin = "INSERT INTO mun_proy (id_proy,id_mun)
+                        SELECT $id_proy,id_mun FROM municipio WHERE id_depto ='$id_depto'";
+                    $this->conn->Execute($sqlin);
 
-					echo "ProyectoId = $id_proy ==> $sqlin <br />";
-				}
-				else {
-					$sqlin = "UPDATE proyecto SET verificado_muns = 1 WHERE id_proy = $id_proy";
-					//$this->conn->Execute($sqlin);
-					echo "OK-Proyecto = $id_proy, depto=$id_depto ==> municipios = ".$rowm[0]." <br />";
-				}
+                    //echo "ProyectoId = $id_proy ==> $sqlin <br />";
+                }
+                $sqlin = "UPDATE proyecto SET verificado_muns = 1 WHERE id_proy = $id_proy";
+                $this->conn->Execute($sqlin);
 
             }
-
         }
     }
 }
@@ -5851,10 +5868,12 @@ Class P4wAjax extends P4wDAO {
 
     /**
      * Retorna proyectos para openlayers
+     *
      * @access public
-     * @param array $params
+     * @param  array $params
      */
-    function getProysMapa4w($params){
+    function getProysMapa4w($params)
+    {
 
         $this->getProysMapa($params);
 
@@ -5862,9 +5881,11 @@ Class P4wAjax extends P4wDAO {
 
     /**
      * Genera ficha PDF
+     *
      * @access public
      */
-    function fichaPDF(){
+    function fichaPDF()
+    {
 
         extract($_SESSION['4w_ficha_params']);
 
@@ -5897,14 +5918,12 @@ Class P4wAjax extends P4wDAO {
                 if (is_array($_cb['deptos'])) {
                     $cb = implode(',', $_cb['deptos']);
                 }
-            }
-            else {
+            } else {
                 if (empty($_cb['all'])) {
                     if (is_array($_cb['noms'])) {
                         $cb = implode(',', $_cb['noms']);
                     }
-                }
-                else {
+                } else {
                     $cb = $_cb['all'];
                 }
             }
@@ -5917,7 +5936,7 @@ Class P4wAjax extends P4wDAO {
                                               'cb' => $cb);
         }
 
-        include('consulta/p4w_ficha.php');
+        include 'consulta/p4w_ficha.php';
     }
 }
 
