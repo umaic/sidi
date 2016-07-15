@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * DAO de EventoConflicto
  *
@@ -2802,27 +2802,38 @@ Class EventoConflictoDAO {
 			echo "<tr><td align='center'><br><a href='javascript:history.back();'>Regresar</a></td></tr>";
 			die;
 		}
+
+
+		$f = "/sissh/admin/evento_c/reporte_eventos.";
+		$root = $_SERVER['DOCUMENT_ROOT'];
+		$_f = $root.$f;
+
+		$file_html = $_f.'html';
+		$file_xls = $_f.'xlsx';
+		$file_zip = $_f.'zip';
 		
-		$file = $_SERVER['DOCUMENT_ROOT']."/sissh/admin/evento_c/reporte_eventos.xls";
-		$file_zip = $_SERVER['DOCUMENT_ROOT']."/sissh/admin/evento_c/reporte_eventos.zip";
-		
-		$fp = $archivo->Abrir($file,"w+");
+		$fp = $archivo->Abrir($file_html,"w+");
 		$archivo->Escribir($fp,$content);
 		$archivo->Cerrar($fp);
-
-		//$archivo->Borrar($file_zip);
-		exec("zip -j ".$_SERVER["DOCUMENT_ROOT"]."/sissh/admin/evento_c/reporte_eventos.zip ".$_SERVER["DOCUMENT_ROOT"]."/sissh/admin/evento_c/reporte_eventos.xls");
 		
-		$size = ceil(filesize($file) / 1000);
+		include 'admin/lib/common/phpexcel/PHPExcel/IOFactory.php';
+
+		$inputFileType = 'HTML';
+		$outputFileType = 'Excel2007';
+
+		$objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+		$objPHPExcel = $objPHPExcelReader->load($file_html);
+
+		$objPHPExcelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,$outputFileType);
+		$objPHPExcel = $objPHPExcelWriter->save($file_xls);
+
+		exec("zip -j $file_zip $file_xls");
+		
+		$size = ceil(filesize($file_xls) / 1000);
 		$size_zip = ceil(filesize($file_zip) / 1000);
 		
-		echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.xls'>Descargar Archivo XLS</a>&nbsp;[ Tamaño: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
-		
-		//if ($m < 500)	echo " [ <a href='#' onclick=\"document.getElementById('eventos_online').style.display=''\">Ver Eventos</a> ]";
-		echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.zip'>Descargar Archivo ZIP</a>&nbsp;[ Tamaño: ".$size_zip." kB ]";
-		
-		//if ($m < 500)	echo "<tr id='eventos_online' style='display:none'><td>$content</td></tr>";
-			
+		echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='".$f."xlsx'>Descargar excel</a>&nbsp;[ Tamaño: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
+		echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='".$f."zip'>Descargar Archivo ZIP</a>&nbsp;[ Tamaño: ".$size_zip." kB ]";
 		echo "</table>";
 	}
         

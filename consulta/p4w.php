@@ -4,7 +4,7 @@ include_once("consulta/lib/libs_p4w.php");
 
 // Check cache
 $sissh = FactoryDAO::factory('sissh');
-$cache = false;
+$cache = true;
 
 $si_proy = $_GET['si_proy'];
 $_SESSION['si_proy'] = $si_proy;
