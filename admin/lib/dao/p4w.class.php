@@ -1456,20 +1456,20 @@ Class P4wDAO
         $insertar_db = ($importar == '1') ? true : false;
 
         $t_dir = '../../tmp/';
-        $nc = 37;
+        $nc = 41;
         $sp = '|';
         $msg = '';
         $check = true;
         $cobli = array(1,2,3,4,5,7,8,9,10,11,12,14,20,21,22,23,34);
         $ni = 0;
-        $ne = -1; // En -1 para mostrar error si falla alguna validaci�n b�sica de columnas, etc
-        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $contactos = array();
+        $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
+        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = array();
 
-        $latin = array('�','�','�','�','�','�');
+        $latin = array('á','é','í','ó','ú','ñ');
         $normal = array('a','e','i','o','u','n');
 
-        $latinUpper = array('�','�','�','�','�','�','�');
-        $latinLower = array('�','�','�','�','�','�','�');
+        $latinUpper = array('Á','É','Í','Ó','Ú','Ñ','Ü');
+        $latinLower = array('á','é','í','ó','ú','ñ','ü');
 
         $re_yyyy_mm_dd = '/^(19|20)\d\d[-\/]([0-9]|0[1-9]|1[012])[-\/]([1-9]|0[1-9]|[12][0-9]|3[01])$/';
         $re_dd_mm_yyyy = '/^([1-9]|0[1-9]|[12][0-9]|3[01])[-\/]([1-9]|0[1-9]|1[012])[-\/](19|20)\d\d$/';
@@ -1524,7 +1524,7 @@ Class P4wDAO
         // OK para revisar la info
         else {
             $ne = 0;
-            $msg = '<div>A continuaci�n las filas con errores</div>
+            $msg = '<div>A continuación las filas con errores</div>
             <table><tr><th>Fila</th><th>Error</th></tr>';
             $er = $insertar = false;
             $coda = $noma = 'xxx';
@@ -1533,8 +1533,6 @@ Class P4wDAO
             $_csvc = 'Sigla Org,Nombre Org,Nombre completo,Email,Tel/Cel';
             $sqio  = "INSERT INTO organizacion (nom_org,sig_org,id_tipo,info_confirmada,si_org) VALUES ('%s','%s',%d,0,'4w');\n";
             $sqic  = "INSERT INTO contacto (nom_con,email_con,tel_con) VALUES ('%s','%s','%s');\n";
-            $retro = "ID 4W|Fila archivo|CODIGO INTERNO|Organizaci�n encargada|||Operador|||Sector|Intervenci�n||||||||Contacto en Terreno|||Poblaci�n Beneficiaria|Cobertura||||\n";
-            $retro .= "|||Sigla|Nombre|Tipo|Sigla|Nombre|Tipo|Sector|Fecha de inicio|Fecha de finalizaci�n|Tiempo de ejecuci�n|Presupuesto USD$|CERF|ERF|OTRO|Descripci�n de la ayuda|Responsable|Correo Electr�nico|Celular|Personas|Divipola|Departamento|Municipio|Lat|Long\n";
 
             while ($r < $nf) {
                 if (!empty($cf[$r]) || ($r == ($nf-1) && $insertar_db)) {
@@ -1589,15 +1587,12 @@ Class P4wDAO
                             $ni++;
                         }
 
-                        $retro .= $idp.'|'.($r).'|'.$cf[$r-1];
-
                         // Si es la �ltima fila, termina loop
                         if ($r == $nf) {
                             break;
                         }
                     }
 
-                    //if ($cond_cod && $cond_nom && $cond_estado) {
                     if ($cond_cod && $cond_nom) {
                         $p_vo = New P4w();
                         $insertar = false;
@@ -1810,7 +1805,7 @@ Class P4wDAO
                             }
                         }
 
-                        // Sector, resultados
+                        // Sector
                         $sec = $f[++$col];
                         if ($chks['s'] && !empty($sec)) {
                             $_v = explode(';', $sec);
@@ -1828,7 +1823,7 @@ Class P4wDAO
                                     $p_vo->id_tema_p = $_idt;
                                 }
                                 else {
-                                    $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion IN (2,4)");
+                                    $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 2");
                                     if (empty($sec)) {
                                         $_msg .= "No existe el sector: <b>$v</b> <br />";
                                         $er = true;
@@ -1844,8 +1839,37 @@ Class P4wDAO
                                 }
                             }
                         }
-                        else if ($chks['s'] && empty($sec)) {
-                            $_msg .= "No existe el sector: <b>$sec</b> <br />";
+                        
+                        // Resultados UNDAF
+                        $result = $f[++$col];
+                        if ($chks['s'] && !empty($result)) {
+                            $_v = explode(';', $result);
+
+                            foreach($_v as $v) {
+
+                                $v = str_replace($from, $to, trim($v));
+
+                                if (in_array($v, $resultados)) {
+                                    $_idt = array_search($v, $resultados);
+                                    $p_vo->id_temas[$_idt] = array();
+                                    $p_vo->id_tema_p = $_idt;
+                                }
+                                else {
+                                    $result = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
+                                    if (empty($result)) {
+                                        $_msg .= "No existe el resultado: <b>$v</b> <br />";
+                                        $er = true;
+                                        if (!in_array($v, $id_tema_new)) {
+                                            $id_tema_new[] = $v;
+                                        }
+                                    }
+                                    else if (isset($result[0]) && !array_key_exists($result[0], $p_vo->id_temas)) {
+                                        $p_vo->id_temas[$result[0]] = array();
+                                        $p_vo->id_tema_p = $result[0];
+                                        $resultados[$result[0]] = $v;
+                                    }
+                                }
+                            }
                         }
 
                         // Fecha inicio
@@ -2139,7 +2163,7 @@ Class P4wDAO
                     }
 
 
-                    // Beneficiarios
+                    // Beneficiarios directos
                     $benef = $f[++$col];
                     $benf_g = array(
                                     ++$col => array('m','total'),
@@ -2184,6 +2208,38 @@ Class P4wDAO
                             $_msg .= "No tiene beneficiarios<br />";
                             $er = true;
                         }
+                    }
+
+                    // Beneficiarios indirectos
+                    $benef_ind_total = $f[++$col];
+                    $benef_ind_m = $f[++$col];
+                    $benef_ind_h = $f[++$col];
+                    
+                    $str_benef = strlen($benef_ind_total);
+                    if (!empty($str_benef)) {
+
+                        preg_match("/\d+/", trim($benef_ind_total), $v);
+
+                        if ($benef_ind_total == '0' || !empty($v[0])) {
+                            $p_vo->benf_proy['i']['total'] = $v[0];
+
+                            preg_match("/\d+/", trim($benef_ind_m), $v);
+                            if (!empty($v[0])) {
+                                $p_vo->benf_proy['i']['m']['total'] = $v[0];
+                            }
+                            preg_match("/\d+/", trim($benef_ind_h), $v);
+                            if (!empty($v[0])) {
+                                $p_vo->benf_proy['i']['h']['total'] = $v[0];
+                            }
+                        }
+                        else {
+                            $_msgr .= "Beneficiario Indirecto=$benef es texto<br />";
+                            if ($chks['benef']) {
+                                $_msg .= "Beneficiario Indirecto=$benef es texto<br />";
+                                $er = true;
+                            }
+                        }
+
                     }
 
 
@@ -2297,7 +2353,6 @@ Class P4wDAO
                     if ($er) {
                         $ne++;
                         $msg .= "<tr><td>".($r+1)."</td><td>$_msg</td></tr>";
-                        $retro .= 'No Importado --- '.str_replace(array('<br />','<b>','</b>'), array('-','',''), $_msg).'|'.($r+1).'|'.$cf[$r];
                     }
                     else {
 
@@ -2381,13 +2436,6 @@ Class P4wDAO
         // Error
         if (!empty($msg)) {
             $archivo->Borrar($path);
-        }
-
-        if (!empty($retro)) {
-            // Retro-alimentaci�n
-            $f = $archivo->Abrir($t_dir.'/importados_'.date('Y-m-d').'.csv', 'w+');
-            $archivo->Escribir($f,$retro);
-            $archivo->Cerrar($f);
         }
 
         if (!empty($_sqlo)) {
@@ -2623,7 +2671,7 @@ Class P4wDAO
      */
     function getYearsByOrg($org_id, $tipo) {
 
-        $cond = "id_org = $org_id AND id_tipo_vinorgpro = $tipo AND si_proy = '4w'";
+        $cond = "id_org = $org_id AND id_tipo_vinorgpro = $tipo AND si_proy != 'undaf'";
 
         $sql = "SELECT DISTINCT YEAR(inicio_proy) AS y
                   FROM proyecto

@@ -11,7 +11,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
         </div>
         <?php if (in_array($_SESSION['id_tipo_usuario_s'], array(1,2,15,23))) { ?>
         <div id="monitoreo" class="p">
-            <a href="<?php echo $hostname ?>/monitoreo_medios/" target="_blank">Monitor medios</a>
+            <a href="<?php echo $hostname ?>/monitoreo_medios/v2" target="_blank">Monitor medios</a>
             <br />M&aacute;s en menos tiempo
         </div>
         <div id="gpx" class="p">
