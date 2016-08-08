@@ -1,4 +1,4 @@
-<div id="footer">
+<div id="footer" class="clear">
     <div id="logos">
         <div class="logo">
             <img src="/sissh/images/umaic/logo_OCHA.png" alt="OCHA Colombia" />

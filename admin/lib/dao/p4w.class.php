@@ -1808,7 +1808,7 @@ Class P4wDAO
                         // Sector
                         $sec = $f[++$col];
                         if ($chks['s'] && !empty($sec)) {
-                            $_v = explode(';', $sec);
+                            $_v = explode('-', $sec);
 
                             $from = array_merge($latin, array('Albergues y elementos no alimentarios'));
                             $to =   array_merge($normal, array('Alojamiento y ayuda no alimentaria'));
@@ -1841,9 +1841,9 @@ Class P4wDAO
                         }
                         
                         // Resultados UNDAF
-                        $result = $f[++$col];
-                        if ($chks['s'] && !empty($result)) {
-                            $_v = explode(';', $result);
+                        $resultado = $f[++$col];
+                        if ($chks['s'] && !empty($resultado)) {
+                            $_v = explode('-', $resultado);
 
                             foreach($_v as $v) {
 
@@ -1855,18 +1855,18 @@ Class P4wDAO
                                     $p_vo->id_tema_p = $_idt;
                                 }
                                 else {
-                                    $result = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
-                                    if (empty($result)) {
+                                    $rsts = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
+                                    if (empty($rsts)) {
                                         $_msg .= "No existe el resultado: <b>$v</b> <br />";
                                         $er = true;
                                         if (!in_array($v, $id_tema_new)) {
                                             $id_tema_new[] = $v;
                                         }
                                     }
-                                    else if (isset($result[0]) && !array_key_exists($result[0], $p_vo->id_temas)) {
-                                        $p_vo->id_temas[$result[0]] = array();
-                                        $p_vo->id_tema_p = $result[0];
-                                        $resultados[$result[0]] = $v;
+                                    else if (isset($rsts[0]) && !array_key_exists($rsts[0], $p_vo->id_temas)) {
+                                        $p_vo->id_temas[$rsts[0]] = array();
+                                        $p_vo->id_tema_p = $rsts[0];
+                                        $resultados[$rsts[0]] = $v;
                                     }
                                 }
                             }
@@ -1938,18 +1938,18 @@ Class P4wDAO
                                     $p_vo->fin_proy = $v[2].'-'.$v[0].'-'.$v[1];
                                 }
                                 else {
-                                    $_msgr .= " - Fecha de finalizaci�n incorrecta: <b>$_f</b>";
+                                    $_msgr .= " - Fecha de finalización incorrecta: <b>$_f</b>";
                                     if ($chks['f']) {
-                                        $_msg .= "Fecha de finalizaci�n incorrecta: <b>$_f</b> <br />";
+                                        $_msg .= "Fecha de finalización incorrecta: <b>$_f</b> <br />";
                                         $er = true;
                                     }
                                 }
                             }
                         }
                         else {
-                            $_msgr .= " - No tiene fecha de finalizaci�n";
+                            $_msgr .= " - No tiene fecha de finalización";
                             if ($chks['f']) {
-                                $_msg .= "No tiene fecha de finalizaci�n<br />";
+                                $_msg .= "No tiene fecha de finalización<br />";
                                 $er = true;
                             }
                         }
@@ -2242,7 +2242,6 @@ Class P4wDAO
 
                     }
 
-
                     // Divipola
                     $kws = array('departamental');
                     $divipola = $f[++$col];
@@ -2385,7 +2384,7 @@ Class P4wDAO
                         $p_vo->duracion_proy = $duracion_proy;
 
                         $si_proy = array();
-                        foreach($p_vo->id_temas as $id_tema) {
+                        foreach($p_vo->id_temas as $id_tema => $pres) {
 
                             if ($id_tema >= 125 && $id_tema <= 163 && !in_array('4w', $si_proy)) {
                                 $si_proy[] = '4w';
@@ -2639,7 +2638,7 @@ Class P4wDAO
         }
         else {
 
-            $cond = "id_org=$org_id AND id_tipo_vinorgpro = 1 AND (YEAR(inicio_proy) IN ($ys) OR YEAR(fin_proy) IN ($ys)) AND si_proy='4w'";
+            $cond = "id_org=$org_id AND id_tipo_vinorgpro = 1 AND (YEAR(inicio_proy) IN ($ys) OR YEAR(fin_proy) IN ($ys)) AND si_proy != 'undaf'";
 
             $sql = "DELETE v.* FROM proyecto_tema AS v LEFT JOIN proyecto USING(id_proy) JOIN vinculorgpro USING(id_proy)    WHERE $cond";
             $this->conn->Execute($sql);
