@@ -1925,6 +1925,7 @@ Class EventoConflictoDAO {
 					
 					if ($esta == 1){
 						
+						
 						$depto = $depto_dao->Get($id_depto);
 						$mun = $municipio_dao->Get($id_ubi);
 						
@@ -1932,9 +1933,9 @@ Class EventoConflictoDAO {
 						
 						if ($nivel_localizacion == 'mpal'){
 							$content .= "<tr class='fila_lista'>";
-							$content .= "<td class='excel_celda_texto'>$depto->id</td>";
+							$content .= "<td>$depto->id</td>";
 							$content .= "<td>$depto->nombre</td>";
-							$content .= "<td class='excel_celda_texto'>$mun->id</td>";
+							$content .= "<td>$mun->id</td>";
 							$content .= "<td>$mun->nombre</td>";
 						}
 												
@@ -2210,7 +2211,9 @@ Class EventoConflictoDAO {
 						
 						$hay++;
 						
-						$content .= "</tr>";
+						if ($nivel_localizacion == 'mpal'){
+							$content .= "</tr>";
+						}
 						
 					}
 				}
@@ -2221,7 +2224,7 @@ Class EventoConflictoDAO {
 						
 						$depto = $depto_dao->Get($id_depto);
 						$content .= "<tr class='fila_lista'>";
-						$content .= "<td class='excel_celda_texto'>$depto->id</td>";
+						$content .= "<td>$depto->id</td>";
 						$content .= "<td>$depto->nombre</td>";
 					
 					//TOTAL PARA DEPTO
@@ -2404,11 +2407,7 @@ Class EventoConflictoDAO {
 			echo $content;
 			echo '</div>';
 			
-			$style_excel = 	'<STYLE TYPE="text/css"><!--
-							.excel_celda_texto {mso-style-parent:text; mso-number-format:"\@";white-space:normal;}
-							--></STYLE>';
-			
-			$_SESSION["evento_c_xls"] = "$style_excel<table border=1>".$content."</table>";
+			$_SESSION["evento_c_xls"] = "<table border=1>".$content."</table>";
 			echo "<input type='hidden' id='pdf' name='pdf'>";
 //			echo "</form>";
 		}
@@ -2491,11 +2490,6 @@ Class EventoConflictoDAO {
 		echo "<table align='center' cellspacing='1' cellpadding='3' border=0 width='100%'>";
 		//$content = "<table align='center' cellspacing='1' cellpadding='3' border=0 width='100%'>";
 		
-		?>
-		<STYLE TYPE="text/css"><!--
-		.excel_celda_texto {mso-style-parent:text; mso-number-format:"\@";white-space:normal;}
-		--></STYLE>
-		<?
 		if ($m > 0){
 			
 			$cols_descs = $this->getMaxDescsEvento($f_ini,$f_fin);
@@ -2781,9 +2775,9 @@ Class EventoConflictoDAO {
 					$depto = $depto_dao->Get($mun->id_depto);
 					
 					$content .= "<td>$depto->nombre</td>";
-					$content .= "<td class=\"excel_celda_texto\">$depto->id</td>";
+					$content .= "<td>$depto->id</td>";
 					$content .= "<td>$mun->nombre</td>";
-					$content .= "<td class='excel_celda_texto'>$mun->id</td>";
+					$content .= "<td>$mun->id</td>";
 					$content .= "<td>".$locas['lugar'][0]."</td>";
 				}
 				else{
@@ -2909,11 +2903,6 @@ Class EventoConflictoDAO {
 		echo "<table align='center' cellspacing='1' cellpadding='3' border=0 width='100%'>";
 		//$content = "<table align='center' cellspacing='1' cellpadding='3' border=0 width='100%'>";
 		
-		?>
-		<STYLE TYPE="text/css"><!--
-		.excel_celda_texto {mso-style-parent:text; mso-number-format:"\@";white-space:normal;}
-		--></STYLE>
-		<?
 		if ($m > 0){
 			
 			$cols_descs = $this->getMaxDescsEvento($f_ini,$f_fin);
@@ -3199,9 +3188,9 @@ Class EventoConflictoDAO {
 					$depto = $depto_dao->Get($mun->id_depto);
 					
 					$content .= "<td>$depto->nombre</td>";
-					$content .= "<td class=\"excel_celda_texto\">$depto->id</td>";
+					$content .= "<td>$depto->id</td>";
 					$content .= "<td>$mun->nombre</td>";
-					$content .= "<td class='excel_celda_texto'>$mun->id</td>";
+					$content .= "<td>$mun->id</td>";
 					$content .= "<td>".$locas['lugar'][0]."</td>";
 				}
 				else{

@@ -27,6 +27,12 @@ else {
 
     //LIBRERIAS
     include_once($_SERVER["DOCUMENT_ROOT"]."/sissh/consulta/lib/libs_mapa_i.php");
+    
+    include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/PHPExcel/IOFactory.php';
+
+    $inputFileType = 'HTML';
+    $outputFileType = 'Excel2007';
+
 
     $case = $_GET["case"];
 
@@ -36,7 +42,7 @@ else {
     }
     else{
         header("Content-type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=\"".$nom.".xls\"");
+        header("Content-Disposition: attachment; filename=\"".$nom.".xlsx\"");
     }
 
     switch ($case){
@@ -77,18 +83,40 @@ else {
             //DESPLAZAMIENTO
             if ($_GET['pdf'] != ""){
 
-                echo $_SESSION["xls_desplazamiento"];
+                $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+                file_put_contents($f,$_SESSION["xls_desplazamiento"]);
+                
+                $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objPHPExcelReader->load($f);
+                
+                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                $objWriter->save('php://output');
 
             }
             break;
 
         case 'mina_gra_resumen':
-            echo $_SESSION["xls_mina"];
+                $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+                file_put_contents($f,$_SESSION["xls_mina"]);
+                
+                $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objPHPExcelReader->load($f);
+                
+                $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                $objWriter->save('php://output');
             break;
 
         case 'evento_c':
             //EVENTO CONFLICTO
-            echo $_SESSION["evento_c_xls"];
+            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+            file_put_contents($f,$_SESSION["evento_c_xls"]);
+            
+            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objPHPExcelReader->load($f);
+            
+            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            $objWriter->save('php://output');
+
             break;
         case 'reporte_admin_org':
             //EVENTO CONFLICTO
@@ -111,10 +139,26 @@ else {
 
         case 'mapa_export_xls':
             echo $_SESSION["xls"];
+            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+            file_put_contents($f,$_SESSION["xls"]);
+            
+            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objPHPExcelReader->load($f);
+            
+            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            $objWriter->save('php://output');
             break;
 
         case 'xls_session':
             echo $_SESSION["xls"];
+            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+            file_put_contents($f,$_SESSION["xls"]);
+            
+            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objPHPExcelReader->load($f);
+            
+            $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            $objWriter->save('php://output');
             break;
         
         //Muestra el codigo pdf que este en sesion

@@ -31,5 +31,6 @@
         <div id="exito" class="left hide">
             Proyectos borrados con &eacute;xito.. :)
         </div>
+        <div class="clear"></div>
     </div>
 </div>
