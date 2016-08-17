@@ -33,7 +33,6 @@ else {
     $inputFileType = 'HTML';
     $outputFileType = 'Excel2007';
 
-
     $case = $_GET["case"];
 
     if (isset($_GET['pdf']) && $_GET['pdf'] == 1){
@@ -113,7 +112,6 @@ else {
             
             $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
             $objPHPExcel = $objPHPExcelReader->load($f);
-            
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
             $objWriter->save('php://output');
 
@@ -150,7 +148,7 @@ else {
             break;
 
         case 'xls_session':
-            echo $_SESSION["xls"];
+            //echo $_SESSION["xls"];
             $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
             file_put_contents($f,$_SESSION["xls"]);
             
