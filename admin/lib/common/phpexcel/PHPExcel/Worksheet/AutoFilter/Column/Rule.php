@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2012 PHPExcel
+ * Copyright (c) 2006 - 2014 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Worksheet
- * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version		##VERSION##, ##DATE##
  */
@@ -31,7 +31,7 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Worksheet
- * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Worksheet_AutoFilter_Column_Rule
 {
@@ -257,7 +257,7 @@ class PHPExcel_Worksheet_AutoFilter_Column_Rule
 	 *
 	 * @var string
 	 */
-	private $_operator = '';
+	private $_operator = self::AUTOFILTER_COLUMN_RULE_EQUAL;
 
 	/**
 	 * DateTimeGrouping Group Value
@@ -269,6 +269,8 @@ class PHPExcel_Worksheet_AutoFilter_Column_Rule
 
 	/**
 	 * Create a new PHPExcel_Worksheet_AutoFilter_Column_Rule
+	 *
+	 * @param PHPExcel_Worksheet_AutoFilter_Column $pParent
 	 */
 	public function __construct(PHPExcel_Worksheet_AutoFilter_Column $pParent = NULL)
 	{

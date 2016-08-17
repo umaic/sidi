@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2012 PHPExcel
+ * Copyright (c) 2006 - 2014 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    ##VERSION##, ##DATE##
  */
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Shared_String
 {
@@ -403,7 +403,7 @@ class PHPExcel_Shared_String
 	 * @return boolean
 	 */
 	public static function IsUTF8($value = '') {
-		return utf8_encode(utf8_decode($value)) === $value;
+		return $value === '' || preg_match('/^./su', $value) === 1;
 	}
 
 	/**
@@ -427,7 +427,8 @@ class PHPExcel_Shared_String
 	 * although this will give wrong results for non-ASCII strings
 	 * see OpenOffice.org's Documentation of the Microsoft Excel File Format, sect. 2.5.3
 	 *
-	 * @param string $value UTF-8 encoded string
+	 * @param string  $value    UTF-8 encoded string
+	 * @param mixed[] $arrcRuns Details of rich text runs in $value
 	 * @return string
 	 */
 	public static function UTF8toBIFF8UnicodeShort($value, $arrcRuns = array())
@@ -482,7 +483,7 @@ class PHPExcel_Shared_String
 	}
 
 	/**
-	 * Convert string from one encoding to another. First try iconv, then mbstring, or no convertion
+	 * Convert string from one encoding to another. First try mbstring, then iconv, finally strlen
 	 *
 	 * @param string $value
 	 * @param string $to Encoding to convert to, e.g. 'UTF-8'
@@ -523,7 +524,7 @@ class PHPExcel_Shared_String
 	 * @author  Rasmus Andersson {@link http://rasmusandersson.se/}
 	 * @author vadik56
 	 */
-	public static function utf16_decode( $str, $bom_be=true ) {
+	public static function utf16_decode($str, $bom_be = TRUE) {
 		if( strlen($str) < 2 ) return $str;
 		$c0 = ord($str{0});
 		$c1 = ord($str{1});
@@ -548,12 +549,12 @@ class PHPExcel_Shared_String
 	 */
 	public static function CountCharacters($value, $enc = 'UTF-8')
 	{
-		if (self::getIsIconvEnabled()) {
-			return iconv_strlen($value, $enc);
-		}
-
 		if (self::getIsMbstringEnabled()) {
 			return mb_strlen($value, $enc);
+		}
+
+		if (self::getIsIconvEnabled()) {
+			return iconv_strlen($value, $enc);
 		}
 
 		// else strlen
@@ -561,21 +562,21 @@ class PHPExcel_Shared_String
 	}
 
 	/**
-	 * Get a substring of a UTF-8 encoded string
+	 * Get a substring of a UTF-8 encoded string. First try mbstring, then iconv, finally strlen
 	 *
 	 * @param string $pValue UTF-8 encoded string
-	 * @param int $start Start offset
-	 * @param int $length Maximum number of characters in substring
+	 * @param int $pStart Start offset
+	 * @param int $pLength Maximum number of characters in substring
 	 * @return string
 	 */
 	public static function Substring($pValue = '', $pStart = 0, $pLength = 0)
 	{
-		if (self::getIsIconvEnabled()) {
-			return iconv_substr($pValue, $pStart, $pLength, 'UTF-8');
-		}
-
 		if (self::getIsMbstringEnabled()) {
 			return mb_substr($pValue, $pStart, $pLength, 'UTF-8');
+		}
+
+		if (self::getIsIconvEnabled()) {
+			return iconv_substr($pValue, $pStart, $pLength, 'UTF-8');
 		}
 
 		// else substr
@@ -623,6 +624,41 @@ class PHPExcel_Shared_String
 			return mb_convert_case($pValue, MB_CASE_TITLE, "UTF-8");
 		}
 		return ucwords($pValue);
+	}
+
+    public static function mb_is_upper($char)
+    {
+        return mb_strtolower($char, "UTF-8") != $char;
+    }
+
+    public static function mb_str_split($string)
+    {
+        # Split at all position not after the start: ^
+        # and not before the end: $
+        return preg_split('/(?<!^)(?!$)/u', $string );
+    }
+
+	/**
+	 * Reverse the case of a string, so that all uppercase characters become lowercase
+     *    and all lowercase characters become uppercase
+	 *
+	 * @param string $pValue UTF-8 encoded string
+	 * @return string
+	 */
+	public static function StrCaseReverse($pValue = '')
+	{
+        if (self::getIsMbstringEnabled()) {
+            $characters = self::mb_str_split($pValue);
+            foreach($characters as &$character) {
+                if(self::mb_is_upper($character)) {
+                    $character = mb_strtolower($character, 'UTF-8');
+                } else {
+                    $character = mb_strtoupper($character, 'UTF-8');
+                }
+            }
+            return implode('', $characters);
+		}
+		return strtolower($pValue) ^ strtoupper($pValue) ^ $pValue;
 	}
 
 	/**
@@ -686,6 +722,11 @@ class PHPExcel_Shared_String
 			$localeconv = localeconv();
 			self::$_thousandsSeparator = ($localeconv['thousands_sep'] != '')
 				? $localeconv['thousands_sep'] : $localeconv['mon_thousands_sep'];
+
+			if (self::$_thousandsSeparator == '') {
+				// Default to .
+				self::$_thousandsSeparator = ',';
+			}
 		}
 		return self::$_thousandsSeparator;
 	}
@@ -765,6 +806,6 @@ class PHPExcel_Shared_String
 		if (is_numeric($value))
 			return $value;
 		$v = floatval($value);
-		return (is_numeric(substr($value,0,strlen($v)))) ? $v : $value;
+		return (is_numeric(substr($value, 0, strlen($v)))) ? $v : $value;
 	}
 }

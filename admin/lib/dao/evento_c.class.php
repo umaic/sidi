@@ -344,15 +344,15 @@ Class EventoConflictoDAO {
 
 		
 		echo "<table width='900' align='center' cellspacing='1' cellpadding='3'>
-    			<tr><td>&nbsp;</td></tr>
-    			<tr><td colspan='5'>$texto_filtro</td></tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr><td colspan='5'>$texto_filtro</td></tr>
           <tr class='titulo_lista'>
-        	  <td>ID</td>
-        	  <td>Categor&iacute;a</td>
-        	  <td width='700'>Evento</td>
-        	  <td align='center' width='80'>Fecha Reg.</td>
+			  <td>ID</td>
+			  <td>Categor&iacute;a</td>
+			  <td width='700'>Evento</td>
+			  <td align='center' width='80'>Fecha Reg.</td>
 			  <td align='center'># ".$num_arr."</td>
-        	</tr>";
+			</tr>";
 
 		//PAGINACION
 		$inicio = 0;
@@ -804,11 +804,11 @@ Class EventoConflictoDAO {
 		
 		if ($alert == 1){
 			?>
-	    	<script>
-	    		alert("Evento insertado con éxito!");
-	    		location.href="<?=$this->url;?>";
-	    	</script>
-	 	  	<?
+			<script>
+				alert("Evento insertado con éxito!");
+				location.href="<?=$this->url;?>";
+			</script>
+			<?
 		}
 	}
 
@@ -1004,11 +1004,11 @@ Class EventoConflictoDAO {
 
 		if ($alert == 1){
 			?>
-	    	<script>
-	    		alert("Evento actualizado con éxito!");
-	    		location.href="index.php?accion=listar&class=EventoConflictoDAO&method=ListarTabla&param=";
-	    	</script>
-	 	  	<?
+			<script>
+				alert("Evento actualizado con éxito!");
+				location.href="index.php?accion=listar&class=EventoConflictoDAO&method=ListarTabla&param=";
+			</script>
+			<?
 		}
 	}
 
@@ -1210,6 +1210,8 @@ Class EventoConflictoDAO {
 		$filtro_estado = 0;
         $filtro_fecha = 0;
         $filtro_actor = 0;
+		
+		$style_leading_zeros = 'style="mso-style-parent:text; mso-number-format:\'@\';white-space:normal;"';
 
 		$reporte = $_POST["reporte"];
 		
@@ -1289,7 +1291,7 @@ Class EventoConflictoDAO {
 				$sql_eventos .= " WHERE fecha_reg_even BETWEEN '$fecha_ini[0]' AND '$fecha_fin[0]'";
 			}
 			
- 			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
+			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
 			$rs = $this->conn->OpenRecordset($sql_eventos);
 			$m = 0;
 			while ($row_rs = $this->conn->FetchRow($rs)){
@@ -1305,7 +1307,7 @@ Class EventoConflictoDAO {
 				$sql_eventos .= " WHERE fecha_reg_even BETWEEN '$fecha_ini[0]' AND '$fecha_fin[0]'";
 			}
 			
- 			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
+			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
 					
 			$rs = $this->conn->OpenRecordset($sql_eventos);
 			$m = 0;
@@ -1318,7 +1320,7 @@ Class EventoConflictoDAO {
 			
 			$sql_eventos = "SELECT DISTINCT evento_localizacion.id_mun FROM evento_localizacion INNER JOIN evento_c ON evento_localizacion.id_even = evento_c.id_even INNER JOIN municipio ON evento_localizacion.id_mun = municipio.id_mun INNER JOIN departamento ON municipio.id_depto = departamento.id_depto";
 			
- 			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
+			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
 					
 			$rs = $this->conn->OpenRecordset($sql_eventos);
 			$m = 0;
@@ -1378,7 +1380,7 @@ Class EventoConflictoDAO {
                 foreach($condiciones as $i => $_c){
                     $_s = $subcondicion_dao->GetAllArray('id_condicion='.$_c->id);
                     if (count($_s) > 0) {
-				        $subcondiciones = array_merge($subcondiciones, $_s);
+						$subcondiciones = array_merge($subcondiciones, $_s);
                     }
                     else{
                         unset($condiciones[$i]);
@@ -1488,7 +1490,7 @@ Class EventoConflictoDAO {
 					$sql_eventos .= " AND fecha_reg_even BETWEEN '$fecha_ini[0]' AND '$fecha_fin[0]'";
 				}
 				
-	 			$sql_eventos .= " ORDER BY nom_depto,nom_mun";
+				$sql_eventos .= " ORDER BY nom_depto,nom_mun";
 						
 				$rs = $this->conn->OpenRecordset($sql_eventos);
 				$m = 0;
@@ -1932,10 +1934,8 @@ Class EventoConflictoDAO {
 						$id_depto_linea = $depto->id;
 						
 						if ($nivel_localizacion == 'mpal'){
-							$content .= "<tr class='fila_lista'>";
-							$content .= "<td>$depto->id</td>";
+                            $content .= "<td>$depto->id</td>";
 							$content .= "<td>$depto->nombre</td>";
-							$content .= "<td>$mun->id</td>";
 							$content .= "<td>$mun->nombre</td>";
 						}
 												
@@ -2034,7 +2034,7 @@ Class EventoConflictoDAO {
                                 $bg = "style='background-color: #BC2227;color:#ffffff;'";
 
                                 $filtros['id_actor'] = $id_actor_filtro;
-							    $total_mpal = 0;	
+								$total_mpal = 0;	
 								foreach ($cats as $cat){
 									foreach ($subtipos[$cat->id] as $vo){
 
@@ -2224,7 +2224,7 @@ Class EventoConflictoDAO {
 						
 						$depto = $depto_dao->Get($id_depto);
 						$content .= "<tr class='fila_lista'>";
-						$content .= "<td>*$depto->id</td>";
+						$content .= "<td>$depto->id</td>";
 						$content .= "<td>$depto->nombre</td>";
 					
 					//TOTAL PARA DEPTO
@@ -2332,7 +2332,7 @@ Class EventoConflictoDAO {
 			}
 			//DETALLE POR PERIODO
 			if ($reporte == 4 || $reporte == 5){
-			    
+				
                 $id_depto = array();
                 $id_muns = array();
 
@@ -2378,7 +2378,7 @@ Class EventoConflictoDAO {
                                     } 
                                 }
                                 else {
-								    $num_eventos += $this->numEventosReporte(0,$id,0,$f_ini,$fecha_fin[$a]);
+									$num_eventos += $this->numEventosReporte(0,$id,0,$f_ini,$fecha_fin[$a]);
                                 }
 							}
 							$content .= "<td align='center'>$num_eventos</td>";
@@ -2406,7 +2406,7 @@ Class EventoConflictoDAO {
 			
 			echo $content;
 			echo '</div>';
-			
+
 			$_SESSION["evento_c_xls"] = "<table border=1>".$content."</table>";
 			echo "<input type='hidden' id='pdf' name='pdf'>";
 //			echo "</form>";
@@ -5876,7 +5876,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             echo "</td>";
             echo "</tr>";
 
-	    }
+		}
 
         $fp = $archivo->Abrir($_SERVER['DOCUMENT_ROOT'].$csv_path,'w+');
 					
