@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2012 PHPExcel
+ * Copyright (c) 2006 - 2014 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version		##VERSION##, ##DATE##
  */
@@ -41,7 +41,7 @@ if (!defined('PHPEXCEL_ROOT')) {
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_DateTime {
 
@@ -56,6 +56,18 @@ class PHPExcel_Calculation_DateTime {
 	}	//	function _isLeapYear()
 
 
+	/**
+	 * Return the number of days between two dates based on a 360 day calendar
+	 *
+	 * @param	integer	$startDay		Day of month of the start date
+	 * @param	integer	$startMonth		Month of the start date
+	 * @param	integer	$startYear		Year of the start date
+	 * @param	integer	$endDay			Day of month of the start date
+	 * @param	integer	$endMonth		Month of the start date
+	 * @param	integer	$endYear		Year of the start date
+	 * @param	boolean $methodUS		Whether to use the US method or the European method of calculation
+	 * @return	integer	Number of days between the start date and the end date
+	 */
 	private static function _dateDiff360($startDay, $startMonth, $startYear, $endDay, $endMonth, $endYear, $methodUS) {
 		if ($startDay == 31) {
 			--$startDay;
@@ -1059,7 +1071,9 @@ class PHPExcel_Calculation_DateTime {
 	public static function DAYOFMONTH($dateValue = 1) {
 		$dateValue	= PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
 
-		if (is_string($dateValue = self::_getDateValue($dateValue))) {
+		if ($dateValue === null) {
+            $dateValue = 1;
+		} elseif (is_string($dateValue = self::_getDateValue($dateValue))) {
 			return PHPExcel_Calculation_Functions::VALUE();
 		} elseif ($dateValue == 0.0) {
 			return 0;
@@ -1102,7 +1116,9 @@ class PHPExcel_Calculation_DateTime {
 		}
 		$style = floor($style);
 
-		if (is_string($dateValue = self::_getDateValue($dateValue))) {
+		if ($dateValue === null) {
+            $dateValue = 1;
+		} elseif (is_string($dateValue = self::_getDateValue($dateValue))) {
 			return PHPExcel_Calculation_Functions::VALUE();
 		} elseif ($dateValue < 0.0) {
 			return PHPExcel_Calculation_Functions::NaN();
@@ -1168,7 +1184,9 @@ class PHPExcel_Calculation_DateTime {
 		}
 		$method = floor($method);
 
-		if (is_string($dateValue = self::_getDateValue($dateValue))) {
+		if ($dateValue === null) {
+            $dateValue = 1;
+		} elseif (is_string($dateValue = self::_getDateValue($dateValue))) {
 			return PHPExcel_Calculation_Functions::VALUE();
 		} elseif ($dateValue < 0.0) {
 			return PHPExcel_Calculation_Functions::NaN();
@@ -1204,7 +1222,9 @@ class PHPExcel_Calculation_DateTime {
 	public static function MONTHOFYEAR($dateValue = 1) {
 		$dateValue	= PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
 
-		if (is_string($dateValue = self::_getDateValue($dateValue))) {
+		if ($dateValue === null) {
+            $dateValue = 1;
+		} elseif (is_string($dateValue = self::_getDateValue($dateValue))) {
 			return PHPExcel_Calculation_Functions::VALUE();
 		} elseif ($dateValue < 0.0) {
 			return PHPExcel_Calculation_Functions::NaN();
@@ -1233,7 +1253,9 @@ class PHPExcel_Calculation_DateTime {
 	public static function YEAR($dateValue = 1) {
 		$dateValue	= PHPExcel_Calculation_Functions::flattenSingleValue($dateValue);
 
-		if (is_string($dateValue = self::_getDateValue($dateValue))) {
+		if ($dateValue === null) {
+            $dateValue = 1;
+		} elseif (is_string($dateValue = self::_getDateValue($dateValue))) {
 			return PHPExcel_Calculation_Functions::VALUE();
 		} elseif ($dateValue < 0.0) {
 			return PHPExcel_Calculation_Functions::NaN();

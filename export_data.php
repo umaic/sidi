@@ -28,6 +28,7 @@ else {
     //LIBRERIAS
     include_once($_SERVER["DOCUMENT_ROOT"]."/sissh/consulta/lib/libs_mapa_i.php");
     
+    include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/BindValueAsString.php';
     include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/PHPExcel/IOFactory.php';
 
     $inputFileType = 'HTML';
