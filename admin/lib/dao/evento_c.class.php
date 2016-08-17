@@ -2224,7 +2224,7 @@ Class EventoConflictoDAO {
 						
 						$depto = $depto_dao->Get($id_depto);
 						$content .= "<tr class='fila_lista'>";
-						$content .= "<td>$depto->id</td>";
+						$content .= "<td>*$depto->id</td>";
 						$content .= "<td>$depto->nombre</td>";
 					
 					//TOTAL PARA DEPTO
