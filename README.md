@@ -9,6 +9,12 @@
 
 3. Crear un link simbólico de admin: 
    $ln -s admin t
+   
+3. Crear los directorios
+    - /_sgol/
+    - /_sgol/login
+    - /perfiles
+    - /static/4w
 
 4. Permisos de escritura recursivos para:
 
@@ -39,10 +45,10 @@
     - /images/cache_mapserver/perfil/
 
     ###Logs
-    - /_slog/*
+    - /_sgol/*
 
     ###Perfiles
-    - perfiles/
+    - /perfiles
 
     ###Static
-    - static/
+    - /static/*
