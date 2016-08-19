@@ -665,6 +665,57 @@ Class UsuarioDAO {
 		$this->conn->Execute($sql);
 
 	}
+
+	function Restaurar($email){
+
+		//CONSULTA SI YA EXISTE
+		$cat_a = $this->GetAllArray("LOGIN = '".$usuario_vo->login."' OR EMAIL = '$usuario_vo->email '");
+		if (count($cat_a) == 0){
+			?>
+			<script>
+				alert("Error - No existe un usuario registrado con el Email");
+			</script>
+			<?
+		}
+		else{
+			$sql =  "INSERT INTO ".$this->tabla." (".$this->columna_nombre.",ID_TIPO_USUARIO,LOGIN,PASS,EMAIL,CNRR,ORG,TEL,ACTIVO,PUNTO_CONTACTO) VALUES ('".$usuario_vo->nombre."',".$usuario_vo->id_tipo.",'".$usuario_vo->login."','".$usuario_vo->pass."','".$usuario_vo->email."',".$usuario_vo->cnrr.",'".$usuario_vo->org."','".$usuario_vo->tel."',0,'".$usuario_vo->punto_contacto."')";
+			//echo $sql;
+			//die;
+			$this->conn->Execute($sql);
+
+			//ENVIA EMAIL
+			$from = "no-reply@umaic.org";
+
+			require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
+
+			$mail = new PHPMailer();
+
+			$mail->IsSMTP(); // set mailer to use SMTP
+
+			$mail->From = $from;
+			$mail->FromName = "SIDI";
+			$mail->AddAddress("zhang17@un.org", "Xitong Zhang");
+			$mail->AddCC("villaveces@un.org", "Jeffrey Villaveces");
+			$mail->AddBCC("rubenrojasc@gmail.com", "Ruben Rojas");
+			$mail->AddBCC("ict@umaic.org", "ICT UMAIC");
+
+			$mail->WordWrap = 50;                                 // set word wrap to 50 characters
+			$mail->IsHTML(true);                                  // set email format to HTML
+
+			$mail->Subject = "Nuevo usuario registrado en SIDI";
+			$mail->Body    = "Se ha registrado el usuario: <br />
+                              Nombre: <b>$usuario_vo->nombre</b> <br />
+                              Login:  <b>$usuario_vo->login</b> <br />
+                              Email:  <b>$usuario_vo->email</b> <br />
+                              Organización:  <b>$usuario_vo->org</b> <br />
+                              Tel&eacute;fono: <b>$usuario_vo->tel</b> <br />
+                              Contacto en OCHA: <b>$usuario_vo->punto_contacto</b> <br /><br />
+                              El usuario queda pendiente de activación";
+
+			$mail->Send();
+		}
+
+	}
 }
 
 ?>
