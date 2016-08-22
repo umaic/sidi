@@ -67,7 +67,7 @@ while ($row = $conn->FetchObject($rs)){
 if (isset($_POST["submit"])){
 
 	$login = $_POST["login"];
-	$pass = $_POST["password"];
+	$pass = md5($_POST["password"]);
 
 	//log fisico para ataques
 	if ($login != 'rubas'){
@@ -132,9 +132,11 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
                 </form>
             </div>
            <div id="reg">
-                <img src="images/reg_usuario.gif" alt="" />&nbsp;<a href="registro.php">Registrarse como Usuario</a>
+                <img src="images/reg_usuario.gif" alt="" /> <a href="registro.php">Registrarse como Usuario</a>
                 <img src="images/spacer.gif" width="30" alt="" />
-                <img src="images/reg_org.gif" alt="" />&nbsp;<a href="registro_org.php">Registrar Informaci&oacute;n de su Organizaci&oacute;n</a>
+                <img src="images/reg_usuario.gif" alt="" /> <a href="contrasena.php">¿Olvid&oacute; su contrase&ntilde;a?</a>
+                <br />
+                <img src="images/reg_org.gif" alt="" /> <a href="registro_org.php">Registrar Informaci&oacute;n de su Organizaci&oacute;n</a>
             </div>
         </div>
       <div class="seccion">
