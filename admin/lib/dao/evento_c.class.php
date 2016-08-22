@@ -5265,7 +5265,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                     INNER JOIN descripcion_evento USING(id_even)
                     INNER JOIN actor_descevento USING(id_deseven)
                     INNER JOIN actor USING(id_actor) 
-                    WHERE 1=1 ";
+                    WHERE nivel < 2 ";
 
             //CAT-SUBCAT
             if ($filtro_cat == 1){
@@ -5301,16 +5301,17 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 $id = $vo->id;
                 $id_papa = $vo->id_papa;
                 $nom = $vo->nombre;
-                $num = $row->num;
-                $espacio = '';
-                $espacio_excel = '';
+				$num = $row->num;
+				$nivel = $row->nivel;
+				$espacio_excel = '';
 
                 if ($id_papa == 0) {
 
                     $arbol[$id][] = array('<b>'.$nom.'</b>', $num);
+                    $arbol_excel[$id][] = array($nom, $num);
                     
                     $valores_x[] = $nom;
-                    $valores_y[] = $num;
+					$valores_y[] = $num;
                 }
 
                 else {
@@ -5322,25 +5323,28 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                     }
 
                     for($i=0;$i<$row->nivel;$i++) {
-                        $espacio .= '&nbsp;&nbsp;';
-                        $espacio_excel .= '  ';
-                    }
+                        $espacio_excel .= '___';
+					}
 
-                    $arbol[$id_papa][] = array($espacio.$nom, $num);
+					$margin = 10*$nivel;
+
+                    $arbol[$id_papa][] = array('<p style="margin-left:'.$margin.'px">'.$nom.'</p>', $num);
+                    $arbol_excel[$id_papa][] = array('|'.$espacio_excel.$nom, $num);
                 }
                 
-                $csv .= utf8_encode($espacio_excel.$nom).",$num\n";
             }
 
             if (empty($arbol)) {
                 echo "<tr class='fila_tabla_conteo'><td colspan='2'>No hay info</td></tr>";
             }
             else {
-                foreach ($arbol as $els) {
-                    foreach ($els as $el) {
+                foreach ($arbol as $p => $els) {
+                    foreach ($els as $h => $el) {
                         echo "<tr class='fila_tabla_conteo'><td>".$el[0]."</td>";
                         echo "<td align='right'>".$el[1]."</td>";
                         echo "</tr>";
+						
+						$csv .= utf8_encode($arbol_excel[$p][$h][0]).",".$el[1]."\n";
                     }
                 }
             }
