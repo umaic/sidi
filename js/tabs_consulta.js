@@ -941,7 +941,36 @@ function graficarEventoC(chart,num_records){
 	var params = 'object=GraficaResumenEventoC&reporte='+reporte+'&depto='+depto+'&ubicacion='+ubicacion+'&f_ini='+obj_f_ini.value+'&f_fin='+obj_f_fin.value+'&id_cat='+id_cat+'&id_scat='+id_scat+'&num_records='+num_records+'&chart='+chart;
 	document.getElementById('debug_info').value = server + '/sissh/api_grafica.php?' + params;
 	 
-	getDataV1('graficaEventoC', ajax_script + '?' + params,'graficaEventoC');
+	//getDataV1('graficaEventoC', ajax_script + '?' + params,'graficaEventoC');
+    
+	$.ajax({
+        url: ajax_script + '?' + params,
+        success: function(html){ 
+
+			var id = 'tablaEventoC';
+			var id_html = '#' + id;
+            
+			$('#graficaEventoC').html(html);
+
+			$('#highchart_evento_c').highcharts({
+				data: {
+					table: id
+				},
+				chart: {
+					type: 'column'
+				},
+				title: {
+					text: $(id_html).data('titulo')
+				},
+				tooltip: {
+					formatter: function () {
+						return '<b>' + this.series.name + '</b><br/>' +
+							this.point.y + ' ' + this.point.name.toLowerCase();
+					}
+				}
+			});
+		}
+	});
 }
 
 

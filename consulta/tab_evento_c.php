@@ -52,9 +52,7 @@
                                     <div>
                                         <table>
                                             <tr><td id='td_reporte_evento_c_6'><input type="radio" id="reporte_evento_c_6" name="reporte_evento_c" value="6" onclick="changeBCG(6)">&nbsp;Por Mes</font></td></tr>
-<!--
                                             <tr><td id='td_reporte_evento_c_9'><input type="radio" id="reporte_evento_c_9" name="reporte_evento_c" value="9" onclick="changeBCG(9)">&nbsp;Por presuntos actores<br>&nbsp;&nbsp;</td></tr>
--->
                                             <tr><td id='td_reporte_evento_c_10'><input type="radio" id="reporte_evento_c_10" name="reporte_evento_c" value="10" onclick="changeBCG(10)">&nbsp;Por confrontación de actores<br>&nbsp;&nbsp;</td></tr>
                                             <tr><td id='td_reporte_evento_c_11'><input type="radio" id="reporte_evento_c_11" name="reporte_evento_c" value="11" onclick="changeBCG(11)">&nbsp;Por grupo poblacional<br>&nbsp;&nbsp;</td></tr>
                                         </table>
