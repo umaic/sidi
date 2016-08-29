@@ -4489,7 +4489,8 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                                "Número de eventos por grupo poblacional",
                                "Número de víctimas por presuntos actores",
                                "Número de víctimas por confrontación de actores",
-                               "Número de víctimas por grupo poblacional"
+                               "Número de víctimas por grupo poblacional",
+                               "Número de víctimas por presuntos actores",
                            );
         
         $title = $title_reporte[$reporte];
@@ -5249,23 +5250,37 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
         }
             
-        // Número de eventos por Actor
-        else if ($reporte ==  5) {
+        // Número de eventos, victimas por Actor
+        else if ($reporte ==  5 || $reporte == 9) {
             
             $actor_dao = New ActorDAO();
+
+            $ev = ($reporte == 5) ? 'eventos' : 'víctimas';
+
+            // Nombres papas
+            $sql = 'SELECT id_actor, nom_actor FROM actor WHERE id_papa = 0';
+            $rs = $this->conn->OpenRecordset($sql);
+            $papas = array();
+            while ($row = $this->conn->FetchObject($rs)) {
+                $papas[$row->id_actor] = $row->nom_actor;
+            }
             
             echo "<tr>
                     <td valign='top'>
-                        <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
-                            <tr class='titulo_tabla_conteo'><td align='center'>Actor</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
+                        <table id='tablaEventoC' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
+                            <thead>
+                            <tr class='titulo_tabla_conteo'><th align='center'>Actor</th><th align='center' colspan='2'>N&uacute;mero de $ev</th></tr>
+                            </thead>";
                 
-            $sql = "SELECT COUNT(evento_c.id_even) as num, id_actor, id_papa, nivel
+            $sql = "SELECT de.id_even, COUNT(DISTINCT(ad.id_actor)) as num, GROUP_CONCAT(DISTINCT(ad.id_actor)) AS id_actor, 
+                    nom_actor, id_papa, nivel, SUM(CANT_VICTIMA) AS num_vic
                     FROM evento_c 
-                    INNER JOIN descripcion_evento USING(id_even)
-                    INNER JOIN actor_descevento USING(id_deseven)
+                    INNER JOIN descripcion_evento de USING(id_even)
+                    INNER JOIN actor_descevento ad USING(id_deseven)
                     INNER JOIN actor USING(id_actor) 
-                    WHERE nivel < 2 ";
-
+                    LEFT JOIN victima AS v USING(ID_DESEVEN)
+                    WHERE nivel = 1 ";
+                    
             //CAT-SUBCAT
             if ($filtro_cat == 1){
                 $sql .= " AND id_scateven IN ($id_subcat)";
@@ -5280,192 +5295,69 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 else if($depto == 0){
                     $sql .= "  AND evento_localizacion.id_mun = $ubicacion";
                 }
-                
             }
 
             //FECHA
             $sql .= $filtro_fecha;
             
-            $sql .= " GROUP BY id_actor ORDER BY num DESC, nivel ASC";
+            $sql .= " GROUP BY id_deseven ORDER BY num DESC";
             $rs = $this->conn->OpenRecordset($sql);
             
             //echo $sql;
 
-            // Crea arbol de actores por cantidad
+            // Se cuentan eventos para actores que no sea enfrentamiento
+            $enfrentamientos = 0;
             $arbol = array();
+            $ids = array();
+            $k = 0;
             while ($row = $this->conn->FetchObject($rs)) {
 
-                $vo = $actor_dao->Get($row->id_actor);
-
-                $id = $vo->id;
-                $id_papa = $vo->id_papa;
-                $nom = $vo->nombre;
+                $id_actor = $row->id_actor;
+                $nom = $row->nom_actor;
                 $num = $row->num;
-                $nivel = $row->nivel;
-                $espacio_excel = '';
+                $id_papa = $row->id_papa;
+                $id_evento = $row->id_even;
+                $cant = ($reporte == 5) ? 1 : $row->num_vic;
 
-                if ($id_papa == 0) {
+                if ($num == 1) {
+                    //if (!isset($ids[$id_actor])) $ids[$id_actor] = array();
 
-                    $arbol[$id][] = array('<b>'.$nom.'</b>', $num);
-                    $arbol_excel[$id][] = array($nom, $num);
-                    
-                    $valores_x[] = $nom;
-                    $valores_y[] = $num;
+                    //if (!in_array($id_evento, $ids[$id_actor])) {
+                        $ids[$id_actor][] = $id_evento;
+                        $arbol[$id_papa][$nom] = (isset($arbol[$id_papa][$nom])) ? $arbol[$id_papa][$nom] += $cant : $cant;
+                    //}
+                } else {
+                    $enfrentamientos = $enfrentamientos + $cant;
                 }
 
-                else {
-                    if (isset($papa[$id_papa])) {
-                        $id_papa = $papa[$id_papa];
-                    }
-                    else {
-                        $papa[$id] = $id_papa;
-                    }
-
-                    for($i=0;$i<$row->nivel;$i++) {
-                        $espacio_excel .= '___';
-                    }
-
-                    $margin = 10*$nivel;
-
-                    $arbol[$id_papa][] = array('<p style="margin-left:'.$margin.'px">'.$nom.'</p>', $num);
-                    $arbol_excel[$id_papa][] = array('|'.$espacio_excel.$nom, $num);
-                }
-                
+                $k++;
             }
 
             if (empty($arbol)) {
                 echo "<tr class='fila_tabla_conteo'><td colspan='2'>No hay info</td></tr>";
             }
             else {
-                foreach ($arbol as $p => $els) {
-                    foreach ($els as $h => $el) {
-                        echo "<tr class='fila_tabla_conteo'><td>".$el[0]."</td>";
-                        echo "<td align='right'>".$el[1]."</td>";
+                echo "<tr class='fila_tabla_conteo'><th>Enfrentamientos</th><td>$enfrentamientos</td></tr>";
+                    $csv .= "Enfrentamientos,$enfrentamientos\n";
+                foreach ($arbol as $id_papa => $valores) {
+                    echo "<tr class='fila_tabla_conteo'><td><b>".$papas[$id_papa]."</b></td><td></td></tr>";
+                    $csv .= utf8_encode($papas[$id_papa])."\n";
+                    foreach ($valores as $nom => $num) {
+                        echo "<tr class='fila_tabla_conteo'><th style='padding-left:20px'>".$nom."</th>";
+                        echo "<td align='right'>$num</td>";
                         echo "</tr>";
 
-                        $csv .= utf8_encode($arbol_excel[$p][$h][0]).",".$el[1]."\n";
+                        $csv .= utf8_encode('|___'.$nom).",".$num."\n";
+                            
+                        $valores_x[] = $nom;
+                        $valores_y[] = $num;
                     }
                 }
             }
             echo "</table>";
             echo "</td>";
             
-            echo "<td>";
-            
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'pie' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='pie' ".$chk_chart['pie'].">Torta</option>
-                        </select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>";
-                                    
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    
-                    $x_tmp = explode(" ",$x);
-                    
-                    if (count($x_tmp) > 1)  $x = $x_tmp[0]." ".$x_tmp[1]."...";
-                    else                    $x = $x_tmp[0];
-                    
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                if ($chart == 'pie'){
-                    $content .= "\$g->pie(100,'#CCCCCC','{font-size: 10px; color: #000000;');\n
-                             \$g->pie_values( array(".implode(",",$valores_y)."), array($ejex) );
-                             \$g->pie_slice_colours( array('#0066ff','#99CC00','#ffcc00') );";
-                    
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    \$g->set_num_decimals(0);";
-                }
-                else{
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                
-                    $max_y = $g->maxY(max($valores_y));
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    \$g->set_y_max( ".$max_y." );
-                    \$g->y_label_steps(5);
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    
-                    \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                    
-                    \$g->set_num_decimals(0);";
-                }
-                
-                // display the data
-                $content .= "echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
+            echo "<td id='highchart_evento_c' width='700' height='400'>";
             echo "</td>";
             echo "</tr>";
 
@@ -5649,12 +5541,12 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                         </tr>";
             
             if ($reporte == 7 || $reporte == 10) {
-                $sql = "SELECT GROUP_CONCAT(DISTINCT ad.id_actor ORDER BY id_actor) as ids, GROUP_CONCAT(DISTINCT a.nom_actor SEPARATOR \" | \") as nom,
-                               SUM(CANT_VICTIMA) AS num_vic
+                $sql = "SELECT COUNT(DISTINCT(ad.id_actor)) AS num_actor, GROUP_CONCAT(DISTINCT ad.id_actor ORDER BY id_actor) as ids, GROUP_CONCAT(DISTINCT a.nom_actor SEPARATOR \" | \") as nom,
+                               SUM(CANT_VICTIMA) AS num_vic, ec.id_even, de.id_deseven
                         FROM actor_descevento AS ad
                         JOIN actor AS a USING(ID_ACTOR)
                         JOIN descripcion_evento AS de USING(ID_DESEVEN)
-                        JOIN evento_c USING(ID_EVEN)
+                        JOIN evento_c As ec USING(ID_EVEN)
                         JOIN evento_localizacion USING(ID_EVEN)
                         JOIN municipio USING(ID_MUN)
                         LEFT JOIN victima AS v USING(ID_DESEVEN)
@@ -5706,26 +5598,39 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             $rs = $this->conn->OpenRecordset($sql);
             
             $arbol = array();
+            $ids_eventos = array();
             while ($row = $this->conn->FetchObject($rs)) {
 
                 $nom = $row->nom;
 
                 if ($reporte == 7 || $reporte == 10) {
-                    $ids = $row->ids;
-                    
-                    if (!isset($arbol[$ids]['num'])) {
-                        $arbol[$ids]['num'] = 0;
+                    if ($row->num_actor > 1) {
+                        $ids = $row->ids;
+                        
+                        if (!isset($arbol[$ids]['num'])) {
+                            $arbol[$ids]['num'] = 0;
+                        }
+
+                        if ($reporte == 7) {
+                            $num = 0;
+                            if (!in_array($row->id_even, $ids_eventos)) {
+                                $ids_eventos[] = $row->id_even;
+                                $num = 1;
+                            }
+                        }
+                        else {
+                            $row->num_vic;
+                        }
+                        
+                            $arbol[$ids]['num'] += $num;
+                            $arbol[$ids]['nom'] = $nom;
                     }
-
-                    $num = ($reporte == 7) ? 1 : $row->num_vic;
-
-                    $arbol[$ids]['num'] += $num;
-                    $arbol[$ids]['nom'] = $nom;
                 }
                 else {
                     $num = ($reporte == 8) ? $row->num : $row->num_vic;
                     $arbol[] = compact('num','nom');
                 }
+
                 
             }
 
