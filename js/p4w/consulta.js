@@ -154,6 +154,19 @@ function addBaseLayer(c){
                     );
 
                 map.addLayer(ly);
+
+                var wms_departamentos = new OpenLayers.Layer.WMS("Departamentos",
+                    "http://geonode.salahumanitaria.co/geoserver/wms",
+                    {
+                        layers: "geonode:col_departments",
+                        transparent: true
+                    }, {
+                        opacity: 0.5,
+                        singleTile: true
+                    });
+                map.addLayer(wms_departamentos);
+
+
             }
             else{
                 //console.log(map.getLayersByName('Openstreetmap')[0]);
