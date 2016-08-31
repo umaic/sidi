@@ -4728,8 +4728,8 @@ class EventoConflictoAjax extends EventoConflictoDAO {
         else if ($reporte ==  2) {
                 echo "<tr>
                         <td valign='top'>
-                            <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
-                                <tr class='titulo_tabla_conteo'><td align='center' colspan='2'>Departamento</td><td align='center'>N&uacute;mero de eventos</td></tr>";
+                            <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
+                                <tr class='titulo_tabla_conteo'><td align='center'>Departamento</td><td align='center'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT COUNT(DISTINCT evento_c.id_even) AS num, municipio.id_depto FROM evento_c
                     INNER JOIN evento_localizacion ON evento_c.id_even = evento_localizacion.id_even 
@@ -4774,7 +4774,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 if ($r <= $num_records) {
                     $valores_x[] = $nom;
                     $valores_y[] = $num;
-                    echo "<tr class='fila_tabla_conteo'><td>$id_depto</td><td>$nom</td>";
+                    echo "<tr class='fila_tabla_conteo'><td>$nom</td>";
                     echo "<td align='right'>$num</td>";
                     echo "</tr>";
                 }
@@ -4794,116 +4794,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                           </select> Departamentos";
             
             echo "</td>";
-            
-            echo "<td>";
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'bar_3d' => '', 'line' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='bar_3d' ".$chk_chart['bar_3d'].">Barras 3D</option>";
-                
-                            //if ($reporte == 1){
-                                echo "<option value='line' ".$chk_chart['line'].">Lineas</option>";
-                            //}
-                            
-                echo "</select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')),
-                                     'bar_3d' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')),
-                                     'line' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                
-                if ($chart == 'bar_3d'){
-                    $content .= "\$g->set_x_axis_3d(6);";
-                    $content .= "\$g->x_axis_colour('#dddddd','#FFFFFF');";
-                }
-                
-                $f = 1;
-                $max_y = 0;
-                    
-                if ($chart == 'bar' || $chart == 'bar_3d'){
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                }
-                else if ($chart == 'line'){
-                    $content .= "\$g->set_data(array(".implode(",",$valores_y)."));\n";
-                    $content .= "\$g->".$chart."_dot(1,3,'".$chart_style[$chart]['color'][0]."','',$font_size_key);\n";
-                }
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                $content .= "
-                \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                \$g->set_y_max( ".$max_y." );
-                \$g->y_label_steps(5);
-                //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                \$g->set_x_legend('".utf8_encode("Departamentos")."\n\n\n',12);
-                
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                
-                \$g->set_num_decimals(0);
-                
-                // display the data
-                echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
+            echo "<td id='highchart' width='700' height='400'>";
 
             echo "</td>";
             echo "</tr>";
@@ -4916,7 +4807,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             $mes_a = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                 echo "<tr>
                         <td valign='top'>
-                            <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
+                            <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
                                 <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT COUNT(DISTINCT evento_c.id_even) as num, MONTH(fecha_reg_even) as mes, YEAR(fecha_reg_even) as aaaa FROM evento_c 
@@ -4966,105 +4857,8 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             echo "</table>";
             echo "</td>";
             
-            echo "<td>";
+            echo "<td id='highchart' width='700' height='400'>";
             
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'bar_3d' => '', 'line' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')),
-                                     'bar_3d' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')),
-                                     'line' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                
-                if ($chart == 'bar_3d'){
-                    $content .= "\$g->set_x_axis_3d(6);";
-                    $content .= "\$g->x_axis_colour('#dddddd','#FFFFFF');";
-                }
-                
-                $f = 1;
-                $max_y = 0;
-                    
-                if ($chart == 'bar' || $chart == 'bar_3d'){
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                }
-                else if ($chart == 'line'){
-                    $content .= "\$g->set_data(array(".implode(",",$valores_y)."));\n";
-                    $content .= "\$g->".$chart."_dot(1,3,'".$chart_style[$chart]['color'][0]."','',$font_size_key);\n";
-                }
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                $content .= "
-                \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                \$g->set_y_max( ".$max_y." );
-                \$g->y_label_steps(5);
-                //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                
-                \$g->set_num_decimals(0);
-                
-                // display the data
-                echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
             echo "</td>";
             echo "</tr>";
 
@@ -5075,7 +4869,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             
             echo "<tr>
                     <td valign='top'>
-                        <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
+                        <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
                             <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT count(evento_c.id_even) as num, id_scateven FROM evento_c 
@@ -5129,122 +4923,8 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             echo "</table>";
             echo "</td>";
             
-            echo "<td>";
+            echo "<td id='highchart' width='700' height='400'>";
             
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'pie' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='pie' ".$chk_chart['pie'].">Torta</option>
-                        </select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>";
-                                    
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    
-                    $x_tmp = explode(" ",$x);
-                    
-                    if (count($x_tmp) > 1)  $x = $x_tmp[0]." ".$x_tmp[1]."...";
-                    else                    $x = $x_tmp[0];
-                    
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                if ($chart == 'pie'){
-                    $content .= "\$g->pie(100,'#CCCCCC','{font-size: 10px; color: #000000;');\n
-                             \$g->pie_values( array(".implode(",",$valores_y)."), array($ejex) );
-                             \$g->pie_slice_colours( array('#0066ff','#99CC00','#ffcc00') );";
-                    
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    \$g->set_num_decimals(0);";
-                }
-                else{
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                
-                    $max_y = $g->maxY(max($valores_y));
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    \$g->set_y_max( ".$max_y." );
-                    \$g->y_label_steps(5);
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    
-                    \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                    
-                    \$g->set_num_decimals(0);";
-                }
-                
-                // display the data
-                $content .= "echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
             echo "</td>";
             echo "</tr>";
 
@@ -5267,7 +4947,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             
             echo "<tr>
                     <td valign='top'>
-                        <table id='tablaEventoC' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
+                        <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
                             <thead>
                             <tr class='titulo_tabla_conteo'><th align='center'>Actor</th><th align='center' colspan='2'>N&uacute;mero de $ev</th></tr>
                             </thead>";
@@ -5356,8 +5036,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             }
             echo "</table>";
             echo "</td>";
-            
-            echo "<td id='highchart_evento_c' width='700' height='400'>";
+            echo "<td id='highchart' width='700' height='400'>";
             echo "</td>";
             echo "</tr>";
 
