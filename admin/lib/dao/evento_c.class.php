@@ -2,14 +2,14 @@
 /**
  * DAO de EventoConflicto
  *
- * Contiene los métodos de la clase EventoConflicto 
+ * Contiene los mÃ©todos de la clase EventoConflicto 
  * @author Ruben A. Rojas C.
  */
 
 Class EventoConflictoDAO {
 
     /**
-    * Conexión a la base de datos
+    * ConexiÃ³n a la base de datos
     * @var object 
     */
     var $conn;
@@ -39,14 +39,14 @@ Class EventoConflictoDAO {
     var $columna_order;
 
     /**
-    * Número de Registros en Pantalla para ListarTAbla
+    * NÃºmero de Registros en Pantalla para ListarTAbla
     * @var string
     */
     var $num_reg_pag;
 
     /**
   * Constructor
-    * Crea la conexión a la base de datos
+    * Crea la conexiÃ³n a la base de datos
   * @access public
   */    
     function EventoConflictoDAO (){
@@ -176,9 +176,9 @@ Class EventoConflictoDAO {
     }
     
     /**
-  * Consulta los datos de los EventoConflicto que cumplen una condición
+  * Consulta los datos de los EventoConflicto que cumplen una condiciÃ³n
   * @access public
-  * @param string $condicion Condición que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
+  * @param string $condicion CondiciÃ³n que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
   * @return array Arreglo de VOs
   */    
     function GetAllArray($condicion){
@@ -205,9 +205,9 @@ Class EventoConflictoDAO {
     }
     
     /**
-  * Consulta los ID de los EventoConflicto que cumplen una condición
+  * Consulta los ID de los EventoConflicto que cumplen una condiciÃ³n
   * @access public
-  * @param string $condicion Condición que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
+  * @param string $condicion CondiciÃ³n que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
   * @return array Arreglo de VOs
   */    
     function GetAllArrayID($condicion){
@@ -232,11 +232,11 @@ Class EventoConflictoDAO {
     }
 
     /**
-  * Lista los EventoConflicto que cumplen la condición en el formato dado
+  * Lista los EventoConflicto que cumplen la condiciÃ³n en el formato dado
   * @access public
-  * @param string $formato Formato en el que se listarán los EventoConflicto, puede ser Tabla o ComboSelect
-    * @param int $valor_combo ID del EventoConflicto que será selccionado cuando el formato es ComboSelect
-  * @param string $condicion Condición que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
+  * @param string $formato Formato en el que se listarÃ¡n los EventoConflicto, puede ser Tabla o ComboSelect
+    * @param int $valor_combo ID del EventoConflicto que serÃ¡ selccionado cuando el formato es ComboSelect
+  * @param string $condicion CondiciÃ³n que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
   */            
     function ListarCombo($formato,$valor_combo,$condicion){
         $arr = $this->GetAllArray($condicion);
@@ -386,7 +386,7 @@ Class EventoConflictoDAO {
             echo "<td align='center'>
                 <a href='#' onclick=\"window.open('evento_c/ver.php?id=".$arr[$p]->id."','','top=100,left=100,height=600,width=1024,scrollbars=1');return false;\">Ver</a><br>
                 <a href='index.php?accion=actualizar&id=".$arr[$p]->id."'>Editar</a><br>
-                <a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('Está seguro que desea borrar el Evento?');\">Borrar</a>
+                <a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('EstÃ¡ seguro que desea borrar el Evento?');\">Borrar</a>
                 </td>";
 
             echo "</tr>";
@@ -399,7 +399,7 @@ Class EventoConflictoDAO {
             $num_pages = ceil($num_arr/$this->num_reg_pag);
             echo "<tr><td colspan='5' align='center'>";
 
-            echo "Ir a la página:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
+            echo "Ir a la pÃ¡gina:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
             for ($pa=1;$pa<=$num_pages;$pa++){
                 echo " <option value='".$pa."'";
                 if ($pa == $pag_url)    echo " selected ";
@@ -415,8 +415,8 @@ Class EventoConflictoDAO {
   * Imprime en pantalla los datos del EventoConflicto
   * @access public
   * @param object $vo EventoConflicto que se va a imprimir
-  * @param string $formato Formato en el que se listarán los EventoConflicto, puede ser Tabla o ComboSelect
-    * @param int $valor_combo ID del EventoConflicto que será selccionado cuando el formato es ComboSelect
+  * @param string $formato Formato en el que se listarÃ¡n los EventoConflicto, puede ser Tabla o ComboSelect
+    * @param int $valor_combo ID del EventoConflicto que serÃ¡ selccionado cuando el formato es ComboSelect
   */            
     function Imprimir($vo,$formato,$valor_combo){
 
@@ -486,7 +486,7 @@ Class EventoConflictoDAO {
     * Consulta los actores de un evento
     * @access public
     * @param int $id_desevento ID de la descripcion del evento
-    * @param int $nivel Nivel de profunidad en el árbol genialógico
+    * @param int $nivel Nivel de profunidad en el Ã¡rbol genialÃ³gico
     * @return array Arreglo de Id de los actores, y arreglo de nombres
     */          
     function getActorEvento ($id_desevento,$nivel=1){
@@ -624,9 +624,9 @@ Class EventoConflictoDAO {
     }
     
     /**
-    * Consulta las victimas por descripción
+    * Consulta las victimas por descripciÃ³n
     * @access public
-    * @param int $id_deseven ID de la descripción evento
+    * @param int $id_deseven ID de la descripciÃ³n evento
     * @return array Arreglo con las variables
     */          
     function getVictimaDescripcionEvento ($id_deseven){
@@ -781,10 +781,10 @@ Class EventoConflictoDAO {
     * @access public
     * @param object $evento_vo VO de EventoConflicto que se va a insertar
     * @param int $alert Muestra la alerta JS
-    * @param array $num_vict_desc Número de víctimas por descripción, el numero tiene que ser el real menos 1, debido al formulario de insertar
-    * @param array $num_actores_desc Número de actores por descripción
-    * @param array $num_subactores_desc Número de sub actores por descripción
-    * @param array $num_subsubactores_desc Número de sub sub actores por descripción
+    * @param array $num_vict_desc NÃºmero de vÃ­ctimas por descripciÃ³n, el numero tiene que ser el real menos 1, debido al formulario de insertar
+    * @param array $num_actores_desc NÃºmero de actores por descripciÃ³n
+    * @param array $num_subactores_desc NÃºmero de sub actores por descripciÃ³n
+    * @param array $num_subsubactores_desc NÃºmero de sub sub actores por descripciÃ³n
     */      
     function Insertar($evento_vo,$alert=0,$num_vict_desc,$num_actores_0_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
         //DATOS DEL EVENTO
@@ -805,7 +805,7 @@ Class EventoConflictoDAO {
         if ($alert == 1){
             ?>
             <script>
-                alert("Evento insertado con éxito!");
+                alert("Evento insertado con Ã©xito!");
                 location.href="<?=$this->url;?>";
             </script>
             <?
@@ -816,10 +816,10 @@ Class EventoConflictoDAO {
     * Inserta las tablas de union para el EventoConflicto en la B.D.
     * @access public
     * @param object $depto_vo VO de EventoConflicto que se va a insertar
-    * @param array $num_vict_desc Número de víctimas por descripción
-    * @param array $num_actores_desc Número de actores por descripción
-    * @param array $num_subactores_desc Número de sub actores por descripción
-    * @param array $num_subsubactores_desc Número de sub sub actores por descripción
+    * @param array $num_vict_desc NÃºmero de vÃ­ctimas por descripciÃ³n
+    * @param array $num_actores_desc NÃºmero de actores por descripciÃ³n
+    * @param array $num_subactores_desc NÃºmero de sub actores por descripciÃ³n
+    * @param array $num_subsubactores_desc NÃºmero de sub sub actores por descripciÃ³n
     */      
     function InsertarTablasUnion($evento_vo,$id_evento,$num_vict_desc,$num_actores_0_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
 
@@ -978,10 +978,10 @@ Class EventoConflictoDAO {
     * @access public
     * @param object $evento_vo VO de EventoConflicto que se va a insertar
     * @param int $alert Muestra la alerta JS
-    * @param array $num_vict_desc Número de víctimas por descripción
-    * @param array $num_actores_desc Número de actores por descripción
-    * @param array $num_subactores_desc Número de sub actores por descripción
-    * @param array $num_subsubactores_desc Número de sub sub actores por descripción
+    * @param array $num_vict_desc NÃºmero de vÃ­ctimas por descripciÃ³n
+    * @param array $num_actores_desc NÃºmero de actores por descripciÃ³n
+    * @param array $num_subactores_desc NÃºmero de sub actores por descripciÃ³n
+    * @param array $num_subsubactores_desc NÃºmero de sub sub actores por descripciÃ³n
     */      
     function Actualizar($evento_vo,$alert=0,$num_vict_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
         //DATOS DEL EVENTO
@@ -1004,7 +1004,7 @@ Class EventoConflictoDAO {
         if ($alert == 1){
             ?>
             <script>
-                alert("Evento actualizado con éxito!");
+                alert("Evento actualizado con Ã©xito!");
                 location.href="index.php?accion=listar&class=EventoConflictoDAO&method=ListarTabla&param=";
             </script>
             <?
@@ -1062,7 +1062,7 @@ Class EventoConflictoDAO {
     }
 
     /**
-  * Muestra la Información completa de una Organización
+  * Muestra la InformaciÃ³n completa de una OrganizaciÃ³n
   * @access public
   * @param id $id Id de la Proyecto
   */            
@@ -1154,7 +1154,7 @@ Class EventoConflictoDAO {
         }
         echo "</td></tr>";
 
-        echo "<tr><td class='tabla_consulta' width='150'><b>Descripción</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
+        echo "<tr><td class='tabla_consulta' width='150'><b>DescripciÃ³n</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
         echo "<tr><td class='tabla_consulta' width='150'><b>Fecha de registro</b></td><td class='tabla_consulta' width='500'>".$arr_vo->fecha_registro."</td></tr>";
 
         echo "</table>";
@@ -1214,12 +1214,12 @@ Class EventoConflictoDAO {
 
         $reporte = $_POST["reporte"];
         
-        $tit_reporte = array(1 => "Conteo de eventos por Categoría/Subcategoría",
+        $tit_reporte = array(1 => "Conteo de eventos por CategorÃ­a/SubcategorÃ­a",
                              2 => "Conteo de eventos por confrontaciones entre dos actores",
                              3 => "Conteo de eventos por periodo de tiempo",
-                             4 => "Conteo de eventos por categoría",
+                             4 => "Conteo de eventos por categorÃ­a",
                              5 => "Conteo de eventos por confrontaciones entre dos actores",
-                             6 => "Cantidad de víctimas",
+                             6 => "Cantidad de vÃ­ctimas",
                              7 => "Reporte General de Eventos");
         
 
@@ -2419,7 +2419,7 @@ Class EventoConflictoDAO {
 
     /**
     * Lista los Eventos en Excel para depuracion
-    * @param string $sql Condicion SQL cuando se ejecuta este reporte desde el método Reportar()
+    * @param string $sql Condicion SQL cuando se ejecuta este reporte desde el mÃ©todo Reportar()
     * @access public
     */          
     function ReportarDepuracion($sql=''){
@@ -2520,7 +2520,7 @@ Class EventoConflictoDAO {
             for ($cl=1;$cl<=$cols_victimas;$cl++){
                 $content .= "<td>VICTIMAS_$cl</td>
                     <td>GRUPO_ETAREO_$cl</td>
-                    <td>CONDICIÓN_$cl</td>
+                    <td>CONDICIÃ“N_$cl</td>
                     <td>SUB_CONDICION_$cl</td>
                     <td>GRUPO_POBLACIONAL_$cl</td>
                     <td>OCUPACION_$cl</td>
@@ -2533,7 +2533,7 @@ Class EventoConflictoDAO {
             if ($sql == '') $content .= "<td>TIPO_DE_FUENTE</td>";
             
             $content .= "<td>FUENTE</td>
-                    <td>DESCRIPCIÓN</td>
+                    <td>DESCRIPCIÃ“N</td>
                     <td>FECHA_FUENTE</td>
                     <td>REFERENCIA</td>
                     <td>DEPARTAMENTO</td>
@@ -2825,14 +2825,14 @@ Class EventoConflictoDAO {
         $size = ceil(filesize($file_xls) / 1000);
         $size_zip = ceil(filesize($file_zip) / 1000);
         
-        echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='".$f."xlsx'>Descargar excel</a>&nbsp;[ Tamaño: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
-        echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='".$f."zip'>Descargar Archivo ZIP</a>&nbsp;[ Tamaño: ".$size_zip." kB ]";
+        echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='".$f."xlsx'>Descargar excel</a>&nbsp;[ TamaÃ±o: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
+        echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='".$f."zip'>Descargar Archivo ZIP</a>&nbsp;[ TamaÃ±o: ".$size_zip." kB ]";
         echo "</table>";
     }
         
     /**
     * Lista los Eventos en Excel para depuracion, con la info de victimas luego de cada categoria
-    * @param string $sql Condicion SQL cuando se ejecuta este reporte desde el método Reportar()
+    * @param string $sql Condicion SQL cuando se ejecuta este reporte desde el mÃ©todo Reportar()
     * @access public
     */          
     function ReportarDepuracionBoletin($sql=''){
@@ -2933,7 +2933,7 @@ Class EventoConflictoDAO {
             for ($cl=1;$cl<=$cols_victimas;$cl++){
                 $content .= "<td>VICTIMAS_$cl</td>
                     <td>GRUPO_ETAREO_$cl</td>
-                    <td>CONDICIÓN_$cl</td>
+                    <td>CONDICIÃ“N_$cl</td>
                     <td>SUB_CONDICION_$cl</td>
                     <td>GRUPO_POBLACIONAL_$cl</td>
                     <td>OCUPACION_$cl</td>
@@ -2946,7 +2946,7 @@ Class EventoConflictoDAO {
             if ($sql == '') $content .= "<td>TIPO_DE_FUENTE</td>";
             
             $content .= "<td>FUENTE</td>
-                    <td>DESCRIPCIÓN</td>
+                    <td>DESCRIPCIÃ“N</td>
                     <td>FECHA_FUENTE</td>
                     <td>REFERENCIA</td>
                     <td>DEPARTAMENTO</td>
@@ -3222,10 +3222,10 @@ Class EventoConflictoDAO {
         $size = ceil(filesize($file) / 1000);
         $size_zip = ceil(filesize($file_zip) / 1000);
         
-        echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.xls'>Descargar Archivo XLS</a>&nbsp;[ Tamaño: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
+        echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.xls'>Descargar Archivo XLS</a>&nbsp;[ TamaÃ±o: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
         
         //if ($m < 500) echo " [ <a href='#' onclick=\"document.getElementById('eventos_online').style.display=''\">Ver Eventos</a> ]";
-        echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.zip'>Descargar Archivo ZIP</a>&nbsp;[ Tamaño: ".$size_zip." kB ]";
+        echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.zip'>Descargar Archivo ZIP</a>&nbsp;[ TamaÃ±o: ".$size_zip." kB ]";
         
         //if ($m < 500) echo "<tr id='eventos_online' style='display:none'><td>$content</td></tr>";
             
@@ -3234,7 +3234,7 @@ Class EventoConflictoDAO {
 
     
     /******************************************************************************
-    * Número de Eventos aplicando los filtros
+    * NÃºmero de Eventos aplicando los filtros
     * @param $id_mun
     * @param $id_subcat
     * @param $id_actor
@@ -3356,7 +3356,7 @@ Class EventoConflictoDAO {
     }
     
     /***************************************************************************************
-    * Número de Victimas aplicando filtros
+    * NÃºmero de Victimas aplicando filtros
     * @param string $id_mun
     * @param array $filtros  Arreglo de filtros, las claves son los nombres del filtro
     * @access public
@@ -3447,7 +3447,7 @@ Class EventoConflictoDAO {
     * Reporte PDF - EXCEL
     * @param Array $id_eventos Id de los EventoConflictos a Reportar
     * @param Int $formato PDF o Excel
-    * @param Int $basico 1 = Básico - 2 = Detallado
+    * @param Int $basico 1 = BÃ¡sico - 2 = Detallado
     * @access public
     *******************************************************************************/
     function ReporteEventoConflicto($id_eventos,$formato,$basico){
@@ -3480,13 +3480,13 @@ Class EventoConflictoDAO {
             $pdf -> ezSetMargins(80,70,20,20);
             $pdf->selectFont('admin/lib/common/PDFfonts/Helvetica.afm');
 
-            // Coloca el logo y el pie en todas las páginas
+            // Coloca el logo y el pie en todas las pÃ¡ginas
             $all = $pdf->openObject();
             $pdf->saveState();
             $img_att = getimagesize('images/logos/enc_reporte_semanal.jpg');
             $pdf->addPngFromFile('images/logos/enc_reporte_semanal.png',700,550,$img_att[0]/2,$img_att[1]/2);
 
-            $pdf->addText(300,580,14,'<b>Sala de Situación Humanitaria</b>');
+            $pdf->addText(300,580,14,'<b>Sala de SituaciÃ³n Humanitaria</b>');
 
             if ($basico == 1){
                 $pdf->addText(350,560,12,'Listado de EventoConflictos');
@@ -3498,7 +3498,7 @@ Class EventoConflictoDAO {
                 $pdf->line(50,530,740,530);
             }
 
-            $pdf->addText(330,30,8,'Sala de Situación Humanitaria - Naciones Unidas');
+            $pdf->addText(330,30,8,'Sala de SituaciÃ³n Humanitaria - Naciones Unidas');
 
             $pdf->restoreState();
             $pdf->closeObject();
@@ -3561,7 +3561,7 @@ Class EventoConflictoDAO {
                         'actor'   => '<b>Actores</b>',
                         'cons'   => '<b>Consecuencias Humanitarias</b>',
                         'riesg'   => '<b>Riesgos Humanitarios</b>',
-                        'desc'   => '<b>Descripción</b>',
+                        'desc'   => '<b>DescripciÃ³n</b>',
                         'fecha'   => '<b>Fecha registro</b>');
 
                         $f = 0;
@@ -3624,7 +3624,7 @@ Class EventoConflictoDAO {
                                 $z++;
                             }
 
-                            ////Descripción de las consecuencias
+                            ////DescripciÃ³n de las consecuencias
                             if ($arr_vo->desc_cons_hum != "")
                             $tmp .= " - ".$arr_vo->desc_cons_hum;
 
@@ -3639,7 +3639,7 @@ Class EventoConflictoDAO {
                                 else                $tmp .= ", ".$vo->nombre;
                                 $z++;
                             }
-                            ////Descripción de los riegos
+                            ////DescripciÃ³n de los riegos
                             if ($arr_vo->desc_riesg_hum != "")
                             $tmp .= " - ".$arr_vo->desc_riesg_hum;
 
@@ -3680,7 +3680,7 @@ Class EventoConflictoDAO {
                 <tr><td>&nbsp;</td></tr>
                 <tr><td colspan=2>
                     Se ha generado correctamente el archivo PDF de EventoConflictos.<br><br>
-                    Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
+                    Para salvarlo use el botÃ³n derecho del mouse y la opciÃ³n Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
                 </td></tr>
             </table>
             <?
@@ -3796,7 +3796,7 @@ Class EventoConflictoDAO {
                             $z++;
                         }
 
-                        ////Descripción de las consecuencias
+                        ////DescripciÃ³n de las consecuencias
                         if ($arr_vo->desc_cons_hum != ""){
                             //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                             $arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -3816,7 +3816,7 @@ Class EventoConflictoDAO {
                             else                $tmp .= ",".$vo->nombre;
                             $z++;
                         }
-                        ////Descripción de los riegos
+                        ////DescripciÃ³n de los riegos
                         if ($arr_vo->desc_riesg_hum != ""){
                             //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                             $arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -3917,7 +3917,7 @@ Class EventoConflictoDAO {
                             $z++;
                         }
 
-                        ////Descripción de las consecuencias
+                        ////DescripciÃ³n de las consecuencias
                         if ($arr_vo->desc_cons_hum != ""){
                             //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                             $arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -3937,7 +3937,7 @@ Class EventoConflictoDAO {
                             else                $tmp .= ",".$vo->nombre;
                             $z++;
                         }
-                        ////Descripción de los riegos
+                        ////DescripciÃ³n de los riegos
                         if ($arr_vo->desc_riesg_hum != ""){
                             //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                             $arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -4034,7 +4034,7 @@ Class EventoConflictoDAO {
                         $z++;
                     }
 
-                    ////Descripción de las consecuencias
+                    ////DescripciÃ³n de las consecuencias
                     if ($arr_vo->desc_cons_hum != ""){
                         //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                         $arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -4054,7 +4054,7 @@ Class EventoConflictoDAO {
                         else                $tmp .= ",".$vo->nombre;
                         $z++;
                     }
-                    ////Descripción de los riegos
+                    ////DescripciÃ³n de los riegos
                     if ($arr_vo->desc_riesg_hum != ""){
                         //ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
                         $arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -4094,7 +4094,7 @@ Class EventoConflictoDAO {
                 <tr><td>&nbsp;</td></tr>
                 <tr><td colspan=2>
                     Se ha generado correctamente el archivo TXT de EventoConflictos.<br><br>
-                    Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
+                    Para salvarlo use el botÃ³n derecho del mouse y la opciÃ³n Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
                 </td></tr>
             </table>
             <?
@@ -4247,7 +4247,7 @@ Class EventoConflictoDAO {
                             <td align='center' width='70'><b>Municipio</b></td>
                             <td align='center' width='100'><b>Tipo de EventoConflicto</b></td>
                             <td align='center' width='10'><b>Actores</b></td>
-                            <td align='center'><b>Descripción</b></td>
+                            <td align='center'><b>DescripciÃ³n</b></td>
                             <td align='center' width='70'><b>Fecha registro</b></td>
                             <td align='center' width='80'>Registros: ".$num_arr."</td>
                             </tr>";
@@ -4338,7 +4338,7 @@ Class EventoConflictoDAO {
     * @access public
     * @param  $id_s ID de la subcategoria = tipo de evento
     * @param  $mes Mes
-    * @param  $aaaa Año
+    * @param  $aaaa AÃ±o
     */  
     function genXmlTimeLine($id_s,$mes,$aaaa) {
         
@@ -4391,7 +4391,7 @@ Class EventoConflictoDAO {
 
                 //Localizacion
                 $loc_info = $this->getLocalizacionEvento($id_evento);
-                $xml_tmp .= '<br /><u><b>Localización del evento:</b></u><br />';
+                $xml_tmp .= '<br /><u><b>LocalizaciÃ³n del evento:</b></u><br />';
                 
                 foreach ($loc_info['mpios'] as $id_mpio){
 
@@ -4416,7 +4416,7 @@ Class EventoConflictoDAO {
     * Genera el archivo txt para la grafica TimePlot
     * @access public
     * @param  $id_s ID de la subcategoria = tipo de evento
-    * @param  $aaaa Año
+    * @param  $aaaa AÃ±o
     */  
     function genTxtTimePlot($id_s,$aaaa) {
         
@@ -4451,7 +4451,7 @@ Class EventoConflictoDAO {
 class EventoConflictoAjax extends EventoConflictoDAO {
     
     /**
-    * Gráfica de Eventos C
+    * GrÃ¡fica de Eventos C
     * @access public
     * @param $reporte int Reporte
     * @param  $num_records int Numero de Mpios o Deptos a listar en los reportes 1,2
@@ -4459,7 +4459,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
     * @param  $ubicacion
     * @param  $f_ini string Fecha Inicial
     * @param  $f_fin string Fecha Final
-    * @param  $chart string Tipo de gráfica
+    * @param  $chart string Tipo de grÃ¡fica
     * @param  $filtros array Arreglo con los filtros que se pueden aplicar
     * @return int
     */  
@@ -4479,17 +4479,18 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 
         $chk_num_records = array(10 => '',11 => '', 12 => '',13 => '',14 => '',15 => '');
         $chk_num_records[$num_records] = ' selected ';
-        $title_reporte = array("","Número de eventos por Municipio",
-                               "Número de eventos por Departamento",
-                                "Número de eventos por Mes",
-                               "Número de eventos por Tipo de acción",
-                               "Número de eventos por presuntos actores",
-                               "Número de víctimas por mes",
-                               "Número de eventos por confrontación de actores",
-                               "Número de eventos por grupo poblacional",
-                               "Número de víctimas por presuntos actores",
-                               "Número de víctimas por confrontación de actores",
-                               "Número de víctimas por grupo poblacional"
+        $title_reporte = array("","NÃºmero de eventos por Municipio",
+                               "NÃºmero de eventos por Departamento",
+                                "NÃºmero de eventos por Mes",
+                               "NÃºmero de eventos por Tipo de acciÃ³n",
+                               "NÃºmero de eventos por presuntos actores",
+                               "NÃºmero de vÃ­ctimas por mes",
+                               "NÃºmero de eventos por confrontaciÃ³n de actores",
+                               "NÃºmero de eventos por grupo poblacional",
+                               "NÃºmero de vÃ­ctimas por presuntos actores",
+                               "NÃºmero de vÃ­ctimas por confrontaciÃ³n de actores",
+                               "NÃºmero de vÃ­ctimas por grupo poblacional",
+                               "NÃºmero de vÃ­ctimas por presuntos actores",
                            );
         
         $title = $title_reporte[$reporte];
@@ -4498,7 +4499,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
         $filtro_fecha = " AND FECHA_REG_EVEN BETWEEN '$f_ini' AND '$f_fin'";
         
-        //Nombre ubicación
+        //Nombre ubicaciÃ³n
         $nom_ubi = "Nacional";
         if ($depto == 1){
             $ubi = $depto_dao->Get($ubicacion);
@@ -4531,7 +4532,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
         echo "<tr><td>Localizaci&oacute;n Geogr&aacute;fica: <b>$nom_ubi</b></td></tr>";
         echo "<tr><td><img src='images/consulta/excel.gif' />&nbsp;<a href='export_data.php?csv2xls=1&csv_path=$csv_path&nombre_archivo=reporte_sidih'>Descargar tabla completa</a></td></tr>";
         
-        //Número de eventos por Municipio
+        //NÃºmero de eventos por Municipio
         if ($reporte ==  1) {
                 echo "<tr>
                         <td valign='top'>
@@ -4698,7 +4699,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
                 \$g->set_x_legend('".utf8_encode("Municipios")."\n\n\n',12);
                 
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
+                \$g->set_y_legend('".utf8_encode('NÃºmero de Eventos')."',12);
                 
                 \$g->set_num_decimals(0);
                 
@@ -4723,12 +4724,12 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
         }
         
-        //Número de eventos por Departamento
+        //NÃºmero de eventos por Departamento
         else if ($reporte ==  2) {
                 echo "<tr>
                         <td valign='top'>
-                            <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
-                                <tr class='titulo_tabla_conteo'><td align='center' colspan='2'>Departamento</td><td align='center'>N&uacute;mero de eventos</td></tr>";
+                            <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
+                                <tr class='titulo_tabla_conteo'><td align='center'>Departamento</td><td align='center'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT COUNT(DISTINCT evento_c.id_even) AS num, municipio.id_depto FROM evento_c
                     INNER JOIN evento_localizacion ON evento_c.id_even = evento_localizacion.id_even 
@@ -4773,7 +4774,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 if ($r <= $num_records) {
                     $valores_x[] = $nom;
                     $valores_y[] = $num;
-                    echo "<tr class='fila_tabla_conteo'><td>$id_depto</td><td>$nom</td>";
+                    echo "<tr class='fila_tabla_conteo'><td>$nom</td>";
                     echo "<td align='right'>$num</td>";
                     echo "</tr>";
                 }
@@ -4793,129 +4794,20 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                           </select> Departamentos";
             
             echo "</td>";
-            
-            echo "<td>";
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'bar_3d' => '', 'line' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='bar_3d' ".$chk_chart['bar_3d'].">Barras 3D</option>";
-                
-                            //if ($reporte == 1){
-                                echo "<option value='line' ".$chk_chart['line'].">Lineas</option>";
-                            //}
-                            
-                echo "</select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')),
-                                     'bar_3d' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')),
-                                     'line' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                
-                if ($chart == 'bar_3d'){
-                    $content .= "\$g->set_x_axis_3d(6);";
-                    $content .= "\$g->x_axis_colour('#dddddd','#FFFFFF');";
-                }
-                
-                $f = 1;
-                $max_y = 0;
-                    
-                if ($chart == 'bar' || $chart == 'bar_3d'){
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                }
-                else if ($chart == 'line'){
-                    $content .= "\$g->set_data(array(".implode(",",$valores_y)."));\n";
-                    $content .= "\$g->".$chart."_dot(1,3,'".$chart_style[$chart]['color'][0]."','',$font_size_key);\n";
-                }
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                $content .= "
-                \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                \$g->set_y_max( ".$max_y." );
-                \$g->y_label_steps(5);
-                //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                \$g->set_x_legend('".utf8_encode("Departamentos")."\n\n\n',12);
-                
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                
-                \$g->set_num_decimals(0);
-                
-                // display the data
-                echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
+            echo "<td id='highchart' width='700' height='400'>";
 
             echo "</td>";
             echo "</tr>";
 
         }
 
-        //Número de eventos por Mes
+        //NÃºmero de eventos por Mes
         else if ($reporte ==  3) {
             
             $mes_a = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                 echo "<tr>
                         <td valign='top'>
-                            <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
+                            <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
                                 <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT COUNT(DISTINCT evento_c.id_even) as num, MONTH(fecha_reg_even) as mes, YEAR(fecha_reg_even) as aaaa FROM evento_c 
@@ -4965,116 +4857,19 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             echo "</table>";
             echo "</td>";
             
-            echo "<td>";
+            echo "<td id='highchart' width='700' height='400'>";
             
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'bar_3d' => '', 'line' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')),
-                                     'bar_3d' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')),
-                                     'line' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                
-                if ($chart == 'bar_3d'){
-                    $content .= "\$g->set_x_axis_3d(6);";
-                    $content .= "\$g->x_axis_colour('#dddddd','#FFFFFF');";
-                }
-                
-                $f = 1;
-                $max_y = 0;
-                    
-                if ($chart == 'bar' || $chart == 'bar_3d'){
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                }
-                else if ($chart == 'line'){
-                    $content .= "\$g->set_data(array(".implode(",",$valores_y)."));\n";
-                    $content .= "\$g->".$chart."_dot(1,3,'".$chart_style[$chart]['color'][0]."','',$font_size_key);\n";
-                }
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                $content .= "
-                \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                \$g->set_y_max( ".$max_y." );
-                \$g->y_label_steps(5);
-                //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                
-                \$g->set_num_decimals(0);
-                
-                // display the data
-                echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
             echo "</td>";
             echo "</tr>";
 
         }
 
-        //Número de eventos por Subcategoría (Tipo de acción)
+        //NÃºmero de eventos por SubcategorÃ­a (Tipo de acciÃ³n)
         else if ($reporte ==  4) {
             
             echo "<tr>
                     <td valign='top'>
-                        <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
+                        <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
                             <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT count(evento_c.id_even) as num, id_scateven FROM evento_c 
@@ -5128,131 +4923,19 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             echo "</table>";
             echo "</td>";
             
-            echo "<td>";
+            echo "<td id='highchart' width='700' height='400'>";
             
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'pie' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='pie' ".$chk_chart['pie'].">Torta</option>
-                        </select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>";
-                                    
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    
-                    $x_tmp = explode(" ",$x);
-                    
-                    if (count($x_tmp) > 1)  $x = $x_tmp[0]." ".$x_tmp[1]."...";
-                    else                    $x = $x_tmp[0];
-                    
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                if ($chart == 'pie'){
-                    $content .= "\$g->pie(100,'#CCCCCC','{font-size: 10px; color: #000000;');\n
-                             \$g->pie_values( array(".implode(",",$valores_y)."), array($ejex) );
-                             \$g->pie_slice_colours( array('#0066ff','#99CC00','#ffcc00') );";
-                    
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    \$g->set_num_decimals(0);";
-                }
-                else{
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                
-                    $max_y = $g->maxY(max($valores_y));
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    \$g->set_y_max( ".$max_y." );
-                    \$g->y_label_steps(5);
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    
-                    \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                    
-                    \$g->set_num_decimals(0);";
-                }
-                
-                // display the data
-                $content .= "echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
             echo "</td>";
             echo "</tr>";
 
         }
             
-        // Número de eventos por Actor
-        else if ($reporte ==  5) {
+        // NÃºmero de eventos, victimas por Actor
+        else if ($reporte ==  5 || $reporte == 9) {
             
             $actor_dao = New ActorDAO();
+
+            $ev = ($reporte == 5) ? 'eventos' : 'vÃ­ctimas';
 
             // Nombres papas
             $sql = 'SELECT id_actor, nom_actor FROM actor WHERE id_papa = 0';
@@ -5264,17 +4947,20 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             
             echo "<tr>
                     <td valign='top'>
-                        <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
-                            <tr class='titulo_tabla_conteo'><td align='center'>Actor</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
+                        <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='".$title_reporte[$reporte]."'>
+                            <thead>
+                            <tr class='titulo_tabla_conteo'><th align='center'>Actor</th><th align='center' colspan='2'>N&uacute;mero de $ev</th></tr>
+                            </thead>";
                 
             $sql = "SELECT de.id_even, COUNT(DISTINCT(ad.id_actor)) as num, GROUP_CONCAT(DISTINCT(ad.id_actor)) AS id_actor, 
-                    nom_actor, id_papa, nivel
+                    nom_actor, id_papa, nivel, SUM(CANT_VICTIMA) AS num_vic
                     FROM evento_c 
                     INNER JOIN descripcion_evento de USING(id_even)
                     INNER JOIN actor_descevento ad USING(id_deseven)
                     INNER JOIN actor USING(id_actor) 
+                    LEFT JOIN victima AS v USING(ID_DESEVEN)
                     WHERE nivel = 1 ";
-
+                    
             //CAT-SUBCAT
             if ($filtro_cat == 1){
                 $sql .= " AND id_scateven IN ($id_subcat)";
@@ -5289,7 +4975,6 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 else if($depto == 0){
                     $sql .= "  AND evento_localizacion.id_mun = $ubicacion";
                 }
-                
             }
 
             //FECHA
@@ -5312,16 +4997,17 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 $num = $row->num;
                 $id_papa = $row->id_papa;
                 $id_evento = $row->id_even;
+                $cant = ($reporte == 5) ? 1 : $row->num_vic;
 
                 if ($num == 1) {
                     //if (!isset($ids[$id_actor])) $ids[$id_actor] = array();
 
                     //if (!in_array($id_evento, $ids[$id_actor])) {
                         $ids[$id_actor][] = $id_evento;
-                        $arbol[$id_papa][$nom] = (isset($arbol[$id_papa][$nom])) ? $arbol[$id_papa][$nom] += 1 : 1;
+                        $arbol[$id_papa][$nom] = (isset($arbol[$id_papa][$nom])) ? $arbol[$id_papa][$nom] += $cant : $cant;
                     //}
                 } else {
-                    $enfrentamientos++;
+                    $enfrentamientos = $enfrentamientos + $cant;
                 }
 
                 $k++;
@@ -5331,13 +5017,13 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 echo "<tr class='fila_tabla_conteo'><td colspan='2'>No hay info</td></tr>";
             }
             else {
-                echo "<tr class='fila_tabla_conteo'><td><b>Enfrentamientos</b></td><td>$enfrentamientos</td></tr>";
+                echo "<tr class='fila_tabla_conteo'><th>Enfrentamientos</th><td>$enfrentamientos</td></tr>";
                     $csv .= "Enfrentamientos,$enfrentamientos\n";
                 foreach ($arbol as $id_papa => $valores) {
                     echo "<tr class='fila_tabla_conteo'><td><b>".$papas[$id_papa]."</b></td><td></td></tr>";
                     $csv .= utf8_encode($papas[$id_papa])."\n";
                     foreach ($valores as $nom => $num) {
-                        echo "<tr class='fila_tabla_conteo'><td style='padding-left:20px'>".$nom."</td>";
+                        echo "<tr class='fila_tabla_conteo'><th style='padding-left:20px'>".$nom."</th>";
                         echo "<td align='right'>$num</td>";
                         echo "</tr>";
 
@@ -5350,136 +5036,20 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             }
             echo "</table>";
             echo "</td>";
-            
-            echo "<td>";
-            
-            if (count($valores_x) > 1){
-                /********************************************************************************
-                //PARA GRAFICA OPEN CHART
-                /*******************************************************************************/
-                $chk_chart = array('bar' => '', 'pie' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
-                
-                echo "<td align='center' valign='top'><table>
-                <tr>
-                    <td align='left'>Tipo de Gr&aacute;fica:&nbsp;
-                        <select onchange=\"graficarEventoC(this.value,$num_records)\" class='select'>
-                            <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                            <option value='pie' ".$chk_chart['pie'].">Torta</option>
-                        </select>
-                &nbsp;&nbsp;::&nbsp;&nbsp;Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                </tr>";
-                                    
-                echo "<td align='center' valign='top'><table>
-                <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-                
-                //Eje x
-                $i = 0;
-                foreach ($valores_x as $x){
-                    
-                    $x_tmp = explode(" ",$x);
-                    
-                    if (count($x_tmp) > 1)  $x = $x_tmp[0]." ".$x_tmp[1]."...";
-                    else                    $x = $x_tmp[0];
-                    
-                    if ($i == 0)    $ejex = "'".utf8_encode($x)."'";
-                    else            $ejex .= ",'".utf8_encode($x)."'";
-                    
-                    $i++;
-                }
-        
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')));
-                
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-                
-                $path = 'admin/lib/common/open-flash-chart/';
-                $path_in = 'lib/common/open-flash-chart/';
-        
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-                
-                $content = "<?
-                include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-                
-                \$g = new sidihChart();
-                
-                \$g->title('".utf8_encode($title)."');
-                
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',2);";
-                
-                $max_y = $g->maxY(max($valores_y));
-                
-                if ($chart == 'pie'){
-                    $content .= "\$g->pie(100,'#CCCCCC','{font-size: 10px; color: #000000;');\n
-                             \$g->pie_values( array(".implode(",",$valores_y)."), array($ejex) );
-                             \$g->pie_slice_colours( array('#0066ff','#99CC00','#ffcc00') );";
-                    
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    \$g->set_num_decimals(0);";
-                }
-                else{
-                    $content .= "\$".$chart." = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][0]."' );\n";
-                    $content .= "\$".$chart."->data = array(".implode(",",$valores_y).");\n";
-                    $content .= "\$g->data_sets[] = \$".$chart.";";
-                
-                    $max_y = $g->maxY(max($valores_y));
-                    
-                    $content .= "
-                    \$g->set_tool_tip( '#x_label# <br> #val# Eventos' );        
-                    \$g->set_y_max( ".$max_y." );
-                    \$g->y_label_steps(5);
-                    //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                    \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
-                    
-                    \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
-                    
-                    \$g->set_num_decimals(0);";
-                }
-                
-                // display the data
-                $content .= "echo \$g->render();
-                ?>";
-                
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir('../chart-data.php','w+');
-                
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-        
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-
-            }
+            echo "<td id='highchart' width='700' height='400'>";
             echo "</td>";
             echo "</tr>";
 
         }
         
-        //Número de victimas por Mes
+        //NÃºmero de victimas por Mes
         else if ($reporte ==  6) {
             
             $mes_a = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                 echo "<tr>
                         <td valign='top'>
                             <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='250'>
-                                <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de víctimas</td></tr>";
+                                <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de vÃ­ctimas</td></tr>";
                 
             $sql = "SELECT sum(cant_victima) as num, MONTH(fecha_reg_even) as mes, YEAR(fecha_reg_even) as aaaa FROM evento_c 
                     INNER JOIN evento_localizacion ON evento_c.id_even = evento_localizacion.id_even 
@@ -5607,7 +5177,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                 //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
                 \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
                 
-                \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
+                \$g->set_y_legend('".utf8_encode('NÃºmero de Eventos')."',12);
                 
                 \$g->set_num_decimals(0);
                 
@@ -5634,12 +5204,12 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
         }
             
-        // Número de eventos por confrontacion de actores
+        // NÃºmero de eventos por confrontacion de actores
         else if (in_array($reporte, array(7,10,8,11))) {
             
             $actor_dao = New ActorDAO();
 
-            $ev = ($reporte == 7 || $reporte == 8) ? 'eventos' : 'víctimas';
+            $ev = ($reporte == 7 || $reporte == 8) ? 'eventos' : 'vÃ­ctimas';
             
             echo "<tr>
                     <td valign='top'>
@@ -5866,7 +5436,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                     //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
                     \$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
                     
-                    \$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
+                    \$g->set_y_legend('".utf8_encode('NÃºmero de Eventos')."',12);
                     
                     \$g->set_num_decimals(0);";
                 }
@@ -5910,3 +5480,4 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 }
 
 ?>
+

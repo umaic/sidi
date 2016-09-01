@@ -438,39 +438,48 @@ function graficarDesplazamiento(chart){
 		params += '&dato_para_reporte_4_despla='+dato_para_reporte_4_despla;
 	
 	// getDataV1('graficaDesplazamiento',ajax_script + '?' + params,'graficaDesplazamiento');
-    //
+    go(params, 'graficaDesplazamiento');
+}
+
+function go(params, id)
+{
+	var id_tabla = '#' + id;
+	var tabla_datos = 'tabla_datos';
+	var id_tabla_datos = '#' + tabla_datos;
+
     $.ajax({
         url: ajax_script + '?' + params,
         success: function(html){ 
 
-            $('#graficaDesplazamiento').html(html);
+            $(id_tabla).html(html);
 
             $('#highchart').highcharts({
-            data: {
-                table: 'tablaDesplazamiento'
-            },
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: $('#tablaDesplazamiento').data('titulo')
-            },
-            yAxis: {
-                allowDecimals: false,
-                title: {
-                    text: $('#tablaDesplazamiento').data('ejey')
-                }
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        this.point.y + ' ' + this.point.name.toLowerCase();
-                }
-            }
-    });
+				data: {
+					table: tabla_datos
+				},
+				chart: {
+					type: 'column'
+				},
+				title: {
+					text: ($(id_tabla_datos).data('titulo')) ? $(id_tabla_datos).data('titulo') : ''
+				},
+				yAxis: {
+					allowDecimals: false,
+					title: {
+						text: ($(id_tabla_datos).data('ejey')) ? $(id_tabla_datos).data('ejey') : ''
+					}
+				},
+				tooltip: {
+					formatter: function () {
+						return '<b>' + this.series.name + '</b><br/>' +
+							this.point.y + ' ' + this.point.name.toLowerCase();
+					}
+				}
+			});
         }
     });
 }
+
 function generarReporteDesplazamiento(){
 
 	//Reporte
@@ -939,9 +948,12 @@ function graficarEventoC(chart,num_records){
 	}
 	
 	var params = 'object=GraficaResumenEventoC&reporte='+reporte+'&depto='+depto+'&ubicacion='+ubicacion+'&f_ini='+obj_f_ini.value+'&f_fin='+obj_f_fin.value+'&id_cat='+id_cat+'&id_scat='+id_scat+'&num_records='+num_records+'&chart='+chart;
-	document.getElementById('debug_info').value = server + '/sissh/api_grafica.php?' + params;
+	//document.getElementById('debug_info').value = server + '/sissh/api_grafica.php?' + params;
 	 
-	getDataV1('graficaEventoC', ajax_script + '?' + params,'graficaEventoC');
+	//getDataV1('graficaEventoC', ajax_script + '?' + params,'graficaEventoC');
+    
+	go(params, 'graficaEventoC');
+    
 }
 
 
