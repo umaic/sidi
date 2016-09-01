@@ -886,7 +886,12 @@ ul.tabbernav li.tabberactive a:hover
     display: block;
     overflow: auto;
 }
-.fila_tabla_conteo td {
+.tabla_grafica_conteo th {
+  font-size: 12px;
+  text-align: left;
+}
+.fila_tabla_conteo td,
+.fila_tabla_conteo th {
     font-size: 12px !important;
     padding: 8px;
 	background-color: #F1F1F1;
@@ -895,6 +900,7 @@ ul.tabbernav li.tabberactive a:hover
 .titulo_tabla_conteo {
 	font-weight: bold;	
 }
+.titulo_tabla_conteo th,
 .titulo_tabla_conteo td {
 	color: #FFFFFF;
 	background-color: #0066FF;
