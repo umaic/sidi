@@ -4880,13 +4880,13 @@ Class P4wDAO
 
                 $id_mun = $_SESSION['4w_f']['id'][array_search('id_mun_filtro',$_SESSION['4w_f']['c'])];
                 $sql .= ' JOIN mun_proy AS dp ON dp.id_proy = p.id_proy';
-                $cond .= " AND id_mun IN ($id_mun)";
+                $cond .= " AND dp.id_mun IN ($id_mun)";
             }
             else if (array_search('id_depto_filtro', $_SESSION['4w_f']['c']) !== false) {
 
                 $id_depto = $_SESSION['4w_f']['id'][array_search('id_depto_filtro',$_SESSION['4w_f']['c'])];
                 $sql .= ' JOIN depto_proy AS dp ON dp.id_proy = p.id_proy';
-                $cond .= " AND id_depto IN ($id_depto)";
+                $cond .= " AND dp.id_depto IN ($id_depto)";
             }
         }
 
