@@ -108,7 +108,7 @@ $incs = json_decode($json);
 // Borra los eventos que no existan en monitor
 $borrados = 0;
 if ($check_borrados) {
-    $my_monitor = mysqli_connect('192.168.1.3','sissh','***REMOVED***','violencia_armada');
+    $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm','violencia_armada');
     //$my_monitor = mysqli_connect('localhost','monitor','!7ujmmju7!','violencia_armada');
 
     $sql_borrar_sidih = "SELECT incident_id, sidih_id 

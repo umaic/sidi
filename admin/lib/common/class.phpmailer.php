@@ -182,14 +182,14 @@ class PHPMailer
      *  Sets SMTP username.
      *  @var string
      */
-         var $Username     = "***REMOVED***";//cuando es Gmail
+         var $Username     = "ochaservices@colombiassh.org";//cuando es Gmail
     //var $Username     = "rojas";
 
     /**
      *  Sets SMTP password.
      *  @var string
      */
-         var $Password     = "***REMOVED***";//cuando es Gmail
+         var $Password     = "0ch4c0l0mb14";//cuando es Gmail
     //var $Password     = "ruben";
 
     /**

@@ -47,7 +47,7 @@ Class Mapserver {
 	 * Constructor
 	 **/
 	function Mapserver(){
-		$this->conn = "host=localhost port=5432 dbname=sissh user=sissh password=***REMOVED***";
+		$this->conn = "host=localhost port=5432 dbname=sissh user=sissh password=mjuiokm";
 		$this->pgConn = New PgDBConn();
 
 		// path defaults
