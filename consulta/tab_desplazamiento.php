@@ -103,7 +103,7 @@
 							foreach ($fuentes as $fuente){
                                 //$f_corte = $desplazamiento_dao->GetFechaCorte($fuente->id,'letra');
                                 $f_nom = ($fuente->nombre == 'CODHES') ? 'CODHES' : 'UARIV';
-                                echo "<tr><td><input type='checkbox' value=".$fuente->id." id='fuente_despla_$fuente->id' name='fuentes' onclick=\"changeEjexDesplazamiento('checkbox')\">&nbsp;<b>".$f_nom."</b>
+                                echo "<tr><td><input type='radio' value=".$fuente->id." id='fuente_despla_$fuente->id' name='fuentes' onclick=\"changeEjexDesplazamiento('checkbox')\">&nbsp;<b>".$f_nom."</b>
                                     </td></tr>";
                                     //<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font class='nota'>[ Corte: $f_corte ]</font>
 							}

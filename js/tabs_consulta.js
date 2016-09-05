@@ -438,10 +438,10 @@ function graficarDesplazamiento(chart){
 		params += '&dato_para_reporte_4_despla='+dato_para_reporte_4_despla;
 	
 	// getDataV1('graficaDesplazamiento',ajax_script + '?' + params,'graficaDesplazamiento');
-    go(params, 'graficaDesplazamiento');
+    go(params, 'graficaDesplazamiento', 'line');
 }
 
-function go(params, id)
+function go(params, id, type_chart)
 {
 	var id_tabla = '#' + id;
 	var tabla_datos = 'tabla_datos';
@@ -458,7 +458,7 @@ function go(params, id)
 					table: tabla_datos
 				},
 				chart: {
-					type: 'column'
+					type: type_chart
 				},
 				title: {
 					text: ($(id_tabla_datos).data('titulo')) ? $(id_tabla_datos).data('titulo') : ''
@@ -890,15 +890,13 @@ function graficarDatos(chart,gen_reporte){
 	getDataV1('graficaDatos',ajax_script + '?' + params,inner);
 }
 
-function graficarEventoC(chart,num_records){
+function graficarEventoC(num_records){
 	
 	//Reporte
 	obj = document.getElementsByName("reporte_evento_c");
 	reporte = getRadioCheck(obj);
 	
-	if (reporte == 3){
-		chart = 'line';
-	}
+	var chart = (reporte == 3 || reporte == 6) ? 'line' : 'column';
 	
 	obj_f_ini = document.getElementById('date1_ini');
 	obj_f_fin = document.getElementById('date1_fin');
@@ -952,7 +950,7 @@ function graficarEventoC(chart,num_records){
 	 
 	//getDataV1('graficaEventoC', ajax_script + '?' + params,'graficaEventoC');
     
-	go(params, 'graficaEventoC');
+	go(params, 'graficaEventoC', chart);
     
 }
 
