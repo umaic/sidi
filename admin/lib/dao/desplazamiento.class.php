@@ -2948,8 +2948,7 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                             &nbsp;&nbsp;&nbsp;<img src='images/consulta/excel.gif'>&nbsp;<a href='export_data.php?nombre_archivo=desplazamiento_".$nom_ubi."_sidih&csv_path=$file_csv&csv2xls=1'>Descargar tabla</a></td>";
                 $html .= "<tr>
                     <td valign='top'>
-                    <table border=0 id='tablaDesplazamiento' class='tabla_grafica_conteo' cellpadding=4 
-                    cellspacing=1 width='500' height='400' data-ejey='Desplazamientos' data-titulo='$title'>";
+                    <table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-ejey='Desplazamientos' data-titulo='$title'>";
 
 
                 $f = fopen($file_csv_path, "r");
@@ -3362,13 +3361,6 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
 
             $num_arr = count($num_desplazados);
 
-            //GRAFICA
-            $PG = new PowerGraphic;
-            $PG->title     = $title;
-            $PG->axis_x    = $ejex_title;
-            $PG->axis_y    = 'Personas';
-            $PG->skin      = 1;
-            $PG->credits   = 0;
             echo "<br>";
             echo "<table align='center' cellspacing='1' cellpadding='3' width='100%' border=0>";
 
@@ -3377,7 +3369,7 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
             $html .= "<tr><td>Localizaci&oacute;n Geogr&aacute;fica: <b>$nom_ubi</b></td></tr>";
             $html .= "<tr>
                 <td valign='top'>
-                <table border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='350'>";
+						<table id='tabla_datos' border=0 class='tabla_grafica_conteo' cellpadding=4 cellspacing=1 width='300' height='400' data-titulo='$title'>";
 
             //ESCRIBE TITULO
             $xls = "<table><tr><td>$title</td></tr>";
@@ -3419,7 +3411,6 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
 
                             $txt_dp .= '<td>Desplazamientos</td><td>Personas</td>';
 
-                            //eval("\$PG->graphic_".$f." = '".$fuente->nombre."';");
                             $PG->{'graphic_'.$f} = $fuente->nombre;
 
                             $f++;
@@ -3505,6 +3496,8 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                         break;
                 }
 
+				$html .= '<tbody>';
+
                 if ($por_periodo == 1){
 
                     $ii = 0;
@@ -3513,7 +3506,7 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                     //Si es acumulado coloca la fila antes de ....
                     if ($reporte == 1){
                         $html .= "<tr class='fila_tabla_conteo'><td>Antes de $f_ini</td>";	
-                        $xls .= "<tr><td>Antes de $f_ini</td>";	
+                        $xls .= "<tr><th>Antes de $f_ini</th>";
 
                         foreach ($fuentes as $f=>$id_fuente){
                             $html .= "<td align='right'>".number_format($num_ini[$id_fuente])."</td>";
@@ -3543,7 +3536,7 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                         }
 
                         $html .= "<tr class='fila_tabla_conteo'>";
-                        $html .= "<td>".$per."</td>";
+                        $html .= "<th>".$per."</th>";
                         $xls .= "<tr><td>".$per."</td>";
 
                         $PG->x[$aa] = $per;
@@ -3602,8 +3595,8 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
 
                                         if ($nd == 0){
                                             $num_desplazados_total[$a] = $num;
-                                            $html .= "<td align='right'>".number_format($num)."</td>";
-                                            $html .= "<td align='right'>".number_format($personas)."</td>";
+                                            $html .= "<td align='right'>$num</td>";
+                                            $html .= "<td align='right'>$personas</td>";
                                             $xls .= "<td align='right'>".number_format($num,0,"","")."</td>";
 
                                             //eval("\$PG->".$arr[$f]."[".$aa."] = ".$num.";");
@@ -3738,182 +3731,12 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                 echo $html;
             }
 
-            echo "</table>";
+            echo "</tbody></table>";
             echo "</td>";
             
-            echo '<td>';
-            
-            /********************************************************************************
-            //PARA GRAFICA OPEN CHART
-            /*******************************************************************************/
-            if (!isset($_GET['api']) || (isset($_GET['api']) && isset($_GET['grafica_api']) && $_GET['grafica_api'] == 1)){
-                $chk_chart = array('bar' => '', 'bar_3d' => '', 'line' => '');
-                $chk_chart[$chart] = ' selected ';
-                $font_size_key  =10;
-                $font_size_x_label = 8;
-                $font_size_y_label = 8;
+            echo "<td id='highchart' width='700' height='400'></td></tr>";
+			
 
-                echo "<td align='center' valign='top'><table>
-                    <tr><td align='left'>";
-
-                //Si no hay datos no grafica
-                if (count($PG->y) == 0 || max($PG->y) == 0){
-                    echo "</td></tr></table></td></tr></table>";
-                    die;
-                }
-
-                //Si no viene de API lo muestra
-                if (!isset($_GET["api"])){
-                    echo "Tipo de Gr&aacute;fica:&nbsp;
-                    <select onchange=\"graficarDesplazamiento(this.value)\" class='select'>
-                        <option value='bar' ".$chk_chart['bar'].">Barras</option>
-                        <option value='bar_3d' ".$chk_chart['bar_3d'].">Barras 3D</option>
-                        <option value='line' ".$chk_chart['line'].">Lineas</option>
-                        </select>&nbsp;&nbsp;::&nbsp;&nbsp;";
-                }	
-
-                echo "Si desea guardar la imagen haga click sobre el icono <img src='images/save.png'>
-                    </td>
-                    </tr>
-                    <tr><td class='tabla_grafica_conteo' colspan=1 width='600' bgcolor='#F0F0F0' align='center'><br>";
-
-                //Eje x
-                $i = 0;
-                foreach ($PG->x as $x){
-                    if ($i == 0)	$ejex = "'".utf8_encode($x)."'";
-                    else			$ejex .= ",'".utf8_encode($x)."'";
-
-                    $i++;
-                }
-
-                //Estilos para bar y bar3D
-                $chart_style = array('bar' => array('alpha' => 90, 'color' => array('#0066ff','#639F45','')),
-                        'bar_3d' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')),
-                        'line' => array('alpha' => 90,'color' => array('#0066ff','#639F45','')));
-
-                //Variable de sesion que va a ser el nomnre dela grafica al guardar
-                $_SESSION["titulo_grafica"] = $title;
-
-                $path = $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/open-flash-chart/';
-                $path_in = $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/open-flash-chart/';
-
-                include ("$path_in/php-ofc-library/sidihChart.php");
-                $g = new sidihChart();
-
-                $content = "<?
-                    include_once('admin/lib/common/open-flash-chart/php-ofc-library/sidihChart.php' );
-
-                \$g = new sidihChart();
-
-                \$g->title('".utf8_encode($title)."');
-
-                // label each point with its value
-                \$g->set_x_labels( array(".$ejex.") );
-                \$g->set_x_label_style( $font_size_x_label, '#000000',$ejex_angulo);";
-
-
-                if ($chart == 'bar_3d'){
-                    $content .= "\$g->set_x_axis_3d(6);";
-                    $content .= "\$g->x_axis_colour('#dddddd','#FFFFFF');";
-                }
-
-                $f = 1;
-                $max_y = 0;
-                if ($reporte == 3){
-                    $ids = $tipos;
-                }
-                else if ($reporte == 5){
-                    $ids = array(0,1);
-                    $reporte5 = array ("Expulsión","Recepción");
-                }
-                else{
-                    $ids = $fuentes;
-                }
-                $txt_fecha_corte = "Fecha de Corte: ";
-                foreach ($ids as $id){
-                    $ff = $f - 1;
-
-                    if ($reporte == 3){
-                        $vo = $id;
-                    }
-                    else if ($reporte == 5){
-                        $vo->nombre = $reporte5[$id];
-                    }
-                    else{
-                        $vo = $fuente_dao->Get($id);
-                        $f_corte = $this->GetFechaCorte($vo->id);
-                        $f_corte = explode("-",$f_corte);
-                        $txt_fecha_corte = $f_corte[2]." ".$mes[$f_corte[1]*1]." ".$f_corte[0];
-                    }
-
-
-                    if ($chart == 'bar' || $chart == 'bar_3d'){
-                        $content .= "\$".$chart."_$f = new $chart(".$chart_style[$chart]['alpha'].", '".$chart_style[$chart]['color'][$ff]."' );\n";
-
-                        if ($reporte == 3){
-                            $content .= "\$".$chart."_".$f."->key('".utf8_encode($vo->nombre)."', $font_size_key);\n";
-                        }
-                        else if ($reporte == 5){
-                            $content .= "\$".$chart."_".$f."->key('".utf8_encode($vo->nombre)."', $font_size_key);\n";
-                        }
-                        else{
-                            $content .= "\$".$chart."_".$f."->key('".utf8_encode($vo->nombre)."\nCorte: $txt_fecha_corte', $font_size_key );\n";
-                        }
-
-                        $content .= "\$".$chart."_".$f."->data = array(".implode(",",$PG->$arr[$ff]).");\n";
-                        $content .= "\$g->data_sets[] = \$".$chart."_$f;";
-                    }
-                    else if ($chart == 'line'){
-                        $content .= "\$g->set_data(array(".implode(",",$PG->$arr[$ff])."));\n";
-                        $content .= "\$g->".$chart."_dot(1,3,'".$chart_style[$chart]['color'][$ff]."','".utf8_encode($vo->nombre)."\nCorte: $txt_fecha_corte',$font_size_key);\n";
-                    }
-
-                    if ($max_y < max($PG->$arr[$ff]))	$max_y = max($PG->$arr[$ff]);
-
-                    $f++;
-                }
-
-                $max_y = $g->maxY($max_y);
-
-                $content .= "
-                    \$g->set_tool_tip( '#key#: #x_label# <br> #val# Personas' );		
-                \$g->set_y_max( ".$max_y." );
-                \$g->y_label_steps(5);
-                //Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
-                \$g->set_x_legend('".utf8_encode($ejex_title)."\n\n".utf8_encode($pie)."\n',11);
-
-                \$g->set_y_legend('Personas',11);
-
-                \$g->set_num_decimals(0);
-
-                // display the data
-                echo \$g->render();
-                ?>";
-
-                //MODIFICA EL ARCHIVO DE DATOS
-                $archivo = New Archivo();
-                $fp = $archivo->Abrir($_SERVER["DOCUMENT_ROOT"].'/sissh/chart-data.php','w+');
-
-                $archivo->Escribir($fp,$content);
-                $archivo->Cerrar($fp);
-
-                //IE Fix
-                //Variable para que IE cargue el nuevo archivo de datos y cambie el tipo de grafica con los nuevos valores
-                $nocache = time();
-                include_once $path_in.'php-ofc-library/open_flash_chart_object.php';
-                open_flash_chart_object( 500, 350, 'chart-data.php?nocache='.$nocache,false );
-                ?>
-                <!-- Grafica HTML -->
-                <!--<td>
-                <table id="table_grafica" cellspacing='0' cellpadding='5'>
-                <tr>
-                <td><img src='admin/lib/common/graphic.class.php?<?=$PG->create_query_string()?>' border=1 /></td>
-                </tr>
-                </table>
-                </td>-->
-                </td></tr>
-            <?
-            }
             //Si no viene de API lo muestra
             if (!isset($_GET["api"]) && !in_array($reporte,array(4,5))){  ?>
                 <tr>
@@ -3926,7 +3749,6 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
                     }
 
             ?>
-            </td>
             </tr>
             <? } ?>
             </table></td></tr>

@@ -105,7 +105,7 @@
 				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td colspan="4" align="center">
-						<input type="button" value="Generar Gráfica" name="submit_org" class="boton" onclick="graficarEventoC('bar',10)">
+						<input type="button" value="Generar Gráfica" name="submit_org" class="boton" onclick="graficarEventoC(10)">
 						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicación" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
 					</td>
 				</tr>
