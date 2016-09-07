@@ -4729,13 +4729,13 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             //echo $sql;
             while ($row = $this->conn->FetchObject($rs)){
 
-                $nom = $mes_a[$row->mes]." ".$row->aaaa;
+                $nom = $row->aaaa.'-'.$mes_a[$row->mes];
                 $num = $row->num;
                 
                 $csv .= utf8_encode($nom).",$num\n";
                 
-                $valores_x[] = $nom;
-                $valores_y[] = $num;
+                //$valores_x[] = $nom;
+                //$valores_y[] = $num;
                 echo "<tr class='fila_tabla_conteo'><td>$nom</td>";
                 echo "<td align='right'>$num</td>";
                 echo "</tr>";
@@ -4973,13 +4973,11 @@ class EventoConflictoAjax extends EventoConflictoDAO {
             
             while ($row = $this->conn->FetchObject($rs)){
 
-                $nom = $mes_a[$row->mes]." ".$row->aaaa;
+                $nom = $row->aaaa.'-'.$mes_a[$row->mes];
                 $num = $row->num;
                 
                 $csv .= utf8_encode($nom).",$num\n";
                 
-                $valores_x[] = $nom;
-                $valores_y[] = $num;
                 echo "<tr class='fila_tabla_conteo'><td>$nom</td>";
                 echo "<td align='right'>$num</td>";
                 echo "</tr>";

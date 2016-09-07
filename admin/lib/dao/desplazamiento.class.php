@@ -3411,33 +3411,33 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
 
                             $txt_dp .= '<td>Desplazamientos</td><td>Personas</td>';
 
-                            $PG->{'graphic_'.$f} = $fuente->nombre;
+                            //$PG->{'graphic_'.$f} = $fuente->nombre;
 
                             $f++;
                         }
-                        $html .= "</tr>";
+                        //$html .= "</tr>";
                         $xls .= "</tr>";
 
                         break;
                     case 2:
-                        $html .= "<tr class='titulo_tabla_conteo'><td>$ejex_title</td>";
+                        //$html .= "<tr class='titulo_tabla_conteo'><td>$ejex_title</td>";
                         $xls .="<tr><td>$ejex_title</td>";
                         $f = 1;
                         $txt_dp = '';
                         foreach ($fuentes as $id_fuente){
                             $fuente = $fuente_dao->Get($id_fuente);
-                            $html .= "<td align='center' colspan='2'><b>".$fuente->nombre."</b></td>";
+                            //$html .= "<td align='center' colspan='2'><b>".$fuente->nombre."</b></td>";
                             $xls .= "<td align='center' colspan='2'><b>".$fuente->nombre."</b></td>";
                             
                             $txt_dp .= '<td></td><td>Desplazamientos</td><td>Personas</td>';
 
                             //eval("\$PG->graphic_".$f." = '".$fuente->nombre."';");
-                            $PG->{'graphic_'.$f} = $fuente->nombre;
+                            //$PG->{'graphic_'.$f} = $fuente->nombre;
 
 
                             $f++;
                         }
-                        $html .= "</tr>";
+                        //$html .= "</tr>";
                         $xls .= "</tr>";
 
                         // Texto despla - personas
@@ -3595,8 +3595,8 @@ Class DesplazamientoAjax extends DesplazamientoDAO {
 
                                         if ($nd == 0){
                                             $num_desplazados_total[$a] = $num;
-                                            $html .= "<td align='right'>$num</td>";
-                                            $html .= "<td align='right'>$personas</td>";
+                                            $html .= "<td align='right'>".number_format($num,0,".",",")."</td>";
+                                            $html .= "<td align='right'>".number_format($personas,0,".",",")."</td>";
                                             $xls .= "<td align='right'>".number_format($num,0,"","")."</td>";
 
                                             //eval("\$PG->".$arr[$f]."[".$aa."] = ".$num.";");

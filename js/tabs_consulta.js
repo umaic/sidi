@@ -455,8 +455,11 @@ function go(params, id, type_chart)
 
             $('#highchart').highcharts({
 				data: {
-					table: tabla_datos
+					table: tabla_datos,
 				},
+				lang: {
+					thousandsSep: ','
+				}
 				chart: {
 					type: type_chart
 				},
