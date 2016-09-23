@@ -1458,6 +1458,7 @@ Class P4wDAO
         $t_dir = '../../tmp/';
         $nc = 41;
         $sp = '|';
+        $sep_donante = '%';
         $msg = '';
         $check = true;
         $cobli = array(1,2,3,4,5,7,8,9,10,11,12,14,20,21,22,23,34);
@@ -2013,14 +2014,14 @@ Class P4wDAO
                          */
                             if (!empty($os) && !empty($on)) {
 
-                                $_v = explode(',', trim($os));
-                                $_n = explode(',', trim($on));
+                                $_v = explode($sep_donante, trim($os));
+                                $_n = explode($sep_donante, trim($on));
 
                                 foreach($_v as $i => $v) {
 
                                     $s = str_replace($latin, $normal, strtolower(trim($v)));
                                     $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-                                    $t = str_replace($latin, $normal, strtolower(trim($ot)));
+                                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
                                     $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
 
                                     $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
@@ -2050,7 +2051,7 @@ Class P4wDAO
                             // Solo sigla
                             else if (!empty($os) && empty($on)) {
 
-                                $_v = explode(',', trim($os));
+                                $_v = explode($sep_donante_, trim($os));
 
                                 foreach($_v as $i => $v) {
 
