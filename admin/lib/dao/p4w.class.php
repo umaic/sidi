@@ -85,7 +85,7 @@ Class P4wDAO
 
         $this->url = "index.php?m_e=p4w&accion=listar&class=P4wDAO&method=Dashboard&param=";
 
-        $this->sql_log_file = $_SERVER["DOCUMENT_ROOT"].'/sissh/_sgol/4w_sql_log.sql';
+        $this->sql_log_file = $_SERVER["DOCUMENT_ROOT"].'/sissh/_sgol/4w_sql_log.txt';
 
     }
 
@@ -3064,13 +3064,14 @@ Class P4wDAO
                                 else if ($dmi == 2 || $c == 'cluster') {
                                     $cluster_id = ($dmi == 2) ? $id : $cl_id;
 
-                                    echo "Presupuesto antes = $pres, fila = $dmi, columna = $c , cluster_id = $cluster_id<br>";
+                                    //echo "PRO ID = $idp, Presupuesto antes = $pres, fila = $dmi, columna = $c , cluster_id = $cluster_id<br>";
                                     $pres_tema = $this->getPresTema($idp,$pres,$clasifis);
                                     $pres = (empty($pres_tema[$cluster_id])) ? 0 : $pres_tema[$cluster_id];
-                                    print_r($pres_tema);
-                                    echo "Presupuesto despues: $pres <br>";
+                                    //print_r($pres_tema);
+                                    //echo "Presupuesto despues: $pres <br>";
                                 }
 
+                                
                                 $pres = ceil($this->getPresupuestoBeneficiariosRealMeses($idp,$pres,
                                             $this->GetFieldValue($idp, 'inicio_proy'),
                                             $this->GetFieldValue($idp, 'fin_proy'),
@@ -3078,8 +3079,8 @@ Class P4wDAO
                                             $id_depto_reporte,
                                             $id_mun_reporte
                                         ));
-
-                                echo "Presupuesto otro = $pres <br><br>";
+                                 
+                                //echo "Presupuesto despues de funcion gorda = $pres <br><br>";
                                 $n += $pres;
                             }
                         }
@@ -4420,8 +4421,8 @@ Class P4wDAO
 
         //echo $sql;
 
-        $csv = ",Proyecto,,,,,,,,Ejecutor,,,Implementadores,,,Donantes,,,,,Resultados,Sectores,Beneficiarios Directos,,,,,,,,,Beneficiarios Indirectos,,,,,,,,,,\r\n";
-        $csv .= "ID 4w,Código,Nombre,Descripción,Inicio,Fin,Meses,Presupuesto,Estado,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Aporte,Código que usa el donante,Resultados,Sectores,";
+        $csv = ",Proyecto,,,,,,,,Ejecutor,,,Implementadores,,,Donantes,,,,,Resultados,Sectores,Contacto en Terreno,,Beneficiarios Directos,,,,,,,,,Beneficiarios Indirectos,,,,,,,,,,\r\n";
+        $csv .= "ID 4w,Código,Nombre,Descripción,Inicio,Fin,Meses,Presupuesto,Estado,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Aporte,Código que usa el donante,Resultados,Sectores,Responsable,Correo Electrónico,";
         $csv .= "Total,";
         $csv .= "Total Hombres,Hombres 0-5 Años,Hombres 6-18 Años,Hombre 18+ Años,";
         $csv .= "Total Mujeres,Mujeres 0-5 Años,Mujeres 6-18 Años,Hombre 18+ Años,";
@@ -4632,6 +4633,10 @@ Class P4wDAO
 
                 //$csv .= ','.$row->erf.','.$row->cerf;
                 //$csv .= ',,';
+                
+                //Contacto
+                $csv .= ',';
+                $csv .= $row->nom_ape_con . ',' . $row->email_con;
 
                 // Beneficiarios
                 $benf_proy = $this->getCantBenef($id);
@@ -4785,11 +4790,14 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
                 INNER JOIN organizacion USING(id_org)
                 INNER JOIN estado_proy USING(id_estp)
-                INNER JOIN proyecto_tema USING(id_proy) ";
+                INNER JOIN proyecto_tema USING(id_proy) 
+                INNER JOIN contacto USING(id_con)
+                ";
 
         $cond = $this->_setConditionSi(array('si' => $si_proy));
 
