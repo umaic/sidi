@@ -1995,7 +1995,14 @@ Class P4wDAO
                         $col = $col + 2;
                         $p_vo->costo_proy = 0;
                         $presu = floor($f[$col]);
-                        if (isset($presu) && is_numeric($presu)) {
+                        if (strpos($presu,",") > 0 OR strpos($presu,".") > 0) {
+                            $_msgr .= ' - El presupuesto contiene separadores de miles o de decimales';
+                            if ($chks['p']) {
+                                $_msg .= "El presupuesto contiene separadores de miles o de decimales - $presu<br />";
+                                $er = true;
+                            }
+                        }
+                        elseif (isset($presu) && is_numeric($presu)) {
                             $p_vo->costo_proy = number_format(trim($presu),0,'','');
                         }
                         else {
