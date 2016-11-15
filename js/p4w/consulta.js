@@ -156,7 +156,7 @@ function addBaseLayer(c){
                 map.addLayer(ly);
 
                 var wms_departamentos = new OpenLayers.Layer.WMS("Departamentos",
-                    "http://geonode.salahumanitaria.co/geoserver/wms",
+                    "http://geonode.umaic.org/geoserver/wms",
                     {
                         layers: "geonode:col_admbnda_adm1_igac_ochal",
                         transparent: true
