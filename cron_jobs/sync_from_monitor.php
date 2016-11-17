@@ -92,7 +92,7 @@ function file_get_contents_curl($url) {
 
 $ayer = (empty($_GET['desde'])) ? date('Y-m-d',strtotime('-1 day')) : $_GET['desde'];
 //$ayer = '2015-1-1';
-$fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer";
+$fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer"; echo $fn;
 //$fn = "http://sidih.salahumanitaria.co/sissh/sidih.json";
 //$fn = "http://sidih.local/sidih.json";
 
@@ -209,22 +209,22 @@ foreach ($incs as $inc) {
 echo 'Borrados: '.$borrados.'- Importados: '.count($incs);
 
 //ENVIA EMAIL
-$from = "rojasr@un.org";
+$from = "noreply@umaic.org";
 
 require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 
 $mail = new PHPMailer();
 
-$mail->IsSMTP(); // set mailer to use SMTP
+//$mail->IsSMTP(); // set mailer to use SMTP
 
 $mail->From = $from;
-$mail->FromName = "SIDIH OCHA";
-$mail->AddAddress("rubasrojas@gmail.com", "Ruben Rojas");
+$mail->FromName = "SIDI UMAIC";
+$mail->AddAddress("ict@umaic.org", "SIDI UMAIC");
 
 $mail->WordWrap = 50;                                 // set word wrap to 50 characters
 $mail->IsHTML(true);                                  // set email format to HTML
 
-$mail->Subject = "Sync Monitor :: Sidih";
+$mail->Subject = "Sincronización SIDI-Monitor";
 $mail->Body    = date('d-F-Y').', Borrados: '.$borrados.', Importados: '.count($incs);
 
 $mail->Send();
