@@ -4428,8 +4428,8 @@ Class P4wDAO
 
         //echo $sql;
 
-        $csv = ",Proyecto,,,,,,,,Ejecutor,,,Implementadores,,,Donantes,,,,,Resultados,Sectores,Contacto en Terreno,,Beneficiarios Directos,,,,,,,,,Beneficiarios Indirectos,,,,,,,,,,\r\n";
-        $csv .= "ID 4w,Código,Nombre,Descripción,Inicio,Fin,Meses,Presupuesto,Estado,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Aporte,Código que usa el donante,Resultados,Sectores,Responsable,Correo Electrónico,";
+        $csv = ",Proyecto,,,,,,,,Ejecutor,,,Implementadores,,,Donantes,,,,,Resultados,Sectores,SRP,Contacto en Terreno,,Beneficiarios Directos,,,,,,,,,Beneficiarios Indirectos,,,,,,,,,,\r\n";
+        $csv .= "ID 4w,Código,Nombre,Descripción,Inicio,Fin,Meses,Presupuesto,Estado,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Aporte,Código que usa el donante,Resultados,Sectores,,Responsable,Correo Electrónico,";
         $csv .= "Total,";
         $csv .= "Total Hombres,Hombres 0-5 Años,Hombres 6-18 Años,Hombre 18+ Años,";
         $csv .= "Total Mujeres,Mujeres 0-5 Años,Mujeres 6-18 Años,Hombre 18+ Años,";
@@ -4640,7 +4640,10 @@ Class P4wDAO
 
                 //$csv .= ','.$row->erf.','.$row->cerf;
                 //$csv .= ',,';
-                
+
+                //SRP
+                $csv .= ','.$row->srp_proy;
+
                 //Contacto
                 $csv .= ',';
                 $csv .= $row->nom_ape_con . ',' . $row->email_con;
@@ -4797,7 +4800,7 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
-                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
                 INNER JOIN organizacion USING(id_org)
