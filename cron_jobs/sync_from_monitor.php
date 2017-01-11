@@ -92,7 +92,7 @@ function file_get_contents_curl($url) {
 //echo "--Comenzando Lectura de JSON<br>";
 $ayer = (empty($_GET['desde'])) ? date('Y-m-d',strtotime('-1 day')) : $_GET['desde'];
 //$ayer = '2015-1-1';
-$fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer"; echo $fn;
+$fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer";
 //$fn = "http://sidih.salahumanitaria.co/sissh/sidih.json";
 //$fn = "http://sidih.local/sidih.json";
 
@@ -147,7 +147,8 @@ foreach ($incs as $inc) {
     //if ($inc->fecha_update != 'null') {
         $sql_sidih = "SELECT id, sidih_id 
                     FROM evento_c_monitor
-                    WHERE incident_id = $incident_id"; echo $sql_sidih."<br>";
+                    WHERE incident_id = $incident_id";
+        //echo $sql_sidih."<br>";
         $rs_sidih = $conn->OpenRecordset($sql_sidih);
 
         while ($row_sidih = $conn->FetchObject($rs_sidih)) {
