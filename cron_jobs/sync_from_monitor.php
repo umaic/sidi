@@ -89,7 +89,7 @@ function file_get_contents_curl($url) {
      
     return $data;
 }
-
+//echo "--Comenzando Lectura de JSON<br>";
 $ayer = (empty($_GET['desde'])) ? date('Y-m-d',strtotime('-1 day')) : $_GET['desde'];
 //$ayer = '2015-1-1';
 $fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer"; echo $fn;
@@ -104,7 +104,8 @@ $fn = "http://violenciaarmada.salahumanitaria.co/media/uploads/sidih_sync.json";
 $json = file_get_contents_curl($fn);
 $incs = json_decode($json);
 
-
+//echo "--Pasa Traida desde Monitor $fn <br>";
+//echo "--Comenzando borrado<br>";
 // Borra los eventos que no existan en monitor
 $borrados = 0;
 if ($check_borrados) {
@@ -114,7 +115,9 @@ if ($check_borrados) {
     $sql_borrar_sidih = "SELECT incident_id, sidih_id 
                          FROM evento_c_monitor ecm
                          INNER JOIN evento_c ec ON ecm.sidih_id = ec.id_even";
+    //echo $sql_borrar_sidih . "<br>     ";
     $rs = $conn->OpenRecordset($sql_borrar_sidih);
+    //echo "Probando monitor/incident.id=";
     while ($row = $conn->FetchRow($rs)) {
         $incident_id = $row[0];
         $sidih_id = $row[1];
@@ -122,25 +125,29 @@ if ($check_borrados) {
         $sql_borrar = "SELECT id FROM incident WHERE id = $incident_id";
         mysqli_real_query($my_monitor,$sql_borrar);
         $result = mysqli_fetch_row(mysqli_use_result($my_monitor));
-
+        //echo "$incident_id,";
         if (empty($result[0])) {
             // Borra en la tabla de equivalencias de ID's
+            //echo "Borrando sidi/evento_c_monitor.sidih_id=$sidih_id<br>";
             $evento_dao->Borrar($sidih_id);
             $borrados++;
         }
      
     }
+    //echo "<br>";
 }
-
+//echo "--Pasa borrado<br>";
+//echo "--Comenzando recorrido del JSON<br>";
 foreach ($incs as $inc) {
-		
     // Si se actualizó en monitor se borra en sidih y se vuelve a crear
     $incident_id = $inc->incident_id;
+
+    //echo "Analizando JSON.incident_id=$incident_id<br>";
 
     //if ($inc->fecha_update != 'null') {
         $sql_sidih = "SELECT id, sidih_id 
                     FROM evento_c_monitor
-                    WHERE incident_id = $incident_id";
+                    WHERE incident_id = $incident_id"; echo $sql_sidih."<br>";
         $rs_sidih = $conn->OpenRecordset($sql_sidih);
 
         while ($row_sidih = $conn->FetchObject($rs_sidih)) {
@@ -152,7 +159,8 @@ foreach ($incs as $inc) {
             $conn->Execute($sql);
         }
     //}
-
+    //echo "<pre>";var_dump($inc);echo "</pre>";
+    //echo "Creando evento<br>";
     $evento = new EventoConflicto;
 
     // UTF8 decode
@@ -190,7 +198,7 @@ foreach ($incs as $inc) {
 
     $evento->id_mun = $inc->id_muns;
     $evento->lugar = $inc->lugar;
-    
+    //echo "<pre>";var_dump($evento);echo "</pre>";
     $evento_dao = new EventoConflictoDAO();
 
     $evento_dao->Insertar($evento,0,$inc->num_vict_desc,$inc->num_actores_0_desc,$inc->num_actores_desc,$inc->num_subactores_desc,$inc->num_subsubactores_desc);
@@ -199,7 +207,7 @@ foreach ($incs as $inc) {
     $rs_id = $conn->OpenRecordset($sql_id);
     $row = $conn->FetchRow($rs_id);
     $sidih_id = $row[0];
-
+    //echo "Creado el evento con id_even=$sidih_id<br>";
     if (!empty($sidih_id)) {
         $sqli = "INSERT INTO evento_c_monitor (sidih_id, incident_id,import_date) VALUES ($sidih_id, ".$inc->incident_id.",now())";
         $conn->Execute($sqli);
