@@ -102,6 +102,29 @@ div.srp_on a {
     font-size: 13px !important;
     color: #333333 !important;
 }
+
+div.inter_off {
+    padding-left: 35px !important;
+    background: #e9e9e9 !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d1d1d1)) !important;
+    background: -moz-linear-gradient(top, #ffffff, #d1d1d1) !important;
+    cursor: pointer;
+}
+div.inter_off a {
+    font-size: 13px !important;
+    color: #999999 !important;
+}
+div.inter_on {
+    padding-left: 35px !important;
+    background: #e9e9e9 url(../images/p4w/p_h.png) no-repeat 10px 5px !important;
+    background: url(../images/p4w/p_h.png) no-repeat 10px 5px, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d1d1d1)) !important;
+    background: url(../images/p4w/p_h.png) no-repeat 10px 5px, -moz-linear-gradient(top, #ffffff, #d1d1d1) !important;
+    cursor: pointer;
+}
+div.inter_on a {
+    font-size: 13px !important;
+    color: #333333 !important;
+}
 #map {
     width: 800px;
     height: 100%;

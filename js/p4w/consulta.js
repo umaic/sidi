@@ -36,6 +36,7 @@ var zoomDepto = false;
 var txt_total_proyectos = 'Total de proyectos en Colombia';
 var html_proys;
 var srp = -1;
+var inter = -1;
 var si;
 var grupo = '';
 
@@ -404,6 +405,9 @@ function addProysToMap(c, k, v) {
     // SRP
     urll = addURLParameter(urll, [['srp', srp]]);
 
+    // Interagencial
+    urll = addURLParameter(urll, [['inter', inter]]);
+
     //map.setCenter(map.maxExtent.getCenterLonLat(), 6);
     myZoom = 0;
     if (zoomDepto) {
@@ -431,6 +435,9 @@ function addProysToMap(c, k, v) {
 
                 // SRP
                 urlj = addURLParameter(urlj, [['srp', srp]]);
+
+                // Interagencial
+                urlj = addURLParameter(urlj, [['inter', inter]]);
 
                 $j.getJSON(urlj, function(json){
                     var geojson = new OpenLayers.Format.GeoJSON({
@@ -860,6 +867,30 @@ function addEventos(c) {
         return false;
     });
 
+    $j('#btn_inter').click(function(){
+
+        $div = $j(this).closest('div');
+        if ($div.hasClass('inter_off')) {
+            inter = 1;
+            $div.removeClass('inter_off');
+            $div.addClass('inter_on');
+
+            // Filtro a session
+            addFilterSession('inter',1,url_filtros);
+        }
+        else {
+            inter = -1;
+            $div.addClass('inter_off');
+            $div.removeClass('inter_on');
+            removeFilterSession('inter',1);
+        }
+
+
+        addProysToMap(mtipo,'','');
+        changeTotales();
+
+        return false;
+    });
 
     // Link todos derecha
     $j('#todos').click(function(){

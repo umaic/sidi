@@ -3553,6 +3553,12 @@ Class P4wDAO
             if ($srp !== false) {
                 $cond .= " AND srp_proy =1 ";
             }
+
+            // Aplica filtro de interagencialidad
+            $srp = array_search('inter', $_SESSION['4w_f']['c']);
+            if ($inter !== false) {
+                $cond .= " AND interagencial =1 ";
+            }
         }
 
         if ($cond != '')    $sql .= " AND $cond";
@@ -3826,6 +3832,10 @@ Class P4wDAO
 
         if (!empty($params['srp']) && $params['srp'] == 1 ) {
             $cond .= " AND p.srp_proy = 1";
+        }
+
+        if (!empty($params['inter']) && $params['inter'] == 1 ) {
+            $cond .= " AND p.interagencial = 1";
         }
 
         $sql .= ' WHERE '.$cond.' GROUP BY p.id_proy';
@@ -4800,7 +4810,7 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
-                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy, interagencial
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
                 INNER JOIN organizacion USING(id_org)

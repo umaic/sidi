@@ -574,7 +574,11 @@ else {
                       <div class="srp_off boton">
                           <a href="#" id="btn_srp">Solo proyectos que hacen parte del SRP</a>  <a href="http://wiki.salahumanitaria.co/index.php/Plan_de_Respuesta_Estrat%C3%A9gico" target="_blank"> [?]</a>
                       </div>
-                      <?php } ?>
+                      <?php } else {?>
+                          <div class="inter_off boton">
+                              <a href="#" id="btn_inter">Solo proyectos interagenciales</a>  <a href="https://wiki.umaic.org/wiki/Agencia_de_las_Naciones_Unidas" target="_blank"> [?]</a>
+                          </div>
+                      <?php }?>
                     <div id="resumen">
                         <div id="resumen_titulo"></div>
                         <div>
