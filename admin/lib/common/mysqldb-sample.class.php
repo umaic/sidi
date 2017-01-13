@@ -65,19 +65,19 @@ class MysqlDb {
 			else{
 				
 				echo "Error en consulta";
-				$from = "rojas@un-ocha.org";
+				$from = "";
 				
 				require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 				
 				$mail = new PHPMailer();
 				
 				$mail->IsSMTP(); // set mailer to use SMTP
-				$mail->Username = "rojas";  // SMTP username
-				$mail->Password = "ruben"; // SMTP password
+				$mail->Username = "";  // SMTP username
+				$mail->Password = ""; // SMTP password
 				
 				$mail->From = $from;
-				$mail->FromName = "Rubas";
-				$mail->AddAddress($from, "Fideo");
+				$mail->FromName = "";
+				$mail->AddAddress($from, "");
 				
 				$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 				$mail->IsHTML(true);                                  // set email format to HTML
@@ -153,11 +153,11 @@ class MysqlDb {
 	}
 
 	public function GetGeneratedID() {
-		return mysql_insert_id($this->conn);
+		return ($this->mysqli == 0) ?  mysql_insert_id($this->conn) :  mysqli_insert_id($this->conn);
 	}
 
 	public function FreeMemory($Result) {
-		mysql_free_result($Result);
+		return ($this->mysqli == 0) ?  mysql_free_result($Result) :  mysqli_free_result($Result);
 	}
 
 }
