@@ -1,6 +1,6 @@
 <?php
 
-namespace DrewM\MailChimp;
+// namespace DrewM\MailChimp;
 
 /**
  * Super-simple, minimum abstraction MailChimp API v3 wrapper
@@ -36,7 +36,7 @@ class MailChimp
         $this->api_key = $api_key;
 
         if (strpos($this->api_key, '-') === false) {
-            throw new \Exception("Invalid MailChimp API key `{$api_key}` supplied.");
+            throw new Exception("Invalid MailChimp API key `{$api_key}` supplied.");
         }
 
         list(, $data_center) = explode('-', $this->api_key);
@@ -81,7 +81,7 @@ class MailChimp
      */
     public function getLastError()
     {
-        return $this->last_error ?: false;
+        return $this->last_error ? $this->last_error : false;
     }
 
     /**
@@ -174,7 +174,7 @@ class MailChimp
     private function makeRequest($http_verb, $method, $args = array(), $timeout = 10)
     {
         if (!function_exists('curl_init') || !function_exists('curl_setopt')) {
-            throw new \Exception("cURL support is required, but can't be found.");
+            throw new Exception("cURL support is required, but can't be found.");
         }
 
         $url = $this->api_endpoint . '/' . $method;
