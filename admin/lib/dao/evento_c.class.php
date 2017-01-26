@@ -4761,8 +4761,6 @@ class EventoConflictoAjax extends EventoConflictoDAO {
                             <tr class='titulo_tabla_conteo'><td align='center'>Mes</td><td align='center' colspan='2'>N&uacute;mero de eventos</td></tr>";
                 
             $sql = "SELECT count(evento_c.id_even) as num, id_scateven FROM evento_c 
-                    INNER JOIN evento_localizacion ON evento_c.id_even = evento_localizacion.id_even 
-                    INNER JOIN municipio ON evento_localizacion.id_mun = municipio.id_mun
                     INNER JOIN descripcion_evento ON evento_c.id_even = descripcion_evento.id_even
                     WHERE 1=1 ";
 
