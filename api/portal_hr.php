@@ -434,7 +434,7 @@ switch ($mod){
 
             $nombre = trim($_c->nombre);
             $apellido = trim($_c->apellido);
-            $email = trim($_c->email);
+            $email = trim(preg_replace("/\([^)]+\)/","",$_c->email)); 
             $tel = $_c->tel;
 
             $col_id = 1;
