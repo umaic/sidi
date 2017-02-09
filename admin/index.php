@@ -378,6 +378,9 @@ if ($accion != ""){
 	else if ($accion == "sincro_cnrr"){
 		include_once($_SESSION["m_e"]."/sincro_cnrr.php");
 	}
+    else if ($accion == "sincro_mailchimp"){
+        include_once($_SESSION["m_e"]."/sincro_mailchimp.php");
+    }
 
 }
 //MUESTRA EL MAPA DE ACCION DEL MODULO GENERAL

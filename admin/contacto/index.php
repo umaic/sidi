@@ -90,6 +90,7 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
         <a href='index.php?m_e=contacto&accion=insertar' class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear nuevo cont&aacute;cto</a>
         <a href='#' class="btn btn-primary btn-sm" onclick="location.href='../export_data.php?case=xls_session&nombre_archivo=contactos';return false;"><i class="fa fa-file-excel-o"></i> Exportar listado</a>
         <a href='../OCHA_formato_contactos.xls' class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Formato para captura</a>
+        <a href='index.php?m_e=contacto&accion=sincro_mailchimp' class="btn btn-sm btn-primary"><i class="fa fa-cloud-upload"></i> Sincronizar con Mailchimp</a>
     </div>
     <div class="clearfix"></div>
     <br />
