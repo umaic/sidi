@@ -499,7 +499,17 @@ Class OrganizacionDAO {
 
 		$v_c_a = is_array($valor_combo);
 
-		$col_nombre = ($formato == 'combo_sigla') ? 'sig_org' : $this->columna_nombre;
+        switch ($formato) {
+            case 'combo_sigla':
+                $col_nombre = 'sig_org';
+                break;
+            case 'combo_sigla_nombre':
+                $col_nombre = "CONCAT_WS(' | ', sig_org, ".$this->columna_nombre.")";
+                break;
+            case 'combo_sigla':
+                $col_nombre = $this->columna_nombre;
+                break;
+        }
 
 		$sql = "SELECT $this->columna_id, $col_nombre FROM $this->tabla";
 
