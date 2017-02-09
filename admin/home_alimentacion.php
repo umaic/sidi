@@ -117,8 +117,8 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
         <div class="modulo">
             <h1>Proyectos</h1>
             <ul>
-                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=proyecto&accion=insertar">Insertar</a>
-                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=proyecto&accion=listar&class=ProyectoDAO&method=ListarTabla&param=">Consultar</a></li>
+                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=p4w&accion=insertar">Insertar</a>
+                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=p4w&accion=listar&class=P4wDAO&method=Dashboard&param=&si_proy=4w">Consultar</a></li>
             </ul>
         </div>
     <? } ?>
