@@ -113,7 +113,7 @@ if (!$print){
     <script type="text/javascript" src="t/js/ext_3/ext-base.js"></script>
     <script type="text/javascript" src="t/js/ext_3/ext-all.js"></script>
     <script type="text/javascript" src="t/js/ext_3/ext-lang-es.js"></script>
-    <script type="text/javascript" src="t/js/ext_3/tree-adv.js"></script>
+    <script type="text/javascript" src="t/js/ext_3/tree-av.js"></script>
 
     <script type="text/javascript">
     //<![CDATA[

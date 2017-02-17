@@ -42,7 +42,7 @@ Class Layout {
 		// DEFINICION DE VARIABLES
 		$index_parser = 'index_parser.php';
 
-		//Viene en el url, dado por addTab en js/ext-3/tabs-adv.js
+		//Viene en el url, dado por addTab en js/ext-3/tabs-av.js
 		$class = $_GET['class'];
 		$m_e = $_GET['m_e'];
 

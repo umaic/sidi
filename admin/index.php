@@ -126,7 +126,7 @@ switch ($_SESSION["m_g"]){
 		<script type="text/javascript" src="js/ext_3/ext-base.js"></script>
 		<script type="text/javascript" src="js/ext_3/ext-all.js"></script>
 		<script type="text/javascript" src="js/ext_3/TabCloseMenu.js"></script>
-		<script type="text/javascript" src="js/ext_3/tabs-adv.js"></script>
+		<script type="text/javascript" src="js/ext_3/tabs-av.js"></script>
         <script type="text/javascript" src="../js/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"></script>
 		<?php
 
