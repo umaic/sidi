@@ -70,6 +70,11 @@ $(function(){
     $('#jefe_refrescar').click(function(){
         aplicarFiltro();
     });
+
+    $('#contactos_form').submit(function (evt) {
+        aplicarFiltro();
+        return false;
+    });
 })
 
 </script>
@@ -87,7 +92,7 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
         <h3> ( <?php echo $num_arr; ?> registros )</h3>
     </div>
     <div class="pull-right"><br />
-        <a href='index.php?m_e=contacto&accion=insertar' class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear nuevo cont&aacute;cto</a>
+        <a href='index.php?m_e=contacto&accion=insertar' class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear nuevo contacto</a>
         <a href='#' class="btn btn-primary btn-sm" onclick="location.href='../export_data.php?case=xls_session&nombre_archivo=contactos';return false;"><i class="fa fa-file-excel-o"></i> Exportar listado</a>
         <a href='../OCHA_formato_contactos.xls' class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Formato para captura</a>
     </div>
@@ -96,7 +101,7 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
     <div class="row">
         <!-- Filtros -->
         <div class="col-md-4">
-            <form class="form-inline">
+            <form class="form-inline" id="contactos_form">
                 <h2>Incluir Jefes?</h2>
                 <label class="radio-inline">
                 <input type="radio" name="jefes" id="jefe_no" value="0" <?php echo $jefes_chk['no'] ?> > No
@@ -158,7 +163,13 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
                 if (count($id_orgs) > 0){
                     echo "<select id='id_org' class='select2'><option></option>";
                     echo "<option value=0>Todas</option>";
-                    $org_dao->ListarCombo('combo',$id_org,"id_org IN (".implode(",",$id_orgs).")");
+                    foreach ($org_dao->GetAllArray("id_org IN (".implode(",",$id_orgs).")") as $orga){
+                        if (!empty($orga->id)) {
+                            echo "<option value='$orga->id'";
+                            if ($orga->id == $id_org)	echo " selected ";
+                            echo ">".$orga->nom."</option>";
+                        }
+                    }
 
                     echo "</select></td></tr>";
                 }
