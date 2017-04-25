@@ -25,6 +25,9 @@ include_once("lib/model/div_afro.class.php");
 include_once("lib/model/tema.class.php");
 include_once("lib/model/tipo_org.class.php");
 include_once("lib/model/emergencia.class.php");
+include_once("lib/model/tipo_proyecto.class.php");
+include_once("lib/model/modalidad_asistencia.class.php");
+include_once("lib/model/mecanismo_entrega.class.php");
 
 //DAO
 include_once("lib/dao/p4w.class.php");
@@ -46,5 +49,8 @@ include_once("lib/dao/div_afro.class.php");
 include_once("lib/dao/tema.class.php");
 include_once("lib/dao/tipo_org.class.php");
 include_once("lib/dao/emergencia.class.php");
+include_once("lib/dao/tipo_proyecto.class.php");
+include_once("lib/dao/modalidad_asistencia.class.php");
+include_once("lib/dao/mecanismo_entrega.class.php");
 
 ?>

@@ -741,6 +741,12 @@ Class P4wDAO
         $vo->si_proy = $Result->SI_PROY;
         $vo->validado_cluster_proy = $Result->VALIDADO_CLUSTER_PROY;
 
+        $vo->cbt_ma = $Result->ID_MODA;
+        $vo->cbt_me = $Result->ID_MECE;
+        $vo->cbt_f = $Result->FRECD;
+        $vo->cbt_val = $Result->VALP;
+        $vo->inter = $Result->INTER;
+
         $id = $vo->id_proy;
 
         //TEMAS
@@ -1152,17 +1158,25 @@ Class P4wDAO
         }
 
         if ($ok){
-
+	        if(!isset($vo->ofar)) $vo->ofar = '0000-00-00';
+	        if(!isset($vo->cbt_ma) || $vo->cbt_ma == '') $vo->cbt_ma = 'NULL';
+	        if(!isset($vo->cbt_me) || $vo->cbt_me == '') $vo->cbt_me = 'NULL';
+	        if(!isset($vo->cbt_f) || $vo->cbt_f == '') $vo->cbt_f = 'NULL';
+	        if(!isset($vo->cbt_val) || $vo->cbt_val == '') $vo->cbt_val = 'NULL';
+	        if(!isset($vo->inter)) $vo->inter = 0;
             $sql = "INSERT INTO $this->tabla (id_mon,id_estp,id_emergencia,id_con,nom_proy,cod_proy,des_proy,obj_proy,inicio_proy,fin_proy,srp_proy,
                                                 actua_proy,costo_proy,duracion_proy,info_conf_proy,staff_nal_proy,
                                                 staff_intal_proy,cobertura_nal_proy,cant_benf_proy,valor_aporte_donantes,
                                                 valor_aporte_socios,info_extra_donantes,info_extra_socios,joint_programme_proy,
-                                                mou_proy,acuerdo_coop_proy,interv_ind_proy,otro_cual_benf_proy,si_proy,creac_proy,validado_cluster_proy, id_usuario)
+                                                mou_proy,acuerdo_coop_proy,interv_ind_proy,otro_cual_benf_proy,si_proy,creac_proy,validado_cluster_proy, id_usuario,
+                                                id_tipp,far_proy,id_moda,id_mece,frecd,valp,inter)
                     VALUES ($vo->id_mon,$vo->id_estp,$vo->id_emergencia,$vo->id_con,'$vo->nom_proy','$vo->cod_proy','$vo->des_proy','$vo->obj_proy','$vo->inicio_proy','$vo->fin_proy',$vo->srp_proy,
-                    now(),$vo->costo_proy,$vo->duracion_proy,$vo->info_conf_proy,$vo->staff_nal_proy,$vo->staff_intal_proy,$vo->cobertura_nal_proy,'
-                    $vo->cant_benf_proy','$vo->valor_aporte_donantes','$vo->valor_aporte_socios',
+                    now(),$vo->costo_proy,$vo->duracion_proy,$vo->info_conf_proy,$vo->staff_nal_proy,$vo->staff_intal_proy,$vo->cobertura_nal_proy,
+                    '$vo->cant_benf_proy','$vo->valor_aporte_donantes','$vo->valor_aporte_socios',
                     '$vo->info_extra_donantes','$vo->info_extra_socios',$vo->joint_programme_proy,
-                    $vo->mou_proy,$vo->acuerdo_coop_proy,$vo->interv_ind_proy,'$vo->otro_cual_benf_proy','$vo->si_proy',now(),$vo->validado_cluster_proy, ".$_SESSION['id_usuario_s'].")";
+                    $vo->mou_proy,$vo->acuerdo_coop_proy,$vo->interv_ind_proy,'$vo->otro_cual_benf_proy','$vo->si_proy',now(),$vo->validado_cluster_proy, ".$_SESSION['id_usuario_s'].",".
+                    $vo->tip_proy.",'".$vo->ofar."',".$vo->cbt_ma.",".$vo->cbt_me.",".$vo->cbt_f.",".$vo->cbt_val ."," . $vo->inter
+            . ")";
 
             $this->conn->Execute($sql);
             $id_proyecto = $this->GetMaxID();
@@ -1372,6 +1386,14 @@ Class P4wDAO
 
         $id = $vo->id_proy;
 
+        $vo->tip_proy = 1;
+        if(!isset($vo->ofar)) $vo->ofar = '0000-00-00';
+        if(!isset($vo->cbt_ma)) $vo->cbt_ma = 'NULL';
+        if(!isset($vo->cbt_me)) $vo->cbt_me = 'NULL';
+        if(!isset($vo->cbt_f)) $vo->cbt_f = 'NULL';
+        if(!isset($vo->cbt_val)) $vo->cbt_val = 'NULL';
+        if(!isset($vo->inter)) $vo->inter = 0;
+
         $sql = "UPDATE $this->tabla SET
                 id_mon = $vo->id_mon,
                 id_estp = $vo->id_estp,
@@ -1402,8 +1424,14 @@ Class P4wDAO
                 interv_ind_proy = $vo->interv_ind_proy,
                 otro_cual_benf_proy = '$vo->otro_cual_benf_proy',
                 validado_cluster_proy = $vo->validado_cluster_proy,
-                si_proy = '$vo->si_proy'
-
+                si_proy = '$vo->si_proy',
+                id_tipp = $vo->tip_proy,
+                far_proy = '$vo->ofar',
+                id_moda = $vo->cbt_ma,
+                id_mece = $vo->cbt_me,
+                frecd = $vo->cbt_f,
+                valp = $vo->cbt_val,
+                inter = $vo->inter
                WHERE $this->columna_id = $id";
 
         $this->conn->Execute($sql);
@@ -1442,6 +1470,8 @@ Class P4wDAO
         require_once 'lib/model/depto.class.php';
         require_once 'lib/model/contacto.class.php';
         require_once 'lib/model/estado_proyecto.class.php';
+        require_once 'lib/model/mecanismo_entrega.class.php';
+        require_once 'lib/model/modalidad_asistencia.class.php';
         require_once 'lib/dao/municipio.class.php';
         require_once 'lib/dao/tipo_org.class.php';
         require_once 'lib/dao/org.class.php';
@@ -1449,6 +1479,9 @@ Class P4wDAO
         require_once 'lib/dao/depto.class.php';
         require_once 'lib/dao/contacto.class.php';
         require_once 'lib/dao/estado_proyecto.class.php';
+        require_once 'lib/dao/tipo_proyecto.class.php';
+        require_once 'lib/dao/mecanismo_entrega.class.php';
+        require_once 'lib/dao/modalidad_asistencia.class.php';
 
         //Inicializacion de variables
         $archivo = New Archivo();
@@ -1459,18 +1492,21 @@ Class P4wDAO
         $mun_dao = New MunicipioDAO();
         $contacto_dao = New ContactoDAO();
         $estado_dao = New EstadoProyectoDAO();
+        $tipo_proyecto_dao = New TipoProyectoDAO();
+        $mecanismo_entrega_dao = New MecanismoEntregaDAO();
+        $modalidad_asistencia_dao = New ModalidadAsistenciaDAO();
         $date = new Date();
 
         // Solo se activa true en el formulario cuando no existen errores
         $insertar_db = ($importar == '1') ? true : false;
 
         $t_dir = '../../tmp/';
-        $nc = 41;
+        $nc = 48;
         $sp = '|';
-        $sep_donante = '%';
+        $sep_donante = '-';
         $msg = '';
         $check = true;
-        $cobli = array(1,2,3,4,5,7,8,9,10,11,12,14,20,21,22,23,34);
+        $cobli = array(0,1,2,3,4,5,6,8,9,10,11,12,13,15,16,20,21,22,23,24,39,40);
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
         $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = array();
@@ -1555,13 +1591,15 @@ Class P4wDAO
                         $f = explode($sp, utf8_decode($cf[$r]));
 
                         $cod_proy = $f[0];
-                        $nom_proy = $f[1];
-                        $des_proy = $f[2];
-                        $estado_proy = strtolower(str_replace($latinUpper, $latinLower, trim($f[13])));
+                        $tip_proy = $f[1];
+                        $nom_proy = $f[2];
+                        $des_proy = $f[3];
+                        $estado_proy = strtolower(str_replace($latinUpper, $latinLower, trim($f[15])));
 
                         $er = false;
                         $_msg = '';
                         $cod_proy = (empty($cod_proy)) ? '' : trim($cod_proy);
+                        $tip_proy = (empty($tip_proy)) ? 'Proyecto' : trim($tip_proy);
 
                         if (!empty($nom_proy)) {
                             $nom_proy = $nom_proy;
@@ -1635,7 +1673,22 @@ Class P4wDAO
                             $cod_proy = '4W-'.$s.'-'.$num;
                         }
 
-                        $col = 3;
+                        // Tipo de Proyecto
+                        $tipp = $tip_proy;
+                        if (empty($tip_proy)) {
+                            $tipp = 1; //Por defecto 1=Proyecto
+                        } else {
+                            $_tipp = $tipo_proyecto_dao->GetAllArray("nom_tipp LIKE '%".$tip_proy."%'");
+                            if (empty($_tipp)) {
+                                $_msg .= "No existe el tipo de proyecto: <b>$tip_proy</b> <br />";
+                                $er = true;
+                            }
+                            else if (isset($_tipp[0])) {
+                                $tipp = $_tipp[0]->id;
+                            }
+                        }
+
+                        $col = 4;
                         if ($chks['oe'] && !$er) {
                             // Checks Orgs Encargada
                             $os = $f[$col];
@@ -1705,7 +1758,7 @@ Class P4wDAO
                         }
 
 
-                        // Checks Operador
+                        // Checks Implementador
                         $os = $f[++$col];
                         $on = $f[++$col];
                         $ot = $f[++$col];
@@ -2138,7 +2191,44 @@ Class P4wDAO
                         */
                     }
 
-                    // SRP
+                    $ofar = $f[++$col];
+                    if (!empty($ofar)) {
+                        $_f = trim($ofar);
+                        $v = explode('/', $_f);
+                        if (count($v) != 3) {
+                            if ($chks['f']) {
+                                $_msg .= "Fecha de adjudicación de recursos incorrecta, no tiene 3 elementos: <b>$ofar</b> <br />";
+                                $er = true;
+                            }
+                        }
+                        else {
+                            // Check formato
+                            // yyyy-/mm-/dd
+                            if (preg_match($re_yyyy_mm_dd, $_f)) {
+                                $p_vo->ofar = $v[0].'-'.$v[1].'-'.$v[2];
+                            }
+                            // dd-/mm-/yyyy
+                            else if (preg_match($re_dd_mm_yyyy, $_f) ) {
+                                $p_vo->ofar = $v[2].'-'.$v[1].'-'.$v[0];
+                            }
+                            // mm-/dd-/yyyy
+                            else if (preg_match($re_mm_dd_yyyy, $_f) ) {
+                                $p_vo->ofar = $v[2].'-'.$v[0].'-'.$v[1];
+                            }
+                            else {
+                                $_msgr .= " - Fecha de adjudicación de recursos incorrecta: <b>$_f</b>";
+                                if ($chks['f']) {
+                                    $_msg .= "Fecha de adjudicación de recursos incorrecta: <b>$_f</b> <br />";
+                                    $er = true;
+                                }
+                            }
+                        }
+                    } else {
+                        $p_vo->ofar = '0000-00-00';
+                    }
+
+
+                    // HRP
                     $srp = trim($f[++$col]);
 
                     if ($srp == 1) {
@@ -2366,6 +2456,67 @@ Class P4wDAO
                         }
                     }
 
+                    // Interagencial
+                    $inter = intval(trim($f[++$col]));
+                    if ($inter == 1) {
+                        $p_vo->inter = 1;
+                    }
+                    else {
+                        $p_vo->inter = 0;
+                    }
+
+                    //Cash Based Transfer
+                    $cbt_ma = $f[++$col];
+                    if (empty($cbt_ma)) {
+                        $cbt_ma = '';
+                    }
+                    else {
+                        $_moda = $modalidad_asistencia_dao->GetAllArray("nom_moda LIKE '%".$cbt_ma."%'");
+                        if (empty($_moda)) {
+                            $_msg .= "No existe la modalidad de asistencia: <b>$cbt_ma</b> <br />";
+                            $er = true;
+                        }
+                        else if (isset($_moda[0])) {
+                            $cbt_ma = $_moda[0]->id;
+                        }
+                    }
+
+                    $cbt_me = $f[++$col];
+                    if (empty($cbt_me)) {
+                        $cbt_me = '';
+                    }
+                    else {
+                        $_mece = $mecanismo_entrega_dao->GetAllArray("nom_mece LIKE '%".$cbt_me."%'");
+                        if (empty($_mece)) {
+                            $_msg .= "No existe el mecanismo de entrega: <b>$cbt_me</b> <br />";
+                            $er = true;
+                        }
+                        else if (isset($_mece[0])) {
+                            $cbt_me = $_mece[0]->id;
+                        }
+                    }
+
+                    $cbt_f = $f[++$col];
+                    if (empty($cbt_f)) {
+                        $p_vo->cbt_f = "";
+                    }
+                    else {
+                        $p_vo->cbt_f = $cbt_f;
+                    }
+                    $cbt_val = floor($f[++$col]);
+                    if (strpos($cbt_val,",") > 0 OR strpos($cbt_val,".") > 0) {
+                        $_msgr .= ' - El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales';
+                        if ($chks['p']) {
+                            $_msg .= "El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales - $cbt_val<br />";
+                            $er = true;
+                        }
+                    }
+                    elseif (isset($cbt_val) && is_numeric($cbt_val)) {
+                        $p_vo->cbt_val = number_format(trim($cbt_val),0,'','');
+                    }
+                    else {
+                    }
+
                     if ($er) {
                         $ne++;
                         $msg .= "<tr><td>".($r+1)."</td><td>$_msg</td></tr>";
@@ -2374,6 +2525,7 @@ Class P4wDAO
 
                         // Completa valores
                         $p_vo->cod_proy = $cod_proy;
+                        $p_vo->tip_proy = $tipp;
                         $p_vo->nom_proy = $nom_proy ;
                         $p_vo->des_proy = $des_proy ;
                         $p_vo->id_mon = 1;
@@ -2421,6 +2573,10 @@ Class P4wDAO
                             $p_vo->duracion_proy = $date->RestarFechas($p_vo->inicio_proy,$p_vo->fin_proy, 'meses');
                         }
                          */
+
+                        //Cash Based Transfer
+                        $p_vo->cbt_ma = $cbt_ma;
+                        $p_vo->cbt_me = $cbt_me;
 
                         $insertar = true;
                     }
@@ -3555,10 +3711,10 @@ Class P4wDAO
             }
 
             // Aplica filtro de interagencialidad
-            $srp = array_search('inter', $_SESSION['4w_f']['c']);
+            /*$srp = array_search('inter', $_SESSION['4w_f']['c']);
             if ($inter !== false) {
                 $cond .= " AND interagencial =1 ";
-            }
+            }*/
         }
 
         if ($cond != '')    $sql .= " AND $cond";
@@ -3834,9 +3990,9 @@ Class P4wDAO
             $cond .= " AND p.srp_proy = 1";
         }
 
-        if (!empty($params['inter']) && $params['inter'] == 1 ) {
+        /*if (!empty($params['inter']) && $params['inter'] == 1 ) {
             $cond .= " AND p.interagencial = 1";
-        }
+        }*/
 
         $sql .= ' WHERE '.$cond.' GROUP BY p.id_proy';
 
@@ -4438,15 +4594,8 @@ Class P4wDAO
 
         //echo $sql;
 
-        $csv = ",Proyecto,,,,,,,,Ejecutor,,,Implementadores,,,Donantes,,,,,Resultados,Sectores,SRP,Contacto en Terreno,,Beneficiarios Directos,,,,,,,,,Beneficiarios Indirectos,,,,,,,,,,\r\n";
-        $csv .= "ID 4w,Código,Nombre,Descripción,Inicio,Fin,Meses,Presupuesto,Estado,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Sigla,Nombre,Tipo,Aporte,Código que usa el donante,Resultados,Sectores,,Responsable,Correo Electrónico,";
-        $csv .= "Total,";
-        $csv .= "Total Hombres,Hombres 0-5 Años,Hombres 6-18 Años,Hombre 18+ Años,";
-        $csv .= "Total Mujeres,Mujeres 0-5 Años,Mujeres 6-18 Años,Hombre 18+ Años,";
-        $csv .= "Total,";
-        $csv .= "Total Hombres,Hombres 0-5 Años,Hombres 6-18 Años,Hombre 18+ Años,";
-        $csv .= "Total Mujeres,Mujeres 0-5 Años,Mujeres 6-18 Años,Hombre 18+ Años,";
-        $csv .= 'Departamento,Municipios';
+        $csv = "Código 4w,Código Interno *,Tipo de Proyecto*,Nombre del proyecto *,Descripción de la ayuda*,Organización encargada,,,Implementador,,,Sectores Humanitarios*,Resultados esperados UNDAF*,Tiempo de ejecución *,,,,,Donante (Fuente de los recursos),,,HRP *,Contacto en Terreno *,,,Población Beneficiaria *,,,,,,,,,,,Beneficiarios indirectos,,,Cobertura,,,,,Interagencial *,Cash Based Transfer,,,\r\n";
+        $csv .= ",,,,,Sigla *,Nombre *,Tipo *,Sigla,Nombre *,Tipo *,Separados por guión (-),Separados por guión (-),Fecha de inicio *,Fecha de finalización *,Meses*,Estado Proyecto *,Presupuesto USD *,Nombre,Monto (USD),\"Fecha de adjudicación De recursos\",Hace parte del plan estratégico de respuesta? (0 o 1),Responsable *,Correo Electrónico *,Celular *,Total Beneficiarios *,Total Mujeres,Mujeres 0-5 años,Mujeres 6-18 años,Mujeres 18-64 años,Mujeres 65+ años,Total Hombres,Hombres 0-5 años,Hombres 6-18 años,Hombres 18-64 años,Hombres 65+ años,Total Beneficiarios Indirectos,Total mujeres,Total hombres,Divipola,Departamento *,Municipio *,Lat,Long,Cumple los requisitos de interagencialidad? (0 ó 1),Modalidad de Asistencia,Mecanismo de entrega,Frecuencia de distribución,Valor por persona (USD)";
         $csv .= "\r\n";
 
         $rs = $this->conn->OpenRecordset($sql);
@@ -4810,7 +4959,8 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
-                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy, interagencial
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy
+                ,inter,id_tipp,far_proy,id_moda,id_mece,frecd,valp
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
                 INNER JOIN organizacion USING(id_org)

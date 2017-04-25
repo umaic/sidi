@@ -126,7 +126,7 @@ else {
     $tema_dao = New TemaDAO();
     $estado_dao = New EstadoProyectoDAO();
     $rs = $proy_dao->resumenMapa();
-    $undaf = (in_array($_SESSION['id_tipo_usuario_s'], array(100)) || $_SESSION['undaf'] == 1 || (!empty($_SESSION['id_tipo_org']) && $_SESSION['id_tipo_org'] == 4)) ? true : false;
+        $undaf = (in_array($_SESSION['id_tipo_usuario_s'], array(100)) || $_SESSION['undaf'] == 1 || (!empty($_SESSION['id_tipo_org']) && $_SESSION['id_tipo_org'] == 4)) ? true : false;
 
     $yyyy = date('Y');
     $yyyy_ant = $yyyy - 1;
@@ -409,6 +409,8 @@ else {
                 'periodo' => array('Periodo', 'f_p', 'Periodo'),
                 'departamento' => array('Departamento', 'f_u', 'Departamento'),
                 'municipio' => array('Municipio', 'f_u', 'Municipio'),
+                'modalidad_asistencia' => array('Modalidad Asistencia', 'f_d', 'Modalidad Asistencia'),
+                'mecanismo_entrega' => array('Mecanismo de Entrega', 'f_d', 'Mecanismo de Entrega'),
             );
 
             foreach($fs as $_f => $_a) {

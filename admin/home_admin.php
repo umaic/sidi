@@ -82,6 +82,15 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
 				<li>
 					<a href="_sma/web/" target="_blank">Cach&eacute; 4W</a>
 				</li>
+                <li>
+                    <a href="#" onclick="addTab('tipo_proyecto'); return false;">Tipo de Proyecto</a>
+                </li>
+                <li>
+                    <a href="#" onclick="addTab('modalidad_asistencia'); return false;">Modalidad de Asistencia</a>
+                </li>
+                <li>
+                    <a href="#" onclick="addTab('mecanismo_entrega'); return false;">Mecanismo de Entrega</a>
+                </li>
 			</ul>
 		<? } ?>	
 		<? if (in_array(12,$perfil->id_modulo)){ ?>

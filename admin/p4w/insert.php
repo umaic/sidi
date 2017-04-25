@@ -20,8 +20,11 @@ $tema_vo = New Tema();
 $con_dao = New ContactoDAO();
 $moneda_dao = New MonedaDAO();
 $moneda_vo = New Moneda();
+$tipo_proyecto_dao = New TipoProyectoDAO();
 $emergencia_dao = New EmergenciaDAO();
 $emergencia_vo = New Emergencia();
+$cbt_ma_dao = New ModalidadAsistenciaDAO();
+$cbt_me_dao = New MecanismoEntregaDAO();
 
 $conn = MysqlDb::getInstance();
 
@@ -311,6 +314,16 @@ $j(function() {
                         </select>
                 </div>
                 <div class="field">
+                    <label for="tip_proy">Tipo</label>
+                    <select id="tip_proy" name="tip_proy" class="select ri">
+                        <option value=''>Seleccione alguno...</option>
+			            <?
+			            //TIPO PROYECTO
+			            $tipo_proyecto_dao->ListarCombo('combo',$p_vo->tip_proy,'');
+			            ?>
+                    </select>
+                </div>
+                <div class="field">
                     <label for="cod_proy">C&oacute;digo</label>
                         <input type="text" id="cod_proy" name="cod_proy" value="<?php echo $p_vo->cod_proy ?>" size="10" class="textfield ri" />
                 </div>
@@ -392,8 +405,48 @@ $j(function() {
                     <input type="radio" id="srp_si" name="srp_proy" value="1"  <?php echo $srp_si ?>/>&nbsp;<label for="srp_si" class="ch">Si</label>&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="http://wiki.salahumanitaria.co/index.php/Plan_de_Respuesta_Estrat%C3%A9gico" target="_blank">SRP por sus siglas en ingl&eacute;s</a>)
                 </div>
+                <div class="field">
+                    <?php
+                    $inter_no = ($p_vo->inter == 0) ? 'checked' : '';
+                    $inter_si = ($p_vo->inter == 1) ? 'checked' : '';
+                    ?>
+                    <label>¿Es un proyecto interagencial?</label>
+                    <input type="radio" id="inter_no" name="inter" value="0" <?php echo $inter_no ?> />&nbsp;<label for="inter_no" class="ch">No</label>&nbsp;
+                    <input type="radio" id="inter_si" name="inter" value="1"  <?php echo $inter_si ?>/>&nbsp;<label for="inter_si" class="ch">Si</label>&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Proyecto_Interagencial" target="_blank">Criterios de interagencialidad</a>)
+                </div>
             </div>
             <div class="left oth">
+                <div>Cash Based Transfer</div>
+                <div class="field">
+                    <label for="cbt_ma">Modalidad de Asistencia</label>
+                    <select id="cbt_ma" name="cbt_ma" class="select">
+                        <option value=''>Seleccione alguno...</option>
+                        <?
+                        //MODALIDAD DE ASISTENCIA
+                        $cbt_ma_dao->ListarCombo('combo',$p_vo->cbt_ma,'');
+                        ?>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="cbt_me">Mecanismo de Entrega</label>
+                    <select id="cbt_me" name="cbt_me" class="select">
+                        <option value=''>Seleccione alguno...</option>
+                        <?
+                        //MECANISMO DE ENTREGA
+                        $cbt_me_dao->ListarCombo('combo',$p_vo->cbt_me,'');
+                        ?>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="cbt_f">Frecuencia de Distribución</label>
+                    <input type="text" id="cbt_f" name="cbt_f" value="<?php echo $p_vo->cbt_f ?>" size="10" class="textfield" />
+                </div>
+                <div class="field">
+                    <label for="cbt_val">Valor por Persona (USD)</label>
+                    <input type="text" id="cbt_val" name="cbt_val" value="<?php echo $p_vo->cbt_val ?>" size="10" class="textfield" />
+                </div>
+                <hr>
                 <div class="imps">
                     <label for="id_orgs_s_0">Implementadores</label>
                     <?php 

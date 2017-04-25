@@ -27,83 +27,124 @@ $j(function() {
             <fieldset>
                 <legend>Informaci&oacute;n B&aacute;sica</legend>
                 <ul>
-                    <li><b>Columna A</b>: C&oacute;digo del proyecto</li>
-                    <li><b>Columna B</b>: Nombre del proyecto</li>
-                    <li><b>Columna C</b>: Descripci&oacute;n de la ayuda</li>
+                    <li><b>* Columna A</b>: C&oacute;digo Interno del proyecto</li>
+                    <li><b>* Columna B</b>: Tipo de proyecto</li>
+                    <li><b>* Columna C</b>: Nombre del proyecto</li>
+                    <li><b>* Columna D</b>: Descripci&oacute;n de la ayuda</li>
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Organizaci&oacute;n encargada</legend>
                 <ul>
-                    <li><b>* Columna D</b>: Sigla</li>
-                    <li><b>* Columna E</b>: Nombre</li>
-                    <li><b>* Columna F</b>: Tipo</li>
+                    <li><b>* Columna E</b>: Sigla</li>
+                    <li><b>* Columna F</b>: Nombre</li>
+                    <li><b>* Columna G</b>: Tipo</li>
                 </ul>
             </fieldset>
             <fieldset>
-                <legend>Operador</legend>
+                <legend>Implementador</legend>
                 <ul>
-                    <li><b>Columna G</b>: Sigla</li>
-                    <li><b>* Columna H</b>: Nombre</li>
-                    <li><b>* Columna I</b>: Tipo</li>
+                    <li><b>Columna H</b>: Sigla</li>
+                    <li><b>* Columna I</b>: Nombre</li>
+                    <li><b>* Columna J</b>: Tipo</li>
                 </ul>
             </fieldset>
             <fieldset>
-                <legend>Sector</legend>
+                <legend>Sector Humanitario</legend>
                 <ul>
-                    <li><b>* Columna J</b>: Sector: debe ser el nombre del tema Cluster</li>
+                    <li><b>* Columna K</b>: Sector: debe ser el nombre del tema Cluster</li>
                 </ul>
             </fieldset>
             <fieldset>
-                <legend>Intervenci&oacute;n</legend>
+                <legend>Resultados Esperados UNDAF</legend>
                 <ul>
-                    <li>* <b>Columna K</b>: Fecha de inicio  (A&ntilde;o/Mes/Dia)
+                    <li><b>* Columna L</b>: Resultados UNDAF separados por guón (-)</li>
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>Tiempo de ejecución</legend>
+                <ul>
+                    <li><b>* Columna M</b>: Fecha de inicio  (A&ntilde;o/Mes/Dia)
                     </li>
                     <li>
-                        <b>* Columna L</b>: Fecha de finalizaci&oacute;n (A&ntilde;o/Mes/Dia)
+                        <b>* Columna N</b>: Fecha de finalizaci&oacute;n (A&ntilde;o/Mes/Dia)
                     </li>
-                    <li>* <b>Columna M</b>: Tiempo de ejecuci&oacute;n: n&uacute;mero en meses</li>
-                    <li><b>Columna N</b>: Estado del proyecto</li>
-                    <li>* <b>Columna O</b>: Presupuesto USD$: Valor entero sin moneda ni separadores</li>
-                    <li><b>Columna P</b>: Donante (Fuente de los recursos)</li>
-                    <li><b>Columna Q</b>: Donante Monto USD</li>
-                    <li><b>Columna R</b>: SRP: El proyecto hace parte del plan estrateacute,gico de respuesta? (0 o 1)</li>
+                    <li>* <b>Columna O</b>: Tiempo de ejecuci&oacute;n: n&uacute;mero en meses</li>
+                    <li><b>Columna P</b>: Estado del proyecto</li>
+                    <li>* <b>Columna Q</b>: Presupuesto USD$: Valor entero sin moneda ni separadores</li>
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>Donante</legend>
+                <ul>
+                    <li><b>Columna R</b>: Donante (Fuente de los recursos)</li>
+                    <li><b>Columna S</b>: Donante Monto USD</li>
+                    <li><b>Columna T</b>: Fecha de adjudicación de recursos</li>
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>HRP</legend>
+                    <li><b>Columna U</b>: El proyecto hace parte del Plan Humanitario de Respuesta? (0 o 1)</li>
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Contacto en terreno</legend>
                 <ul>
-                    <li>* <b>Columna S</b>: Responsable, nombres y apellidos</li>
-                    <li>* <b>Columna T</b>: Email</li>
-                    <li>* <b>Columna U</b>: Celular</li>
+                    <li>* <b>Columna V</b>: Responsable (nombres y apellidos)</li>
+                    <li>* <b>Columna W</b>: Email</li>
+                    <li>* <b>Columna X</b>: Celular</li>
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Poblaci&oacute;n beneficiaria</legend>
                 <ul>
-                    <li>* <b>Columna V</b>: Total</li>
-                    <li>* <b>Columna W</b>: Total Mujeres</li>
-                    <li><b>Columna X</b>: Mujeres 0-5 a&ntilde;os</li>
-                    <li><b>Columna Y</b>: Mujeres 6-18 a&ntilde;os</li>
-                    <li><b>Columna Z</b>: Mujeres 18-64 a&ntilde;os</li>
-                    <li><b>Columna AA></b>: Mujeres 65+ a&ntilde;os</li>
-                    <li><b>Columna AB</b>: Total Hombres</li>
-                    <li><b>Columna AC</b>: Hombres 0-5 a&ntilde;os</li>
-                    <li><b>Columna AD</b>: Hombres 6-18 a&ntilde;os</li>
-                    <li><b>Columna AE</b>: Hombres 18-64 a&ntilde;os</li>
-                    <li><b>Columna AF</b>: Hombres 65+ a&ntilde;os</li>
+                    <li>* <b>Columna Y</b>: Total</li>
+                    <li><b>Columna Z</b>: Total Mujeres</li>
+                    <li><b>Columna AA</b>: Mujeres 0-5 a&ntilde;os</li>
+                    <li><b>Columna AB</b>: Mujeres 6-18 a&ntilde;os</li>
+                    <li><b>Columna AC</b>: Mujeres 18-64 a&ntilde;os</li>
+                    <li><b>Columna AD></b>: Mujeres 65+ a&ntilde;os</li>
+                    <li><b>Columna AE</b>: Total Hombres</li>
+                    <li><b>Columna AF</b>: Hombres 0-5 a&ntilde;os</li>
+                    <li><b>Columna AG</b>: Hombres 6-18 a&ntilde;os</li>
+                    <li><b>Columna AH</b>: Hombres 18-64 a&ntilde;os</li>
+                    <li><b>Columna AI</b>: Hombres 65+ a&ntilde;os</li>
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>Beneficiarios Indirectos</legend>
+                <ul>
+                    <li><b>Columna AJ</b>: Total</li>
+                    <li><b>Columna AK</b>: Total Mujeres</li>
+                    <li><b>Columna AL</b>: Total Hombres</li>
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Cobertura</legend>
                 <ul>
-                    <li>* <b>Columna AG</b>: Divipola, 5 digitos</li>
-                    <li><b>Columna AH</b>: Departamento</li>
-                    <li><b>Columna AI</b>: Municipio</li>
-                    <li><b>Columna AJ</b>: Lat</li>
-                    <li><b>Columna AK</b>: Long</li>
+                    <li>* <b>Columna AM</b>: Divipola de 5 digitos separados por comas</li>
+                    <li><b>Columna AN</b>: Nombre del Departamento</li>
+                    <li><b>Columna AO</b>: Nombre del Municipio</li>
+                    <li><b>Columna AP</b>: Latitud en grados decimales</li>
+                    <li><b>Columna AQ</b>: Longitud</li>
                 </ul>
             </fieldset>
+            <fieldset>
+                <legend>Interagencialidad</legend>
+                <ul>
+                    <li>* <b>Columna AR</b>: Es proyecto interagencial?</li>
+                </ul>
+            </fieldset>
+            <fieldset>
+                <legend>Cash Based Transfer</legend>
+                <ul>
+                    <li>* <b>Columna AS</b>: Modalidad de Asistencia</li>
+                    <li><b>Columna AT</b>: Mecanismo de entrega</li>
+                    <li><b>Columna AU</b>: Frecuencia de distribución</li>
+                    <li><b>Columna AV</b>: Valor por persona (USD)</li>
+                </ul>
+            </fieldset>
+
         </p>
     </div>	
     <div id="prs" class="left">

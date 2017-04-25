@@ -347,6 +347,48 @@ Class P4w {
      * @var Array
      */	
     var $id_albergues = Array();
+
+    /**
+     * Tipo del proyecto: Proyecto, Actividad
+     * @var string
+     */
+    var $tip_proy = 1;
+
+    /**
+     * Fecha de adjudicación de recursos
+     * @var string
+     */
+    var $ofar;
+
+    /**
+     * Modalidad de asistencia: En especie, Bonos, Efectivo
+     * @var string
+     */
+    var $cbt_ma;
+
+    /**
+     * Mecanismo de entrega: E-voucher,Smart card
+     * @var string
+     */
+    var $cbt_me;
+
+    /**
+     * Frecuencia de distribución: En dias
+     * @var int
+     */
+    var $cbt_f;
+
+    /**
+     * Valor por persona (USD)
+     * @var string
+     */
+    var $cbt_val;
+
+    /**
+     * Interagencial
+     * @var string
+     */
+    var $inter;
 }
 
 ?>
