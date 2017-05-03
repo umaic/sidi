@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 set_time_limit(0);
 
@@ -31,6 +31,7 @@ function borrarCeros($array){
 $case = $_GET["case"];
 $mapserver = New Mapserver();
 $use_cache = false;
+$id_cache = 0;
 
 // Ahora usando Factory pattern
 
@@ -318,10 +319,10 @@ $classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
 if ($map_ref == 0 && $case != 'perfil'){
 	//Para la opcion de export data
 	$porc = ($variacion == 1 || $tasa == 1)	? "%" : "";
-	
+
   switch ($case){
 	case 'desplazamiento':
-		
+
 		//$tq = 1000000;
 		//$mt = microtime(true);	
 		
@@ -333,7 +334,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 
 		// Si es CODHES tipo = 3
 		if ($id_fuente == 1)	$id_tipo = array(3);
-		
+
 		// Cache
 		$id_cache = $sissh->opCacheMapaDesplazamiento('get',$id_fuente,$id_clase,$_GET['id_tipo'],$id_periodo,$variacion,$tasa,$id_depto_filtro,$extent_get);
 		if ($id_cache == 0 || !$use_cache){
@@ -812,30 +813,30 @@ if ($map_ref == 0 && $case != 'perfil'){
 		$reporte = $_GET["reporte"];
 		$id_cats = $_GET["id_cats"];
 		$meses = array ("","Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
-		
+
 		if ($_GET["id_subcats"] == ''){
 			$id_scats = $scat_evento_c_dao->GetAllArrayID("id_cateven IN ($id_cats)");
 		}
 		else{
 			$id_scats = split(",",$_GET["id_subcats"]);
 		}
-		
+
 		$f_ini = $_GET["f_ini"];
 		$f_ini_s = split("[-]",$f_ini);
-		
+
 		$f_fin = $_GET["f_fin"];
 		$f_fin_s = split("[-]",$f_fin);
-		
+
 		$id_actor = 0;  //Por ahora no está en los filtros
-		
+
 		$title_reporte = array("","NUMERO DE EVENTOS","NUMERO DE VICTIMAS");
-		
+
 		$xls = "<tr><td><b>CODIGO</b></td><td><b>MUNICIPIO</b></td><td><b>$title_reporte[$reporte]</b></td></tr>";
-		
+
 		foreach ($mpios as $id_mpio){
-			
+
 			$nom_mpio = $mpios_nombre[$id_mpio];
-			
+
 			$num = 0;
 			foreach ($id_scats as $id_scat){
 				if ($reporte == 1){
@@ -845,26 +846,26 @@ if ($map_ref == 0 && $case != 'perfil'){
 					$num += $evento_c_dao->numVictimasReporte($id_mpio,array("id_mun"=>1,"f_ini"=>$f_ini,"f_fin"=>$f_fin,"id_scat"=>$id_scat));
 				}
 			}
-			
+
 			$valores_mpio_mpio[$id_mpio] =  $num;
 			$valores_mpio[] =  $num;
-			
+
 			$xls .= "<tr><td>$id_mpio</td><td>$nom_mpio</td><td>$num</td></tr>";
-			
+
 			//Check de minimo steps en arreglo de valores
 			if (!in_array($num,$arraySteps) && $num > 1){
 				$arraySteps[] = $num;
 			}
 		}
-		
+
 		$legend = ucwords($title_reporte[$reporte]);
-		$legend_periodo = "Desde: ".(1*$f_ini_s[2])." ".$meses[$f_ini_s[1]*1]." ".$f_ini_s[0]; 
-		$legend_fuente = "Hasta: ".($f_fin_s[2]*1)." ".$meses[$f_fin_s[1]*1]." ".$f_fin_s[0]; 
-		
+		$legend_periodo = "Desde: ".(1*$f_ini_s[2])." ".$meses[$f_ini_s[1]*1]." ".$f_ini_s[0];
+		$legend_fuente = "Hasta: ".($f_fin_s[2]*1)." ".$meses[$f_fin_s[1]*1]." ".$f_fin_s[0];
+
 		$tit_convencion = "Eventos del Conflicto";
 		
 	break;
-	
+
 	case 'proyecto_undaf':
 		$xls = "<tr><td><b>CODIGO</b></td><td><b>MUNICIPIO</b></td><td><b>Num. Proyectos</b></td></tr>";
 		$html = "<tr><td><b>CODIGO</b></td><td><b>MUNICIPIO</b></td><td><b>Num Proyectos</b></td><td></td></tr>";
@@ -1026,7 +1027,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 		die();
 	
 	}
-	
+
 	sort($valores_mpio);
 	sort($arraySteps);
 	
@@ -1228,7 +1229,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 			
 		break;
 	}
-	
+
 	//print_r($id_mpio_matrix);
 		
 	//Escala de colores para la plantilla de Desplazamieto
@@ -1331,7 +1332,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 			//echo "Expresion = ".implode("|",$id_mpio_matrix[$i])."<br>";
 			$classObj = ms_newClassObj($layerObjMpio);
 			$classObj->set("name","intervalo$i");
-			
+
 			$classObj->setExpression("/".implode("|",$id_mpio_matrix[$i])."/");
 			$styleObj = ms_newStyleObj($classObj);
 			$styleObj->color->setRGB($rgb[$case]["r"][$j],$rgb[$case]["g"][$j],$rgb[$case]["b"][$j]);
@@ -1539,48 +1540,48 @@ if ($map_ref == 0 && $case != 'perfil'){
 	
 	//Leyenda
 	if ($map_ref == 0 && $drawLegend == 1){
-		
+
 		$max_letras = 55;
-		
+
 		//El texto no puede ser mas ancho de 300px aprx. 55 letras
 		$legend_wrap = wordwrap($legend,$max_letras,"|");
 		$wrap = 1;
 		//$arr = imagettfbbox($size_font_ttf,0,$font_ttf,$legend);
 		//$legend_w = $arr[2] - $arr[0];
-		
+
 		$legend_split = explode("|",$legend_wrap);
-		$num_filas_legend = count($legend_split); 	
-			
+		$num_filas_legend = count($legend_split);
+
 		$num_filas_legend_total = $num_filas_legend + 2;
-		
+
 		$x_ini_legend = $x_ini + $ancho + 5;
 		$alto_legend = $size_font_ttf_legend * $num_filas_legend_total + $space_recs * ($num_filas_legend_total + 1);
 		$y_ini_legend = $height_img - $alto_legend - 5;
-		
+
 		//CALCULA EL ANCHO DE LA LEYENDA
 		$w_legend = 0;
 		$textos_legend = array($legend_split[0],$legend_fuente,$legend_periodo);
 		foreach ($textos_legend as $texto){
 			$arr = imagettfbbox($size_font_ttf,0,$font_ttf,$texto);
-			$text_w = $arr[2] - $arr[0];	
+			$text_w = $arr[2] - $arr[0];
 			if ($text_w > $w_legend)	$w_legend = $text_w;
 		}
-		
+
 		$ancho_legend = $w_legend + 10;
-		
+
 		imagefilledrectangle($image,$x_ini_legend,$y_ini_legend,$x_ini_legend + $ancho_legend,$y_ini_legend + $alto_legend,$color);
 		imagerectangle($image,$x_ini_legend,$y_ini_legend,$x_ini_legend + $ancho_legend,$y_ini_legend + $alto_legend,$color_out);
-		
+
 		foreach($legend_split as $ff=>$legend_fila){
 			imagettftext($image,$size_font_ttf_legend,0,$x_ini_legend + 5,$y_ini_legend + ($ff + 1) * ($space_recs + $size_font_ttf_legend),$color_font,$font_ttf_legend,$legend_fila);
 		}
-		
+
 		imagettftext($image,$size_font_ttf_legend,0,$x_ini_legend + 5,$y_ini_legend + ($num_filas_legend + 1) * ($space_recs + $size_font_ttf_legend),$color_font,$font_ttf_legend,$legend_periodo);
 		imagettftext($image,$size_font_ttf_legend,0,$x_ini_legend + 5,$y_ini_legend + ($num_filas_legend + 2)*($space_recs + $size_font_ttf_legend),$color_font,$font_ttf_legend,$legend_fuente);
 
 	}
 	
-	$image = $mapserver->drawExtras($image);
+	//$image = $mapserver->drawExtras($image);
 	$s_id = session_id();
 	$filename = $_SERVER['DOCUMENT_ROOT']."/tmp/$s_id.png";
 	$_SESSION["mapserver_img"] = $filename;
@@ -1597,7 +1598,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 	
 	//Guarda el archivo de la imagen con los extras para la opción de guardar mapa
 	imagepng($image,$filename);
-	
+
 	//Salida al navegador
 	imagepng($image);
 
