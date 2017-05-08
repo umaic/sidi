@@ -120,3 +120,38 @@ body {
     float: left;
     margin-right: 25px;
 }
+
+.button {
+    width: 100px;
+    margin: 0 auto;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    appearance: button;
+    -moz-appearance: button;
+    -webkit-appearance: button;
+}
+/* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #ff9800;
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}

@@ -108,6 +108,11 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
 <div id="cuerpo">
   <div id="cont">
   	<div id="login_div">
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            ¡Atención!: El día 15 de mayo de 2017 cambiaremos el mecanismo de inicio de sesión en SIDI. Ahora necesitarás iniciar sesión con el correo que registraste en lugar de usar el nombre de usuario.
+        </div>
+        <div><br /><br /></b></div>
         <div id="img_form">
         <div><h1 style="text-align: center;">Ingreso</h1></div>
             <div class="img_iz"><img src="images/lock_2.jpg" alt="" /></div>
