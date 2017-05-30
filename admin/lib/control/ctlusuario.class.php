@@ -44,9 +44,7 @@ class ControladorPagina {
 		else if ($accion == 'borrar') {
 			$this->usuario_dao->Borrar($_GET["id"]);
 		}
-		else if ($accion == 'restaurar') {
-			$this->usuario_dao->Restaurar($_POST["email]);
-		}
+
 	}
 
 	function parseForm() {

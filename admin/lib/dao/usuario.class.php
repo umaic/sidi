@@ -519,8 +519,11 @@ Class UsuarioDAO {
 		if (count($cat_a) == 0){
 			$sql =  "INSERT INTO ".$this->tabla." (".$this->columna_nombre.",ID_TIPO_USUARIO,LOGIN,PASS,EMAIL,CNRR,ORG,TEL,ACTIVO,PUNTO_CONTACTO,ID_ORG_RESPONSABLE,ID_TEMA) VALUES ('".$usuario_vo->nombre."',".$usuario_vo->id_tipo.",'".$usuario_vo->login."','".$usuario_vo->pass."','".$usuario_vo->email."',".$usuario_vo->cnrr.",'".$usuario_vo->org."','".$usuario_vo->tel."',1,'".$usuario_vo->punto_contacto."',$usuario_vo->id_org,$usuario_vo->id_tema)";
 			$this->conn->Execute($sql);
+            $id_insertado=$this->conn->GetGeneratedID();
+            error_log('id_insertado='. $id_insertado);
+			$usuario_vo->id = $id_insertado;
 
-			echo "Registro insertado con &eacute;xito!";
+			echo "Registro insertado con &eacute;xito! (" . $id_insertado . ")";
 		}
 		else{
 			echo "Error - Existe un registro con el mismo nombre";
@@ -541,6 +544,9 @@ Class UsuarioDAO {
 			//echo $sql;
 			//die;
 			$this->conn->Execute($sql);
+			$id_insertado=$this->conn->GetGeneratedID();
+			error_log('id_insertado='. $id_insertado);
+			$usuario_vo->id = $id_insertado;
 
 			//ENVIA EMAIL
 			$from = "no-reply@umaic.org";

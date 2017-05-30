@@ -3,9 +3,9 @@ session_start();
 
 // Redirecciona si no es umaic.org
 if (strpos($_SERVER['SERVER_NAME'], 'umaic') === false &&
-    strpos($_SERVER['SERVER_NAME'], '192') === false &&
-    strpos($_SERVER['SERVER_NAME'], 'local') === false) {
-    header('Location: http://sidi.umaic.org');
+	strpos($_SERVER['SERVER_NAME'], '192') === false &&
+	strpos($_SERVER['SERVER_NAME'], 'local') === false) {
+	header('Location: http://sidi.umaic.org');
 }
 
 include_once("admin/lib/common/mysqldb.class.php");
@@ -67,7 +67,7 @@ while ($row = $conn->FetchObject($rs)){
 if (isset($_POST["submit"])){
 
 	$login = $_POST["login"];
-	$pass = md5($_POST["password"]);
+	$pass = $_POST["password"];
 
 	//log fisico para ataques
 	if ($login != 'rubas'){
@@ -85,7 +85,18 @@ if (isset($_POST["submit"])){
 	$vu->ValidarUsuario($login,$pass,$pag_exito,'login.php',0);
 
 }
+//AUTH0
+if (isset($_GET["code"]) || isset($_SESSION["auth0__id_token"])){
+	error_log("entra a login auth0");
 
+
+	$code = $_GET["code"];
+	$pag_exito = "index.php?m_e=home";
+	$vu = New SessionUsuario();
+	$vu->ValidarUsuarioAuth0($code,$pag_exito,'login.php',0);
+	exit;
+
+}
 $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
 
 ?>
@@ -93,12 +104,15 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo $title ?></title>
-<link href="style/general.css" rel="stylesheet" type="text/css" />
-<link href="style/consulta.css" rel="stylesheet" type="text/css" />
-<link href="style/login.css" rel="stylesheet" type="text/css" />
-<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title><?php echo $title ?></title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.auth0.com/js/lock/10.14/lock.min.js"></script>
+    <script src="js/auth0.js.php"></script>
+    <link href="style/general.css" rel="stylesheet" type="text/css" />
+    <link href="style/consulta.css" rel="stylesheet" type="text/css" />
+    <link href="style/login.css" rel="stylesheet" type="text/css" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 </head>
 
 <body onload="document.getElementById('login').focus()">
@@ -106,14 +120,16 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
 <?php include('include/header.php') ?>
 
 <div id="cuerpo">
-  <div id="cont">
-  	<div id="login_div">
-        <div class="alert">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            ¡Atención!: El día 15 de mayo de 2017 cambiaremos el mecanismo de inicio de sesión en SIDI. Ahora necesitarás iniciar sesión con el correo que registraste en lugar de usar el nombre de usuario.
-        </div>
-        <div><br /><br /></b></div>
-        <div id="img_form">
+    <div id="cont">
+        <div id="login_div">
+            <div id="img_form">
+                <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    ¡Atención!: Desde el día 31 de mayo de 2017 cambiamos el mecanismo de inicio de sesión en SIDI. Ahora necesitas iniciar sesión con el correo que registraste en lugar de usar el nombre de usuario.
+                </div>
+                <div><br /><br /></b></div>
+                <div class="button" id="btn-login" onclick="lock.show();">Iniciar Sesión</div>
+                <!--
         <div><h1 style="text-align: center;">Ingreso</h1></div>
             <div class="img_iz"><img src="images/lock_2.jpg" alt="" /></div>
             <div class="fields">
@@ -144,47 +160,48 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
                 <img src="images/reg_org.gif" alt="" /> <a href="registro_org.php">Registrar Informaci&oacute;n de su Organizaci&oacute;n</a>
             </div>
         </div>
-      <div class="seccion">
-        <table>
-            <tr>
-                <td>
-                    <p id="que_es" align="justify">
-                        El objetivo del Sistema de Informaci&oacute;n es recolectar, procesar y difundir  informaci&oacute;n humanitaria del pa&iacute;s.
-                        <br /><br />
-                        Aqu&iacute; podr&aacute; encontrar informaci&oacute;n b&aacute;sica estad&iacute;stica, presencia de organizaciones, eventos de accidentes
-                         por Minas y Municiones sin Explotar, informaci&oacute;n de desplazamiento (diferentes fuentes).
-                        <br /><br />
-                        Esta informaci&oacute;n est&aacute; organizada por: Localizaci&oacute;n Geogr&aacute;fica (Departamento y/o Municipio),
-                        Tema (Salud, Educaci&oacute;n, Bienestar Familiar, etc), Demograf&iacute;a (Ni&ntilde;os, Mujeres, Desplazados, etc) y Cronolog&iacute;a.
-                    </p>
-                </td>
-                <td>
-                    <iframe width="400" height="225" src="//www.youtube.com/embed/Zmqfyf9mRbM" frameborder="0" allowfullscreen></iframe>
-                </td>
-            </tr>
-        </table>
-      	<br />
-      </div>
-      <div id="logos_otros" class="seccion">
-            <h2>Otros sistemas</h2>
-            <div class="logo">
-                <a href="http://monitor.umaic.org" target="_blank"><img src="images/umaic/logo_MONITOR.png" /></a>
+        -->
+                <div class="seccion">
+                    <table>
+                        <tr>
+                            <td>
+                                <p id="que_es" align="justify">
+                                    El objetivo del Sistema de Informaci&oacute;n es recolectar, procesar y difundir  informaci&oacute;n humanitaria del pa&iacute;s.
+                                    <br /><br />
+                                    Aqu&iacute; podr&aacute; encontrar informaci&oacute;n b&aacute;sica estad&iacute;stica, presencia de organizaciones, eventos de accidentes
+                                    por Minas y Municiones sin Explotar, informaci&oacute;n de desplazamiento (diferentes fuentes).
+                                    <br /><br />
+                                    Esta informaci&oacute;n est&aacute; organizada por: Localizaci&oacute;n Geogr&aacute;fica (Departamento y/o Municipio),
+                                    Tema (Salud, Educaci&oacute;n, Bienestar Familiar, etc), Demograf&iacute;a (Ni&ntilde;os, Mujeres, Desplazados, etc) y Cronolog&iacute;a.
+                                </p>
+                            </td>
+                            <td>
+                                <iframe width="400" height="225" src="//www.youtube.com/embed/Zmqfyf9mRbM" frameborder="0" allowfullscreen></iframe>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+                <div id="logos_otros" class="seccion">
+                    <h2>Otros sistemas</h2>
+                    <div class="logo">
+                        <a href="http://monitor.umaic.org" target="_blank"><img src="images/umaic/logo_MONITOR.png" /></a>
+                    </div>
+                    <div class="logo">
+                        <a href="http://salahumanitaria.co" target="_blank"><img src="images/umaic/logo_SALA.png" /></a>
+                    </div>
+                    <div class="logo">
+                        <a href="http://wiki.umaic.org" target="_blank"><img src="images/umaic/logo_WIKI.png" /></a>
+                    </div>
+                    <div class="logo">
+                        <a href="http://geonode.umaic.org" target="_blank"><img src="images/umaic/logo_GEONODE.png" /></a>
+                    </div>
+                    <div class="clear"><p>&nbsp;</p></div>
+                </div>
             </div>
-            <div class="logo">
-                <a href="http://salahumanitaria.co" target="_blank"><img src="images/umaic/logo_SALA.png" /></a>
-            </div>
-            <div class="logo">
-                <a href="http://wiki.umaic.org" target="_blank"><img src="images/umaic/logo_WIKI.png" /></a>
-            </div>
-            <div class="logo">
-                <a href="http://geonode.umaic.org" target="_blank"><img src="images/umaic/logo_GEONODE.png" /></a>
-            </div>
-            <div class="clear"><p>&nbsp;</p></div>
-        </div>
-	</div>
-    <div id="novedad_div">
-        <div id="nd">
-            <!--
+            <div id="novedad_div">
+                <div id="nd">
+                    <!--
             <div class="h">
                 <h2>Nuevos m&oacute;dulos</h2>
                 <ul>
@@ -208,20 +225,20 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
                 <br />
                 <ul>
                     <?
-                    foreach ($d_s as $linea){
-                        echo "<li>$linea</li>";
-                    }
-                    ?>
+					foreach ($d_s as $linea){
+						echo "<li>$linea</li>";
+					}
+					?>
                 </ul>
             </div>
             <div class="f">Este sitio requiere <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" target="_blank"><img src="images/flash.png" border="0" />&nbsp;Flash player</a> 9 o superior. Sugerimos <a href="http://www.firefox.com" target="_blank">
                 <img src="images/firefox.png" border="0" /></a> para una &oacute;ptima visualizaci&oacute;n
             </div>
             -->
+                </div>
+            </div>
+			<?php include('include/footer.php') ?>
         </div>
     </div>
-    <?php include('include/footer.php') ?>
-  </div>
-</div>
 </body>
 </html>
