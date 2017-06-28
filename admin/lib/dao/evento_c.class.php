@@ -2468,7 +2468,7 @@ Class EventoConflictoDAO {
         //$fecha_fin = $_POST["f_fin"];
         
         if ($sql == ''){
-            $sql_eventos = "SELECT DISTINCT evento_c.ID_EVEN, FECHA_REG_EVEN, FECHA_ING_EVEN,SINTESIS_EVEN FROM evento_c LEFT JOIN descripcion_evento USING(id_even) JOIN evento_localizacion USING(id_even) LEFT JOIN victima USING(id_deseven)";
+            $sql_eventos = "SELECT DISTINCT evento_c.ID_EVEN,incident_id, FECHA_REG_EVEN, FECHA_ING_EVEN,SINTESIS_EVEN FROM evento_c LEFT OUTER JOIN evento_c_monitor on sidih_id=id_even LEFT JOIN descripcion_evento USING(id_even) JOIN evento_localizacion USING(id_even) LEFT JOIN victima USING(id_deseven)";
     
             if ($filtro_fecha == 1){
                 $sql_eventos .= " WHERE fecha_reg_even BETWEEN '$f_ini' AND '$f_fin'";
@@ -2477,7 +2477,7 @@ Class EventoConflictoDAO {
             $sql_eventos .= " ORDER BY fecha_reg_even DESC";
         }
         else{
-            $sql_eventos = "SELECT DISTINCT evento_c.ID_EVEN, FECHA_REG_EVEN, FECHA_ING_EVEN,SINTESIS_EVEN FROM evento_c LEFT JOIN descripcion_evento USING(id_even) JOIN evento_localizacion USING(id_even) LEFT JOIN victima USING(id_deseven) 
+            $sql_eventos = "SELECT DISTINCT evento_c.ID_EVEN, incident_id, FECHA_REG_EVEN, FECHA_ING_EVEN,SINTESIS_EVEN FROM evento_c LEFT OUTER JOIN evento_c_monitor on sidih_id=id_even LEFT JOIN descripcion_evento USING(id_even) JOIN evento_localizacion USING(id_even) LEFT JOIN victima USING(id_deseven) 
                             WHERE 1=1 $sql";
         }
         
@@ -2499,6 +2499,8 @@ Class EventoConflictoDAO {
             
             $content = "<table border=1 height='100%'><tr>";
             if ($sql == '') $content .= "<td>ID del Evento</td>";
+			$content .= "<td>ID_MONITOR</td>";
+			
             $content .= "<td>FECHA_ENTRADA_REGISTRO</td>
                     <td>FECHA EVENTO</td>";
             
@@ -2548,6 +2550,8 @@ Class EventoConflictoDAO {
             while ($row_rs = $this->conn->FetchObject($rs_eventos)){
                 
                 $id = $row_rs->ID_EVEN;
+				
+				$incident_id = $row_rs->incident_id;
 
                 //Descripciones
                 $desc_evento = $evento_dao->getDescripcionEvento($id);
@@ -2564,6 +2568,8 @@ Class EventoConflictoDAO {
                 $content .= "<tr>";
                 
                 if ($sql == '') $content .= "<td>$row_rs->ID_EVEN</td>";
+				
+				$content .= "<td>$row_rs->incident_id</td>";
                 
                 $content .= "<td>$row_rs->FECHA_ING_EVEN</td>";
                 $content .= "<td>$row_rs->FECHA_REG_EVEN</td>";
@@ -5150,3 +5156,4 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 }
 
 ?>
+

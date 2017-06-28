@@ -92,14 +92,14 @@ function file_get_contents_curl($url) {
 //echo "--Comenzando Lectura de JSON<br>";
 $ayer = (empty($_GET['desde'])) ? date('Y-m-d',strtotime('-1 day')) : $_GET['desde'];
 //$ayer = '2015-1-1';
-$fn = "http://violenciaarmada.salahumanitaria.co/av/api/listar/sidih/$ayer";
+$fn = "http://violenciaarmada.umaic.org/av/api/listar/sidih/$ayer";
 //$fn = "http://sidih.salahumanitaria.co/sissh/sidih.json";
 //$fn = "http://sidih.local/sidih.json";
 
 file_get_contents_curl($fn);
 
 // Esta linea se usa cuando sidih no trae el json directamente, error desconocido
-$fn = "http://violenciaarmada.salahumanitaria.co/media/uploads/sidih_sync.json";
+$fn = "http://violenciaarmada.umaic.org/media/uploads/sidih_sync.json";
 
 $json = file_get_contents_curl($fn);
 $incs = json_decode($json);
@@ -109,7 +109,12 @@ $incs = json_decode($json);
 // Borra los eventos que no existan en monitor
 $borrados = 0;
 if ($check_borrados) {
-    $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm','violencia_armada');
+    $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm2017','violencia_armada');
+	
+	if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }else{  //verifica conexion
     //$my_monitor = mysqli_connect('localhost','monitor','!7ujmmju7!','violencia_armada');
 
     $sql_borrar_sidih = "SELECT incident_id, sidih_id 
@@ -123,6 +128,7 @@ if ($check_borrados) {
         $sidih_id = $row[1];
 
         $sql_borrar = "SELECT id FROM incident WHERE id = $incident_id";
+       // echo $sql_borrar."</br>";
         mysqli_real_query($my_monitor,$sql_borrar);
         $result = mysqli_fetch_row(mysqli_use_result($my_monitor));
         //echo "$incident_id,";
@@ -135,6 +141,8 @@ if ($check_borrados) {
      
     }
     //echo "<br>";
+	
+}
 }
 //echo "--Pasa borrado<br>";
 //echo "--Comenzando recorrido del JSON<br>";
