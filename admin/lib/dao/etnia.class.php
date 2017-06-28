@@ -181,6 +181,11 @@ Class EtniaDAO {
 			$sql =  "INSERT INTO ".$this->tabla." (".$this->columna_nombre.") VALUES ('".$etnia_vo->nombre."')";
 			$this->conn->Execute($sql);
 
+			// Lo crea en MONITOR
+            $sql_monitor = "INSERT INTO victim_ethnic_group (ethnic_group) VALUES ('".$etnia_vo->nombre."')";
+            $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm2017','violencia_armada');
+            mysqli_real_query($my_monitor,$sql_monitor);
+
 			echo "Registro insertado con &eacute;xito!";
 		}
 		else{

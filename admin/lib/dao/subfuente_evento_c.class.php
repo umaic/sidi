@@ -187,7 +187,7 @@ Class SubFuenteEventoConflictoDAO {
 
             // Lo crea en MONITOR
             $sql_monitor = "INSERT INTO source (source_type_id, source) VALUES ($subfuente_vo->id_fuente, '".$subfuente_vo->nombre."')";
-            $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm','violencia_armada');
+            $my_monitor = mysqli_connect('192.168.1.3','sissh','mjuiokm2017','violencia_armada');
             mysqli_real_query($my_monitor,$sql_monitor);
 
 			echo "Registro insertado con &eacute;xito!";
