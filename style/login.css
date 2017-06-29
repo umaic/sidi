@@ -138,6 +138,10 @@ body {
     margin-bottom: 15px;
 }
 
+.alert.error {
+    background-color: #f44336;
+}
+
 /* The close button */
 .closebtn {
     margin-left: 15px;

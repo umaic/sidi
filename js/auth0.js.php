@@ -1,4 +1,6 @@
-<?php include_once("../admin/lib/common/auth0_config.php"); ?>
+<?php header('Content-Type: application/javascript');
+include_once("../admin/lib/common/auth0_config.php");
+?>
 var lock = new Auth0Lock('<?php echo $auth0_client_id ?>', '<?php echo $auth0_domain ?>', {
 
     initialScreen: 'login',
@@ -51,7 +53,16 @@ var lock = new Auth0Lock('<?php echo $auth0_client_id ?>', '<?php echo $auth0_do
     languageDictionary: {
         emailInputPlaceholder: "sucorreo@umaic.org",
         passwordInputPlaceholder: 'Contraseña',
-        title: "Iniciar sesión"
+        title: "Iniciar sesión",
+		forgotPasswordAction: "¿Olvidó su contraseña?",
+		loginSubmitLabel: "Iniciar sesión",
+		loginLabel: "Iniciar sesión",
+		ssoEnabled: "Inicio de sesión único activado",
+		forgotPasswordTitle: "Restablecer contraseña",
+		forgotPasswordInstructions: "Por favor ingrese su dirección de correo. Le enviaremos las instrucciones para restablecer su contraseña.",
+		forgotPasswordSubmitLabel: "Enviar correo",
+		lastLoginInstructions: "La última vez inició sesión con",
+		notYourAccountAction: "¿No es su cuenta?",
     },
     theme: {
         logo: '<?php echo $auth0_logo ?>'
