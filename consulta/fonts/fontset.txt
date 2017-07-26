@@ -1,2 +1,2 @@
-label /srv/www/htdocs/sissh/consulta/fonts/copy0856
-arial /srv/www/htdocs/sissh/consulta/fonts/Arial
+label /var/www/umaic_org/sidi/html/sissh/consulta/fonts/copy0856
+arial /var/www/umaic_org/sidi/html/sissh/consulta/fonts/Arial
