@@ -56,7 +56,7 @@ $num_fuentes = count($fuentes);
 $aaaa = explode(',', $_GET['a']);
 $id_clase = 3;
 
-$sql = "TRUNCATE ocha_sissh_despla_import.registro_consulta_tmp";
+$sql = "TRUNCATE sidi_despla_import.registro_consulta_tmp";
 $conn->Execute($sql);
 
 echo 'Comienza el proceso de totalizar....<br />Procesando.....';
@@ -171,12 +171,12 @@ foreach($id_deptos as $id_depto){
 	}
 }
 
-$sql = "INSERT INTO ocha_sissh.registro 
+$sql = "INSERT INTO sidi.registro 
     (ID_TIPO_DESPLA,ID_MUN,ID_DEPTO,ID_CLASE_DESPLA,ID_MUN_ID_MUN,ID_FUEDES,ID_PERIO,ID_POBLA,ID_CONP,ID_DEPTO_ID_DEPTO,VALOR,FECHA_CORTE) 
     SELECT ID_TIPO_DESPLA,ID_MUN,ID_DEPTO,ID_CLASE_DESPLA,ID_MUN_ID_MUN,ID_FUEDES,ID_PERIO,ID_POBLA,ID_CONP,ID_DEPTO_ID_DEPTO,VALOR,FECHA_CORTE 
-    FROM ocha_sissh_despla_import.registro";
+    FROM sidi_despla_import.registro";
 $conn->Execute($sql);
-$sql = "INSERT INTO ocha_sissh.registro_consulta_tmp SELECT * FROM ocha_sissh_despla_import.registro_consulta_tmp";
+$sql = "INSERT INTO sidi.registro_consulta_tmp SELECT * FROM sidi_despla_import.registro_consulta_tmp";
 $conn->Execute($sql);
 
 echo 'Listo!';

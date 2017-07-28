@@ -52,11 +52,11 @@ $conn = MysqlDB::getInstance();
 
 // Copiar periodo y vaciar las 2 tablas a usar en la base de datos temporal y borrar la información de Acción social en la principal
 
-$sql = "TRUNCATE ocha_sissh_despla_import.periodo";
+$sql = "TRUNCATE sidi_despla_import.periodo";
 $conn->Execute($sql);
-$sql = "INSERT INTO ocha_sissh_despla_import.periodo (cons_perio,desc_perio,orden) SELECT cons_perio,desc_perio,orden FROM ocha_sissh.periodo";
+$sql = "INSERT INTO sidi_despla_import.periodo (cons_perio,desc_perio,orden) SELECT cons_perio,desc_perio,orden FROM sidi.periodo";
 $conn->Execute($sql);
-$sql = "TRUNCATE ocha_sissh_despla_import.registro";
+$sql = "TRUNCATE sidi_despla_import.registro";
 $conn->Execute($sql);
 
 if (isset($_GET["submit"])){

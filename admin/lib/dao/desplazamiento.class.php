@@ -2212,10 +2212,10 @@ Class DesplazamientoDAO {
 		$num_rep = count($cont_archivo);
         
         // copia toda la tabla de periodos
-        $sql = "TRUNCATE ocha_sissh_despla_import.periodo";
+        $sql = "TRUNCATE sidi_despla_import.periodo";
         $this->conn->Execute($sql);
         
-        $sql = "INSERT INTO ocha_sissh_despla_import.periodo SELECT * FROM ocha_sissh.periodo";
+        $sql = "INSERT INTO sidi_despla_import.periodo SELECT * FROM sidi.periodo";
         $this->conn->Execute($sql);
 
 		//ACCION DE BORRAR
@@ -2226,7 +2226,7 @@ Class DesplazamientoDAO {
 		}
         
         // Actualiza fecha de corte en fuente
-        $sql = "UPDATE ocha_sissh.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
+        $sql = "UPDATE sidi.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
 		$this->conn->Execute($sql);
 
 		$ex = 0;
@@ -2398,7 +2398,7 @@ Class DesplazamientoDAO {
 		}
 
         // Actualiza fecha de corte en fuente
-        $sql = "UPDATE ocha_sissh.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
+        $sql = "UPDATE sidi.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
 		$this->conn->Execute($sql);
         
         $ex = 0;
@@ -2626,7 +2626,7 @@ Class DesplazamientoDAO {
         }
 
         // Actualiza fecha de corte en fuente
-        $sql = "UPDATE ocha_sissh.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
+        $sql = "UPDATE sidi.fuente_desplazamiento SET FECHA_CORTE = '$f_corte' WHERE ID_FUEDES = $id_fuente";
         $this->conn->Execute($sql);
         
         $ex = 0;

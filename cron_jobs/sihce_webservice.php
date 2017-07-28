@@ -265,8 +265,8 @@ while ($evento = $conn->FetchObject($rs)){
 
                     // Victimas asociadas a incidente-subcat
                     $sql = "SELECT id_sexo,id_subetnia,id_subcondicion,id_estado,id_ocupacion,id_raned,cant_victima,id_condicion,id_edad,cant_victima
-                         FROM ocha_sissh.victima v JOIN ocha_sissh.descripcion_evento d USING (id_deseven) JOIN 
-                         ocha_sissh.evento_c e USING(id_even) WHERE e.id_even = $id_evento AND d.id_scateven = $id_s AND cant_victima > 0";
+                         FROM sidi.victima v JOIN sidi.descripcion_evento d USING (id_deseven) JOIN 
+                         sidi.evento_c e USING(id_even) WHERE e.id_even = $id_evento AND d.id_scateven = $id_s AND cant_victima > 0";
 
                     $rs_v = $conn->OpenRecordset($sql);
                     $victim = array();

@@ -188,8 +188,8 @@ while ($evento = $conn->FetchObject($rs)){
 
                     // Victimas asociadas a incidente-subcat
                     $sql = "SELECT id_sexo,id_subetnia,id_subcondicion,id_estado,id_ocupacion,id_raned,cant_victima,id_condicion,id_edad 
-                         FROM ocha_sissh.victima v JOIN ocha_sissh.descripcion_evento d USING (id_deseven) JOIN 
-                         ocha_sissh.evento_c e USING(id_even) WHERE e.id_even = $id_evento AND d.id_scateven = $id_s";
+                         FROM sidi.victima v JOIN sidi.descripcion_evento d USING (id_deseven) JOIN 
+                         sidi.evento_c e USING(id_even) WHERE e.id_even = $id_evento AND d.id_scateven = $id_s";
 
                     $rs_v = $conn->OpenRecordset($sql);
                     while ($row_v = $conn->FetchRow($rs_v)){

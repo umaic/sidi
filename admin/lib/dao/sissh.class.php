@@ -3926,7 +3926,7 @@ Class SisshDAO {
 			break;
 
 			case 'desplazamiento':
-				$sql = "DELETE FROM ocha_sissh.cache_mapa_desplazamiento WHERE id_fuedes = $id";
+				$sql = "DELETE FROM sidi.cache_mapa_desplazamiento WHERE id_fuedes = $id";
 			break;
 
 			case 'desplazamiento_id':
