@@ -191,6 +191,35 @@ class ControladorPagina {
 
         $this->vo->id_albergues = (isset($_POST["id_albergues"])) ? $_POST["id_albergues"] : array();
 
+	    $this->vo->inter = (intval($_POST["inter"]) == 0 || intval($_POST["inter"]) == 1) ? $_POST["inter"] : 0;
+
+	    $this->vo->cbt_ma = (intval($_POST["cbt_ma"]) > 0) ? $_POST["cbt_ma"] : NULL;
+	    $this->vo->cbt_me = (intval($_POST["cbt_me"]) > 0) ? $_POST["cbt_me"] : NULL;
+	    $this->vo->cbt_f = (intval($_POST["cbt_f"]) > 0) ? $_POST["cbt_f"] : NULL;
+	    $this->vo->cbt_val = (intval($_POST["cbt_val"]) > 0) ? $_POST["cbt_val"] : NULL;
+
+	    $this->vo->tip_proy = (intval($_POST["tip_proy"]) > 0) ? $_POST["tip_proy"] : NULL;
+	    $this->vo->ofar =  $_POST["ofar"];
+
+	    $this->vo->costo_proy1 = (!empty($_POST["costo_proy1"])) ? $_POST["costo_proy1"] : 0;
+	    $this->vo->costo_proy2 = (!empty($_POST["costo_proy2"])) ? $_POST["costo_proy2"] : 0;
+	    $this->vo->costo_proy3 = (!empty($_POST["costo_proy3"])) ? $_POST["costo_proy3"] : 0;
+	    $this->vo->costo_proy4 = (!empty($_POST["costo_proy4"])) ? $_POST["costo_proy4"] : 0;
+	    $this->vo->costo_proy5 = (!empty($_POST["costo_proy5"])) ? $_POST["costo_proy5"] : 0;
+
+	    //Organizaciones Beneficiarias
+	    $this->vo->id_orgs_b = Array();
+	    if (!empty($_POST["id_orgs_b"])){
+		    $this->vo->id_orgs_b = array_filter($_POST["id_orgs_b"]);
+	    }
+
+	    $this->vo->num_vic = (!empty($_POST["num_vic"])) ? $_POST["num_vic"] : 0;
+	    $this->vo->num_afe = (!empty($_POST["num_afe"])) ? $_POST["num_afe"] : 0;
+	    $this->vo->num_des = (!empty($_POST["num_des"])) ? $_POST["num_des"] : 0;
+	    $this->vo->num_afr = (!empty($_POST["num_afr"])) ? $_POST["num_afr"] : 0;
+	    $this->vo->num_ind = (!empty($_POST["num_ind"])) ? $_POST["num_ind"] : 0;
+
+	    $this->vo->soportes = (!empty($_POST["soportes"])) ? $_POST["soportes"] : '';
     }
 }
 ?>

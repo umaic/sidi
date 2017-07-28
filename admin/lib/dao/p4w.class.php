@@ -747,6 +747,23 @@ Class P4wDAO
         $vo->cbt_val = $Result->VALP;
         $vo->inter = $Result->INTER;
 
+	    $vo->ofar = $Result->FAR_PROY;
+	    $vo->tip_proy = $Result->ID_TIPP;
+
+	    $vo->costo_proy1 = $Result->COSTO_PROY1;
+	    $vo->costo_proy2 = $Result->COSTO_PROY2;
+	    $vo->costo_proy3 = $Result->COSTO_PROY3;
+	    $vo->costo_proy4 = $Result->COSTO_PROY4;
+	    $vo->costo_proy5 = $Result->COSTO_PROY5;
+
+	    $vo->num_vic = $Result->NUM_VIC;
+	    $vo->num_afe = $Result->NUM_AFE;
+	    $vo->num_des = $Result->NUM_DES;
+	    $vo->num_afr = $Result->NUM_AFR;
+	    $vo->num_ind = $Result->NUM_IND;
+
+	    $vo->soportes = $Result->SOPORTES;
+
         $id = $vo->id_proy;
 
         //TEMAS
@@ -872,6 +889,15 @@ Class P4wDAO
             $vo->id_contactos = $arr;
              */
 
+	    //BENEFICIARIOS NO-POBLACIONALES
+	    $arr = Array();
+	    $sql_s = "SELECT ID_ORG FROM vinculorgpro WHERE ID_PROY = ".$id." AND ID_TIPO_VINORGPRO = 5 ORDER BY ID_VINORGPRO";
+	    $rs_s = $this->conn->OpenRecordset($sql_s);
+	    while ($row_rs_s = $this->conn->FetchRow($rs_s)){
+		    $arr[] = $row_rs_s[0];
+	    }
+	    $vo->id_orgs_b = $arr;
+
         //DEPARTAMENTOS
         $arr = Array();
         $sql_s = "SELECT ID_DEPTO FROM depto_proy WHERE ID_PROY = ".$id;
@@ -928,7 +954,55 @@ Class P4wDAO
         return $ids;
     }
 
-    /**
+	/**
+	 * Consulta el tipo de proyecto
+	 * @access public
+	 * @param int $id_proy ID del proyecto
+	 */
+	function getTipoProyecto($id_proy){
+
+		$sql = "SELECT tp.nom_tipp FROM proyecto p LEFT JOIN tipo_proy tp ON tp.id_tipp=p.id_tipp
+                WHERE p.id_proy = " . $id_proy;
+
+		$rs = $this->conn->OpenRecordset($sql);
+		$row = $this->conn->FetchRow($rs);
+
+		return (isset($row[0])) ? $row[0] : 0;
+	}
+
+	/**
+	 * Consulta la modalidad de asistencia de un proyecto
+	 * @access public
+	 * @param int $id_proy ID del proyecto
+	 */
+	function getModalidadProyecto($id_proy){
+
+		$sql = "SELECT ma.nom_moda FROM proyecto p LEFT JOIN modalidad_asistencia ma ON ma.id_moda=p.id_moda
+                WHERE p.id_proy = " . $id_proy;
+
+		$rs = $this->conn->OpenRecordset($sql);
+		$row = $this->conn->FetchRow($rs);
+
+		return (isset($row[0])) ? $row[0] : 0;
+	}
+
+	/**
+	 * Consulta el mecanismo de entrega de un proyecto
+	 * @access public
+	 * @param int $id_proy ID del proyecto
+	 */
+	function getMecanismoProyecto($id_proy){
+
+		$sql = "SELECT ma.nom_mece FROM proyecto p LEFT JOIN mecanismo_entrega me ON me.id_mece=p.id_mece
+                WHERE p.id_proy = " . $id_proy;
+
+		$rs = $this->conn->OpenRecordset($sql);
+		$row = $this->conn->FetchRow($rs);
+
+		return (isset($row[0])) ? $row[0] : 0;
+	}
+
+	/**
      * Consulta el aporte de un donante
      * @access public
      * @param int $id_proy ID del proyecto
@@ -1169,13 +1243,17 @@ Class P4wDAO
                                                 staff_intal_proy,cobertura_nal_proy,cant_benf_proy,valor_aporte_donantes,
                                                 valor_aporte_socios,info_extra_donantes,info_extra_socios,joint_programme_proy,
                                                 mou_proy,acuerdo_coop_proy,interv_ind_proy,otro_cual_benf_proy,si_proy,creac_proy,validado_cluster_proy, id_usuario,
-                                                id_tipp,far_proy,id_moda,id_mece,frecd,valp,inter)
+                                                id_tipp,far_proy, id_moda,id_mece,frecd,valp, inter,
+                                                costo_proy1,costo_proy2,costo_proy3,costo_proy4,costo_proy5,
+                                                num_vic,num_afe,num_des,num_afr,num_ind,soportes)
                     VALUES ($vo->id_mon,$vo->id_estp,$vo->id_emergencia,$vo->id_con,'$vo->nom_proy','$vo->cod_proy','$vo->des_proy','$vo->obj_proy','$vo->inicio_proy','$vo->fin_proy',$vo->srp_proy,
                     now(),$vo->costo_proy,$vo->duracion_proy,$vo->info_conf_proy,$vo->staff_nal_proy,$vo->staff_intal_proy,$vo->cobertura_nal_proy,
                     '$vo->cant_benf_proy','$vo->valor_aporte_donantes','$vo->valor_aporte_socios',
                     '$vo->info_extra_donantes','$vo->info_extra_socios',$vo->joint_programme_proy,
                     $vo->mou_proy,$vo->acuerdo_coop_proy,$vo->interv_ind_proy,'$vo->otro_cual_benf_proy','$vo->si_proy',now(),$vo->validado_cluster_proy, ".$_SESSION['id_usuario_s'].",".
-                    $vo->tip_proy.",'".$vo->ofar."',".$vo->cbt_ma.",".$vo->cbt_me.",".$vo->cbt_f.",".$vo->cbt_val ."," . $vo->inter
+                    $vo->tip_proy.",'".$vo->ofar."',".$vo->cbt_ma.",".$vo->cbt_me.",".$vo->cbt_f.",".$vo->cbt_val ."," . $vo->inter . "," .
+                    $vo->costo_proy1."," . $vo->costo_proy2."," . $vo->costo_proy3."," . $vo->costo_proy4."," . $vo->costo_proy5."," .
+	                $vo->num_vic."," . $vo->num_afe."," . $vo->num_des."," . $vo->num_afr."," . $vo->num_ind . ",'" . $vo->soportes . "'"
             . ")";
 
             $this->conn->Execute($sql);
@@ -1340,6 +1418,13 @@ Class P4wDAO
                 $this->conn->Execute($sql);
             }
         }
+
+	    //ORGANIZACIONES BENEFICIARIAS
+	    $arr = $proyecto_vo->id_orgs_b;
+	    foreach ($arr as $a){
+		    $sql = "INSERT INTO vinculorgpro (ID_TIPO_VINORGPRO,ID_ORG,ID_PROY,VALOR_APORTE) VALUES (5,$a,$id_proyecto,0)";
+		    $this->conn->Execute($sql);
+	    }
     }
 
     /**
@@ -1425,13 +1510,27 @@ Class P4wDAO
                 otro_cual_benf_proy = '$vo->otro_cual_benf_proy',
                 validado_cluster_proy = $vo->validado_cluster_proy,
                 si_proy = '$vo->si_proy',
+
                 id_tipp = $vo->tip_proy,
                 far_proy = '$vo->ofar',
+                
                 id_moda = $vo->cbt_ma,
                 id_mece = $vo->cbt_me,
                 frecd = $vo->cbt_f,
                 valp = $vo->cbt_val,
-                inter = $vo->inter
+                inter = $vo->inter,
+                
+                costo_proy1 = $vo->costo_proy1,
+                costo_proy2 = $vo->costo_proy2,
+                costo_proy3 = $vo->costo_proy3,
+                costo_proy4 = $vo->costo_proy4,
+                costo_proy5 = $vo->costo_proy5,
+                num_vic = $vo->num_vic,
+                num_afe = $vo->num_afe,
+                num_des = $vo->num_des,
+                num_afr = $vo->num_afr,
+                num_ind = $vo->num_ind,
+                soportes = '$vo->soportes'
                WHERE $this->columna_id = $id";
 
         $this->conn->Execute($sql);
@@ -1501,12 +1600,27 @@ Class P4wDAO
         $insertar_db = ($importar == '1') ? true : false;
 
         $t_dir = '../../tmp/';
-        $nc = 48;
+        $nc = 62;
         $sp = '|';
         $sep_donante = '-';
         $msg = '';
         $check = true;
-        $cobli = array(0,1,2,3,4,5,6,8,9,10,11,12,13,15,16,20,21,22,23,24,39,40);
+        //Campos obligatorios en la importación desde excel
+        $cobli = array(
+            0,1,2,3,    //Información Básica
+            4,5,6,      //Organización encargada
+            8,9,        //Implementador
+            10,         //Sectores Humanitarios
+            11,         //Resultados esperados UNDAF
+            12,13,14,   //Tiempo de ejecución
+            15,         //Estado Proyecto
+            16,         //Presupuesto Total (USD)
+            25,         //SRP
+            26,27,28,   //Contacto en Terreno
+            29,         //Total Beneficiarios
+            52,53,      //Cobertura
+            56         //Interagencial
+        );
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
         $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = array();
@@ -1689,8 +1803,8 @@ Class P4wDAO
                         }
 
                         $col = 4;
+	                    //Organización Encargada
                         if ($chks['oe'] && !$er) {
-                            // Checks Orgs Encargada
                             $os = $f[$col];
                             $on = $f[++$col];
                             $ot = $f[++$col];
@@ -1758,7 +1872,7 @@ Class P4wDAO
                         }
 
 
-                        // Checks Implementador
+                        //Implementador
                         $os = $f[++$col];
                         $on = $f[++$col];
                         $ot = $f[++$col];
@@ -1868,7 +1982,7 @@ Class P4wDAO
                             }
                         }
 
-                        // Sector
+                        // Sectores Humanitarios
                         $sec = $f[++$col];
                         if ($chks['s'] && !empty($sec)) {
                             $_v = explode('-', $sec);
@@ -2066,7 +2180,72 @@ Class P4wDAO
                             }
                         }
 
-                        // Checks Donante
+	                    $p_vo->costo_proy1 = 0;
+	                    $presu1 = floor($f[++$col]);
+	                    if (strpos($presu1,",") > 0 OR strpos($presu1,".") > 0) {
+		                    $_msgr .= ' - El presupuesto del año 1 contiene separadores de miles o de decimales';
+		                    if ($chks['p']) {
+			                    $_msg .= "El presupuesto del año 1 contiene separadores de miles o de decimales - $presu1<br />";
+			                    $er = true;
+		                    }
+	                    }
+                        elseif (isset($presu1) && is_numeric($presu1)) {
+		                    $p_vo->costo_proy1 = number_format(trim($presu1),0,'','');
+	                    }
+
+	                    $p_vo->costo_proy2 = 0;
+	                    $presu2 = floor($f[++$col]);
+	                    if (strpos($presu2,",") > 0 OR strpos($presu2,".") > 0) {
+		                    $_msgr .= ' - El presupuesto del año 2 contiene separadores de miles o de decimales';
+		                    if ($chks['p']) {
+			                    $_msg .= "El presupuesto del año 2 contiene separadores de miles o de decimales - $presu2<br />";
+			                    $er = true;
+		                    }
+	                    }
+                        elseif (isset($presu2) && is_numeric($presu2)) {
+		                    $p_vo->costo_proy2 = number_format(trim($presu2),0,'','');
+	                    }
+
+	                    $p_vo->costo_proy3 = 0;
+	                    $presu3 = floor($f[++$col]);
+	                    if (strpos($presu3,",") > 0 OR strpos($presu3,".") > 0) {
+		                    $_msgr .= ' - El presupuesto del año 3 contiene separadores de miles o de decimales';
+		                    if ($chks['p']) {
+			                    $_msg .= "El presupuesto del año 3 contiene separadores de miles o de decimales - $presu2<br />";
+			                    $er = true;
+		                    }
+	                    }
+                        elseif (isset($presu3) && is_numeric($presu3)) {
+		                    $p_vo->costo_proy3 = number_format(trim($presu3),0,'','');
+	                    }
+
+	                    $p_vo->costo_proy4 = 0;
+	                    $presu4 = floor($f[++$col]);
+	                    if (strpos($presu4,",") > 0 OR strpos($presu4,".") > 0) {
+		                    $_msgr .= ' - El presupuesto del año 4 contiene separadores de miles o de decimales';
+		                    if ($chks['p']) {
+			                    $_msg .= "El presupuesto del año 4 contiene separadores de miles o de decimales - $presu4<br />";
+			                    $er = true;
+		                    }
+	                    }
+                        elseif (isset($presu4) && is_numeric($presu4)) {
+		                    $p_vo->costo_proy4 = number_format(trim($presu4),0,'','');
+	                    }
+
+	                    $p_vo->costo_proy5 = 0;
+	                    $presu5 = floor($f[++$col]);
+	                    if (strpos($presu5,",") > 0 OR strpos($presu5,".") > 0) {
+		                    $_msgr .= ' - El presupuesto del año 5 contiene separadores de miles o de decimales';
+		                    if ($chks['p']) {
+			                    $_msg .= "El presupuesto del año 5 contiene separadores de miles o de decimales - $presu5<br />";
+			                    $er = true;
+		                    }
+	                    }
+                        elseif (isset($presu5) && is_numeric($presu5)) {
+		                    $p_vo->costo_proy5 = number_format(trim($presu5),0,'','');
+	                    }
+
+	                    // Checks Donante
                         $os = $f[++$col];
                         $on = $os;
                         $om = $f[++$col];
@@ -2091,9 +2270,9 @@ Class P4wDAO
                                     $s = str_replace($latin, $normal, strtolower(trim($v)));
                                     $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
                                     //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-                                    $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+                                    $kk = "Nombre:$n,Tipo:$t";
 
-                                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
+                                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
                                     $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
                                     $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
@@ -2270,7 +2449,7 @@ Class P4wDAO
                     }
 
 
-                    // Beneficiarios directos
+                    // Beneficiarios poblacionales
                     $benef = $f[++$col];
                     $benf_g = array(
                                     ++$col => array('m','total'),
@@ -2282,7 +2461,7 @@ Class P4wDAO
                                     ++$col => array('h',1),
                                     ++$col => array('h',2),
                                     ++$col => array('h',3),
-                                    ++$col => array('h',4),
+                                    ++$col => array('h',4)
                                     );
                     $str_benef = strlen($benef);
                     if (!empty($str_benef)) {
@@ -2317,6 +2496,46 @@ Class P4wDAO
                         }
                     }
 
+	                $num_vic = trim($f[++$col]);
+	                if (intval($num_vic) > 0) {
+		                $p_vo->num_vic = intval($num_vic);
+	                }
+	                else {
+		                $p_vo->num_vic = 0;
+	                }
+
+	                $num_afe = trim($f[++$col]);
+	                if (intval($num_afe) > 0) {
+		                $p_vo->num_afe = intval($num_afe);
+	                }
+	                else {
+		                $p_vo->num_afe = 0;
+	                }
+
+	                $num_des = trim($f[++$col]);
+	                if (intval($num_des) > 0) {
+		                $p_vo->num_des = intval($num_des);
+	                }
+	                else {
+		                $p_vo->num_des = 0;
+	                }
+
+	                $num_afr = trim($f[++$col]);
+	                if (intval($num_afr) > 0) {
+		                $p_vo->num_afr = intval($num_afr);
+	                }
+	                else {
+		                $p_vo->num_afr = 0;
+	                }
+
+	                $num_ind = trim($f[++$col]);
+	                if (intval($num_ind) > 0) {
+		                $p_vo->num_ind = intval($num_ind);
+	                }
+	                else {
+		                $p_vo->num_ind = 0;
+	                }
+
                     // Beneficiarios indirectos
                     $benef_ind_total = $f[++$col];
                     $benef_ind_m = $f[++$col];
@@ -2348,6 +2567,117 @@ Class P4wDAO
                         }
 
                     }
+
+	                // Beneficiarios No-Poblacionales
+	                $os = $f[++$col];
+	                $on = $f[++$col];
+	                $ot = $f[++$col];
+	                if (!empty($os) && !empty($on)) {
+
+		                $_v = explode(',', trim($os));
+		                $_n = explode(',', trim($on));
+
+		                foreach($_v as $i => $v) {
+
+			                $s = str_replace($latin, $normal, strtolower(trim($v)));
+			                $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+			                $t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+
+			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
+			                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
+				                $_msgr .= " - No existe el operador: $kk";
+				                if ($chks['oo']) {
+
+					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $id_org_new[] = $kk;
+					                $er = true;
+
+					                if (!empty($tid)) {
+						                $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$n,$s,$tid);
+						                $_csvo .= "$n,$s,$tid";
+					                }
+				                }
+			                }
+			                else if (isset($orgs[0])) {
+				                $p_vo->id_orgs_b[] = $orgs[0];
+			                }
+		                }
+	                }
+	                // Solo sigla
+	                else if (!empty($os) && empty($on)) {
+
+		                $_v = explode(',', trim($os));
+
+		                foreach($_v as $i => $v) {
+
+			                $s = str_replace($latin, $normal, strtolower(trim($v)));
+			                $kk = "Sigla:$s";
+
+			                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
+
+			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
+				                $_msgr .= " - No existe el operador: $kk";
+				                if ($chks['oo']) {
+					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $id_org_new[] = $kk;
+					                $er = true;
+				                }
+			                }
+			                else if (isset($orgs[0])) {
+				                $p_vo->id_orgs_b[] = $orgs[0];
+			                }
+		                }
+	                }
+	                // Solo nombre
+	                else if (empty($os) && !empty($on)) {
+
+		                $_v = explode(',', trim($on));
+
+		                foreach($_v as $i => $v) {
+
+			                $s = '';
+			                $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+
+			                $n = str_replace($latin, $normal, strtolower($_n));
+			                $t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                $kk = "Nombre:$v,Tipo:$t";
+
+			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
+			                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
+				                $_msgr .= " - No existe el operador: $kk";
+				                if ($chks['oo']) {
+					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $id_org_new[] = $kk;
+					                $er = true;
+
+					                if (!empty($tid)) {
+						                $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$_n,$s,$tid);
+						                $_csvo .= "$n,$s,$tid";
+					                }
+				                }
+			                }
+			                else if (isset($orgs[0])) {
+				                $p_vo->id_orgs_b[] = $orgs[0];
+			                }
+		                }
+	                }
+	                else {
+
+		                $_msgr .= " - No hay operador";
+
+		                if ($chks['ob']) {
+			                $_msg .= "No hay operador<br />";
+			                $er = true;
+		                }
+	                }
+
 
                     // Divipola
                     $kws = array('departamental');
@@ -2516,6 +2846,15 @@ Class P4wDAO
                     }
                     else {
                     }
+
+                    //URL Soportes
+	                $soportes = $f[++$col];
+	                if (filter_var($soportes, FILTER_VALIDATE_URL) === FALSE) {
+		                $p_vo->soportes = $soportes;
+	                } else {
+		                $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
+		                $er = true;
+	                }
 
                     if ($er) {
                         $ne++;
@@ -2697,7 +3036,7 @@ Class P4wDAO
         $sql = "DELETE FROM p4w_beneficiario WHERE ".$this->columna_id." = ".$id;
         $this->conn->Execute($sql);
 
-        //ORGANIZACIONES EJECUTORAS - DONANTES
+        //ORGANIZACIONES EJECUTORAS - DONANTES - BENEFICIARIAS
         $sql = "DELETE FROM vinculorgpro WHERE ".$this->columna_id." = ".$id;
         $this->conn->Execute($sql);
 
@@ -4129,6 +4468,9 @@ Class P4wDAO
                         }
                     }
 
+                    //Lista filtro beneficiarias
+	                $beneficiarias = $this->getOrgs($id_proy,5);
+
                     // Lista filtro ubicacion, actualiza la lista de filtro solo
                     // cuando no tenga filtro de depto, esto es para poder
                     // seleccionar varios
@@ -4593,10 +4935,49 @@ Class P4wDAO
         }
 
         //echo $sql;
+        file_put_contents ('/tmp/sidi_4w.txt' , "SQL:".$sql."\r\n", FILE_APPEND);
 
-        $csv = "Código 4w,Código Interno *,Tipo de Proyecto*,Nombre del proyecto *,Descripción de la ayuda*,Organización encargada,,,Implementador,,,Sectores Humanitarios*,Resultados esperados UNDAF*,Tiempo de ejecución *,,,,,Donante (Fuente de los recursos),,,HRP *,Contacto en Terreno *,,,Población Beneficiaria *,,,,,,,,,,,Beneficiarios indirectos,,,Cobertura,,,,,Interagencial *,Cash Based Transfer,,,\r\n";
-        $csv .= ",,,,,Sigla *,Nombre *,Tipo *,Sigla,Nombre *,Tipo *,Separados por guión (-),Separados por guión (-),Fecha de inicio *,Fecha de finalización *,Meses*,Estado Proyecto *,Presupuesto USD *,Nombre,Monto (USD),\"Fecha de adjudicación De recursos\",Hace parte del plan estratégico de respuesta? (0 o 1),Responsable *,Correo Electrónico *,Celular *,Total Beneficiarios *,Total Mujeres,Mujeres 0-5 años,Mujeres 6-18 años,Mujeres 18-64 años,Mujeres 65+ años,Total Hombres,Hombres 0-5 años,Hombres 6-18 años,Hombres 18-64 años,Hombres 65+ años,Total Beneficiarios Indirectos,Total mujeres,Total hombres,Divipola,Departamento *,Municipio *,Lat,Long,Cumple los requisitos de interagencialidad? (0 ó 1),Modalidad de Asistencia,Mecanismo de entrega,Frecuencia de distribución,Valor por persona (USD)";
-        $csv .= "\r\n";
+        $encabezado1 = "Información Básica,,,,,";
+	    $encabezado1 .= "Organización ejecutora,,,";
+	    $encabezado1 .= "Implementador,,,";
+	    $encabezado1 .= "Sectores Humanitarios*,";
+	    $encabezado1 .= "Resultados esperados UNDAF*,";
+	    $encabezado1 .= "Tiempo de ejecución *,,,";
+	    $encabezado1 .= "Estado Proyecto*,";
+	    $encabezado1 .= "Presupuesto del proyecto,,,,,,";
+	    $encabezado1 .= "Donante (Fuente de los recursos),,,";
+	    $encabezado1 .= "SRP*,";
+	    $encabezado1 .= "Contacto en Terreno*,,,";
+	    $encabezado1 .= "Beneficiarios poblacionales,,,,,,,,,,,,,,,,";
+	    $encabezado1 .= "Beneficiarios indirectos,,,";
+	    $encabezado1 .= "Beneficiarios No-poblacionales,,,";
+	    $encabezado1 .= "Cobertura Geográfica,,,,,";
+	    $encabezado1 .= "Interagencial*,";
+	    $encabezado1 .= "Cash Based Transfer,,,,";
+	    $encabezado1 .= "URL soportes del proyecto,";
+	    $encabezado1 .= "\r\n";
+
+        $encabezado2 .= "Código 4w,Código Interno*,Tipo de Proyecto*,Nombre del proyecto *,Descripción del proyecto*,"; //Información Básica
+	    $encabezado2 .= "Sigla *,Nombre *,Tipo *,"; //"Organización ejecutora
+	    $encabezado2 .= "Sigla,Nombre*,Tipo*,"; //Implementador
+        $encabezado2 .= "Separados por guión (-),"; //Sectores Humanitarios
+	    $encabezado2 .= "Separados por guión (-),"; //esultados esperados UNDAF
+	    $encabezado2 .= "Fecha de inicio*,Fecha de finalización*,Meses*,"; //Tiempo de ejecución
+	    $encabezado2 .= ","; //Estado Proyecto
+	    $encabezado2 .= "Presupuesto Total(USD)*,Presupuesto Año 1 (USD),Presupuesto Año 2 (USD),Presupuesto Año 3 (USD),Presupuesto Año 4 (USD),Presupuesto Año 5 (USD),"; //Presupuesto del proyecto
+	    $encabezado2 .= "Nombre,Monto (USD),Fecha de adjudicación De recursos,"; //Donante (Fuente de los recursos)
+	    $encabezado2 .= "Hace parte del plan estratégico de respuesta? (0 o 1),"; //SRP
+	    $encabezado2 .= "Nombre del responsable*,Correo Electrónico*,Celular*,"; //Contacto en Terreno
+	    $encabezado2 .= "Total beneficiarios*,Total mujeres,Mujeres 0-5 años,Mujeres 6-18 años,Mujeres 18-64 años,Mujeres 65+ años,Total hombres,Hombres 0-5 años,Hombres 6-18 años,Hombres 18-64 años,Hombres 65+ años,Num. de víctimas del conflicto,Num. afectados por desastres,Num. desmovilizados/Reinsertados,Num. afrocolombianos, Num. indígenas,"; //Beneficiarios poblacionales
+        $encabezado2 .= "Total Beneficiarios Indirectos,Total mujeres,Total hombres,"; //Beneficiarios indirectos
+	    $encabezado2 .= "Sigla,Nombre,Tipo,"; //Beneficiarios No-poblacionales
+	    $encabezado2 .= "Código División Político-Administrativa,Departamento*,Municipio*,Latitud,Longitud,";
+	    $encabezado2 .= "Cumple los requisitos de interagencialidad? (0 ó 1),"; // Interagencial
+	    $encabezado2 .= "Modalidad de Asistencia,Mecanismo de entrega,Frecuencia de distribución,Valor por persona (USD),"; //Cash Based Transfer
+	    $encabezado2 .= ","; //URL soportes del proyecto
+	    $encabezado2 .= "\r\n";
+
+	    $csv = $encabezado1 . $encabezado2;
 
         $rs = $this->conn->OpenRecordset($sql);
         while ($row = $this->conn->FetchObject($rs)) {
@@ -4626,18 +5007,19 @@ Class P4wDAO
                 $html .= '<div class="fila row_proy">
                             <div class="t" id="'.$id.'"><a href="#" title="'.$id.'" onclick="return false">'.$row->nom_proy.'</a></div>
                             <div><i>C&oacute;digo:</i> '.$row->cod_proy.'</div>
-                            <div><i>Presupuesto USD:</i> '.number_format($row->costo_proy).'</div>
+                            <div><i>Presupuesto Total (USD):</i> '.number_format($row->costo_proy).'</div>
                             <div><i>'.$ed.'</i><span class="s" id="'.$row->id_org.'">'.(empty($ejec_sig) ? $ejec_nom : $ejec_sig).'</span></div>';
 
+                //Tipo de proyecto
+	            $tipo_proy = $this->getTipoProyecto($id);
+                $csv .= $row->id.',"'.$row->cod_proy.'","'.$tipo_proy.'","'.str_replace(array("\r\n", "\r", "\n",'"'), '', $row->nom_proy).'","'.
+                        str_replace(array("\r\n", "\r", "\n",'"'), '', $row->des_proy).'"';
+	            $csv .= ',"'. $ejec_sig . '","' . $ejec_nom . '","' . $ejec_tipo .'"';
 
-                $csv .= $row->id.',"'.$row->cod_proy.'","'.str_replace(array("\r\n", "\r", "\n",'"'), '', $row->nom_proy).'","'.
-                        str_replace(array("\r\n", "\r", "\n",'"'), '', $row->des_proy).'","'.
-                        $row->inicio_proy.'","'.$row->fin_proy.'",'.$row->duracion_proy.','.$row->costo_proy.',"'.
-                        $row->nom_estp.'","'.$ejec_sig.'","'.$ejec_nom.'","'.$ejec_tipo.'"';
-
-                // Implementadores, Donantes
+		        // Implementadores, Donantes, Beneficiarias
                 $impls = $this->getOrgs($id, 3);
                 $dons = $this->getOrgs($id, 2);
+	            $bens = $this->getOrgs($id, 5);
                 //if ($c == '' || $c == 'todos') {
                 if (empty($params['c']) || $params['c'] == 'todos') {
                     // Imple
@@ -4661,18 +5043,21 @@ Class P4wDAO
                         $html .= '</div>';
                     }
 
+                    // Benef
+	                if (count($bens) > 0) {
+		                $html .= '<div><i>Beneficiarios No-Poblacionales:</i>';
+		                foreach($bens['sig'] as $i => $isig) {
+			                $html .= ' - <span class="s" id="'.$bens['id'][$i].'">'.(empty($isig)
+					                ? $bens['nom'][$i] : $isig).'</span>';
+		                }
+		                $html .= '</div>';
+	                }
+
                 }
 
                 $csv .= ',"'.((!empty($impls['sig'])) ? implode('-', $impls['sig']) : '').'"';
                 $csv .= ',"'.((!empty($impls['nom'])) ? implode('-', $impls['nom']) : '').'"';
                 $csv .= ',"'.((!empty($impls['tipo'])) ? implode('-', $impls['tipo']) : '').'"';
-                $csv .= ',"'.((!empty($dons['sig'])) ? implode('-', $dons['sig']) : '').'"';
-                $csv .= ',"'.((!empty($dons['nom'])) ? implode('-', $dons['nom']) : '').'"';
-                $csv .= ',"'.((!empty($dons['tipo'])) ? implode('-', $dons['tipo']) : '').'"';
-                $csv .= ',"'.((!empty($dons['a'])) ? implode('-', $dons['a']) : '').'"';
-                $csv .= ',"'.((!empty($dons['c'])) ? implode('-', $dons['c']) : '').'"';
-
-
 
                 $html .= '<div><i>Cobertura: </i>';
                 if ($row->cobertura_nal_proy == 1) {
@@ -4721,14 +5106,16 @@ Class P4wDAO
 
                 $html .= '</div>';
 
+	            // Cluster
+	            $csv .= ',"'.(empty($tms[2]['id']) ? '' : implode('-', $tms[2]['nom'])).'"';
+
                 // Undaf
                 //$csv .= ',"'.(empty($tms[1]['id']) ? '' : implode('-', $tms[1]['nom'])).'"';
 
                 // Des-Paz
                 $csv .= ',"'.(empty($tms[4]['id']) ? '' : implode('-', $tms[4]['nom'])).'"';
 
-                // Cluster
-                $csv .= ',"'.(empty($tms[2]['id']) ? '' : implode('-', $tms[2]['nom'])).'"';
+	            $csv .= ',"' . $row->inicio_proy . '","' . $row->fin_proy . '","' . $row->duracion_proy . '"';
 
                 // Ficha proyecto
                 $html .= '<div id="ficha_'.$id.'" class="fichap">
@@ -4800,36 +5187,51 @@ Class P4wDAO
                 //$csv .= ','.$row->erf.','.$row->cerf;
                 //$csv .= ',,';
 
+                //Estado del proyecto
+	            $csv .= ',"'.$row->nom_estp.'"';
+
+                //Presupuesto del proyecto
+	            $csv .= ',"'.$row->costo_proy.'"';
+	            $csv .= ',"'.$row->costo_proy1.'"';
+	            $csv .= ',"'.$row->costo_proy2.'"';
+	            $csv .= ',"'.$row->costo_proy3.'"';
+	            $csv .= ',"'.$row->costo_proy4.'"';
+	            $csv .= ',"'.$row->costo_proy5.'"';
+
+	            //Donantes
+	            //$csv .= ',"'.((!empty($dons['sig'])) ? implode('-', $dons['sig']) : '').'"';
+	            $csv .= ',"'.((!empty($dons['nom'])) ? implode('-', $dons['nom']) : '').'"';
+	            //$csv .= ',"'.((!empty($dons['tipo'])) ? implode('-', $dons['tipo']) : '').'"';
+	            $csv .= ',"'.((!empty($dons['a'])) ? implode('-', $dons['a']) : '').'"';
+	            //$csv .= ',"'.((!empty($dons['c'])) ? implode('-', $dons['c']) : '').'"';
+
+	            $csv .= ',"'.$row->far_proy.'"';
+
                 //SRP
                 $csv .= ','.$row->srp_proy;
 
                 //Contacto
-                $csv .= ',';
-                $csv .= $row->nom_ape_con . ',' . $row->email_con;
+                $csv .= ',"';
+                $csv .= $row->nom_ape_con . '","' . $row->email_con . '","' . $row->cel_con . '"';
 
-                // Beneficiarios
+
                 $benf_proy = $this->getCantBenef($id);
 
+	            // Beneficiarios Directos
                 if (!empty($benf_proy['d']['total'])) {
 
-                    $html .= '<div><h3>Beneficiarios</h3>';
+                    $html .= '<div><h3>Beneficiarios Directos</h3>';
 
-                    $_bx = array(1, 2, 3);
-                    $_bg = array('h' => $_bx, 'm' => $_bx);
+                    $_bx = array(1, 2, 3, 4);
+                    $_bg = array('m' => $_bx, 'h' => $_bx);
                     $_b = array(1 => array('d' => $_bg),
-                                2 => array('i' => $_bg)
+                                //2 => array('i' => $_bg)
                                 );
 
-                    $_t = array(1 => 'd', 2 => 'i');
+                    $_t = array(1 => 'd',
+                                //2 => 'i'
+                    );
 
-                    $titulos = array('d' => 'Directos',
-                                     'i' => 'Indirectos',
-                                     'h' => 'Hombres',
-                                     'm' => 'Mujeres',
-                                     '1' => '0-5 Años',
-                                     '2' => '6-18 Años',
-                                     '3' => '18+ Años'
-                                     );
                     foreach($_b as $id_tipo => $b) {
 
                         $html .= '<div class="left half">';
@@ -4867,28 +5269,116 @@ Class P4wDAO
                     $html .= '</div>';
                 }
                 else {
-                    $csv .= ',,,,,,,,,,,,,,,,,,';
+                    $csv .= ',,,,,,,,,,,';
                 }
+
+	            $csv .= ','. $row->num_vic;
+	            $csv .= ','. $row->num_afe;
+	            $csv .= ','.$row->num_des;
+	            $csv .= ','.$row->num_afr;
+	            $csv .= ','.$row->num_ind;
+
+	            // Beneficiarios Indirectos
+	            if (!empty($benf_proy['i']['total'])) {
+
+		            $html .= '<div><h3>Beneficiarios Indirectos</h3>';
+
+		            $_bx = array();
+		            $_bg = array('m' => $_bx, 'h' => $_bx);
+		            $_b = array(//1 => array('d' => $_bg),
+			            2 => array('i' => $_bg)
+		            );
+
+		            $_t = array(//1 => 'd',
+                        2 => 'i'
+                    );
+		            foreach($_b as $id_tipo => $b) {
+
+			            $html .= '<div class="left half">';
+			            foreach($b as $tipo => $_g) {
+				            // Total D-I
+				            $_t = (!empty($benf_proy[$tipo]['total'])) ?
+					            $benf_proy[$tipo]['total'] : '';
+				            $html .= $_t;
+				            $csv .= ','.$_t;
+
+				            foreach($_g as $g => $_p) {
+					            // Total H-M
+					            $_t = (!empty($benf_proy[$tipo][$g]['total'])) ?
+						            $benf_proy[$tipo][$g]['total'] : '';
+
+					            if (!empty($_t)) {
+						            $html .= '<br />'.$_t;
+					            }
+					            $csv .= ','.$_t;
+
+					            foreach($_p as $p) {
+						            // Total Edad
+						            $_t = (!empty($benf_proy[$tipo][$g][$p])) ?
+							            $benf_proy[$tipo][$g][$p] : '';
+						            if (!empty($_t)) {
+							            $html .= '<br />'.$_t;
+						            }
+						            $csv .= ','.$_t;
+					            }
+				            }
+			            }
+			            $html .= '</div>';
+		            }
+		            $html .= '<div class="clear"></div>';
+		            $html .= '</div>';
+	            }
+	            else {
+		            $csv .= ',,,';
+	            }
+
+	            //Beneficiarios No-poblacionales
+	            $csv .= ',"' . ((!empty($bens['sig'])) ? implode('-', $bens['sig']) : '') . '"';
+	            $csv .= ',"' . ((!empty($bens['nom'])) ? implode('-', $bens['nom']) : '') . '"';
+	            $csv .= ',"' . ((!empty($bens['tipo'])) ? implode('-', $bens['tipo']) : '') . '"';
 
                 // Cobertura
 
                 $_cb = $this->getMpiosCobertura($id);
 
-                $csv .= ',';
+	            $csv .= ',"';
+	            if (is_array($_cb['ids'])) {
+		            $csv .= implode('-', $_cb['ids']);
+	            }
+
+                $csv .= '","';
                 if (is_array($_cb['deptos'])) {
                     $csv .= implode('-', $_cb['deptos']);
                 }
-                else {
-                    $csv .= ',';
-                }
 
-                $csv .= ',';
+                $csv .= '","';
                 if (is_array($_cb['noms'])) {
                     $csv .= implode('-', $_cb['noms']);
                 }
-                else {
-                    $csv .= ',';
-                }
+
+	            $csv .= '","';
+	            if (is_array($_cb['lat'])) {
+		            $csv .= implode('-', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lat'])     );
+	            }
+
+	            $csv .= '","';
+	            if (is_array($_cb['lon'])) {
+		            $csv .= implode('-', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lon']));
+	            }
+
+	            //Interagencial
+	            $csv .= '",' . $row->inter;
+
+	            //Cash Based Transfer
+	            $csv .= ',"' . $this->getModalidadProyecto($row->id) . '"';
+	            $csv .= ',"' . $this->getMecanismoProyecto($row->id) . '"';
+	            $csv .= ',' . $row->frecd;
+	            $csv .= ',' . $row->valp;
+
+
+                //URL soportes del proyecto
+	            $csv .= ',"' . $row->soportes  . '"';
+
                 $html .= '</div></div>';
 
                 $html .= '</div>';
@@ -4959,8 +5449,9 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
-                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, srp_proy
-                ,inter,id_tipp,far_proy,id_moda,id_mece,frecd,valp
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, cel_con, srp_proy
+                ,inter,id_tipp,far_proy,id_moda,id_mece,frecd,valp,
+                costo_proy1,costo_proy2,costo_proy3,costo_proy4,costo_proy5,num_vic,num_afe,num_des,num_afr,num_ind,soportes
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
                 INNER JOIN organizacion USING(id_org)

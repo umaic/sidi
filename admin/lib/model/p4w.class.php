@@ -389,6 +389,78 @@ Class P4w {
      * @var string
      */
     var $inter;
+
+	/**
+	 * Almacena el valor del costo del proyecto del año 1
+	 * @var int
+	 */
+	var $costo_proy1;
+
+	/**
+	 * Almacena el valor del costo del proyecto del año 2
+	 * @var int
+	 */
+	var $costo_proy2;
+
+	/**
+	 * Almacena el valor del costo del proyecto del año 3
+	 * @var int
+	 */
+	var $costo_proy3;
+
+	/**
+	 * Almacena el valor del costo del proyecto del año 4
+	 * @var int
+	 */
+	var $costo_proy4;
+
+	/**
+	 * Almacena el valor del costo del proyecto del año 5
+	 * @var int
+	 */
+	var $costo_proy5;
+
+	/**
+	 * Almacena el número de víctimas
+	 * @var int
+	 */
+	var $num_vic;
+
+	/**
+	 * Almacena el número de afectados por desastres
+	 * @var int
+	 */
+	var $num_afe;
+
+	/**
+	 * Almacena el número de desmovilizados/reinsertados
+	 * @var int
+	 */
+	var $num_des;
+
+	/**
+	 * Almacena el número de afo-descendientes
+	 * @var int
+	 */
+	var $num_afr;
+
+	/**
+	 * Almacena el número de indígenas
+	 * @var int
+	 */
+	var $num_ind;
+
+	/**
+	 * Almacena la URL de los soportes del proyecto
+	 * @var int
+	 */
+	var $soportes;
+
+	/**
+	 * ID de las Organizaciones Beneficiarias
+	 * @var Array
+	 */
+	var $id_orgs_b = Array();
 }
 
 ?>

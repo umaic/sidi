@@ -41,12 +41,18 @@ $id_depto = Array();
 $num_deptos = 0;
 $id_cat = 0;
 $chk_conf = "";
-$id_orgs_d = "";
-$id_orgs_e = "";
-$id_orgs_s = "";
+$id_orgs_d = ""; //Organización donante
+$id_orgs_e = ""; //Organización ejecutora
+$id_orgs_s = ""; //Organización implementadora
+$id_orgs_b = ""; //Organización beneficiaria
 $display_socios_un = 'none';
 $costo_proy = '';
 $costo_proy_ind = '';
+$costo_proy1 = '';
+$costo_proy2 = '';
+$costo_proy3 = '';
+$costo_proy4 = '';
+$costo_proy5 = '';
 $tsubmit = 'Validar Proyecto';
 
 $si_proy = $_SESSION['si_proy'];
@@ -66,12 +72,14 @@ if ($accion == "actualizar" && !isset($_POST["submit"])){
     $id_orgs_d = implode("|",$p_vo->id_orgs_d);
     $id_orgs_e = implode("|",$p_vo->id_orgs_e);
     $id_orgs_s = implode("|",$p_vo->id_orgs_s);
+	$id_orgs_b = implode("|",$p_vo->id_orgs_b);
     $id_orgs_coor = implode("|",$p_vo->id_orgs_coor);
 
     $id_beneficiarios = implode("|",$p_vo->id_beneficiarios);
     //$id_beneficiarios_cant = implode("|",$p_vo->cant_per);
 
     if ($p_vo->inicio_proy == "0000-00-00")	$p_vo->fecha_ini = "";
+	if ($p_vo->ofar == "0000-00-00")	$p_vo->ofar = "";
 
 }
 ?>
@@ -177,7 +185,7 @@ $j(function() {
     }
     else {
         ?>
-        $j('#inicio_proy, #fin_proy').datepicker({dateFormat:'yy-mm-dd'});
+        $j('#inicio_proy, #fin_proy, #ofar').datepicker({dateFormat:'yy-mm-dd'});
 
         $j(document).click(function(event) {
             if (!$j(event.target).hasClass('ocurrencia')) {
@@ -341,11 +349,45 @@ $j(function() {
                         <input type="text" id="fin_proy" name="fin_proy" value="<?php echo $p_vo->fin_proy ?>" size="10" class="textfield ri" />
                 </div>
                 <div class="field">
-                    <label for="costo_proy">Presupuesto USD</label>
+                    <label for="costo_proy">Presupuesto Total (USD)</label>
                         <input type="hidden" name="id_mon" value="1">
                         <input type="text" name="costo_proy" id="costo_proy" class="textfield ri" value="<? echo $p_vo->costo_proy;?>" size="15" 
                         onkeypress="return validarNum(event)"/>
                         <br /><span class="nota">Valor enterno sin comas ni puntos</span>
+                </div>
+                <div class="field">
+                    <label for="ofar">Fecha adjudicación de Recursos</label>
+                    <input type="text" id="ofar" name="ofar" value="<?php echo $p_vo->ofar ?>" size="10" class="textfield" />
+                </div>
+                <div class="field">
+                    <label for="costo_proy1">Presupuesto Año 1 (USD)</label>
+                    <input type="text" name="costo_proy1" id="costo_proy1" class="textfield" value="<? echo $p_vo->costo_proy1;?>" size="15"
+                           onkeypress="return validarNum(event)"/>
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
+                </div>
+                <div class="field">
+                    <label for="costo_proy2">Presupuesto Año 2 (USD)</label>
+                    <input type="text" name="costo_proy2" id="costo_proy2" class="textfield" value="<? echo $p_vo->costo_proy2;?>" size="15"
+                           onkeypress="return validarNum(event)"/>
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
+                </div>
+                <div class="field">
+                    <label for="costo_proy3">Presupuesto Año 3 (USD)</label>
+                    <input type="text" name="costo_proy3" id="costo_proy3" class="textfield" value="<? echo $p_vo->costo_proy3;?>" size="15"
+                           onkeypress="return validarNum(event)"/>
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
+                </div>
+                <div class="field">
+                    <label for="costo_proy4">Presupuesto Año 4 (USD)</label>
+                    <input type="text" name="costo_proy4" id="costo_proy4" class="textfield" value="<? echo $p_vo->costo_proy4;?>" size="15"
+                           onkeypress="return validarNum(event)"/>
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
+                </div>
+                <div class="field">
+                    <label for="costo_proy5">Presupuesto Año 5 (USD)</label>
+                    <input type="text" name="costo_proy5" id="costo_proy5" class="textfield" value="<? echo $p_vo->costo_proy5;?>" size="15"
+                           onkeypress="return validarNum(event)"/>
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
             </div>
             <div class="left oth">
@@ -386,7 +428,7 @@ $j(function() {
                     <label for="nom_proy">Nombre del proyecto</label>
                     <textarea name="nom_proy" id="nom_proy" class="textfield ri tlarge nom_proy"><?=$p_vo->nom_proy;?></textarea>
                     <label for="des_proy">Descripci&oacute;n del proyecto</label>
-                    <textarea name="des_proy" id="des_proy" class="textfield tlarge des_proy"><?=$p_vo->des_proy;?></textarea>
+                    <textarea name="des_proy" id="des_proy" class="textfield tlarge des_proy ri"><?=$p_vo->des_proy;?></textarea>
                 </div>
                 <div class="field">
                     <label for="id_con">Contacto en terreno</label>
@@ -400,9 +442,9 @@ $j(function() {
                     $srp_no = ($p_vo->srp_proy == 0) ? 'checked' : '';    
                     $srp_si = ($p_vo->srp_proy == 1) ? 'checked' : '';    
                     ?>
-                    <label>Hace parte del plan estrat&eacute;gico de respuesta</label>
+                    <label for="srp_proy">Hace parte del plan estrat&eacute;gico de respuesta</label>
                     <input type="radio" id="srp_no" name="srp_proy" value="0" <?php echo $srp_no ?> />&nbsp;<label for="srp_no" class="ch">No</label>&nbsp;
-                    <input type="radio" id="srp_si" name="srp_proy" value="1"  <?php echo $srp_si ?>/>&nbsp;<label for="srp_si" class="ch">Si</label>&nbsp;
+                    <input type="radio" id="srp_si" name="srp_proy" value="1" <?php echo $srp_si ?> />&nbsp;<label for="srp_si" class="ch">Si</label>&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="http://wiki.salahumanitaria.co/index.php/Plan_de_Respuesta_Estrat%C3%A9gico" target="_blank">SRP por sus siglas en ingl&eacute;s</a>)
                 </div>
                 <div class="field">
@@ -410,10 +452,15 @@ $j(function() {
                     $inter_no = ($p_vo->inter == 0) ? 'checked' : '';
                     $inter_si = ($p_vo->inter == 1) ? 'checked' : '';
                     ?>
-                    <label>¿Es un proyecto interagencial?</label>
+                    <label>¿Es un proyecto que cumple los requisitos de interagencialidad?</label>
                     <input type="radio" id="inter_no" name="inter" value="0" <?php echo $inter_no ?> />&nbsp;<label for="inter_no" class="ch">No</label>&nbsp;
                     <input type="radio" id="inter_si" name="inter" value="1"  <?php echo $inter_si ?>/>&nbsp;<label for="inter_si" class="ch">Si</label>&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Proyecto_Interagencial" target="_blank">Criterios de interagencialidad</a>)
+                </div>
+                <div class="field">
+                    <label for="soportes">URL soportes del proyecto</label>
+                    <input type="text" name="soportes" id="soportes" class="textfield tlarge" value="<? echo $p_vo->soportes;?>" size="15"
+                           onkeypress=""/>
                 </div>
             </div>
             <div class="left oth">
@@ -445,6 +492,7 @@ $j(function() {
                 <div class="field">
                     <label for="cbt_val">Valor por Persona (USD)</label>
                     <input type="text" id="cbt_val" name="cbt_val" value="<?php echo $p_vo->cbt_val ?>" size="10" class="textfield" />
+                    <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <hr>
                 <div class="imps">
@@ -487,6 +535,7 @@ $j(function() {
                     }
                     ?>
                 </div>
+                <hr>
                 <div class="imps">
                     <label class="left">Donantes</label>
                     <label class="right">C&oacute;digo proy.</label>
@@ -780,7 +829,7 @@ $j(function() {
         <h2>Beneficiarios</h2><br>
             <div id="div_benef" class="center">
                 <div id="directos" class="div_benef_b">
-                    <div class="t">DIRECTOS</div>
+                    <div class="t">POBLACIONALES</div>
                     <div id="total_benf_proy">
                         <label for="btotal" class="ch">Total de beneficiarios</label>
                         <input type="text" class="textfield" id="bdtotal" name="benf_proy[d][total]" value="<?php echo (!empty($p_vo->benf_proy['d']['total'])) ? $p_vo->benf_proy['d']['total'] : '' ?>" class="textfield" />
@@ -829,6 +878,27 @@ $j(function() {
                             <input type="text" class="textfield" id="bdh4_cant" name="benf_proy[d][h][4]" value="<?php echo (!empty($p_vo->benf_proy['d']['h'][4])) ? $p_vo->benf_proy['d']['h'][4] : '' ?>" />
                         </div>
                     </div>
+                    <div class="checkbox">
+                        Víctimas del conflicto:
+                        <input type="text" class="textfield" id="num_vic" name="num_vic" value="<?php echo (!empty($p_vo->num_vic)) ? $p_vo->num_vic : '' ?>" />
+                    </div>
+                    <div class="checkbox">
+                        Afectados por desastres:
+                        <input type="text" class="textfield" id="num_afe" name="num_afe" value="<?php echo (!empty($p_vo->num_afe)) ? $p_vo->num_afe : '' ?>" />
+                    </div>
+                    <div class="checkbox">
+                        Desmovilizados / Reinsertados:
+                        <input type="text" class="textfield" id="num_des" name="num_des" value="<?php echo (!empty($p_vo->num_des)) ? $p_vo->num_des : '' ?>" />
+                    </div>
+                    <div class="checkbox">
+                        Afro-colombianos:
+                        <input type="text" class="textfield" id="num_afr" name="num_afr" value="<?php echo (!empty($p_vo->num_afr)) ? $p_vo->num_afr : '' ?>" />
+                    </div>
+                    <div class="checkbox">
+                        Indígenas:
+                        <input type="text" class="textfield" id="num_ind" name="num_ind" value="<?php echo (!empty($p_vo->num_ind)) ? $p_vo->num_ind : '' ?>" />
+                    </div>
+                    <br />
                     <div class="clear">
                         Comentarios: Descripci&oacute;n de g&eacute;nero &eacute;tnico, 
                         et&aacute;reo, situaci&oacute;n de desplazamiento, etc (Opcional)<br />
@@ -884,6 +954,49 @@ $j(function() {
                             <label for="bih4_cant" class="ch">65+ A&ntilde;os</label>
                             <input type="text" class="textfield" id="bih4_cant" name="benf_proy[i][h][4]" value="<?php echo (!empty($p_vo->benf_proy['i']['h'][4])) ? $p_vo->benf_proy['i']['h'][4] : '' ?>" />
                         </div>
+                    </div>
+                </div>
+                <div id="nopoblacionales" class="div_benef_b">
+                    <div class="t">NO POBLACIONALES</div>
+                    <div class="bens">
+                        <label for="id_orgs_b_0">Organizaciones Beneficiarias</label>
+		                <?php
+		                $html_ben = '
+                    <div class="ben %s %s">
+                        <input type="hidden" id="id_orgs_b_%d" name="id_orgs_b[]" class="%s" value="%s" />
+                        <span class="mm">
+                        <a href="#" onclick="clone(\'ben\'); return false;"><img src="images/p4w/plus.gif" /></a>
+                        <a href="#" onclick="removeClone(\'ben_%s\',%s); return false;"><img src="images/p4w/minus.gif" /></a>
+                        </span>
+                        <textarea id="nom_org_b_%s" name="nom_org_b[]" class="textfield tlarge" 
+                        onkeydown="buscarOcurr(event, \'nom_org_b_%d\', \'id_orgs_b_%d\', \'ocurr_org_b_%d\');" />%s</textarea>
+                        <div id="ocurr_org_b_%d" class="ocurrencia"></div>
+                    </div>';
+
+		                $i = 100;
+
+		                // html a clonar
+		                echo sprintf($html_ben,'','hide',$i,'','',$i,$i,$i,$i,$i,$i,'',$i);
+
+		                // primer beneficiario
+		                $i = 0;
+		                $id_b = '';
+		                $nom = '';
+		                if (!empty($p_vo->id_orgs_b[0])) {
+			                $id_b = $p_vo->id_orgs_b[0];
+			                $nom = $org_dao->GetName($p_vo->id_orgs_b[0]);
+		                }
+
+		                echo sprintf($html_ben,"ben_$i",'clear',$i,'ri',$id_b,$i,$i,$i,$i,$i,$i,$nom,$i);
+
+		                $num = count($p_vo->id_orgs_b);
+		                for ($i=1;$i<$num;$i++) {
+			                $id_b = $p_vo->id_orgs_b[$i];
+			                $nom = $org_dao->GetName($id_b);
+
+			                echo sprintf($html_ben,"ben_$i",'clear',$i,'',$id_b,$i,$i,$i,$i,$i,$i,$nom,$i);
+		                }
+		                ?>
                     </div>
                 </div>
             </div>

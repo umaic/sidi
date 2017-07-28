@@ -145,7 +145,7 @@ function clone(cls) {
 }
 
 function removeClone(cls, i) {
-    
+
     if (confirm('Esta seguro?')) {
         if (i == 0) {
             removef(cls);
@@ -169,6 +169,10 @@ function removef(cls) {
     else if (cls == 'imp_0') {
         $j('.' + cls).find('#id_orgs_s_0').val('');
         $j('.' + cls).find('#nom_org_s_0').val('');
+    }
+    else if (cls == 'ben_0') {
+        $j('.' + cls).find('#id_orgs_b_0').val('');
+        $j('.' + cls).find('#nom_org_b_0').val('');
     }
 }
 function filterMpios(event) {

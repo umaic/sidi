@@ -327,7 +327,7 @@ div.oth {
     height: 100px;
 }
 
-.imp, .don {
+.imp, .don, .ben{
     padding: 0 !important;
     margin: 0 0 5px 0;
 }
@@ -339,6 +339,16 @@ div.oth {
     width: 360px;
 }
 .imps label {
+    margin-left: 16px;
+}
+.bens {
+    padding: 0 !important;
+    margin: 0;
+    height: 180px;
+    overflow: auto;
+    width: 360px;
+}
+.bens label {
     margin-left: 16px;
 }
 .ocurrencia {
@@ -678,10 +688,8 @@ div#benef .bdetalle label {
     display: inline-block;
 }
 div#benef .bmujer {
-    background-color: #ffd9d9 !important;
 }
 div#benef .bhombre {
-    background-color: #cfe7f3;
 }
 
 div.alert {

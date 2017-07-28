@@ -1,7 +1,12 @@
-<?
+<?php
 session_start();
 
 $nom = (!isset($_GET["nombre_archivo"])) ? $case."_sissh" : $_GET["nombre_archivo"];
+
+// Archivo temporal para uso con phpexcel
+$html2phpexcel = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
+$inputFileType = 'HTML';
+$outputFileType = 'Excel2007';
 
 if (isset($_GET['csv2xls'])) {
     include 'admin/lib/common/phpexcel/PHPExcel/IOFactory.php';
@@ -15,11 +20,12 @@ if (isset($_GET['csv2xls'])) {
 
     $objPHPExcel = $objReader->load($_SERVER['DOCUMENT_ROOT'].$_GET['csv_path']);
 
-    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-    //$objWriter->save($_SERVER['DOCUMENT_ROOT'].'/tmp/'.$nom.'.xls');
-	header("Content-type: application/vnd.ms-excel");
-    header("Content-Disposition: attachment; filename=\"".$nom.".xls\"");
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $outputFileType);
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header("Content-Disposition: attachment; filename=\"".$nom.".xlsx\"");
     header("Cache-Control: max-age=0");
+    ob_end_clean(); //buffer issue
     $objWriter->save('php://output');
 }
 
@@ -28,11 +34,8 @@ else {
     //LIBRERIAS
     include_once($_SERVER["DOCUMENT_ROOT"]."/sissh/consulta/lib/libs_mapa_i.php");
     
-    include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/BindValueAsString.php';
+    //include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/BindValueAsString.php';
     include $_SERVER["DOCUMENT_ROOT"].'/sissh/admin/lib/common/phpexcel/PHPExcel/IOFactory.php';
-
-    $inputFileType = 'HTML';
-    $outputFileType = 'Excel2007';
 
     $case = $_GET["case"];
 
@@ -41,8 +44,12 @@ else {
         header("Content-Disposition: attachment; filename=\"".$nom.".pdf\"");
     }
     else{
-        header("Content-type: application/vnd.ms-excel");
+        //header("Content-type: application/vnd.ms-excel");
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment; filename=\"".$nom.".xlsx\"");
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
     }
 
     switch ($case){
@@ -83,37 +90,37 @@ else {
             //DESPLAZAMIENTO
             if ($_GET['pdf'] != ""){
 
-                $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
-                file_put_contents($f,$_SESSION["xls_desplazamiento"]);
+                file_put_contents($html2phpexcel,$_SESSION["xls_desplazamiento"]);
                 
                 $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-                $objPHPExcel = $objPHPExcelReader->load($f);
+                $objPHPExcel = $objPHPExcelReader->load($html2phpexcel);
                 
                 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                ob_end_clean(); //buffer issue
                 $objWriter->save('php://output');
 
             }
             break;
 
         case 'mina_gra_resumen':
-                $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
-                file_put_contents($f,$_SESSION["xls_mina"]);
+                file_put_contents($html2phpexcel,$_SESSION["xls_mina"]);
                 
                 $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-                $objPHPExcel = $objPHPExcelReader->load($f);
+                $objPHPExcel = $objPHPExcelReader->load($html2phpexcel);
                 
                 $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+                ob_end_clean(); //buffer issue
                 $objWriter->save('php://output');
             break;
 
         case 'evento_c':
             //EVENTO CONFLICTO
-            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
-            file_put_contents($f,$_SESSION["evento_c_xls"]);
+            file_put_contents($html2phpexcel,$_SESSION["evento_c_xls"]);
             
             $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objPHPExcelReader->load($f);
+            $objPHPExcel = $objPHPExcelReader->load($html2phpexcel);
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            ob_end_clean(); //buffer issue
             $objWriter->save('php://output');
 
             break;
@@ -137,12 +144,11 @@ else {
             break;
 
         case 'mapa_export_xls':
-            echo $_SESSION["xls"];
-            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
-            file_put_contents($f,$_SESSION["xls"]);
+            //echo $_SESSION["xls"];
+            file_put_contents($html2fpdf,$_SESSION["xls"]);
             
             $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objPHPExcelReader->load($f);
+            $objPHPExcel = $objPHPExcelReader->load($html2phpexcel);
             
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
             $objWriter->save('php://output');
@@ -150,13 +156,13 @@ else {
 
         case 'xls_session':
             //echo $_SESSION["xls"];
-            $f = $_SERVER["DOCUMENT_ROOT"].'/sissh/static/html2phpexcel.html';
-            file_put_contents($f,$_SESSION["xls"]);
+            file_put_contents($html2phpexcel,$_SESSION["xls"]);
             
             $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objPHPExcelReader->load($f);
+            $objPHPExcel = $objPHPExcelReader->load($html2phpexcel);
             
             $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+            ob_end_clean(); //buffer issue
             $objWriter->save('php://output');
             break;
         
