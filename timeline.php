@@ -127,7 +127,7 @@ if (!$archivo->Existe($_SERVER["DOCUMENT_ROOT"]."/sissh/$file_xml") || ($mes == 
 </head>
 <body onLoad="onLoad()" onResize="onResize()">
 	<div id="#top">
-		<h2>SIDIH - LINEA DE TIEMPO EVENTOS DEL CONFLICTO</h2>
+		<h2>SIDI - LINEA DE TIEMPO EVENTOS DEL CONFLICTO</h2>
 	</div>
 	<div>
 	   Tipo Evento&nbsp;<select id="id_s_c" onchange="aplicarFiltro('id_s')" class="select">

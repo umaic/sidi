@@ -49,7 +49,7 @@ $num_locas = $locas['num'];
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>SIDIH :: Detalle de Evento</title>
+<title>SIDI :: Detalle de Evento</title>
 <link href="../../style/input.css" rel="stylesheet" type="text/css" />
 
 <script src="../js/tabber.js"></script>

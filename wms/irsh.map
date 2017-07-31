@@ -8,7 +8,7 @@ MAP
   SIZE 500 510
   STATUS ON
   UNITS METERS
-  NAME "SIDIH Ocha Colombia"
+  NAME "SIDI UMAIC Colombia"
 
   OUTPUTFORMAT
     NAME "png"

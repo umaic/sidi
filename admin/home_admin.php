@@ -9,7 +9,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
 <table cellspacing='10' cellpadding='1' align="center" class='tabla_home_admin' border=0 width="950">
     <tr>
         <td colspan="3">
-            <ul><li><img src="images/home/info.png">&nbsp;<a href="http://sidih.colombiassh.org/sissh/doc/index.php/" target="_blank">Ayuda</a></li></ul>
+            <ul><li><img src="images/home/info.png">&nbsp;<a href="https://www.youtube.com/watch?v=Zmqfyf9mRbM" target="_blank">Ayuda</a></li></ul>
         </td>
     </tr>
 	<tr>
@@ -134,7 +134,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
 			<h1>EVENTOS <br />CONFLICTO</h1>
 			<ul>
 				<li>
-					<a href="http://sidih.salahumanitaria.co/sissh/cron_jobs/sync_from_monitor.php" target="_blank">Sincronizar desde Monitor</a>
+					<a href="https://sidi.umaic.org/sissh/cron_jobs/sync_from_monitor.php" target="_blank">Sincronizar desde Monitor</a>
 				</li>
 				<li>
 					<a href="#" onclick="addTab('actor'); return false;">Actor</a>

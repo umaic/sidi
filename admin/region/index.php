@@ -29,7 +29,7 @@ $region_dao = New RegionDAO();
 
 <html>
 <head>
-<title>OCHA - SISSH</title>
+<title>SIDI UMAIC - Colombia</title>
 <link href="../../naz.css" rel="stylesheet" type="text/css">
 <link href="../style/style.css" rel="stylesheet" type="text/css">
 <script src="../js/general.js"></script>

@@ -24,7 +24,7 @@ $mes = array("","Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov
 <script src="js/follow_mouse.js" type="text/javascript"></script>
 <script src="js/mapserver.js" type="text/javascript"></script>
 <script>
-var server = "http://<?=$_SERVER["SERVER_NAME"] ?>/";
+var server = "https://<?=$_SERVER["SERVER_NAME"] ?>/";
 var document_root = "<?=$_SERVER["DOCUMENT_ROOT"] ?>/";
 var myMap;
 var extent_org = '-161112.1,1653895,-469146,1386463';

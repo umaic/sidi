@@ -543,7 +543,7 @@ else {
         <!-- Wiki -->
         <div id="wiki" class="right">
             <div class="left">
-                <a href="http://wiki.salahumanitaria.co/index.php/4w" target="_blank">Informaci&oacute;n acerca de 4W</a>
+                <a href="https://wiki.umaic.org/wiki/4w" target="_blank">Informaci&oacute;n acerca de 4W</a>
             </div>
             <div class="left">
                 &nbsp;|<a id="dashboard" href="#" onclick="$j('div#grupos').show();$j('#todo, #map').hide(); return false;">Dashboard</a>
@@ -574,7 +574,7 @@ else {
                   <div id="resumen_div">
                       <?php if (!$desarrollo) { ?>
                       <div class="srp_off boton">
-                          <a href="#" id="btn_srp">Solo proyectos que hacen parte del SRP</a>  <a href="http://wiki.salahumanitaria.co/index.php/Plan_de_Respuesta_Estrat%C3%A9gico" target="_blank"> [?]</a>
+                          <a href="#" id="btn_srp">Solo proyectos que hacen parte del SRP</a>  <a href="https://wiki.umaic.org/wiki/Plan_de_Respuesta_Humanitaria" target="_blank"> [?]</a>
                       </div>
                       <?php } else {?>
                           <div class="inter_off boton">
@@ -645,7 +645,7 @@ else {
                             * Una persona puede ser beneficiaria de varios proyectos <br />
                             * El presupuesto est&aacute; en dolares americanos, los presupuestos <br />
                             en pesos colombianos han sido convertidos a la TRM del a&ntilde;o <br />
-                            * <a href="http://wiki.salahumanitaria.co/index.php/Sistema_de_Informaci%C3%B3n_4W#Como_se_calcula_en_4W_el_presupuesto_y_el_n.C3.BAmero_de_beneficiarios_directos_para_un_a.C3.B1o.2C_un_cluster_o_un_departamento" target="_blank">Como se calcula el presupuesto y beneficiarios?</a>
+                            * <a href="https://wiki.umaic.org/wiki/Sistema_de_Informaci%C3%B3n_4W#Algoritmo_de_distribuci.C3.B3n_del_presupuesto_por_beneficiarios_directos.2C_cluster.2C_departamento_y_a.C3.B1os" target="_blank">Como se calcula el presupuesto y beneficiarios?</a>
                         </div>
                       </div>
                       <div id="top_ejecutoras" class="top_cluster"></div>

@@ -60,7 +60,7 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
         <b><? echo strtoupper($accion)?> CONTACTO</b>
         <div class="right">
             <img src="images/p4w/qm.png" height="16" width="16" />&nbsp;
-            <a href="http://www.colombiassh.org/gtmi/wiki/index.php/Base_de_datos_de_contactos" target="_blank">Ayuda</a>
+            <a href="https://wiki.umaic.org/wiki/Base_de_datos_de_contactos" target="_blank">Ayuda</a>
             &nbsp;
         </div>
         </td></tr>
@@ -141,7 +141,7 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
 						 o Ingl&uacute;s y seleccione la
                     Organizaci&oacute;n de la lista que aparecer&aacute,. Si la busqueda no arroja resultados, utilice la opci&oacute;n, [ Crear Organizaci�n ],
                     creela y realice la busqueda de nuevo en el campo correspondiente. Tenga presente que al crear una organizaci&oacute;n
-                    esta queda autom&aacute;ticamente creada en todo SIDIH, por tanto es muy importante no crear una que ya exista!
+                    esta queda autom&aacute;ticamente creada en todo SIDI, por tanto es muy importante no crear una que ya exista!
                     </div>
                     <div style="margin:10px 0">
                         Buscar por nombre o sigla:&nbsp;

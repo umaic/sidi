@@ -265,7 +265,7 @@ Class Proyecto {
     var $interv_ind_proy;
 
     /**
-     * SI desde donde se crea el proyecto, ejemplo, undaf, sidih
+     * SI desde donde se crea el proyecto, ejemplo, undaf, sidi
      * @var string
      */
     var $si_proy;

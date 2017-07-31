@@ -160,14 +160,14 @@ Class CnrrDAO {
 		?>
 		<form action='<?=$_SERVER['PHP_SELF']?>' method='POST'>
 		<table cellpadding="5" cellspacing="1" align="center">
-			<tr class='titulo_lista'><td align="center">ADMINISTRACION OCHA - CNRR</td></tr>
+			<tr class='titulo_lista'><td align="center">ADMINISTRACION UMAIC - CNRR</td></tr>
 			<tr><td>Seleccione la entidad que desea administrar: &nbsp;<a href="#" onclick="showHide('tabla_enfoque','<?=$objs_hide?>');">Enfoque</a> | <a href="#" onclick="showHide('tabla_poblacion','<?=$objs_hide?>');">Población</a> | <a href="#" onclick="showHide('tabla_sector','<?=$objs_hide?>');">Sector</a> | <a href="#" onclick="showHide('tabla_tipo','<?=$objs_hide?>');">Tipo Organización</a></td></tr>
 			<tr><td>Seleccionar  <a href="#" onclick="selectAllCheckbox()">Todos</a></td></tr>
 			
 		</table>		
 		<br>
 		<table cellpadding="5" cellspacing="1" id="tabla_enfoque" align="center" width="400">
-			<tr class='titulo_lista'><td>Enfoque</td><td width='90'>OCHA</td><td width='90'>CNRR</td></tr>
+			<tr class='titulo_lista'><td>Enfoque</td><td width='90'>UMAIC</td><td width='90'>CNRR</td></tr>
 			<?
 			foreach ($enfs as $vo){
 				in_array($vo->id,$arr->id_enfoques) ?	$checked = "checked" : $checked = "";

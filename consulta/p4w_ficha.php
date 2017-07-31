@@ -157,8 +157,8 @@ else {
 $pdf = new MYPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false);
 
 // set document information
-$pdf->SetCreator('OCHA SIDIH');
-$pdf->SetAuthor('OCHA Colombia');
+$pdf->SetCreator('UMAIC SIDI');
+$pdf->SetAuthor('UMAIC Colombia');
 $pdf->SetTitle(ucfirst(strtolower($subtitulo)).' '.$ubicacion_titulo);
 
 // set default header data
@@ -171,7 +171,7 @@ $aaaa = $hoy['year'];
 $dd = $hoy['mday'];
 $mes = $meses[$hoy['mon']];
 
-$pdf->SetFooterData(utf8_decode("La información aquí dispuesta no refleja posición alguna de OCHA. Este perfil fué generado por SIDIH, el día $dd de $mes de $aaaa. Mayor detalle: http://colombiassh.org/info"));
+$pdf->SetFooterData(utf8_decode("La información aquí dispuesta no refleja posición alguna de UMAIC. Este perfil fué generado por SIDI, el día $dd de $mes de $aaaa. Mayor detalle: https://umaic.org/sidi"));
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));

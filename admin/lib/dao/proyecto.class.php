@@ -3933,7 +3933,7 @@ die;
      * @param int $id Id de Tema, Poblacion
      * @param boolean $depto 1=Departamento , 0=Municipio, 2=Nacional
      * @param string $ubicacion ID de la ubiaccion
-     * @param string $si Sistema de info, sidih, undaf, etc
+     * @param string $si Sistema de info, sidi, undaf, etc
      * @return array $num
      * @access public
      *******************************************************************************/

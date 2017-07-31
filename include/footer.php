@@ -14,6 +14,6 @@
         </div>
         <div class="clear"></div>
     </div>
-    <div style="font-size: 11px;text-align: center;vertical-align: middle;line-height: 90px;">El apoyo de <a href="https://umaic.org">UMAIC</a> a este producto fue desarrollado con el aporte financiero de la <a target="_blank" href="https://www.eda.admin.ch/countries/colombia/es/home/cooperacion/temas/cosude.html">Embajada de Suiza en Colombia – Agencia para el Desarrollo y la Cooperación (COSUDE)</a></div>
+    <div style="font-size: 11px;text-align: center;vertical-align: middle;line-height: 20px;">El apoyo de <a href="https://umaic.org">UMAIC</a> a este producto fue desarrollado con el aporte financiero de la <a target="_blank" href="https://www.eda.admin.ch/countries/colombia/es/home/cooperacion/temas/cosude.html">Embajada de Suiza en Colombia - Agencia para el Desarrollo y la Cooperaci&oacute;n (COSUDE)</a></div>
     <div class="clear"></div>
 </div>

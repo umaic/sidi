@@ -111,7 +111,7 @@ if ($buscar == 1 || $op == 2){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 <?
 //CSS
 switch ($_SESSION["m_g"]){
@@ -188,7 +188,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 </script>
 </head>
 <body>
-<h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1><h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1>
+<h1 class="info">SIDI UMAIC - Colombia</h1><h1 class="info">SIDI UMAIC - Colombia</h1>
 <div id="cabecera"></div>
 <!-- CONTENIDO : INICIO -->
 <div id="cont">

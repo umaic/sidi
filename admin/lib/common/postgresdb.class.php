@@ -29,7 +29,7 @@ class PgDBConn {
 		if (!$Result) {
 			echo "Query no vlido: ". $sql. pg_last_error();
 			//echo "Error en consulta";
-			/*$from = "rojas@un-ocha.org";
+			/*$from = "contacto@umaic.org";
 
 			require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 
@@ -46,7 +46,7 @@ class PgDBConn {
 			$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 			$mail->IsHTML(true);                                  // set email format to HTML
 
-			$mail->Subject = "Error consulta SI OCHA";
+			$mail->Subject = "Error consulta SI UMAIC";
 			$mail->Body    = $sql."<br>ID USURIO = ".$_SESSION["id_usuario_s"].'<br>url: '.$_SERVER['REQUEST_URI'];
 			//$mail->AltBody = "This is the body in plain text for non-HTML mail clients";
 

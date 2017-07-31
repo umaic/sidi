@@ -83,14 +83,14 @@ if (isset($_POST["submit"]) || isset($_POST["minificha"])){
 //Hoja de estilos
 $style = "consulta.css";
 
-$title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
+$title = "SIDI UMAIC";
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 
 <link href="style/<?=$style ?>" rel="stylesheet" type="text/css" />
 <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />

@@ -2422,7 +2422,7 @@ Class DesplazamientoDAO {
                 else{
 				//Check del municipio a importar
 				if (count($mun_dao->GetAllArrayID("id_mun = $id_mun","")) == 0){
-					echo "*************Municipio no existe en sidih : $id_mun<br>";
+					echo "*************Municipio no existe en sidi : $id_mun<br>";
 				}
 
 				//RECEPCION O EXPULSION ?
@@ -2647,7 +2647,7 @@ Class DesplazamientoDAO {
 
                 //Check del municipio a importar
                 if (count($mun_dao->GetAllArrayID("id_mun = '$id_mun'","")) == 0){
-                    echo "*************Municipio no existe en sidih : $id_mun<br>";
+                    echo "*************Municipio no existe en sidi : $id_mun<br>";
                 }
 
                 //RECEPCION O EXPULSION ?

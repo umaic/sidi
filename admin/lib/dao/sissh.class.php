@@ -178,7 +178,7 @@ Class SisshDAO {
             $afectacion = json_decode(curl_exec($ch));
             curl_close($ch);
 
-            // DATOS DE 4W CARGADOS DESDE API DE SIDIH
+            // DATOS DE 4W CARGADOS DESDE API DE SIDI
             $url = $sidih_url."/api/4w.php?mod=totales&_c=s1dicol-api&yyyy=$y_txt";
 			//echo $url;
 
@@ -3732,7 +3732,7 @@ Class SisshDAO {
 			$content_cache = '<html xmlns="http://www.w3.org/1999/xhtml">
 							<head>
 							<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-							<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+							<title>SIDI UMAIC - Colombia</title>
 							<link href="/sissh/style/consulta.css" rel="stylesheet" type="text/css" />
 							</head><body><div id="cont">';
 

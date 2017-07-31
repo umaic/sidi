@@ -40,7 +40,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
                 <li><img src="images/home/importar.png">&nbsp;<a href="index.php?m_e=desplazamiento&accion=importar">Importar CODHES</a></li>
                 <li><img src="images/home/importar.png">&nbsp;<a href="index.php?m_e=desplazamiento&accion=importar_sipod">Importar DPS</a></li>
                 <li><img src="images/home/fecha.png">&nbsp;<a href="index.php?m_e=desplazamiento&accion=fechaCorte">Actualizar Fecha de Corte</a></li>
-                <li><img src="images/home/info.png">&nbsp;<a href="http://sidih.colombiassh.org/sissh/doc/index.php/Alimentacion:Desplazamiento" target="_blank">Ayuda</a></li>
+                <li><img src="images/home/info.png">&nbsp;<a href="https://sidi.umaic.org" target="_blank">Ayuda</a></li>
             </ul>
         </div>
     <? } ?>
@@ -52,7 +52,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
             <ul>
                 <li><img src="images/home/importar.png">&nbsp;<a href="index.php?m_e=dato_s_valor&accion=importar">Importar</a></li>
                 <li><img src="images/home/totalizar.png">&nbsp;<a href="#" onclick="if(confirm('Esta opción calculará los totales Departamentales y Nacionales con los datos actuales en el sistema, esta seguro que desea ejecutar esta opción ?\n\nEl proceso tardará varios minutos...')){window.open('../cron_jobs/totalizar_d_sectorial.php','','top=200,left=250,width=800,height=600,scrollbars=1');}">Totalizar</a></li>
-                <li><img src="images/home/info.png">&nbsp;<a href="http://sidih.colombiassh.org/sissh/doc/index.php/Alimentacion:Datos_Sectoriales" target="_blank">Ayuda</a></li>
+                <li><img src="images/home/info.png">&nbsp;<a href="https://sidi.umaic.org" target="_blank">Ayuda</a></li>
             </ul>
         </div>
     <? } ?>
@@ -72,7 +72,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
                         <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=rp_s&accion=insertar">Generar</a></li>
                     </ul>
                 </li>
-                <li><img src="images/home/info.png">&nbsp;<a href="http://sidih.colombiassh.org/sissh/doc/index.php/Alimentacion:Eventos_Conflicto" target="_blank">Ayuda</a></li>
+                <li><img src="images/home/info.png">&nbsp;<a href="https://sidi.umaic.org" target="_blank">Ayuda</a></li>
             </ul>
         </div>
     <? } ?>

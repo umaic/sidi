@@ -21,7 +21,7 @@ class sidihChart extends graph {
 		$this->y_axis_colour( '#FFFFFF', '#FFFFFF' );
 
 		//$this->set_bg_image('http://localhost/sissh/images/consulta/footer_grafica.png','right','bottom');
-		$this->set_bg_image('http://sidih.salahumanitaria.co/sissh/images/consulta/footer_grafica.png','right','bottom');
+		$this->set_bg_image('/sissh/images/consulta/footer_grafica.png','right','bottom');
 
 	}
 

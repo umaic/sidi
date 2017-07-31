@@ -281,7 +281,7 @@ $j(function() {
 <form method="POST" action="" name="p4w">
 <div id="alim_insertar">
     <div class="wiki right"><img src="images/p4w/qm.png" />
-        <a href="http://www.colombiassh.org/gtmi/wiki/index.php/4W" target="_blank">Wiki</a>
+        <a href="https://wiki.umaic.org/wiki/4W" target="_blank">Wiki</a>
     </div>
     <div id="tab4w" class="clear tabber">
         <div class="tabbertab" id="info_basica">
@@ -445,7 +445,7 @@ $j(function() {
                     <label for="srp_proy">Hace parte del plan estrat&eacute;gico de respuesta</label>
                     <input type="radio" id="srp_no" name="srp_proy" value="0" <?php echo $srp_no ?> />&nbsp;<label for="srp_no" class="ch">No</label>&nbsp;
                     <input type="radio" id="srp_si" name="srp_proy" value="1" <?php echo $srp_si ?> />&nbsp;<label for="srp_si" class="ch">Si</label>&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="http://wiki.salahumanitaria.co/index.php/Plan_de_Respuesta_Estrat%C3%A9gico" target="_blank">SRP por sus siglas en ingl&eacute;s</a>)
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Plan_de_Respuesta_Humanitaria" target="_blank">SRP por sus siglas en ingl&eacute;s</a>)
                 </div>
                 <div class="field">
                     <?php

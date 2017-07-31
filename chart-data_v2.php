@@ -1,4 +1,4 @@
-<? include_once('/srv/www/htdocs/sissh/admin/lib/common/open-flash-chart/php-ofc-library_v2/sidihChart.php' );
+<? include_once('admin/lib/common/open-flash-chart/php-ofc-library_v2/sidihChart.php' );
 $bar_stack = new bar_stack();
 $bar_stack->append_stack(array(1,25));
 $y = new y_axis();

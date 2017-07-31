@@ -85,7 +85,7 @@ Class P4w {
     var $creac_proy;
 
     /**
-     * Fecha de última actualización del proyecto en OCHA
+     * Fecha de última actualización del proyecto en UMAIC
      * @var string
      */
     var $actua_proy;

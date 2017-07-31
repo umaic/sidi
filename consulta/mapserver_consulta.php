@@ -97,7 +97,7 @@ else{
 	$max_extent->setextent(-161112, -462196, 1653895, 1386463);
 	
 	$mapObj = ms_newMapObj("");
-	$mapObj->set("name","SIDIH Ocha Colombia");
+	$mapObj->set("name","SIDI UMAIC Colombia");
 	$mapObj->imagecolor->setRGB(255,255,255);
 	$mapObj->setFontSet($font_path);
 	$mapObj->setSize($width_img,$height_img);

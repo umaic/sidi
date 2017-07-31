@@ -75,7 +75,7 @@ else if (isset($_POST["accion"])){
             el sistema no le dejar&aacute; cargar la info departamental. <br /><br />
             Si existe informaci&oacute;n a nivel municipal y necesita cargar departamental, borre los datos del dato para el periodo indicado usando la
             opci&oacute;n Borrar valores para en la administraci&oacute;n de datos sectoriales.  
-            M&aacute;s en el <a href="http://sidih.salahumanitaria.co/sissh/doc/index.php/Alimentacion:Datos_Sectoriales" target="_blank">WIKI</a>
+            M&aacute;s en el <a href="http://sidi.umaic.org/wiki/4W" target="_blank">WIKI</a>
         </td></tr>
 	<tr><td><input type='radio' name='dato_para' value=1>&nbsp;Departamentos&nbsp;<input type='radio' name='dato_para' value=2 checked>&nbsp;Municipios</td></tr>
 	<tr><td>&nbsp;</td></tr>

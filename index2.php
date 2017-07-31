@@ -71,7 +71,7 @@ else if (isset($_POST["param"])){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 <link href="style/consulta.css" rel="stylesheet" type="text/css" />
 <script src="admin/js/general.js"></script>
 <?

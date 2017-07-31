@@ -44,7 +44,7 @@ $quien = $usuario_dao->get($_SESSION["id_usuario_s"]);
   <!--
   <table border="0" cellpadding="3" cellspacing="1" width="70%" align="center">
       <tr>
-	  	<td align="center"><img src="/sissh/admin/images/icono_enviar_email.jpg">&nbsp;<a href="#" onclick="window.open('send_email_activacion.php?to=<?=$usuario_vo->email?>&asunto=Confirmación Activación - OCHA sidih&from=<?=$quien->email?>&login=<?=$usuario_vo->login?>&pass=<?=$usuario_vo->pass?>&quien=<?=$quien->nombre?>','','top=20,left=20,width=650,height=650');">Enviar correo de confirmaci&oacute;n</a></td>
+	  	<td align="center"><img src="/sissh/admin/images/icono_enviar_email.jpg">&nbsp;<a href="#" onclick="window.open('send_email_activacion.php?to=<?=$usuario_vo->email?>&asunto=Confirmación Activación - UMAIC SIDI&from=<?=$quien->email?>&login=<?=$usuario_vo->login?>&pass=<?=$usuario_vo->pass?>&quien=<?=$quien->nombre?>','','top=20,left=20,width=650,height=650');">Enviar correo de confirmaci&oacute;n</a></td>
 	  </tr>
 	</table>
 	<br>

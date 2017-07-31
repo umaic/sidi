@@ -168,7 +168,7 @@ $max_extent = ms_newRectObj();
 $max_extent->setextent(-161112, -462196, 1653895, 1386463);
 
 $mapObj = ms_newMapObj("");
-$mapObj->set("name","SIDIH Ocha Colombia");
+$mapObj->set("name","SIDI UMAIC Colombia");
 $mapObj->imagecolor->setRGB(255,255,255);
 $mapObj->setFontSet($font_path);
 $mapObj->setSize($width_img,$height_img);
@@ -1586,7 +1586,7 @@ if ($map_ref == 0 && $case != 'perfil'){
 	$filename = $_SERVER['DOCUMENT_ROOT']."/tmp/$s_id.png";
 	$_SESSION["mapserver_img"] = $filename;
 	
-	$header_html = "<table cellspacing='1' cellpadding='3' width='100%'><tr><td colspan='3'>OCHA COLOMBIA - SIDIH</td></tr><tr><td colspan=3>$legend - $legend_periodo - $legend_fuente</td></tr>";
+	$header_html = "<table cellspacing='1' cellpadding='3' width='100%'><tr><td colspan='3'>UMAIC COLOMBIA - SIDI</td></tr><tr><td colspan=3>$legend - $legend_periodo - $legend_fuente</td></tr>";
 	$footer_html = "</table>";
 	
 	

@@ -143,8 +143,8 @@ else{
 $pdf = new MYPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, false, 'UTF-8', false);
 
 // set document information
-$pdf->SetCreator('OCHA SIDIH');
-$pdf->SetAuthor('OCHA Colombia');
+$pdf->SetCreator('SIDI UMAIC');
+$pdf->SetAuthor('UMAIC Colombia');
 $pdf->SetTitle(ucfirst(strtolower($subtitulo)).' '.$ubicacion_titulo);
 
 // set default header data
@@ -157,7 +157,7 @@ $aaaa = $hoy['year'];
 $dd = $hoy['mday'];
 $mes = $meses[$hoy['mon']];
 
-$pdf->SetFooterData(utf8_decode("La información aquí dispuesta no refleja posición alguna de OCHA. Este perfil fué generado por SIDIH, el día $dd de $mes de $aaaa. Mayor detalle: http://salahumanitaria.co/info"));
+$pdf->SetFooterData(utf8_decode("La información aquí dispuesta no refleja posición alguna de UMAIC. Este perfil fué generado por SIDI, el día $dd de $mes de $aaaa. Mayor detalle: https://umaic.org/sidi"));
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -684,7 +684,7 @@ $path_file = $this->dir_cache_perfil."/perfil_".$id_ubicacion;
 $cache_file = "$path_file.pdf";
 $pdf->Output($cache_file, 'F');  //Crea archivo fisico
 //$pdf->Output('Perfil_'.$ubicacion_titulo.'.pdf', 'I');
-header('Location: http://sidih.salahumanitaria.co/sissh/perfiles/perfil_'.$id_ubicacion.'.pdf');
+header('Location: https://sidi.umaic.org/sissh/perfiles/perfil_'.$id_ubicacion.'.pdf');
 //============================================================+
 // END OF FILE                                                 
 //============================================================+

@@ -37,11 +37,11 @@ $obj = New $class();
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>SIDIH-OCHA :: Detalle de Organizacion</title>
+<title>SIDI-UMAIC :: Detalle de Organizacion</title>
 <link href="../style/consulta.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1>
+<h1 class="info">SIDI UMAIC &ndash; Colombia</h1>
 
 <?
 /*if ($_SESSION['cnrr'] == 0){

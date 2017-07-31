@@ -1191,7 +1191,7 @@ class DatoSectorialDAO
         echo "<table align='center' width='750' class='tabla_lista'>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td colspan='5' align='right'><img src='../images/consulta/excel.gif'>&nbsp;<a href='../export_data.php?case=xls_session&nombre_archivo=Datos_Sectoriales_SIDIH'>Guardar Archivo</a></td>
-			<tr class='titulo_lista'><td align='center' colspan=5><b>DATOS SECTORIALES SIDIH</b></td></tr>";
+			<tr class='titulo_lista'><td align='center' colspan=5><b>DATOS SECTORIALES SIDI</b></td></tr>";
 
         foreach ($cats as $cat) {
             $linea .= '<tr><td>'.strtoupper($cat->nombre).'</td></tr>';
@@ -2743,7 +2743,7 @@ class DatoSectorialDAO
             $img_att = getimagesize('images/logos/enc_reporte_semanal.jpg');
             $pdf->addPngFromFile('images/logos/enc_reporte_semanal.png', 700, 550, $img_att[0] / 2, $img_att[1] / 2);
 
-            $pdf->addText(170, 550, 14, '<b>OCHA Colombia - Sistema Integrado de Informaci�n Humanitaria</b>');
+            $pdf->addText(170, 550, 14, '<b>SIDI UMAIC - Colombia</b>');
 
             if ($basico == 1) {
                 $pdf->addText(330, 530, 12, 'Datos Sectoriales');

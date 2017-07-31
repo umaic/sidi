@@ -195,7 +195,7 @@ Class SugerenciaDAO {
 		$usuario = $usuario_dao->Get($vo->id_usuario);
 
 		//ENVIA EMAIL
-		$from = "rojas@un-ocha.org";
+		$from = "contacto@umaic.org";
 
 		require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 
@@ -204,19 +204,18 @@ Class SugerenciaDAO {
 		$mail->IsSMTP(); // set mailer to use SMTP
 
 		$mail->From = $from;
-		$mail->FromName = "SIDIH OCHA";
-		$mail->AddAddress("rojasr@un.org", "Vladimir Barrero");
-		$mail->AddBCC("rubenrojasc@gmail.com", "Ruben Rojas");
+		$mail->FromName = "SIDI UMAIC";
+		$mail->AddAddress("contacto@umaic.org", "UMAIC");
 
 		$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 		$mail->IsHTML(true);                                  // set email format to HTML
 
 		if ($undaf == 0){
-			$mail->Subject = "Nueva sugerencia registrada SIDIH OCHA";
+			$mail->Subject = "Nueva sugerencia registrada SIDI UMAIC";
 			$mail->Body    = "El usuario $usuario->nombre (ID = $vo->id_usuario) ha registrado la siguiente sugerencia para el m&oacute;dulo $vo->modulo: <br /><br />$vo->texto";
 		}
 		else{
-			$mail->Subject = "Nueva sugerencia registrada SIDIH UNDAF";
+			$mail->Subject = "Nueva sugerencia registrada SIDI UNDAF";
 			$mail->Body    = "El usuario $usuario->nombre (ID = $vo->id_usuario) ha registrado la siguiente sugerencia: <br /><br />$vo->texto";
 		}
 

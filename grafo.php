@@ -29,7 +29,7 @@ $xml .= '</graph>';
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Grafos SIDIH</title>
+<title>Grafos SIDI</title>
 <script type="text/javascript" src="js/swfobject.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
 <link rel="stylesheet" type="text/css" href="style/consulta.css" />

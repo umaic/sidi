@@ -86,12 +86,12 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "logout"){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 <link href="../images/consulta.css" rel="stylesheet" type="text/css" />
 <script src="js/general.js"></script>
 </head>
 <body>
-<h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1>
+<h1 class="info">SIDI UMAIC - Colombia</h1>
 <div id="cabecera"></div>
 <div id="navgral">
 	  <? include_once("include/navegaciongeneral.php"); ?>

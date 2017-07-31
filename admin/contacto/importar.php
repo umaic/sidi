@@ -13,7 +13,7 @@
             La primera fila del archivo son los nombres de las columnas y el 
             archivo debe ser exportado desde la hoja de c&aacute;lculo separado por el caracter | (barra vertical) y encoding UTF-8
             <br /><br />
-            <a href="http://sidih.colombiassh.org/sissh/OCHA_formato_contactos.xls">Consulte aqu&iacute; el formato a diligenciar para importaci&oacute;n</a>
+            <a href="https://sidi.umaic.org/sissh/OCHA_formato_contactos.xls">Consulte aqu&iacute; el formato a diligenciar para importaci&oacute;n</a>
         </td>
     </tr>
     <tr>

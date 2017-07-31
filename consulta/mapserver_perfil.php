@@ -51,7 +51,7 @@ else{
 
 <html>
 <head>
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 <link href="style/consulta.css" rel="stylesheet" type="text/css" />
 
 <script src="js/mscross-1.1.9.js" type="text/javascript"></script>
@@ -230,7 +230,7 @@ else{
 				<div id="map_tag" style="width: 500px; height: 510px; border:1px solid #CCCCCC; z-index:1"></div>
 			</div>
 			
-			<!-- OPCIONES PARA SIDIH -->
+			<!-- OPCIONES PARA SIDI -->
 			<div style="background-color:#D9D9D9;display:<?=$style_sidih ?>">
 				<table cellpadding=0 border=0>
 					<tr style="font-size:12px">

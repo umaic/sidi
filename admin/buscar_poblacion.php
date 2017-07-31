@@ -156,7 +156,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 </script>
 </head>
 <body>
-<h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1><h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1>
+<h1 class="info">SIDI UMAIC - Colombia</h1><h1 class="info">SIDI UMAIC - Colombia</h1>
 <div id="cabecera"></div>
 <!-- CONTENIDO : INICIO -->
 <div id="cont">

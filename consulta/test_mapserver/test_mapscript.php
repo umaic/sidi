@@ -4,7 +4,7 @@
 ms_ResetErrorList();
     $map_path="/srv/www/htdocs/sissh/consulta/test_mapserver/";
     $map = ms_newMapObj($map_path."first.map");
-	$map->set("name","SIDIH Ocha Colombia");
+	$map->set("name","SIDI UMAIC Colombia");
 
 	$outputformat = "png";
 	

@@ -151,7 +151,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                 </div>
                 <div class="panel-body">
                     <p align='justify'>
-                        El Sistema de Informaci&oacute;n Geogr&aacute;fico (GIS) de SIDIH, permite generar mapas a nivel
+                        El Sistema de Informaci&oacute;n Geogr&aacute;fica (GIS) de SIDI, permite generar mapas a nivel
                         municipal para los siguientes temas:
                         <br><br>
                             &nbsp;&nbsp;&nbsp;&raquo;&nbsp;Organizaciones<br>
@@ -172,6 +172,6 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
 </div>
 <div id="novedad">
 	<div class="sugerencia"><a href="#" onclick="showSugerencias('mostrar',event)">Sugerencias</a></div>
-    SIDIH EN NUMEROS<br>
+    SIDI EN NUMEROS<br>
     <? echo $_SESSION['footer_n'] ?>
 </div>

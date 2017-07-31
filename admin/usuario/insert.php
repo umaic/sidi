@@ -66,7 +66,7 @@ $quien = $usuario_dao->get($_SESSION["id_usuario_s"]);
 		<tr><td align="right">Password</td><td><input type="password" id="pass" name="pass" size="40" value="<?=$usuario_vo->pass;?>" class="textfield" /></td></tr>
 		<tr><td align="right">Email</td><td><input type="text" id="email" name="email" size="40" value="<?=$usuario_vo->email;?>" class="textfield" /></td></tr>
 		<tr><td align="right">Organizaci&oacute;n</td><td><input type="text" id="org" name="org" size="40" value="<?=$usuario_vo->org;?>" class="textfield" /></td></tr>
-		<tr><td align="right">Persona de cont&aacute;cto en OCHA</td><td><input type="text" id="punto_contacto" name="punto_contacto" size="40" value="<?=$usuario_vo->punto_contacto;?>" class="textfield" /></td></tr>
+		<tr><td align="right">Persona de cont&aacute;cto en UMAIC</td><td><input type="text" id="punto_contacto" name="punto_contacto" size="40" value="<?=$usuario_vo->punto_contacto;?>" class="textfield" /></td></tr>
 		<tr><td align="right">Tel&eacute;fono</td><td><input type="text" id="tel" name="tel" size="40" value="<?=$usuario_vo->tel;?>" class="textfield" /></td></tr>
 		<tr><td align="right">Activo</td><td><input type="radio" name="activo" value=0 <?=$chk_activo['no']?> />&nbsp;No&nbsp;<input type="radio" name="activo" value=1 <?=$chk_activo['si']?> />&nbsp;Si</td></tr>
 		<!-- <tr><td align="right">Usuario CNRR</td><td>No<input type="radio" name="cnrr" value=0 <?=$chk_cnrr['no']?> />&nbsp;Si<input type="radio" name="cnrr" value=1 <?=$chk_cnrr['si']?> /></td></tr>-->

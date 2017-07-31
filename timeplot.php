@@ -116,7 +116,7 @@ if (!$archivo->Existe($_SERVER["DOCUMENT_ROOT"]."/sissh/$file_txt") || ($aaaa ==
 </head>
 <body onLoad="onLoad()" onResize="onResize()">
 	<div id="#top">
-		<h2>SIDIH -  GRAFICA DE TIEMPO EVENTOS DEL CONFLICTO</h2>
+		<h2>SIDI -  GRAFICA DE TIEMPO EVENTOS DEL CONFLICTO</h2>
 	</div>
 	<div>
 	   Tipo Evento&nbsp;<select id="id_s_c" onchange="aplicarFiltro('id_s')" class="select">

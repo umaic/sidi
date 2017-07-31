@@ -156,7 +156,7 @@ switch ($mod){
     case 'cifras':
         
         $render = 'html';
-        $title_block = 'Sidih en números';
+        $title_block = 'SIDI en números';
 
         $org_dao = FactoryDAO::factory('org');
         $num_orgs = $org_dao->numRecords('');
@@ -234,7 +234,7 @@ switch ($mod){
         $organizaciones_ehp = nf($organizaciones_ehp);
         $presupuesto_ehp = nf($presupuesto_ehp);
         
-        $block =  "<div style='margin-bottom: 10px'><div class='left'><img src='http://sidih.salahumanitaria.co/sissh/images/ocha_icons/%s.png' style='float:left'></div>
+        $block =  "<div style='margin-bottom: 10px'><div class='left'><img src='https://sidi.umaic.org/sissh/images/ocha_icons/%s.png' style='float:left'></div>
                 <div><span style='font-size:18px;'><b>%s</b></span><span style='font-size:11px;'>&nbsp;&nbsp;(EHP: %s)</span></div>
                 <div><span font-size:11x;>%s</span></div></div>";
 
@@ -249,8 +249,8 @@ switch ($mod){
             <div style='font-size: 11px;'>
                 <div style='float:left'>Información de proyectos vigentes <br />en $periodo. Fuente de informaci&oacute;n</div>
                 <div style='float:right'>
-                    <a href='http://sidih.salahumanitaria.co' target='_blank'>
-                        <img src='http://sidih.salahumanitaria.co/sissh/images/logo_small_brand.gif' style='border:0'>
+                    <a href='https://sidi.umaic.org' target='_blank'>
+                        <img src='https://sidi.umaic.org/sissh/images/logo_small_brand.gif' style='border:0'>
                     </a>
                 </div>
                 <div style='clear:both'></div>

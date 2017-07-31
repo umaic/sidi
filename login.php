@@ -97,7 +97,7 @@ if (isset($_GET["code"]) || isset($_SESSION["auth0__id_token"])){
 	exit;
 
 }
-$title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
+$title = "SIDI UMAIC";
 
 ?>
 
@@ -197,10 +197,10 @@ $title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
                         <a href="http://salahumanitaria.co" target="_blank"><img src="images/umaic/logo_SALA.png" /></a>
                     </div>
                     <div class="logo">
-                        <a href="http://wiki.umaic.org" target="_blank"><img src="images/umaic/logo_WIKI.png" /></a>
+                        <a href="https://wiki.umaic.org" target="_blank"><img src="images/umaic/logo_WIKI.png" /></a>
                     </div>
                     <div class="logo">
-                        <a href="http://geonode.umaic.org" target="_blank"><img src="images/umaic/logo_GEONODE.png" /></a>
+                        <a href="https://geonode.umaic.org" target="_blank"><img src="images/umaic/logo_GEONODE.png" /></a>
                     </div>
                     <div class="clear"><p>&nbsp;</p></div>
                 </div>

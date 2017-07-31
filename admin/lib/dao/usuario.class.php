@@ -574,7 +574,7 @@ Class UsuarioDAO {
                               Email:  <b>$usuario_vo->email</b> <br />
                               Organización:  <b>$usuario_vo->org</b> <br />
                               Tel&eacute;fono: <b>$usuario_vo->tel</b> <br />
-                              Contacto en OCHA: <b>$usuario_vo->punto_contacto</b> <br /><br />
+                              Contacto en UMAIC: <b>$usuario_vo->punto_contacto</b> <br /><br />
                               El usuario queda pendiente de activación";
 
 			$mail->Send();
@@ -604,7 +604,7 @@ Class UsuarioDAO {
 			$this->conn->Execute($sql);
 
 			//ENVIA EMAIL
-			$from = "rojas@un-ocha.org";
+			$from = "contacto@umaic.org";
 
 			require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 
@@ -715,7 +715,7 @@ Class UsuarioDAO {
                               Email:  <b>$usuario_vo->email</b> <br />
                               Organización:  <b>$usuario_vo->org</b> <br />
                               Tel&eacute;fono: <b>$usuario_vo->tel</b> <br />
-                              Contacto en OCHA: <b>$usuario_vo->punto_contacto</b> <br /><br />
+                              Contacto en UMAIC: <b>$usuario_vo->punto_contacto</b> <br /><br />
                               El usuario queda pendiente de activación";
 
 			$mail->Send();

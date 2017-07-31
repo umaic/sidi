@@ -93,12 +93,12 @@ function file_get_contents_curl($url) {
 $ayer = (empty($_GET['desde'])) ? date('Y-m-d',strtotime('-1 day')) : $_GET['desde'];
 //$ayer = '2015-1-1';
 $fn = "http://violenciaarmada.umaic.org/av/api/listar/sidih/$ayer";
-//$fn = "http://sidih.salahumanitaria.co/sissh/sidih.json";
-//$fn = "http://sidih.local/sidih.json";
+//$fn = "https://sidi.umaic.org/sissh/sidih.json";
+//$fn = "http://sidi.local/sidih.json";
 
 file_get_contents_curl($fn);
 
-// Esta linea se usa cuando sidih no trae el json directamente, error desconocido
+// Esta linea se usa cuando sidi no trae el json directamente, error desconocido
 $fn = "http://violenciaarmada.umaic.org/media/uploads/sidih_sync.json";
 
 $json = file_get_contents_curl($fn);
@@ -147,7 +147,7 @@ if ($check_borrados) {
 //echo "--Pasa borrado<br>";
 //echo "--Comenzando recorrido del JSON<br>";
 foreach ($incs as $inc) {
-    // Si se actualizó en monitor se borra en sidih y se vuelve a crear
+    // Si se actualizó en monitor se borra en  y se vuelve a crear
     $incident_id = $inc->incident_id;
 
     //echo "Analizando JSON.incident_id=$incident_id<br>";

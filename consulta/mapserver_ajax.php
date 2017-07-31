@@ -110,7 +110,7 @@ if (isset($_GET["case"]) && in_array($_GET["case"],array("desplazamiento","dato_
 
 <html>
 <head>
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 
 <link href="style/consulta.css" rel="stylesheet" type="text/css" />
 <script src="js/mscross-1.1.9.js" type="text/javascript"></script>

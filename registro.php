@@ -36,7 +36,7 @@ if (isset($_POST["submit"])){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+<title>SIDI UMAIC - Colombia</title>
 <link href="style/consulta.css" rel="stylesheet" type="text/css" />
 <script src="admin/js/general.js"></script>
 <script>
@@ -66,7 +66,7 @@ function validar(){
 </head>
 
 <body>
-<h1 class="info">Sistema de Informaci&oacute;n  Central &ndash; OCHA &ndash; Naciones Unidas &ndash; Colombia</h1>
+<h1 class="info">SIDI UMAIC Colombia</h1>
 <div id="cabecera"></div>
 <div id="navgral">
   <ul id="navegaciongeneral">
@@ -114,7 +114,7 @@ function validar(){
 				<td align="left"><input type="text" id="email" name="email" class="textfield" size="25" value="<?=$email?>" /></td>
 			</tr>
 			<tr>
-			  <td align="right" width="50%">Persona de cont&aacute;cto en OCHA</td>
+			  <td align="right" width="50%">Persona de cont&aacute;cto en UMAIC</td>
 				<td align="left"><input type="text" id="punto_contacto" name="punto_contacto" class="textfield" size="25" value="<?=$contacto?>" /></td>
 			</tr>			
 			<tr>

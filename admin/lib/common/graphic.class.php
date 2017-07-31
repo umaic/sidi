@@ -1450,7 +1450,7 @@ class PowerGraphic {
 
 		//GRAFICA CON COPYRIGHT
 		
-		$this->pie = "OCHA Colombia".$this->texto_1;
+		$this->pie = "UMAIC Colombia".$this->texto_1;
 		$width_copy = $this->string_width($this->pie,$this->type_font_copyright,$this->size_font_copyright);
 		if ($this->width < $width_copy && $title_check == 0){
 			$this->width = $width_copy;
@@ -1971,7 +1971,7 @@ class PowerGraphic {
 	function draw_copyright($img) {
 		
 		$img = $this->draw_border($img);
-		$pie = "OCHA Colombia".$this->texto_1;
+		$pie = "UMAIC Colombia".$this->texto_1;
 		$copyright = imagecolorallocate($img, 50, 50, 50);
 		
 		$x_pie = ($this->width / 2) - ($this->string_width($pie,$this->type_font_copyright,$this->size_font_copyright) / 2);

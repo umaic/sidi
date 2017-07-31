@@ -101,7 +101,7 @@ else if (isset($_POST["param"])){
 	$param = $_POST["param"];
 }
 
-$title = "Sistema Integrado de Informaci&oacute;n Transversal de Colombia";
+$title = "SIDI UMAIC";
 
 ?>
 

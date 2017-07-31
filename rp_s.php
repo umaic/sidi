@@ -145,6 +145,6 @@ $labels_i = $labels[$idioma];
 <div id="map" class="smallmap"></div><div id="legend"></div>
 <div id="contenido"><?php include($w_dir.$a_contenido); ?></div>
 <div id="footer">
-    <?php echo $labels_i['contacto']; ?>: OCHA Colombia | Carrera 10 #97A-13 Oficina 401 | Pbx: 57 + 1 6221100 | Fax: 57 + 1 6221232 | www.colombiassh.org
+    <?php echo $labels_i['contacto']; ?>: UMAIC Colombia | Carrera 13 #93-12 Oficina 402 | Pbx: 57 + 1 6221100 umaic.org
 </div>
 </body>

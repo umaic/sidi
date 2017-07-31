@@ -22,7 +22,7 @@ $j(function() {
         La segunda fila debe tener los siguientes titulos obligatoriamente:
         (Las filas con informaci&oacute;n, de la tercera en adelante solo deben tener obligatorio las marcadas con * 
     <div class="wiki"><img src="images/p4w/qm.png" />
-        <a href="http://www.colombiassh.org/gtmi/wiki/index.php/4W" target="_blank">Wiki</a>
+        <a href="https://wiki.umaic.org/wiki/4W" target="_blank">Wiki</a>
     </div>
             <fieldset>
                 <legend>Informaci&oacute;n B&aacute;sica</legend>

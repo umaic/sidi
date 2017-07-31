@@ -2619,7 +2619,7 @@ Class OrganizacionDAO {
 		}
 
 		//ENVIA EMAIL
-		$from = "rojas@un-ocha.org";
+		$from = "contacto@umaic.org";
 
 		require($_SERVER['DOCUMENT_ROOT']."/sissh/admin/lib/common/class.phpmailer.php");
 
@@ -2628,10 +2628,9 @@ Class OrganizacionDAO {
 		$mail->IsSMTP(); // set mailer to use SMTP
 
 		$mail->From = $from;
-		$mail->FromName = "SIDIH OCHA";
+		$mail->FromName = "SIDI UMAIC";
 		$mail->AddAddress("zhang17@un.org", "Xitong Zhang");
         $mail->AddCC("villaveces@un.org", "Jeffrey Villaveces");
-		$mail->AddBCC("rubenrojasc@gmail.com", "Ruben Rojas");
 
 		$mail->IsHTML(true);                                  // set email format to HTML
 
