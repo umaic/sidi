@@ -36,18 +36,18 @@
 									<input type="radio" id="reporte_mina_6" name="reporte_mina" value="6" onclick="mostrarFiltrosMina('rep_1')" checked>&nbsp;
 									<select id="mina_acc_vic_6" class="select">
 										<option value="acc">Accidentes</option>
-										<option value="vic" selected>V&iacute;ctimas</option>
+										<option value="vic" selected>Víctimas</option>
 									</select>&nbsp;con Mina total
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<input type="radio" id="reporte_mina_1" name="reporte_mina" value="1" onclick="mostrarFiltrosMina('sexo')" checked>&nbsp;V&iacute;ctimas&nbsp;con Mina por sexo
+									<input type="radio" id="reporte_mina_1" name="reporte_mina" value="1" onclick="mostrarFiltrosMina('sexo')" checked>&nbsp;Víctimas&nbsp;con Mina por sexo
 								</td>
 							</tr>
-							<tr><td><input type="radio" id="reporte_mina_2" name="reporte_mina" value="2" onclick="mostrarFiltrosMina('condicion')">&nbsp;V&iacute;ctimas con Mina por condici&oacute;n</td></tr>
-							<tr><td><input type="radio" id="reporte_mina_3" name="reporte_mina" value="3" onclick="mostrarFiltrosMina('estado')">&nbsp;V&iacute;ctimas con Mina por estado</td></tr>
-							<tr><td><input type="radio" id="reporte_mina_4" name="reporte_mina" value="4" onclick="mostrarFiltrosMina('edad')">&nbsp;V&iacute;ctimas con Mina por grupo de edad</td></tr>
+							<tr><td><input type="radio" id="reporte_mina_2" name="reporte_mina" value="2" onclick="mostrarFiltrosMina('condicion')">&nbsp;Víctimas con Mina por condici&oacute;n</td></tr>
+							<tr><td><input type="radio" id="reporte_mina_3" name="reporte_mina" value="3" onclick="mostrarFiltrosMina('estado')">&nbsp;Víiacute;ctimas con Mina por estado</td></tr>
+							<tr><td><input type="radio" id="reporte_mina_4" name="reporte_mina" value="4" onclick="mostrarFiltrosMina('edad')">&nbsp;Víctimas con Mina por grupo de edad</td></tr>
 							<tr>
 								<td>
 									<input type="radio" id="reporte_mina_5" name="reporte_mina" value="5" onclick="mostrarFiltrosMina('rep_5')">&nbsp;
@@ -65,7 +65,7 @@
 									<select id='dato_para_reporte_5_mina' class='select'>
 										<option value='mpio'>Municipios</option>
 										<option value='depto'>Departamentos</option>
-									</select>&nbsp; con mayor registro de v&iacute;ctimas
+									</select>&nbsp; con mayor registro de víctimas
 								</td>
 							</tr>
 							
@@ -132,7 +132,7 @@
 						<table cellpadding="2" border="0" class='table_filtro_gra_resumen' width="250">
 							<tr><td class="titulo_filtro" colspan="2">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Periodo</td></tr>
 							<tr>
-								<td width="180">A�o Inicial</td>
+								<td width="180">Año Inicial</td>
 								<td>
 									<select id='ini_mina' class='select'>
 										<?
@@ -147,7 +147,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td>A�o Final</td>
+								<td>Año Final</td>
 								<td>
 									<select id='fin_mina' class='select'>
 										<?
@@ -177,7 +177,7 @@
 					<td valign="top">
 						<table cellpadding="2" border="0" class='table_filtro_gra_resumen' width="170">
 							<tr><td class="titulo_filtro" colspan="2">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Gr&aacute;fica</td></tr>
-							<tr><td>Barras por a�os</td><td><input type="radio" id="grafica_mina" name="grafica_mina" value=7 checked></td></tr>
+							<tr><td>Barras por años</td><td><input type="radio" id="grafica_mina" name="grafica_mina" value=7 checked></td></tr>
 							<tr><td>Torta</td><td><input type="radio" id="grafica_mina" name="grafica_mina" value=5></td></tr>
 							<!--<tr>
 								<td colspan="2"><p align='justify'><b>Nota</b>: el periodo usado para construir la gr&aacute;fica tipo Torta es: <b>A&ntilde;o Inicial</b></p></td>
@@ -188,11 +188,11 @@
 				<tr>
 					<td colspan="4" align="center">
 						<!--<a href="javascript:showDiv('mapa','mostrar');"><b>Seleccionar alg&uacute;n Departamento o Municipio</b></a>-->
-						<input type="button" value="Generar Gr�fica" name="submit_org" class="boton" onclick="graficarMina()">
-						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicaci�n" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
+						<input type="button" value="Generar Gráfica" name="submit_org" class="boton" onclick="graficarMina()">
+						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicación" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
 					</td>
 				</tr>
-<!--				<tr><td class="nota_bcg" colspan="4">:: No olvide que luego de generada la gr�fica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
+<!--				<tr><td class="nota_bcg" colspan="4">:: No olvide que luego de generada la gráfica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
 				<tr>
 					<td colspan="4" id="graficaMina" style="display:none" class="td_grafica_bcg"></td>
 				</tr>

@@ -3,9 +3,9 @@ if (isset($_GET["m_g"]) && !isset($_GET["m_e"])){
 	switch ($_GET["m_g"]){
 	  case "consulta": ?>
 		<div align="justify" style="padding:15px">
-			La opciÛn Reportes del Sistema de InformaciÛn, le permite sacar listados por cualquiera de los mÛdulos del Sistema, aplicando diferentes filtros (localizaciÛn geogr·fica, rango de fechas, tema, demografÌa).
+			La opci√≥n Reportes del Sistema de Informaci√≥n, le permite sacar listados por cualquiera de los m√≥dulos del Sistema, aplicando diferentes filtros (localizaci√≥n geogr√°fica, rango de fechas, tema, demograf√≠a).
 			<br><br>
-			DespuÈs de preparar su propio reporte, ud. podr· exportarlo a formato PDF o EXCEL.
+			Despu√©s de preparar su propio reporte, ud. podr√° exportarlo a formato PDF o EXCEL.
 		</div>
 		<?
 		break;
@@ -15,18 +15,18 @@ if (isset($_GET["m_g"]) && !isset($_GET["m_e"])){
 switch ($_SESSION["m_e"]){
 	case "org": ?>
 		  <div style='width:85%;margin:10px'>
-	      La Base de Datos de organizaciones contiene informaciÛn sobre las organizaciones que trabajan
-		  en el campo humanitario en el paÌs y/o con colombianos refugiados en el exterior.
-		  Entre la informaciÛn recopilada se encuentran los perfiles de las organizaciones,
-		  los campos en los que trabajan, y los departamentos (o paÌses) que cubren.
+	      La Base de Datos de organizaciones contiene informaci√≥n sobre las organizaciones que trabajan
+		  en el campo humanitario en el pa√≠s y/o con colombianos refugiados en el exterior.
+		  Entre la informaci√≥n recopilada se encuentran los perfiles de las organizaciones,
+		  los campos en los que trabajan, y los departamentos (o pa√≠ses) que cubren.
 	    </div>
 	<?
 	break;
 
 	case "tabla_grafico" : ?>
 		<div style='width:85%;margin:10px'>
-			<b>	Reporte B·sico</b>: Esta opciÛn generar· el formato predeterminado de la minificha <br><br>
-			<b>	Reporte Avanzado</b>: Esta opciÛn permite generar tablas y gr·ficas de consutlas especÌficas<br>
+			<b>	Reporte B√°sico</b>: Esta opci√≥n generar√° el formato predeterminado de la minificha <br><br>
+			<b>	Reporte Avanzado</b>: Esta opci√≥n permite generar tablas y gr√°ficas de consutlas espec√≠ficas<br>
 		</div>
 	<?
 	break;
@@ -37,27 +37,27 @@ switch ($_SESSION["m_e"]){
 		      <li>GRAFICAS DE ORGANIZACIONES</li>
 	    </ul>
 	    <ul id="menulat">
-	      <li><a href="index.php?m_e=grafica_org&accion=graficar&class=OrganizacionDAO&method=graficaConteo">Gr·fica por Tipo, PoblaciÛn, Enfoque o Sector para una UbicaciÛn</a></li>
-	      <li><a href="index.php?m_e=grafica_org&accion=graficar&class=OrganizacionDAO&method=graficaConteoDeptoMpio">Gr·fica por Departamento o Municipio para un Tipo, PoblaciÛn, Enfoque o Sector</a></li>
+	      <li><a href="index.php?m_e=grafica_org&accion=graficar&class=OrganizacionDAO&method=graficaConteo">Gr√°fica por Tipo, Poblaci√≥n, Enfoque o Sector para una Ubicaci√≥n</a></li>
+	      <li><a href="index.php?m_e=grafica_org&accion=graficar&class=OrganizacionDAO&method=graficaConteoDeptoMpio">Gr√°fica por Departamento o Municipio para un Tipo, Poblaci√≥n, Enfoque o Sector</a></li>
 	    </ul>
 	    <?
 	break;
 
 	case 'minificha': ?>
 		<div style="padding:15px">
-			<b>øQuÈ es un perfil geogr·fico?</b>
+			<b>¬øQu√© es un perfil geogr√°fico?</b>
 			<br><br>
-			Es una complicaciÛn de cifras estadÌsticas b·sicas provenientes de diferentes fuentes tanto del Gobierno como algunas ONGs.
+			Es una complicaci√≥n de cifras estad√≠sticas b√°sicas provenientes de diferentes fuentes tanto del Gobierno como algunas ONGs.
 			<br><br>
-			TambiÈn encontrar· un mapa geogr·fico b·sico de la zona geogr·fica seleccionada.
+			Tambi√©n encontrar√° un mapa geogr√°fico b√°sico de la zona geogr√°fica seleccionada.
 			<br><br>
-			Este producto es ˙til para conocer la informaciÛn b·sica de un departamento o municipio.
+			Este producto es √∫til para conocer la informaci√≥n b√°sica de un departamento o municipio.
 			<br>
-			PrÛximamente podr· encontrarlo por regiones.
+			Pr√≥ximamente podr√° encontrarlo por regiones.
 			<br><br>
 			<img src="images/stop.gif">&nbsp;<a href='#' onclick="document.getElementById('instrucciones').style.display=''">Ver instrucciones</a>			
 			<!-- <br><br>
-			<a href="#" onclick="return generarMinificha();"><img src="images/consulta/boton_minificha.jpg" border="0" title="Esta opciÛn le permite generar la Minificha de la UbicaciÛn seleccionada" onmouseover="this.src='images/consulta/boton_minificha.jpg'" onmouseout="this.src='images/consulta/boton_minificha.jpg'" /></a>
+			<a href="#" onclick="return generarMinificha();"><img src="images/consulta/boton_minificha.jpg" border="0" title="Esta opci√≥n le permite generar la Minificha de la Ubicaci√≥n seleccionada" onmouseover="this.src='images/consulta/boton_minificha.jpg'" onmouseout="this.src='images/consulta/boton_minificha.jpg'" /></a>
 			 -->
 		</div>
 		<?

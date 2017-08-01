@@ -89,7 +89,7 @@ $title = "SIDI UMAIC";
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $title ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>SIDI UMAIC - Colombia</title>
 
 <link href="style/<?=$style ?>" rel="stylesheet" type="text/css" />

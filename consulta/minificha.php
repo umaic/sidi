@@ -2,25 +2,21 @@
 //LIBRERIAS
 include_once("consulta/lib/libs_mapa_i.php");
 include_once("t/lib/common/date.class.php");
+include_once("t/lib/common/graphic.class.php");
+include_once("t/lib/common/imageSmoothArc.php");
+include_once("t/lib/common/imageSmoothLine.php");
 
 //INICIALIZACION DE VARIABLES
 $depto_dao = New DeptoDAO();
 $sissh = New SisshDAO();
 $date = new Date();
 
-$info = $sissh->MinifichaV2(19,'','html');
-
-include('perfilv2.php');
-die;
-
 //MINIFICHA
 if (isset($_POST["minificha"])){
 	$id_muns = "";
 	if (isset($_POST["id_muns"]))	$id_muns = $_POST["id_muns"][0];
 	
-    $info = $sissh->MinifichaV2($_POST["id_depto"][0],$id_muns,'html');
-
-    include('perfilv2.php');
+    $info = $sissh->Minificha($_POST["id_depto"][0],$id_muns,'html');
 	die;
 }
 
@@ -95,7 +91,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alg˙n departamento");
+		alert("Debe seleccionar alg√∫n departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','t/ajax_data.php?object=comboBoxMunicipio&multiple=17&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -134,12 +130,12 @@ function asignarVariablesH(id_depto,id_mun){
 
 <form action="index.php?m_e=minificha&accion=generar&class=Minificha" method="POST">
 <table align='center' cellspacing="1" cellpadding="3" border="0">
-	<tr class='pathway'><td colspan=4>&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; P&eacute;rfil Geogr&aacute;fico</td></tr>
+	<tr class='pathway'><td colspan=4>&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; Perfil Geogr√°fico</td></tr>
 	<tr>
 		<?
 		if ($flash == 1){ ?>
 			<td id='mapa_flash' width="800">
-				<!--<img src="images/stop.gif">&nbsp;Si no puede ver el Mapa en Flash, use la siguiente opciÛn para seleccionar la ubiaciÛn, <a href="index.php?m_e=minificha&accion=generar&class=Minificha&flash=0">click aquÌ</a>
+				<!--<img src="images/stop.gif">&nbsp;Si no puede ver el Mapa en Flash, use la siguiente opci√≥n para seleccionar la ubiaci√≥n, <a href="index.php?m_e=minificha&accion=generar&class=Minificha&flash=0">click aqu√≠</a>
 				<br>
 				-->
 				<table cellspacing="1" cellpadding="2" border="0" width="700" class="_tabla_consulta">
@@ -152,7 +148,7 @@ function asignarVariablesH(id_depto,id_mun){
 							$cache_file = "$path_file.pdf";
 							if (file_exists($cache_file)){
 								$fecha = $date->Format(date('Y n j',filemtime($cache_file)),'aaaa-mm-dd','dd MM aaaa',' ');
-								echo "&nbsp;(Fecha: <i>$fecha</i>, este perfil se genera autom&aacute;ticamente cada 5 d&iacute;as)";
+								echo "&nbsp;(Fecha: <i>$fecha</i>, este perfil se genera autom√°ticamente cada 5 d√≠asas)";
 							}
 							?>
 						</td>
@@ -162,22 +158,22 @@ function asignarVariablesH(id_depto,id_mun){
 					<tr>
 						<td id='instrucciones' style='display:none;background-color:#FFFABF;padding:10px;'>
 							<img src="images/stop.gif">&nbsp;<b>INSTRUCCIONES</b> [<a href='#' onclick="document.getElementById('instrucciones').style.display='none'">cerrar</a>]<br><br>
-							&raquo;&nbsp;<b>Perfil Departamental</b>: Click en la opciÛn Departamento en el mapa y luego seleccionelo haciendo click sobre este.
+							&raquo;&nbsp;<b>Perfil Departamental</b>: Click en la opci√≥n Departamento en el mapa y luego seleccionelo haciendo click sobre este.
 							<br>
-							&raquo;&nbsp;<b>Perfil Municipal</b>: Click en la opciÛn Municipio en el mapa, seleccione un departamento y luego seleccione el municipio haciendo click sobre este o en el listado que aparecer·.
+							&raquo;&nbsp;<b>Perfil Municipal</b>: Click en la opci√≥n Municipio en el mapa, seleccione un departamento y luego seleccione el municipio haciendo click sobre este o en el listado que aparecer√°.
 							<br><br>
-							Una vez seleccionada la Ubicaci&oacute;n, use alguna de las 2 opciones que aparecer·n (Generar Perfil en l&iacute;nea o Descargar Perfil PDF)
+							Una vez seleccionada la Ubicaci√≥n, use alguna de las 2 opciones que aparecer√°n (Generar Perfil en l√≠nea o Descargar Perfil PDF)
 						</td>
 					</tr>
 					<tr class="titulo_lista" style="height:25px;">
 						<td><a name="ubi_rta"></a>
-							<b>&nbsp;Ubicaci&oacute;n seleccionada:&nbsp;</b>
+							<b>&nbsp;Ubicaci√≥n seleccionada:&nbsp;</b>
 							<span id='nombreDepto'> -- </span><span id='separador_depto_mpio' style="display:none">&nbsp;--&gt;&nbsp;</span><span id='nombreMpio'></span>
 						</td>
 					</tr>
 					<tr class="titulo_lista" style="height:25px;display:none" id="btns_gen">
 						<td>
-							<img src="images/mundo.gif" border=0>&nbsp;<a href='#' onclick="return generarMinificha()" id='btn_gen_online'>Generar Perfil en l&iacute;nea</a>
+							<img src="images/mundo.gif" border=0>&nbsp;<a href='#' onclick="return generarMinificha()" id='btn_gen_online'>Generar Perfil en l√≠nea</a>
 							&nbsp;&nbsp;&nbsp;
 							<img src="images/consulta/generar_pdf.gif" border=0>&nbsp;<a href='#' onclick="return generarMinifichaPDF()" id='btn_download_pdf'>Descargar Perfil PDF</a>
 						</td>
@@ -210,10 +206,10 @@ function asignarVariablesH(id_depto,id_mun){
 		}
 		else{ ?>
 			<td id='mapa_html' align="left" width="800">
-				<img src="images/stop.gif">&nbsp;Mostrar el Mapa en Flash, <a href="<?=$PHP_SELF?>?m_e=minificha&accion=generar&class=Minificha&flash=1">click aquÌ</a>
+				<img src="images/stop.gif">&nbsp;Mostrar el Mapa en Flash, <a href="<?=$PHP_SELF?>?m_e=minificha&accion=generar&class=Minificha&flash=1">click aqu√≠</a>
 				<br><br>
 				<p align='justify'><b>Instrucciones</b>: <br>
-				&roquo;Seleccione un Departamento del siguiente listado, luego haga click en Listar Municipios o genere el Perfil del Departamento con la opci&oacute;n "Generar PERFIL" en la parte izquierda, o si lo prefiere seleccione un Municipio y genere el Perfil de ese Municipio.
+				&roquo;Seleccione un Departamento del siguiente listado, luego haga click en Listar Municipios o genere el Perfil del Departamento con la opci√≥n "Generar PERFIL" en la parte izquierda, o si lo prefiere seleccione un Municipio y genere el Perfil de ese Municipio.
 				</p>
 				<br>
 				<table width="450" border="0">

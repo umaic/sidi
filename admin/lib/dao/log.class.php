@@ -2,14 +2,14 @@
 /**
  * DAO de Log
  *
- * Contiene los mÈtodos de la clase Log 
+ * Contiene los m√©todos de la clase Log 
  * @author Ruben A. Rojas C.
  */
 
 Class LogUsuarioDAO {
 
 	/**
-	 * ConexiÛn a la base de datos
+	 * Conexi√≥n a la base de datos
 	 * @var object 
 	 */
 	var $conn;
@@ -45,14 +45,14 @@ Class LogUsuarioDAO {
 	var $id_usuario;
 
 	/**
-	 * MÛdulo especÌfico
+	 * M√≥dulo espec√≠fico
 	 * @var string
 	 */
 	var $m_e;
 
 	/**
 	 * Constructor
-	 * Crea la conexiÛn a la base de datos
+	 * Crea la conexi√≥n a la base de datos
 	 * @access public
 	 */	
 	function LogUsuarioDAO (){
@@ -68,7 +68,7 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * Consulta el n˙mero de visitas al mÛdulo
+	 * Consulta el n√∫mero de visitas al m√≥dulo
 	 * @access public
 	 * @param string $modulo Modulo
 	 * @param string $ini Fecha Inicial
@@ -113,7 +113,7 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * Consulta el n˙mero de acciones en el modulo de administracion
+	 * Consulta el n√∫mero de acciones en el modulo de administracion
 	 * @access public
 	 * @param string $modulo Modulo
 	 * @param string $accion Accion ejecutada, ej, insertar, borrar, importar
@@ -188,7 +188,7 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * N˙mero de visitas a cada mÛdulo de Gr·ficas y Resumenes
+	 * N√∫mero de visitas a cada m√≥dulo de Gr√°ficas y Resumenes
 	 * @access public
 	 * @param string $modulo Modulo
 	 * @param string $ini Fecha Inicial
@@ -221,7 +221,7 @@ Class LogUsuarioDAO {
 	}	
 
 	/**
-	 * Consulta el n˙mero de visitas del tipo de usuario y usuario
+	 * Consulta el n√∫mero de visitas del tipo de usuario y usuario
 	 * @access public
 	 * @param string $case Tipo de Usuario-Usuario
 	 * @param int $id ID del tipo o del usuario
@@ -253,7 +253,7 @@ Class LogUsuarioDAO {
 	}	
 
 	/**
-	 * Visualiza el LOG del mÛdulo de administraciÛn
+	 * Visualiza el LOG del m√≥dulo de administraci√≥n
 	 * @access public
 	 */			
 	function ListarTablaAdmin(){
@@ -279,7 +279,7 @@ Class LogUsuarioDAO {
 			<td>
 			<table cellpadding="2">
 			<tr>
-			<td><b>M&oacute;dulo</b>: </td>
+			<td><b>M√≥dulo</b>: </td>
 			<td>
 			<select id='modulo' class='select'>
 			<option value='org' <? if($modulo == 'org')	echo 'selected' ?>>Organizaciones</option>
@@ -287,7 +287,7 @@ Class LogUsuarioDAO {
 			<option value='dato_s_valor' <? if($modulo == 'dato_s_valor')	echo 'selected' ?>>Datos Sectorial Valor</option>
 			</select>
 			</td>
-			<td><b>Acci&oacute;n</b>: </td>
+			<td><b>Acci√≥n</b>: </td>
 			<td>
 			<select id="accion" class='select'>
 			<option value='insertar' <? if($accion == 'insertar')	echo 'selected' ?>>Crear</option>
@@ -361,7 +361,7 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * Visualiza el LOG del mÛdulo de consultas
+	 * Visualiza el LOG del m√≥dulo de consultas
 	 * @access public
 	 */			
 	function ListarTablaConsulta(){
@@ -393,14 +393,14 @@ Class LogUsuarioDAO {
 		$num_reporte = $this->getNum('reporte',$ini,$fin);
 		$num_reg_perfil = 10;  //Numero de registros del top
 		$PG->title     = "";
-		//$PG->axis_x    = 'MÛdulo';
+		//$PG->axis_x    = 'M√≥dulo';
 		$PG->axis_y    = 'Consultas';
 		$PG->skin      = 1;
 		$PG->type      = 5;
 		$PG->credits   = 0;
 
 		$PG->x[0] = 'Perfiles';
-		$PG->x[1] = 'Gr·ficas y Resumenes';
+		$PG->x[1] = 'Gr√°ficas y Resumenes';
 		$PG->x[2] = 'Reportes';
 
 		$PG->y[0] = $num_perfil;
@@ -440,9 +440,9 @@ Class LogUsuarioDAO {
 			<tr>
 			<td valign="top">
 			<table cellspacing=1 cellpadding="3">
-			<tr class='titulo_lista'><td align='center'>M&oacute;dulo</td><td width='100'># Consultas</td></tr>
+			<tr class='titulo_lista'><td align='center'>M√≥dulo</td><td width='100'># Consultas</td></tr>
 			<tr class="fila_lista"><td>Perfiles</td><td align="center"><?=$num_perfil;?></td>
-			<tr class="fila_lista"><td>Gr&aacute;ficas y Resumenes</td><td align="center"><?=$num_g_r;?></td>
+			<tr class="fila_lista"><td>Gr√°ficas y Res√∫menes</td><td align="center"><?=$num_g_r;?></td>
 			<tr class="fila_lista"><td>Reportes</td><td align="center"><?=$num_reporte;?></td>
 			</table>
 			</td>
@@ -501,7 +501,7 @@ Class LogUsuarioDAO {
 			<tr>
 			<td valign="top">
 			<table cellspacing=1 cellpadding="3">
-			<tr class='titulo_lista'><td align='center'>M&oacute;dulo</td><td width='100'># Consultas</td></tr>
+			<tr class='titulo_lista'><td align='center'>M√≥dulo</td><td width='100'># Consultas</td></tr>
 			<tr class="fila_lista"><td>Organizaciones</td><td align="center"><?=$this->getNumGraResumen('Organizaciones',$ini,$fin);?></td>
 			<tr class="fila_lista"><td>Desplazamiento</td><td align="center"><?=$this->getNumGraResumen('Desplazamiento',$ini,$fin);?></td>
 			<tr class="fila_lista"><td>Accidentes con Mina</td><td align="center"><?=$this->getNumGraResumen('Mina',$ini,$fin);?></td>
@@ -510,7 +510,7 @@ Class LogUsuarioDAO {
 			</td>
 			<?
 			$PG->title     = "";
-		//$PG->axis_x    = 'MÛdulo';
+		//$PG->axis_x    = 'M√≥dulo';
 		$PG->axis_y    = 'Consultas';
 		$PG->skin      = 1;
 		$PG->type      = 5;
@@ -542,7 +542,7 @@ Class LogUsuarioDAO {
 			<tr>
 			<td valign="top">
 			<table cellspacing=1 cellpadding="3">
-			<tr class='titulo_lista'><td align='center'>M&oacute;dulo</td><td width='100'># Consultas</td></tr>
+			<tr class='titulo_lista'><td align='center'>M√≥dulo</td><td width='100'># Consultas</td></tr>
 			<tr class="fila_lista"><td>Organizaciones</td><td align="center"><?=$this->getNum('org',$ini,$fin);?></td>
 			<tr class="fila_lista"><td>Proyectos</td><td align="center"><?=$this->getNum('proyecto',$ini,$fin);?></td>
 			<tr class="fila_lista"><td>Datos Sectoriales</td><td align="center"><?=$this->getNum('dato_sectorial',$ini,$fin);?></td>
@@ -552,7 +552,7 @@ Class LogUsuarioDAO {
 			</td>
 			<?
 			$PG->title     = "";
-		//$PG->axis_x    = 'MÛdulo';
+		//$PG->axis_x    = 'M√≥dulo';
 		$PG->axis_y    = 'Consultas';
 		$PG->skin      = 1;
 		$PG->type      = 5;
@@ -671,8 +671,8 @@ Class LogUsuarioDAO {
 	 * Imprime en pantalla los datos del Log
 	 * @access public
 	 * @param object $vo Log que se va a imprimir
-	 * @param string $formato Formato en el que se listar·n los Log, puede ser Tabla o ComboSelect
-	 * @param int $valor_combo ID del Log que ser· selccionado cuando el formato es ComboSelect
+	 * @param string $formato Formato en el que se listar√°n los Log, puede ser Tabla o ComboSelect
+	 * @param int $valor_combo ID del Log que ser√° selccionado cuando el formato es ComboSelect
 	 */			
 	function Imprimir($vo,$formato,$valor_combo){
 
@@ -716,7 +716,7 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * Registra la accion en el mÛdulo de administraciÛn
+	 * Registra la accion en el m√≥dulo de administraci√≥n
 	 * @access public
 	 */		
 	function RegistrarAdmin($id=0,$m_e=''){
@@ -737,10 +737,10 @@ Class LogUsuarioDAO {
 			if ($id == 0 && isset($_POST["id_dato"]))	$id = $_POST["id_dato"];
 			/*$modulos_minificha = array("",
 			  "General",
-			  "Datos Sectoriales Generales & DemografÌa",
+			  "Datos Sectoriales Generales & Demograf√≠a",
 			  "Desplazamiento",
 			  "Minas",
-			  "Indice de Riesgo de SituaciÛn Humanitaria",
+			  "Indice de Riesgo de Situaci√≥n Humanitaria",
 			  "Organizaciones"
 			  );*/
 
@@ -770,9 +770,9 @@ Class LogUsuarioDAO {
 	}
 
 	/**
-	 * Registra la accion en el mÛdulo de usuario final
-	 * @param int $reporte Reporte en el mÛdulo de gr·ficas y resumenes
-	 * @param string $modulo MÛdulo consultado en gr·ficas y resumenes
+	 * Registra la accion en el m√≥dulo de usuario final
+	 * @param int $reporte Reporte en el m√≥dulo de gr√°ficas y resumenes
+	 * @param string $modulo M√≥dulo consultado en gr√°ficas y resumenes
 	 * @access public
 	 */		
 	function RegistrarFrontend($reporte = 0,$modulo=''){

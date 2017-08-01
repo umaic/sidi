@@ -7,12 +7,12 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
     <div id="products">
         <div id="monitor" class="p">
             <div><a href="http://monitor.umaic.org" target="_blank">Monitor</a></div>
-            <div>Doble afectaci&oacute;n</div>
+            <div>Doble afectaciónn</div>
         </div>
         <?php if (in_array($_SESSION['id_tipo_usuario_s'], array(1,2,15,23))) { ?>
         <div id="monitoreo" class="p">
             <a href="<?php echo $hostname ?>/monitoreo_medios/v2" target="_blank">Monitor medios</a>
-            <br />M&aacute;s en menos tiempo
+            <br />Máss en menos tiempo
         </div>
         <div id="gpx" class="p">
             <a href="<?php echo $hostname ?>/im/terrenogps/traces.php?task=gpx" target="_blank">Misiones terreno</a>
@@ -24,13 +24,13 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
             <br />Nombre a divipola
         </div>
         <div id="qr" class="p">
-            <a href="<?php echo $hostname ?>/im/qr/" target="_blank">C&oacute;digo QR</a>
-            <br />Identificador &uacute;nico
+            <a href="<?php echo $hostname ?>/im/qr/" target="_blank">Código QR</a>
+            <br />Identificador único
         </div>
         <?php if (in_array($_SESSION['id_tipo_usuario_s'], array(1,2,15,23))) { ?>
         <div id="contactos" class="p">
             <a href="<?php echo $hostname ?>/sissh/admin/index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Contactos</a>
-            <br />Lista de cont&aacute;ctos
+            <br />Lista de contactos
         </div>
         <?php } ?>
     </div>
@@ -59,7 +59,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                        <div class="d2 col-md-6">
                            <h3>Desarrollo y Paz</h3>
                                <p align='justify'>
-                                   Proyectos en construcci&oacute;n de paz y desarrollo sostenible
+                                   Proyectos en construcción de paz y desarrollo sostenible
                                </p>
                                <a href="index.php?m_g=consulta&m_e=p4w&accion=consultar&class=P4W&si_proy=des">
                                     <br />&raquo; Ingresar desarrollo y paz
@@ -71,7 +71,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                        <?php
                        if (in_array(34,$perfil->id_modulo)){ ?>
                            <a href="admin/index.php?m_e=p4w&accion=listar&class=P4wDAO&method=Dashboard&param=&si_proy=4w" class="">
-                               &raquo; Ingresar al dashboard de alimentaci&oacute;n
+                               &raquo; Ingresar al dashboard de alimentación
                            </a>
                        <?php } ?>
                   </p>
@@ -91,16 +91,16 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                 </div>
                 <div class="panel-body">
                     <p align='justify'>
-                        Es un resumen de cifras estad&iacute;sticas y gr&aacute;ficas de un departamento o municipio. Incluye un mapa geogr&aacute;fico de la zona.
+                        Es un resumen de cifras estadísticas y gráficas de un departamento o municipio. Incluye un mapa geográfico de la zona.
                         <br /><br />
                         <a href="index.php?m_g=consulta&m_e=minificha&accion=generar&class=Minificha" class="">
-                            &raquo; Ingrese aqu&iacute; para generar el p&eacute;rfil
+                            &raquo; Ingrese aquí para generar el perfil
                         </a>
                     </p>
                     <hr>
                     <p align='justify'>
                         Si desea, puede consultar un perfil municipal resumido en nuestro
-                        <a href='#' onclick="window.open('mapa_perfil.php','','top=0,left=0,width=800,height=600')">Sistema de informaci&oacute;n geogr&aacute;fico&nbsp;</a>
+                        <a href='#' onclick="window.open('mapa_perfil.php','','top=0,left=0,width=800,height=600')">Sistema de información geogrráfica</a>
                     </p>
                     <p>&nbsp;</p>
                 </div>
@@ -113,18 +113,18 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                 <div class="panel-heading">
                     <img src='images/home/icn_gra_resumen.png' class="pull-left" width="20" height="20">
                     <h2 class="panel-title">
-                        Gr&aacute;ficas, resumenes y Reportes
+                        Gráficas, resumenes y Reportes
                     </h2>
                 </div>
                 <div class="panel-body">
                     <div class="d2">
-                        <h3>Gr&aacute;ficas y Resumenes</h3>
+                        <h3>Gráficas y Resúmenes</h3>
                         <p align='justify'>
-                            Haga sus propias gr&aacute;ficas estad&iacute;sticas y tablas res&uacute;menes, basadas en sus propios criterios de selecci&oacute;n de informaci&oacute;n.
+                            Haga sus propias gráficas estadísticas y tablas resúmenes, basadas en sus propios criterios de selección de información.
                         </p>
                         <p>
                             <a href="index.php?m_g=consulta&m_e=tabla_grafico&accion=consultar&class=TablaGrafico" class="">
-                                &raquo; Ingrese aqu&iacute; para generar gr&aacute;ficas y resumenes
+                                &raquo; Ingrese aquí para generar gráficas y resumenes
                             </a>
                         </p>
                     </div>
@@ -132,11 +132,11 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                     <div class="item_h d2">
                         <h3>Reportes</h3>
                         <p align='justify'>
-                            &#191;Quiere un listado por tema, localizaci&oacute;n geogr&aacute;fica, demograf&iacute;a o por rangos de tiempo?
+                            &#191;Quiere un listado por tema, localizaciónn geográfica, demográfica o por rangos de tiempo?
                         </p>
                         <p>
                             <a href="index.php?m_g=consulta" class="">
-                                &raquo; Ingrese aqu&iacute; para generar reportes
+                                &raquo; Ingrese aquí para generar reportes
                             </a>
                         </p>
                     </div>
@@ -146,12 +146,12 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <img src='images/home/mapas.png' alt='Mapas Tem&aacute;ticos' class="pull-left" width="20" height="20">
-                    <h2 class="panel-title">Mapas Tem&aacute;ticos</h2>
+                    <img src='images/home/mapas.png' alt='Mapas Temáticos' class="pull-left" width="20" height="20">
+                    <h2 class="panel-title">Mapas Temáticos</h2>
                 </div>
                 <div class="panel-body">
                     <p align='justify'>
-                        El Sistema de Informaci&oacute;n Geogr&aacute;fica (GIS) de SIDI, permite generar mapas a nivel
+                        El Sistema de Informaciónn Geográfica (GIS) de SIDI, permite generar mapas a nivel
                         municipal para los siguientes temas:
                         <br><br>
                             &nbsp;&nbsp;&nbsp;&raquo;&nbsp;Organizaciones<br>
@@ -161,7 +161,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                     </p>
                     <p>
                         <a href='#' onclick="window.open('mapa.php','','top=0,left=0,width=1024,height=700,scrolbars=1')" class="">
-                            &raquo; Ingrese aqu&iacute; para generar mapas
+                            &raquo; Ingrese aquí para generar mapas
                         </a>
                         <br />&nbsp;
                     </p>

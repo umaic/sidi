@@ -25,6 +25,8 @@ class MysqlDb {
 		}
 		else{
 			$this->conn = mysqli_connect($this->host_db,$this->user_db,$this->password_db,$this->db_name);
+			mysqli_set_charset( $this->conn, 'utf8');
+
 		}
 
 	}
@@ -123,8 +125,8 @@ class MysqlDb {
 
 	public function FetchAssoc($Result) {
 		if (!empty($Result)) {
-            return mysql_fetch_assoc($Result);
-        }
+			return ($this->mysqli == 0) ? mysql_fetch_assoc($Result) :  mysqli_fetch_assoc($Result);
+		}
 	}
 
     public function Execute($query,$db_name='') {

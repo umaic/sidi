@@ -27,10 +27,10 @@ function changeBCG(id_elemento,accion,color){
 				</tr>
 				<tr>
 					<td colspan=2>
-						Este m&oacute;dulo le permite realizar consultas de Organizaciones por:
+						Este m贸dulo le permite realizar consultas de Organizaciones por:
 						<br><br>
 						&raquo;&nbsp; Tipo&nbsp;&raquo;&nbsp; Sector&nbsp;&raquo;&nbsp; Enfoque<br>
-						&raquo;&nbsp; Poblaci&oacute;n&nbsp;&raquo;&nbsp; Cobertura Geogr醘ica
+						&raquo;&nbsp; Poblaci贸n&nbsp;&raquo;&nbsp; Cobertura Geogr谩fica
 					</td>
 				</tr>
 			</table>
@@ -51,10 +51,10 @@ function changeBCG(id_elemento,accion,color){
 			</tr>
 			<tr>
 				<td colspan=2>
-					Este m&oacute;dulo le permite realizar consultas de Desplazamiento por:
+					Este m贸dulo le permite realizar consultas de Desplazamiento por:
 					<br><br>
 					&raquo;&nbsp; Tipo&nbsp;&raquo;&nbsp; Clase&nbsp;&raquo;&nbsp; Fuente&nbsp;&raquo;&nbsp; Periodo<br>
-					&raquo;&nbsp; Poblaci&oacute;n&nbsp;&raquo;&nbsp; Cobertura Geogr醘ica
+					&raquo;&nbsp; Poblaci贸n&nbsp;&raquo;&nbsp; Cobertura Geogr谩fica
 				</td>
 			</tr>
 		</table>
@@ -79,8 +79,8 @@ function changeBCG(id_elemento,accion,color){
 				</tr>
 				<tr>
 					<td colspan=2>
-						Este m&oacute;dulo le permite realizar consultas de Datos Sectoriales por:
-						&raquo;&nbsp; Categor&iacute;a&nbsp;&raquo;&nbsp; Cobertura Geogr醘ica
+						Este m贸dulo le permite realizar consultas de Datos Sectoriales por:
+						&raquo;&nbsp; Categor铆a&nbsp;&raquo;&nbsp; Cobertura Geogr谩fica
 						<br><br>
 						<h1><img src="images/consulta/icn_metadata.png"><a href="index.php?m_e=dato_sectorial&accion=consultar&class=DatoSectorialDAO&method=ReportarMetadatos">Metadatos</a></h1>
 					</td>
@@ -98,13 +98,13 @@ function changeBCG(id_elemento,accion,color){
 			<!--<tr><td class='titulo_lista'><a href='index.php?m_e=evento&accion=consultar&class=EventoDAO'>EVENTOS</a></td></tr>-->
 			<tr>
 				<td>
-				Este m&oacute;dulo le permite realizar consultas de Eventos por:<br><br>
+				Este m贸dulo le permite realizar consultas de Eventos por:<br><br>
 				- Tipo <br>
 				- Actor <br>
 				- Consecuencias Humanitarias <br>
 				- Riesgos Humanitarios  <br><br>
 
-				Tambi閚 puede consultar:<br><br>
+				Tambi茅n puede consultar:<br><br>
 				- <a href='index.php?accion=consultar&class=EventoDAO&method=ReporteDiario'>Informe Diario</a><br>
 				- <a href='index.php?accion=consultar&class=EventoDAO&method=ReporteSemanal'>Informe Semanal</a>
 
@@ -129,10 +129,10 @@ function changeBCG(id_elemento,accion,color){
 				</tr>
 				<tr>
 					<td colspan=2>
-						Este m&oacute;dulo le permite realizar consultas de Eventos por:
+						Este m贸dulo le permite realizar consultas de Eventos por:
 						<br><br>
 						&raquo;&nbsp; Tipo/Subtipo de Evento&nbsp;&raquo;&nbsp; Tipo/Subtipo de Actor<br>
-						&raquo;&nbsp; Cobertura Geogr醘ica
+						&raquo;&nbsp; Cobertura Geogr谩fica
 					</td>
 				</tr>
 			</table>
@@ -150,13 +150,13 @@ function changeBCG(id_elemento,accion,color){
 					<table cellpadding="3" cellspacing="3" class="home_consulta"  height="202">
 						<tr>
 							<td align='left'>
-							Este m&oacute;dulo le permite consultar Eventos con Mina por:<br><br>
+							Este m贸dulo le permite consultar Eventos con Mina por:<br><br>
 							&raquo;&nbsp; Tipo de Evento<br>
-							&raquo;&nbsp; Condici&oacute;n <br>
+							&raquo;&nbsp; Condici贸n <br>
 							&raquo;&nbsp; Estado <br>
 							&raquo;&nbsp; Edad  <br>
 							&raquo;&nbsp; Sexo  <br>
-							&raquo;&nbsp; Ubicaci&oacute;n Geogr醘ica
+							&raquo;&nbsp; Ubicaci贸n Geogr谩fica
 							</td>
 						</tr>
 					</table>
@@ -183,10 +183,10 @@ function changeBCG(id_elemento,accion,color){
 				</tr>
 				<tr>
 					<td colspan=2>
-						Este m&oacute;dulo le permite realizar consultas de Proyectos por:
+						Este m贸dulo le permite realizar consultas de Proyectos por:
 						<br><br>
 						&raquo;&nbsp; Tipo&nbsp;&raquo;&nbsp; Sector&nbsp;&raquo;&nbsp; Estado&nbsp;&raquo;&nbsp; Fecha<br>
-						&raquo;&nbsp; Poblaci&oacute;n&nbsp;&raquo;&nbsp; Cobertura Geogr醘ica
+						&raquo;&nbsp; Poblaci贸n&nbsp;&raquo;&nbsp; Cobertura Geogr谩fica
 						<br>&nbsp;
 					</td>
 				</tr>
@@ -201,7 +201,7 @@ function changeBCG(id_elemento,accion,color){
 			<tr><td><a href='index.php?m_e=mapa_i&accion=consultar&class=MapaI'><img src="images/consulta/boton_u_g.jpg" border="0"></a></td></tr>
 			<tr>
 				<td><p align="justify">
-				Este m&oacute;dulo le permite realizar consultas de Organizaciones, Proyectos o Eventos por Departamento o Municipio
+				Este m贸dulo le permite realizar consultas de Organizaciones, Proyectos o Eventos por Departamento o Municipio
 				</p></td></tr>
 		</table>
 	</td>

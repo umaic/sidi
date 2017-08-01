@@ -238,7 +238,7 @@ if ($_SESSION["m_g"] == "admin"){
 	if (in_array(19,$perfil->id_modulo)){
 		?>
 			<li>
-				<a href='#'>M. Geogr·fico</a>
+				<a href='#'>M. Geogr√°fico</a>
 				<ul>
 					<li>
 						<a href="#" onclick="addTab('pais'); return false;">Pais</a>
@@ -311,7 +311,7 @@ if ($_SESSION["m_g"] == "admin"){
 				</ul>	
 			</li>
 			<li>
-				<a href="#" onclick="addTabAccion('info_ficha','actualizar',''); return false;">Fichas de InformaciÛn para Gr&aacute;ficas y Resumenes</a>
+				<a href="#" onclick="addTabAccion('info_ficha','actualizar',''); return false;">Fichas de Informaci√≥n para Gr&aacute;ficas y Resumenes</a>
 			</li>
 			<li>
 				<a href="#" onclick="addTab('sugerencia'); return false;">Sugerencia</a>
@@ -412,7 +412,7 @@ else if ($_SESSION["m_g"] == "alimentacion"){
 			<ul>
 			<!--<li><a href="index.php?m_e=dato_s_valor&accion=insertarDatoValor">Insertar</a></li> -->
 			<li><a href="index.php?m_e=dato_s_valor&accion=importar">Importar</a></li>
-			<li><a href="#" onclick="if(confirm('Esta opciÛn calcular· los totales Departamentales y Nacionales con los datos actuales en el sistema, esta seguro que desea ejecutar esta opciÛn ?\n\nEl proceso tardar· varios minutos...')){window.open('../cron_jobs/totalizar_d_sectorial.php','','top=200,left=250,width=400,height=150');}">Totalizar</a></li>
+			<li><a href="#" onclick="if(confirm('Esta opci√≥n calcular√° los totales Departamentales y Nacionales con los datos actuales en el sistema, esta seguro que desea ejecutar esta opci√≥n ?\n\nEl proceso tardar√° varios minutos...')){window.open('../cron_jobs/totalizar_d_sectorial.php','','top=200,left=250,width=400,height=150');}">Totalizar</a></li>
 			<!--<li><a href="index.php?m_e=dato_s_valor&accion=actualizarDatoValor&class=DatoSectorialDAO&method=ListarTabla&param=">Actualizar Valor de Dato Sectorial</a></li> -->
 			</ul>
 			</li>
@@ -465,8 +465,8 @@ else if ($_SESSION["m_g"] == "consulta"){
         <?php
         } ?>
 		<li>|</li>
-		<li><a href="/sissh/index.php?m_g=consulta&m_e=home">Home</a></li>
-		<li><a href="index.php?accion=logout">Logout</a>
+		<li><a href="/sissh/index.php?m_g=consulta&m_e=home">Inicio</a></li>
+		<li><a href="index.php?accion=logout">Cerrar sesi√≥n</a>
     </ul>
     <?php
 }

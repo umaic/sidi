@@ -90,7 +90,7 @@
                             <tr>
                                 <td>
                                     <input type="radio" id="reporte" name="id_reporte" value="7" onclick="changeParametersDesplazamiento(7,<?=$num_fuentes ?>)">&nbsp;
-                                    Desplazamientos UARIV por <b>Género</b>
+                                    Desplazamientos UARIV por <b>GÃ©nero</b>
                                 </td>
                             </tr>
 						</table>
@@ -128,7 +128,7 @@
 						<table border="0">
 							<tr><td class="titulo_filtro" colspan="2" width="300">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Periodo</td></tr>
 							<tr>
-								<td width="140">Año Inicial</td>
+								<td width="140">AÃ±o Inicial</td>
 								<td>
 									<select id='ini_desplazamiento' class='select'>
 										<?
@@ -143,7 +143,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td>Año Final</td>
+								<td>AÃ±o Final</td>
 								<td>
 									<select id='fin_desplazamiento' class='select'>
 										<?
@@ -174,17 +174,17 @@
 							<tr><td><input type="radio" id="exp_rec_exp" name="exp_rec" value="1" checked>&nbsp;Expulsi&oacute;n</td></tr>
 							<tr><td><input type="radio" id="exp_rec_rec" name="exp_rec" value="2">&nbsp;Recepci&oacute;n/Estimado Llegadas</td></tr>
 						</table>					
-						<!--<a href="consulta/swf/mapa_i.html" title="Seleecione la Ubicación Geográfica" rel="gb_page_center[700,570]"><b>Seleccionar alg&uacute;n Departamento o Municipio</a>-->
+						<!--<a href="consulta/swf/mapa_i.html" title="Seleecione la UbicaciÃ³n GeogrÃ¡fica" rel="gb_page_center[700,570]"><b>Seleccionar alg&uacute;n Departamento o Municipio</a>-->
 					</td>
 				</tr>
 				<tr>
 					<td colspan="4" align="center">
 						<!--<a href="javascript:showDiv('mapa','mostrar');"><b>Seleccionar alg&uacute;n Departamento o Municipio</b></a>-->
-						<input type="button" value="Generar Gráfica" name="submit_org" class="boton" onclick="graficarDesplazamiento('bar')">
-						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicación" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
+						<input type="button" value="Generar GrÃ¡fica" name="submit_org" class="boton" onclick="graficarDesplazamiento('bar')">
+						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar UbicaciÃ³n" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
 					</td>
 				</tr>
-<!--				<tr><td class="nota_bcg" colspan="4">:: No olvide que luego de generada la gráfica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
+<!--				<tr><td class="nota_bcg" colspan="4">:: No olvide que luego de generada la grÃ¡fica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
 				<tr><td id="graficaDesplazamiento" colspan="4" style="display:none" class="td_grafica_bcg"></td></tr>
 			</table>
 		</td>

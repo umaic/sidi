@@ -46,7 +46,7 @@ $style_display[$tab] = '';
 
 <script type="text/javascript">
 //IE Fix
-//Variable para que IE no muestre el error JS al mostrar la gr·fica usando AJAX, cualquier elemento sirve
+//Variable para que IE no muestre el error JS al mostrar la gr√°fica usando AJAX, cualquier elemento sirve
 var ie_chart = document.createElement("div");
 var server = "http://<?=$_SERVER["SERVER_NAME"]?>";
 var ajax_script = "admin/ajax_data.php"; 
@@ -69,10 +69,10 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 
 <form action="index.php?m_e=mapa_i&accion=consultar&class=MapaI" method="POST">
 <table align='center' cellspacing="0" cellpadding="0" border="0" width="950">
-	<!-- <tr><td align='left' class='titulo_pagina' colspan=8><img src="images/home/gra_resum_small.jpg">&nbsp;Gr&aacute;ficas y Resumenes</td></tr> -->
+	<!-- <tr><td align='left' class='titulo_pagina' colspan=8><img src="images/home/gra_resum_small.jpg">&nbsp;Gr√°ficas y Resumenes</td></tr> -->
 	<tr class='pathway'>
 		<td colspan=4>
-			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; Gr·ficas y Res˙menes
+			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; Gr√°ficas y Res√∫menes
 		</td>
 		<td colspan=6 align='right'>
 			<input type='hidden' id="debug_info">
@@ -175,7 +175,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 			<td id="mapa_flash" colspan="10" class="td_outer_bottom">
 				<!--
 				<br>
-				&nbsp;<img src="images/stop.gif">&nbsp;Si no puede ver el Mapa en Flash, use la siguiente opciÛn para seleccionar la ubiaciÛn, <a href="#" onclick="location.href='index.php?m_e=tabla_grafico&accion=consultar&class=TablaGrafico&flash=0&tab='+document.getElementById('tab_hidden').value;return false;">click aquÌ</a>
+				&nbsp;<img src="images/stop.gif">&nbsp;Si no puede ver el Mapa en Flash, use la siguiente opci√≥n para seleccionar la ubiaci√≥n, <a href="#" onclick="location.href='index.php?m_e=tabla_grafico&accion=consultar&class=TablaGrafico&flash=0&tab='+document.getElementById('tab_hidden').value;return false;">click aqu√≠</a>
 				<br><br>
 				-->
 				<table cellpadding="3" cellspacing="0" width="100%">
@@ -187,9 +187,9 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 					<tr>
 						<td id='instrucciones' style='display:none;background-color:#FFFABF;padding:10px;'>
 							<b>INSTRUCCIONES</b> [<a href='#' onclick="document.getElementById('instrucciones').style.display='none';return false;">cerrar</a>]<br><br>
-							&raquo;&nbsp;<b>Consulta Departamental</b>: Click en la opciÛn Departamento en el mapa y luego seleccionelo haciendo click sobre este.
+							&raquo;&nbsp;<b>Consulta Departamental</b>: Click en la opci√≥n Departamento en el mapa y luego seleccionelo haciendo click sobre este.
 							<br>
-							&raquo;&nbsp;<b>Consulta Municipal</b>: Click en la opciÛn Municipio en el mapa, seleccione un departamento y luego seleccione el municipio haciendo click sobre este o en el listado que aparecer·.
+							&raquo;&nbsp;<b>Consulta Municipal</b>: Click en la opci√≥n Municipio en el mapa, seleccione un departamento y luego seleccione el municipio haciendo click sobre este o en el listado que aparecer√°.
 						</td>
 					</tr>	
 					<tr class="titulo_lista">
@@ -226,7 +226,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 		}
 		else{ ?>
 			<td id='mapa_html' colspan="10" align="left" class="td_outer_bottom"><br>
-				&nbsp;<img src="images/stop.gif">&nbsp;Mostrar el Mapa en Flash, <a href="#" onclick="location.href='index.php?m_e=tabla_grafico&accion=consultar&class=TablaGrafico&flash=1&tab='+document.getElementById('tab_hidden').value;return false;">click aquÌ</a>
+				&nbsp;<img src="images/stop.gif">&nbsp;Mostrar el Mapa en Flash, <a href="#" onclick="location.href='index.php?m_e=tabla_grafico&accion=consultar&class=TablaGrafico&flash=1&tab='+document.getElementById('tab_hidden').value;return false;">click aqu√≠</a>
 				<br><br>
 				<table cellpadding="3" cellspacing="0" width="100%" border="0">
 					<tr>
@@ -236,12 +236,12 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 					</tr>
 					<tr class="titulo_lista">
 						<td height="30" colspan="2">
-							<b>Seleccione la Ubicaci&oacute;n</b>
+							<b>Seleccione la Ubicaci√≥n</b>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<p align='justify'><b>Instrucciones</b>: Seleccione un Departamento del siguiente listado, luego haga click en Listar Municipios o realice la consulta para el Departamento con la opci&oacute;n "Generar" en la parte superior, o si lo prefiere seleccione un Municipio y genere la consulta para ese Municipio.</p>			
+							<p align='justify'><b>Instrucciones</b>: Seleccione un Departamento del siguiente listado, luego haga click en Listar Municipios o realice la consulta para el Departamento con la opci√≥n "Generar" en la parte superior, o si lo prefiere seleccione un Municipio y genere la consulta para ese Municipio.</p>
 						</td>
 					</tr>
 					<tr>

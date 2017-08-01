@@ -30,7 +30,7 @@ function validar_criterios_basico(){
 	}
 
 	if (error == 1){
-		alert("Seleccione la Ubicación Geográfica");
+		alert("Seleccione la UbicaciÃ³n GeogrÃ¡fica");
 		return false;
 	}
 	else{
@@ -67,7 +67,7 @@ function validar_criterios(){
 	}
 
 	else if (error == 1 && error_que == 0){
-		alert("Seleccione algún Departamento o Municipio");
+		alert("Seleccione algÃºn Departamento o Municipio");
 		return false;
 	}
 
@@ -88,7 +88,7 @@ function validar_criterios(){
 			id_resto = document.getElementById('id_dato_resto').options[document.getElementById('id_dato_resto').selectedIndex].value;
 
 			if (id_cabecera == id_resto){
-				alert("Los Datos asociados a población en Cabecera y población en el resto no pueden ser el mismo");
+				alert("Los Datos asociados a poblaciÃ³n en Cabecera y poblaciÃ³n en el resto no pueden ser el mismo");
 				return false;
 			}
 		}
@@ -98,8 +98,8 @@ function validar_criterios(){
 	if (document.getElementById('que_desplazamiento').checked == true){
 		msg = "";
 
-		if (document.getElementById('ini_desplazamiento').value == '')	msg += "- Periodo: Año Inicial\n";
-		if (document.getElementById('fin_desplazamiento').value == '')	msg += "- Periodo: Año Final\n";
+		if (document.getElementById('ini_desplazamiento').value == '')	msg += "- Periodo: AÃ±o Inicial\n";
+		if (document.getElementById('fin_desplazamiento').value == '')	msg += "- Periodo: AÃ±o Final\n";
 
 		if (msg != ''){
 			alert('Los siguientes campos son requeridos \n\n'+msg);
@@ -117,14 +117,14 @@ function validar_criterios(){
 
 		if (reporte == 1 || reporte == 2){
 			if (num_chk > 2){
-				alert('Solo se pueden seleccionar 2 fuentes como máximo para el reporte');
+				alert('Solo se pueden seleccionar 2 fuentes como mÃ¡ximo para el reporte');
 				return false;
 			}
 		}
 		else{
 
 			if (num_chk > 1){
-				alert('Solo se puede seleccionar 1 fuente como máximo para el reporte');
+				alert('Solo se puede seleccionar 1 fuente como mÃ¡ximo para el reporte');
 				return false;
 			}
 		}
@@ -133,8 +133,8 @@ function validar_criterios(){
 	if (document.getElementById('que_mina').checked == true){
 		msg = "";
 
-		if (document.getElementById('ini_mina').value == '')	msg += "- Periodo: Año Inicial\n";
-		if (document.getElementById('fin_mina').value == '')	msg += "- Periodo: Año Final\n";
+		if (document.getElementById('ini_mina').value == '')	msg += "- Periodo: AÃ±o Inicial\n";
+		if (document.getElementById('fin_mina').value == '')	msg += "- Periodo: AÃ±o Final\n";
 
 		if (msg != ''){
 			alert('Los siguientes campos son requeridos \n\n'+msg);
@@ -148,7 +148,7 @@ function validar_criterios(){
 		}
 
 		if (num_chk > 2){
-			alert('Solo se pueden seleccionar 2 edades como máximo para el reporte');
+			alert('Solo se pueden seleccionar 2 edades como mÃ¡ximo para el reporte');
 			return false;
 		}
 	}
@@ -261,8 +261,8 @@ function setTextoFuentes(id_reporte){
 		}
 	}
 
-	texto = Array('','Máx 2 fuentes en el reporte','Máx 2 fuentes en el reporte','Máx 1 fuente en el reporte');
-	titulo = Array('','Número total de Desplazados','Número de Nuevos Desplazados','Número de Desplazados Registrados');
+	texto = Array('','MÃ¡x 2 fuentes en el reporte','MÃ¡x 2 fuentes en el reporte','MÃ¡x 1 fuente en el reporte');
+	titulo = Array('','NÃºmero total de Desplazados','NÃºmero de Nuevos Desplazados','NÃºmero de Desplazados Registrados');
 
 	document.getElementById('texto_fuente').innerHTML = '[ <b>' + texto[id_reporte] + '</b> ]';
 	document.getElementById('titulo_grafica').value = titulo[id_reporte];
@@ -392,7 +392,7 @@ function graficarDesplazamiento(chart){
 		if (input_codhes.checked == true){
 			if ( exp_rec == 0 || exp_rec == 1){
 				document.getElementById('exp_rec_rec').checked = true;
-				alert('Para la fuente CODHES, la Clase de Desplazamiento debe ser Recepción/Estimado Llegadas');
+				alert('Para la fuente CODHES, la Clase de Desplazamiento debe ser RecepciÃ³n/Estimado Llegadas');
 			}
 		}
 	}
@@ -400,14 +400,14 @@ function graficarDesplazamiento(chart){
 	//dato para reporte 4
 	var dato_para_reporte_4_despla = document.getElementById('dato_para_reporte_4_despla').value;
 	
-	//Validación
+	//ValidaciÃ³n
 	msg = "";
 
-	if (f_ini == '')	msg += "- Periodo: Año Inicial\n";
-	if (f_fin == '')	msg += "- Periodo: Año Final\n";
+	if (f_ini == '')	msg += "- Periodo: AÃ±o Inicial\n";
+	if (f_fin == '')	msg += "- Periodo: AÃ±o Final\n";
 
 	if (parseInt(f_ini) > parseInt(f_fin)){
-		alert("Año Inicial debe ser menor que Año Final");
+		alert("AÃ±o Inicial debe ser menor que AÃ±o Final");
 		return false;
 	}
 	
@@ -459,7 +459,7 @@ function go(params, id, type_chart)
 				},
 				lang: {
 					thousandsSep: ','
-				}
+				},
 				chart: {
 					type: type_chart
 				},
@@ -505,7 +505,7 @@ function generarReporteDesplazamiento(){
 		if (document.getElementById('fuente_despla_1').checked == true){
 			if ( exp_rec == 0 || exp_rec == 1){
 				document.getElementById('exp_rec_rec').checked = true;
-				alert('Para la fuente CODHES, la Clase de Desplazamiento debe ser Recepción/Estimado Llegadas');
+				alert('Para la fuente CODHES, la Clase de Desplazamiento debe ser RecepciÃ³n/Estimado Llegadas');
 			}
 		}
 		else{
@@ -621,7 +621,7 @@ function changeEjexDesplazamiento(tipo_input_fuente){
 	var check_codhes = document.getElementById(id_codhes);
 	var check_sipod = document.getElementById(id_sipod);
 	
-	//Desde la 1 para dejar la opcion 0 que es años
+	//Desde la 1 para dejar la opcion 0 que es aÃ±os
 	while(combo.options.length > 1){
 		combo.options[combo.options.length - 1] = null;
 	}
@@ -653,7 +653,7 @@ function changeEjexDesplazamientoReporte5(){
 function graficarMina(){
 
 
-	filtros_txt = Array('','Sexo','Condición','Estado','Edad');
+	filtros_txt = Array('','Sexo','CondiciÃ³n','Estado','Edad');
 
 	//Reporte
 	reportes = document.forms[0].reporte_mina;
@@ -665,7 +665,7 @@ function graficarMina(){
 	f_ini = document.getElementById('ini_mina').value;
 	f_fin = document.getElementById('fin_mina').value;
 	
-	//Tipo Gráfica
+	//Tipo GrÃ¡fica
 	grafica = getRadioCheck(document.getElementsByName('grafica_mina'));
 	
 	//eje x
@@ -678,14 +678,14 @@ function graficarMina(){
 	var acc_vic = 'vic';
 	if (reporte == 6) acc_vic = document.getElementById('mina_acc_vic_' + reporte).value;
 	
-	//Validación
+	//ValidaciÃ³n
 	msg = "";
 
-	if (f_ini == '')	msg += "- Periodo: Año Inicial\n";
-	if (f_fin == '')	msg += "- Periodo: Año Final\n";
+	if (f_ini == '')	msg += "- Periodo: AÃ±o Inicial\n";
+	if (f_fin == '')	msg += "- Periodo: AÃ±o Final\n";
 
 	if (parseInt(f_ini) > parseInt(f_fin))
-		msg += "Año Inicial debe ser menor que Año Final";
+		msg += "AÃ±o Inicial debe ser menor que AÃ±o Final";
 
 	if (msg != ''){
 		alert('Los siguientes campos son requeridos \n\n'+msg);
@@ -712,7 +712,7 @@ function graficarMina(){
 		}
 	
 		if(grafica != 5 && id_filtros == ""){
-			alert('Seleccione algún(a) '+ filtros_txt[reporte]);
+			alert('Seleccione algÃºn(a) '+ filtros_txt[reporte]);
 			return false;
 		}
 	}
@@ -1005,7 +1005,7 @@ function graficarDeptoMpio(id_ubicacion,checked){
 	}
 
 	if (id_muns != ''){
-		alert('La gráfica es a nivel Nacional o Departamental');
+		alert('La grÃ¡fica es a nivel Nacional o Departamental');
 		return false;
 	}
 	if (filtro_graficar_por == ''){
@@ -1091,7 +1091,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún departamento");
+		alert("Debe seleccionar algÃºn departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio',ajax_script + '?object=comboBoxMunicipio&multiple=17&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -1109,7 +1109,7 @@ function listarSubtipos(id_combo_cat){
 	var id_cats = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alguna categoría");
+		alert("Debe seleccionar alguna categorÃ­a");
 	}
 	else{
 		getDataV1('comboBoxSubcategoria',ajax_script + '?object=comboBoxSubcategoria&multiple=10&separador=1&id_cat='+id_cats,'comboBoxSubcategoria')
@@ -1134,7 +1134,7 @@ function changeBCG(r){
 	}
 	else{
 		document.getElementById('link_a_subcat').style.display = '';
-		document.getElementById('comboBoxSubcategoria').innerHTML = 'Seleccione alguna categoria y use la opción Listar';
+		document.getElementById('comboBoxSubcategoria').innerHTML = 'Seleccione alguna categorÃ­a y use la opciÃ³n Listar';
 	}
 }
 

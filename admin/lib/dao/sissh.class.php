@@ -141,8 +141,8 @@ Class SisshDAO {
 
             $state_id = $states[$id_ubicacion];
 
-            // Periodo, despues del primer trimestre se hace el a�o actual
-            // de lo contrario todo el a�o anterior
+            // Periodo, despues del primer trimestre se hace el año actual
+            // de lo contrario todo el año anterior
 
             $y = date('Y');
             $y_ant = $y - 1;
@@ -664,8 +664,8 @@ Class SisshDAO {
 
             $content_cache = '<html xmlns="http://www.w3.org/1999/xhtml">
                             <head>
-                            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-                            <title>Sistema de Informaci&oacute;n Central OCHA - Colombia</title>
+                            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                            <title>SIDI UMAIC - Colombia</title>
                             <link href="/sissh/style/consulta.css" rel="stylesheet" type="text/css" />
                             </head><body><div id="cont">';
 
@@ -1042,7 +1042,7 @@ Class SisshDAO {
 
 		$header_html = '<table width="100%">
 							<tr>
-								<td align="left" class="header_minificha"><img src="/sissh/images/minificha/logo.jpg">&nbsp;Oficina para la Coordinaci�n de Asuntos Humanitarios | OCHA</td>
+								<td align="left" class="header_minificha"><img src="/sissh/images/minificha/logo.jpg">&nbsp;Oficina para la Coordinación de Asuntos Humanitarios | OCHA</td>
 								<td align="right" class="header_minificha">PERFIL</td>
 							</tr>
 						</table><br>';
@@ -1053,9 +1053,9 @@ Class SisshDAO {
 			<table cellpadding="5" cellspacing="1" width="1000">
 				<tr class='pathway'>
 					<td colspan=4>
-						&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a>
-						&gt; <a href='index.php?m_g=consulta&m_e=minificha&accion=generar&class=Minificha'>P&eacute;rfil Geogr&aacute;fico</a>
-						&gt; P&eacute;rfil <?= $ubicacion->nombre ?>
+						&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a>
+						&gt; <a href='index.php?m_g=consulta&m_e=minificha&accion=generar&class=Minificha'>Perfil Geográfico</a>
+						&gt; Perfil <?= $ubicacion->nombre ?>
 					</td>
 				</tr>
 				<tr>
@@ -1063,13 +1063,13 @@ Class SisshDAO {
 							<?
 							if ($id_mpio == ''){
 								echo "<select class='select' onchange=\"if (this.value!=''){location.href='index.php?m_e=minificha&accion=generar&class=Minificha&id_depto_minificha='+this.value+'&formato=$formato';}\">";
-								echo "<option value=''>Cambiar Ubicaci&oacute;n</option>";
+								echo "<option value=''>Cambiar Ubicación</option>";
 								$depto_dao->ListarCombo('combo','','');
 								echo "</select>";
 							}
 							else {
 								echo "<select class='select' onchange=\"if (this.value!=''){location.href='index.php?m_e=minificha&accion=generar&class=Minificha&id_depto_minificha=$id_depto&id_mun_minificha='+this.value+'&formato=$formato';}\">";
-								echo "<option value=''>Cambiar Ubicaci&oacute;n</option>";
+								echo "<option value=''>Cambiar Ubicación</option>";
 								$mun_dao->ListarCombo('combo','','id_depto='.$id_depto);
 								echo "</select>";
 							}
@@ -1104,7 +1104,7 @@ Class SisshDAO {
 					<td><a name="top">Ir a</a>:
 						<a href="#resumen">Resumen</a> |
 						<a href="#datos_generales">Datos sectoriales generales</a> |
-						<a href="#informacion_demografica">Informaci&oacute;n Demogr&aacute;fica</a> |
+						<a href="#informacion_demografica">Información Demográfica</a> |
 						<a href="#vulnerabilidad">Vulnerabilidad</a> |
 						<a href="#desplazamiento">Desplazamiento</a> |
 						<a href="#mina">Accidentes con Mina</a> |
@@ -1141,11 +1141,11 @@ Class SisshDAO {
 			//$pdf->selectFont('admin/lib/common/PDFfonts/Helvetica.afm');
 			//$pdf -> ezSetMargins($top,$bottom,$left,$right);
 
-			// Coloca el encabezdo y el pie a todas las p�ginas
+			// Coloca el encabezdo y el pie a todas las páginas
 			//$all = $pdf->openObject();
 			//$pdf->saveState();
 			//$pdf->addJpegFromFile("images/minificha/logo.jpg",$left,570,36);
-			//$pdf->addText(60,573,10,'Oficina para la Coordinaci�n de Asuntos Humanitarios | OCHA ');
+			//$pdf->addText(60,573,10,'Oficina para la Coordinación de Asuntos Humanitarios | OCHA ');
 			//$pdf->addText(720,573,10,'PERFIL');
 
 			//Fecha
@@ -1203,7 +1203,7 @@ Class SisshDAO {
 				if ($dato_para == 2)	$title['depto_ubicacion'] = "<b>$depto_ubicacion->nombre</b>";
 				$title['nacional'] = '<b>Nacional</b>';
 				$title['fuente'] = '<b>Fuente</b>';
-                $title['aaaa'] = '<b>A�o</b>';
+                $title['aaaa'] = '<b>Año</b>';
                 */
 
 				$fila = 0;
@@ -1290,7 +1290,7 @@ Class SisshDAO {
 				}
 
 				echo "</table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 1 - Tabla Resumen ]</div>";
+				echo "<br><br><div align='center'>[ Página 1 - Tabla Resumen ]</div>";
 
 				$options = Array('showLines' => 2, 'shaded' => 0, 'width' => 800, 'fontSize'=>7, 'cols'=>array('indicador'=>array('width'=>250),'ubicacion'=>array('width'=>80,'justification'=>'center'),'nacional'=>array('width'=>80,'justification'=>'center'),'fuente'=>array('width'=>200),'aaaa'=>array('width'=>30)));
 
@@ -1332,7 +1332,7 @@ Class SisshDAO {
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = 'Crecimiento PIB';
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = '% Tasa Crec. PIB';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_d_s_tipo_g[6]];
@@ -1607,7 +1607,7 @@ Class SisshDAO {
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = 'Tasa de Asistencia Escolar (Edades Escolares)';
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = '';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_d_s_tipo_g[10]];
@@ -1625,7 +1625,7 @@ Class SisshDAO {
 					$val = $d_s_dao->GetValorToReport($id_dato_3_4,$id_ubicacion,$fecha_val['ini'],$fecha_val['fin'],$dato_para);
 					$valor = $d_s_dao->formatValor($val['id_unidad'],$val['valor'],1);
 
-					$PG->x[0] = '3 a 4 a�os';
+					$PG->x[0] = '3 a 4 años';
 					$PG->y[0] = $valor;
 					$PG->z[0] = 100 -$valor;
 
@@ -1636,7 +1636,7 @@ Class SisshDAO {
 					$val = $d_s_dao->GetValorToReport($id_dato_5_6,$id_ubicacion,$fecha_val['ini'],$fecha_val['fin'],$dato_para);
 					$valor = $d_s_dao->formatValor($val['id_unidad'],$val['valor'],1);
 
-					$PG->x[1] = '5 a 6 a�os';
+					$PG->x[1] = '5 a 6 años';
 					$PG->y[1] = $valor;
 					$PG->z[1] = 100 -$valor;
 
@@ -1647,7 +1647,7 @@ Class SisshDAO {
 					$val = $d_s_dao->GetValorToReport($id_dato_7_11,$id_ubicacion,$fecha_val['ini'],$fecha_val['fin'],$dato_para);
 					$valor = $d_s_dao->formatValor($val['id_unidad'],$val['valor'],1);
 
-					$PG->x[2] = '7 a 11 a�os';
+					$PG->x[2] = '7 a 11 años';
 					$PG->y[2] = $valor;
 					$PG->z[2] = 100 -$valor;
 
@@ -1658,7 +1658,7 @@ Class SisshDAO {
 					$val = $d_s_dao->GetValorToReport($id_dato_12_15,$id_ubicacion,$fecha_val['ini'],$fecha_val['fin'],$dato_para);
 					$valor = $d_s_dao->formatValor($val['id_unidad'],$val['valor'],1);
 
-					$PG->x[3] = '12 a 15 a�os';
+					$PG->x[3] = '12 a 15 años';
 					$PG->y[3] = $valor;
 					$PG->z[3] = 100 -$valor;
 
@@ -1669,7 +1669,7 @@ Class SisshDAO {
 					$val = $d_s_dao->GetValorToReport($id_dato_16_17,$id_ubicacion,$fecha_val['ini'],$fecha_val['fin'],$dato_para);
 					$valor = $d_s_dao->formatValor($val['id_unidad'],$val['valor'],1);
 
-					$PG->x[4] = '16 a 17 a�os';
+					$PG->x[4] = '16 a 17 años';
 					$PG->y[4] = $valor;
 					$PG->z[4] = 100 -$valor;
 
@@ -1708,7 +1708,7 @@ Class SisshDAO {
 
 				echo "</tr>";*/
 				echo "</table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 2 - Datos Sectoriales Generales ]</div>";
+				echo "<br><br><div align='center'>[ Página 2 - Datos Sectoriales Generales ]</div>";
 			}
 
 			/*** INFORMACION DEMOGRAFICA ***/
@@ -1718,7 +1718,7 @@ Class SisshDAO {
 				echo "<tr><td class='pagina_minificha'>";
 				echo $header_html;
 				echo "<table cellpadding='0' cellspacing='0' width='920' border=0>";
-				echo "<tr><td class='titulo_pag_minificha'><b>Informaci&oacute;n Demogr&aacute;fica</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
+				echo "<tr><td class='titulo_pag_minificha'><b>Información Demográfica</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
 				echo "<tr><td colspan='2' class='linea_minificha'><img src='images/spacer.gif' height='1'></td></tr>";
 
 				$alto_rect = 25;
@@ -1780,7 +1780,7 @@ Class SisshDAO {
 					$fecha_val = $d_s_dao->GetMaxFecha($id_dato_cabecera);
 					$fecha_val_resto = $d_s_dao->GetMaxFecha($id_dato_resto);
 
-					//A�o del periodo mas reciente
+					//Año del periodo mas reciente
 					$f_tmp = split("-",$fecha_val['ini']);
 					$a_val = $f_tmp[0];
 
@@ -1840,7 +1840,7 @@ Class SisshDAO {
 					$fecha_val_ind = $d_s_dao->GetMaxFecha($id_dato_pob_indigena);
 					$fecha_val_resto = $d_s_dao->GetMaxFecha($id_dato_pob_resto);
 
-					//A�o del periodo mas reciente
+					//Año del periodo mas reciente
 					$f_tmp = split("-",$fecha_val_ind['ini']);
 					$a_val_ind = $f_tmp[0];
 
@@ -2005,7 +2005,7 @@ Class SisshDAO {
 
 				echo "</tr>";
 				echo "</table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 3 - Informaci&oacute;n Demogr&aacute;fica ]</div>";
+				echo "<br><br><div align='center'>[ Página 3 - Información Demográfica ]</div>";
 			}
 
 			/*** VULNERABILIDAD ***/
@@ -2038,7 +2038,7 @@ Class SisshDAO {
 				$total_poblacion = $val['valor'];
 				$total_poblacion = number_format($total_poblacion);
 
-				//A�o del periodo mas reciente
+				//Año del periodo mas reciente
 				$f_tmp = split("-",$fecha_val['ini']);
 				$a_val = $f_tmp[0];
 
@@ -2291,10 +2291,10 @@ Class SisshDAO {
 				echo "</tr>";
 
 				echo "</table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 3 - Informaci&oacute;n Demogr&aacute;fica ]</div>";
+				echo "<br><br><div align='center'>[ Página 3 - Información Demográfica ]</div>";
 			}
 
-			/*** DESPLAZAMIENTO ULTIMOS N A�OS ***/
+			/*** DESPLAZAMIENTO ULTIMOS N AÑOS ***/
 			if (in_array(1,$mod_des) || in_array(2,$mod_des) || in_array(3,$mod_des) || in_array(4,$mod_des)){
 
 				$num_a = 7;
@@ -2354,8 +2354,8 @@ Class SisshDAO {
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Recepci�n registrada por fuente';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Recepción registrada por fuente';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[1]];
@@ -2425,7 +2425,7 @@ Class SisshDAO {
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = 'Estimado Llegadas CODHES';
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[2]];
@@ -2478,16 +2478,16 @@ Class SisshDAO {
 				echo "<tr><td>&nbsp;</td></tr>";
 				echo "<tr>";
 
-				//RECEPCION REGISTRADA Acci�n Social
+				//RECEPCION REGISTRADA Acción Social
 				if (in_array(3,$mod_des)){
-					//PARA Acci�n Social
+					//PARA Acción Social
 					$fuente = $fuente_des_dao->Get(2);
 					$tipos = $tipo_des_dao->GetAllArray('id_tipo_despla NOT IN (3)');
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Recepci�n registrada U.A.R.I.V';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Recepción registrada U.A.R.I.V';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[3]];
@@ -2535,22 +2535,22 @@ Class SisshDAO {
 					imagedestroy($img);
 				}
 
-				//EXPULSION REGISTRADA (Acci�n Social)
+				//EXPULSION REGISTRADA (Acción Social)
 				if (in_array(4,$mod_des)){
-					//PARA Acci�n Social
+					//PARA Acción Social
 					$fuente = $fuente_des_dao->Get(2);
 					$tipos = $tipo_des_dao->GetAllArray('id_tipo_despla NOT IN (3)');
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Expulsi�n registrada U.A.R.I.V';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Expulsión registrada U.A.R.I.V';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[4]];
 					$PG->border = 0;
 					$PG->decimals   = 0;
-					$PG->graphic_1 = "Acci�n Social";
+					$PG->graphic_1 = "Accion Social";
 
 					$f = 1;
 					foreach ($tipos as $tipo){
@@ -2607,7 +2607,7 @@ Class SisshDAO {
 				echo "</tr>";
 				echo "</table>";
 
-				echo "<br><br><div align='center'>[ P&aacute;gina 4 - Desplazamiento ]</div>";
+				echo "<br><br><div align='center'>[ Página 4 - Desplazamiento ]</div>";
 				echo "</td></tr><tr><td>&nbsp;</td></tr>";
 				echo "<tr><td><a name=\"desplazamiento_2\" href=\"#top\">^ Subir</a></td></tr>";
 				echo "<tr><td class='pagina_minificha'>";
@@ -2636,7 +2636,7 @@ Class SisshDAO {
 				////$pdf->line($left,270,$left + 370,270);					//Medio Horizontal Iz
 				////$pdf->line($left + 370,270,$page_width - $right,270);	//Medio Horizontal Der
 
-				//Cuadro de Fuente y poblaci�n total
+				//Cuadro de Fuente y población total
 				//CONSULTA EL PERIODO MAS RECIENTE DEL VALOR DEL DATO
 				$alto_rect = 20;
 
@@ -2658,7 +2658,7 @@ Class SisshDAO {
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = 'Estimado Llegadas Acumulado CODHES';
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[5]];
@@ -2711,15 +2711,15 @@ Class SisshDAO {
 
 				}
 
-				//ACUMULADO RECEPCION REGISTRADA Acci�n Social
+				//ACUMULADO RECEPCION REGISTRADA Acción Social
 				if (in_array(6,$mod_des)){
 					$fuente = $fuente_des_dao->Get(2);
 					$tipos = $tipo_des_dao->GetAllArray('id_tipo_despla NOT IN (3)');
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Recepci�n registrada Acumulado Acci�n Social';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Recepción registrada Acumulado Acción Social';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[6]];
@@ -2781,14 +2781,14 @@ Class SisshDAO {
 
 				//ACUMULADO RECEPCION REGISTRADA POR FUENTE
 				if (in_array(7,$mod_des)){
-					//PARA CODHES Y Acci�n Social
+					//PARA CODHES Y Acción Social
 					$fuentes = $fuente_des_dao->GetAllArray('ID_FUEDES IN (1,2)');
 					$tipos = $tipo_des_dao->GetAllArray('');
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Recepci�n registrada Acumulada por fuente';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Recepción registrada Acumulada por fuente';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[7]];
@@ -2797,7 +2797,7 @@ Class SisshDAO {
 
 					$f = 1;
 					foreach ($fuentes as $fuente){
-						if ($fuente->nombre == 'Acci�n Social')	$fuente->nombre = "A. Social";
+						if ($fuente->nombre == 'Acción Social')	$fuente->nombre = "A. Social";
 
 						eval("\$PG->graphic_".$f." = '".$fuente->nombre."';");
 						$f++;
@@ -2859,14 +2859,14 @@ Class SisshDAO {
 
 				//ACUMULADO EXPULSION REGISTRADA
 				if (in_array(8,$mod_des)){
-					//PARA Acci�n Social
+					//PARA Acción Social
 					$fuente = $fuente_des_dao->Get(2);
 					$tipos = $tipo_des_dao->GetAllArray('id_tipo_despla NOT IN (3)');
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = 'Expulsi�n registrada Acumulado Acci�n Social';
-					$PG->axis_x    = 'A�o';
+					$PG->title     = 'Expulsión registrada Acumulado Acción Social';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_des_tipo_g[8]];
@@ -2927,7 +2927,7 @@ Class SisshDAO {
 				}
 
 				echo "</tr></table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 5 - Desplazamiento ]</div>";
+				echo "<br><br><div align='center'>[ Página 5 - Desplazamiento ]</div>";
 
 			}
 
@@ -2936,7 +2936,7 @@ Class SisshDAO {
 
 				$minmax = $mina_dao->GetMinMaxFecha();
 				$offset_td = 60;
-				// Numero de a�os para que la gr�fica no se salga del pdf
+				// Numero de años para que la gráfica no se salga del pdf
 				//$num_a = 5;
 
 				//$a_ini = $minmax['min'];
@@ -2973,13 +2973,13 @@ Class SisshDAO {
 
 				echo "<tr>";
 
-				//EVENTOS POR A�O Y POR SEXO
+				//EVENTOS POR AÑO Y POR SEXO
 				if (in_array(1,$mod_mina)){
 
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = "Accidente con Mina por sexo";
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_mina_tipo_g[1]];
@@ -3031,13 +3031,13 @@ Class SisshDAO {
 					}
 				}
 
-				//EVENTOS POR A�O Y POR CONDICION
+				//EVENTOS POR AÑO Y POR CONDICION
 				if (in_array(2,$mod_mina)){
 
 					//GRAFICA
 					$PG = new PowerGraphic;
-					$PG->title     = "Accidentes con Mina por condici�n";
-					$PG->axis_x    = 'A�o';
+					$PG->title     = "Accidentes con Mina por condición";
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_mina_tipo_g[2]];
@@ -3099,7 +3099,7 @@ Class SisshDAO {
 				echo "<tr><td>&nbsp;</td></tr>";
 
 				echo "<tr>";
-				//EVENTOS POR A�O Y POR ESTADO
+				//EVENTOS POR AÑO Y POR ESTADO
 				if (in_array(3,$mod_mina)){
 
 					//Se consultan solo 2 estados
@@ -3108,7 +3108,7 @@ Class SisshDAO {
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = "Accidentes con Mina por estado";
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_mina_tipo_g[3]];
@@ -3164,12 +3164,12 @@ Class SisshDAO {
 					}
 				}
 
-				//EVENTOS POR A�O Y POR GRUPO EDAD
+				//EVENTOS POR AÑO Y POR GRUPO EDAD
 				if (in_array(4,$mod_mina)){
 					//GRAFICA
 					$PG = new PowerGraphic;
 					$PG->title     = "Accidentes con Mina por grupo de edad";
-					$PG->axis_x    = 'A�o';
+					$PG->axis_x    = 'Año';
 					$PG->axis_y    = 'Personas';
 					$PG->skin      = 1;
 					$PG->type      = $tipo_grafica[$mod_mina_tipo_g[4]];
@@ -3226,7 +3226,7 @@ Class SisshDAO {
 			}
 
 			echo "</tr></table>";
-			echo "<br><br><div align='center'>[ P&aacute;gina 6 - Accidentes con Mina ]</div>";
+			echo "<br><br><div align='center'>[ Página 6 - Accidentes con Mina ]</div>";
 			echo "</td></tr>";
 
 			//SI HAY VALORES DE MINA SE MUESTRA
@@ -3303,11 +3303,11 @@ Class SisshDAO {
 				echo $header_html;
 
 				echo "<table cellpadding='0' cellspacing='0' width='920' border=0>";
-				echo "<tr><td class='titulo_pag_minificha'><b>Indice de Riesgo de Situaci�n Humanitaria</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
+				echo "<tr><td class='titulo_pag_minificha'><b>Indice de Riesgo de Situación Humanitaria</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
 				echo "<tr><td colspan='2' class='linea_minificha'><img src='images/spacer.gif' height='1'></td></tr>";
 
 				//$pdf->ezNewPage();
-				//$pdf->addText($left,550,14,"<b>Indice de Riesgo de Situaci�n Humanitaria </b>");
+				//$pdf->addText($left,550,14,"<b>Indice de Riesgo de Situación Humanitaria </b>");
 				//$pdf->addText($x_titulo_ubicacion,550,14,"<b>$ubicacion->nombre</b>");
 				//$pdf->setLineStyle(1);
 				//$pdf->line($left,540,$page_width - $right,540);			//Superior
@@ -3335,7 +3335,7 @@ Class SisshDAO {
 									  'Indice de Riesgo de S. Humanitaria',
 									  'Subindice Capacidades',
 									  'Subindice Conflicto',
-									  'Subindice Econ�mico',
+									  'Subindice Económico',
 									  'Subindice Social',
 									  'Indice de Riesgo de S. Humanitaria',
 									  'Subindice Amenaza',
@@ -3396,7 +3396,7 @@ Class SisshDAO {
 					imagedestroy($img);
 				}
 				echo "</tr></table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 7 - Indice de Riesgo de Situacion Humanitaria ]</div>";
+				echo "<br><br><div align='center'>[ Página 7 - Indice de Riesgo de Situacion Humanitaria ]</div>";
 				echo "</td></tr>";
 
 			}
@@ -3719,7 +3719,7 @@ Class SisshDAO {
 				}*/
 
 				echo "</tr></table>";
-				echo "<br><br><div align='center'>[ P&aacute;gina 8 - Organizaciones ]</div>";
+				echo "<br><br><div align='center'>[ Página 8 - Organizaciones ]</div>";
 				echo "</td></tr>";
 
 			}
@@ -3731,7 +3731,7 @@ Class SisshDAO {
 
 			$content_cache = '<html xmlns="http://www.w3.org/1999/xhtml">
 							<head>
-							<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+							<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 							<title>SIDI UMAIC - Colombia</title>
 							<link href="/sissh/style/consulta.css" rel="stylesheet" type="text/css" />
 							</head><body><div id="cont">';

@@ -9,7 +9,7 @@
 						<table cellpadding="2" border="0" class='table_filtro_gra_resumen'>
 							<tr><td class="titulo_filtro">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Reporte</td></tr>
 							<tr><td><input type="radio" id="reporte_dato_1" name="reporte_dato" value="1" checked onclick="document.getElementById('dato_reporte_1').style.display='';document.getElementById('dato_reporte_2').style.display='none';document.getElementById('getAniosDatoSectorial_2').style.display='none';">&nbsp;Valor por a&ntilde;os para un solo Dato</td></tr>
-							<tr><td><input type="radio" id="reporte_dato_2" name="reporte_dato" value="2" onclick="document.getElementById('dato_reporte_2').style.display='';document.getElementById('dato_reporte_1').style.display='none';document.getElementById('getAniosDatoSectorial').style.display='none';">&nbsp;Comparación entre varios Datos Sectoriales</td></tr>
+							<tr><td><input type="radio" id="reporte_dato_2" name="reporte_dato" value="2" onclick="document.getElementById('dato_reporte_2').style.display='';document.getElementById('dato_reporte_1').style.display='none';document.getElementById('getAniosDatoSectorial').style.display='none';">&nbsp;ComparaciÃ³n entre varios Datos Sectoriales</td></tr>
 							<tr><td><input type="radio" id="reporte_dato_3" name="reporte_dato" value="3" onclick="document.getElementById('dato_reporte_1').style.display='';document.getElementById('dato_reporte_2').style.display='none';document.getElementById('getAniosDatoSectorial_2').style.display='none';">&nbsp;Consultar <b>valor</b> de Dato Sectorial</td></tr>
 							<tr>
 								<td>
@@ -101,14 +101,14 @@
 							</table>
 					</td>
 					<td valign="top" id="getAniosDatoSectorial">
-						<!--<b>Periodo</b>: Año Inicial&nbsp;<input type="text" id="ini_dato" name="ini_dato" size="6" class="textfield">&nbsp;&nbsp;Año Final&nbsp;<input type="text" id="fin_dato" name="fin_dato" size="6" class="textfield">-->
+						<!--<b>Periodo</b>: AÃ±o Inicial&nbsp;<input type="text" id="ini_dato" name="ini_dato" size="6" class="textfield">&nbsp;&nbsp;AÃ±o Final&nbsp;<input type="text" id="fin_dato" name="fin_dato" size="6" class="textfield">-->
 					</td>
 				</tr>
 				<tr>
 					<td valign="top" id='dato_reporte_2' style="display:none">
 						<table cellpadding="2" border="0" class='table_filtro_gra_resumen'>
 							<tr><td class="titulo_filtro">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Datos Sectoriales</td></tr>
-							<tr><td>Seleccione mínimo 2 Datos de la misma categoria (Use la tecla Ctrl)</tr>
+							<tr><td>Seleccione mÃ­nimo 2 Datos de la misma categoria (Use la tecla Ctrl)</tr>
 							<tr>
 								<td>
 									<select id="id_dato_reporte_2" name="id_dato_reporte_2" class="select" multiple size="20" onchange="if (this.value!='-1'){getAniosDato_reporte2('getAniosDatoSectorial_2');}">
@@ -125,14 +125,14 @@
 							</table>
 					</td>
 					<td valign="top" id="getAniosDatoSectorial_2"><br>
-						<!--<b>Periodo</b>: Año Inicial&nbsp;<input type="text" id="ini_dato" name="ini_dato" size="6" class="textfield">&nbsp;&nbsp;Año Final&nbsp;<input type="text" id="fin_dato" name="fin_dato" size="6" class="textfield">-->
+						<!--<b>Periodo</b>: AÃ±o Inicial&nbsp;<input type="text" id="ini_dato" name="ini_dato" size="6" class="textfield">&nbsp;&nbsp;AÃ±o Final&nbsp;<input type="text" id="fin_dato" name="fin_dato" size="6" class="textfield">-->
 					</td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td colspan="4" align="center">
-						<input type="button" value="Generar Gráfica" name="submit_org" class="boton" onclick="graficarDatos('bar',0)">
-						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicación" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
+						<input type="button" value="Generar GrÃ¡fica" name="submit_org" class="boton" onclick="graficarDatos('bar',0)">
+						&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar UbicaciÃ³n" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
 					</td>
 				</tr>
 				<tr><td id="graficaDatos" colspan="4" style="display:none" class="td_grafica_bcg"></td></tr>

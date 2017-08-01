@@ -80,7 +80,7 @@ function validar_criterios(){
 	}
 
 	if (error == 1){
-		//alert("Seleccione alg鷑 criterio");
+		//alert("Seleccione alg煤n criterio");
 		if(confirm("No hay filtros, desea consultar todas las Organizaciones?")){
 			document.getElementById('todas').value = 1;
 		}
@@ -146,7 +146,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alg鷑 departamento");
+		alert("Debe seleccionar alg煤n departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','admin/ajax_data.php?object=comboBoxMunicipio&multiple=21&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -186,7 +186,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 			</td>
 		</tr>
 		<tr><td><table cellpadding="5">
-		<tr><td colspan="2">1. Puede realizar una <b>b鷖queda r醦ida</b> digitando el nombre o la sigla en el siguiente campo:<td></tr>
+		<tr><td colspan="2">1. Puede realizar una <b>b煤squeda r谩pida</b> digitando el nombre o la sigla en el siguiente campo:<td></tr>
 		<tr><td><img src="images/consulta/busqueda_rapida.gif"></td><td>
 			<select id='case' class='select'>
 				<option value='nombre'>Nombre</option>
@@ -201,7 +201,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 		<tr><td colspan=2 class="td_dotted_top">&nbsp;</td></tr>
 		<tr><td colspan=2><p align='justify'>
 			2. Puede consultar Organizaciones usando uno o varios de los siguiente filtros.
-			En cada opci髇 puede seleccionar uno o varios <br> criterios usando la tecla Ctrl y el click izquierdo del mouse.</p>
+			En cada opci贸n puede seleccionar uno o varios <br> criterios usando la tecla Ctrl y el click izquierdo del mouse.</p>
 		</td></tr>
 		<tr><td><img src="images/consulta/clean.gif">&nbsp;&nbsp;<a href="#" onclick="limpiarFiltros();return false;">Limpiar Filtros</a></td></tr>
 		<tr><td id='table_filtros'><table>
@@ -229,7 +229,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 						<tr><td><img src="images/spacer.gif" height="5"></td></tr>
 						<tr>
 							<td class="titulo_filtro">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Enfoque</td>
-							<td class="titulo_filtro">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Poblaci&oacute;n</td>
+							<td class="titulo_filtro">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Poblaci贸n</td>
 						</tr>
 						<tr>
 							<td id="td_enfoque">
@@ -248,7 +248,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 				<td><img src="images/spacer.gif" width="20"></td>
 				<td valign="top">
 					<table width="100%" border="0">
-						<tr><td colspan="2" class="titulo_filtro" width="410">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Ubicaci&oacute;n Geogr&aacute;fica</td></tr>
+						<tr><td colspan="2" class="titulo_filtro" width="410">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Ubicaci贸n Geogr谩fica</td></tr>
 						 <tr><td>Sede&nbsp;<input type="checkbox" name="sede" checked>&nbsp;Cobertura&nbsp;<input type="checkbox" name="cobertura" checked></td></tr>
 						<tr>
 							<td width="200">
@@ -312,9 +312,9 @@ if (isset($_POST["id_orgs"]) && !isset($_POST["reportar"])){
 		<tr><td colspan=2>
 			Seleccione el formato del reporte:<br>&nbsp;
 		</td></tr>
-		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte B醩ico</b>: Muestra los datos b醩ico de la Organizaci髇 (Nombre,Sigla,Tipo,Cobertura)</td></tr>
+		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte B谩sico</b>: Muestra los datos b谩sico de la Organizaci贸n (Nombre,Sigla,Tipo,Cobertura)</td></tr>
 		<? if ($_POST["todas"] == 0) { ?>
-				<tr><td><input type="radio" name="basico" value="2">&nbsp;<b>Reporte Detallado</b>: Muestra toda la informaci髇 de la Organizaci髇</td></tr>
+				<tr><td><input type="radio" name="basico" value="2">&nbsp;<b>Reporte Detallado</b>: Muestra toda la informaci贸n de la Organizaci贸n</td></tr>
 		<? } ?>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td align='center'>

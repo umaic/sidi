@@ -4,25 +4,25 @@
 if ($_SESSION["cnrr"] == 1){
 	?>
 	<li><a href="login.php?m_g=consulta">Reportes</a></li>
-	<li><a href="admin/login.php?m_g=alimentacion">Alimentaci髇</a></li>
-	<li><a href="admin/login.php?m_g=admin">Administraci髇</a></li>
+	<li><a href="admin/login.php?m_g=alimentacion">Alimentaci贸n</a></li>
+	<li><a href="admin/login.php?m_g=admin">Administraci贸n</a></li>
 	<?
 }
 else{*/
 	?>
 	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=minificha&accion=generar&class=Minificha">Perfiles</a></li>
-	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=tabla_grafico&accion=consultar&class=TablaGrafico">Gr&aacute;ficas y Resumenes</a></li>
+	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=tabla_grafico&accion=consultar&class=TablaGrafico">Gr谩ficas y Resumenes</a></li>
 	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta">Reportes</a></li>
-	<li>&raquo;&nbsp;<a href="#" onclick="window.open('mapa.php','','top=0,left=0,width=1024,height=600,scrolbars=1')">Mapas Tem&aacute;ticos</a></li>
+	<li>&raquo;&nbsp;<a href="#" onclick="window.open('mapa.php','','top=0,left=0,width=1024,height=600,scrolbars=1')">Mapas Tem谩ticos</a></li>
 	<? if (in_array(7,$perfil->id_modulo_papa)){ ?>
-		<li>&raquo;&nbsp;<a href="admin/index.php?m_g=alimentacion">Alimentaci髇</a></li>
+		<li>&raquo;&nbsp;<a href="admin/index.php?m_g=alimentacion">Alimentaci贸n</a></li>
 	<? } ?>
 	<? if (in_array(1,$perfil->id_modulo_papa)){ ?>
-		<li>&raquo;&nbsp;<a href="admin/index.php?m_g=admin">Administraci髇</a></li>
+		<li>&raquo;&nbsp;<a href="admin/index.php?m_g=admin">Administraci贸n</a></li>
 	<? } ?>
 	<li>|</li>
-	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=home">Home</a></li>
-	<li>&raquo;&nbsp;<a href="admin/index.php?accion=logout">Logout</a></li>
+	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=home">Inicio</a></li>
+	<li>&raquo;&nbsp;<a href="admin/index.php?accion=logout">Cerrar sesi贸n</a></li>
 	<?
 //}
 ?>
