@@ -275,13 +275,13 @@ $styleObj->color->setRGB(225,225,225);
 $styleObj->outlinecolor->setRGB($r_vecino,$g_vecino,$b_vecino);
 $styleObj->set("antialias",MS_TRUE);
 
-$classObj->label->set("type",MS_TRUETYPE);
-$classObj->label->set("position",MS_UR);
-$classObj->label->color->setRGB(0,0,0);
-$classObj->label->outlinecolor->setRGB(255,255,255);
-$classObj->label->set("antialias",MS_TRUE);
-$classObj->label->set("font",$tag_font_label);
-$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//$classObj->label->set("type",MS_TRUETYPE);
+//$classObj->label->set("position",MS_UR);
+//$classObj->label->color->setRGB(0,0,0);
+//$classObj->label->outlinecolor->setRGB(255,255,255);
+//$classObj->label->set("antialias",MS_TRUE);
+//$classObj->label->set("font",$tag_font_label);
+//$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
 
 if ($map_ref == 0 && $case != 'perfil'){
 	//Para la opcion de export data
@@ -1282,12 +1282,12 @@ if ($map_ref == 0 && $case != 'perfil'){
 			$styleObj =  ms_newStyleObj($classObj);
 			$styleObj->outlinecolor->setRGB(102,102,102);
 			$styleObj->set("antialias",MS_TRUE);
-			$classObj->label->set("type",MS_TRUETYPE);
-			$classObj->label->set("font",$tag_font_label);
-			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-			$classObj->label->set("position",MS_AUTO);
-			$classObj->label->color->setRGB(0,0,0);
-			$classObj->label->set("antialias",MS_TRUE);
+//			$classObj->label->set("type",MS_TRUETYPE);
+//			$classObj->label->set("font",$tag_font_label);
+//			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//			$classObj->label->set("position",MS_AUTO);
+//			$classObj->label->color->setRGB(0,0,0);
+//			$classObj->label->set("antialias",MS_TRUE);
 		}
 	
 		
@@ -1305,14 +1305,14 @@ if ($map_ref == 0 && $case != 'perfil'){
 			
 			//Solo se le coloca nombre a los 3 ultimos del intervalo
 			if ($i >= ceil($numclass/2)){
-				$classObj->label->set("type",MS_TRUETYPE);
-				$classObj->label->set("font",$tag_font_label);
-				$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-				
-				$classObj->label->set("position",MS_CC);
-				$classObj->label->set("antialias",MS_TRUE);
-				$classObj->label->color->setRGB(0,0,0);
-				$classObj->label->outlinecolor->setRGB(255,255,255);
+//				$classObj->label->set("type",MS_TRUETYPE);
+//				$classObj->label->set("font",$tag_font_label);
+//				$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//				$classObj->label->set("position",MS_CC);
+//				$classObj->label->set("antialias",MS_TRUE);
+//				$classObj->label->color->setRGB(0,0,0);
+//				$classObj->label->outlinecolor->setRGB(255,255,255);
 			}
 		}
 	}
@@ -1627,14 +1627,14 @@ else if ($map_ref == 0 && $case == 'perfil'){
 		$styleObj->color->setRGB($rgb["r"][$i],$rgb["g"][$i],$rgb["b"][$i]);
 		$styleObj->outlinecolor->setRGB(204,204,204);
 		
-		$classObj->label->set("type",MS_TRUETYPE);
-		$classObj->label->set("font",$tag_font_label);
-		$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-		
-		$classObj->label->set("position",MS_CC);
-		$classObj->label->set("antialias",MS_TRUE);
-		$classObj->label->color->setRGB(0,0,0);
-		$classObj->label->outlinecolor->setRGB(255,255,255);
+//		$classObj->label->set("type",MS_TRUETYPE);
+//		$classObj->label->set("font",$tag_font_label);
+//		$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//		$classObj->label->set("position",MS_CC);
+//		$classObj->label->set("antialias",MS_TRUE);
+//		$classObj->label->color->setRGB(0,0,0);
+//		$classObj->label->outlinecolor->setRGB(255,255,255);
 		
 		
 	}	

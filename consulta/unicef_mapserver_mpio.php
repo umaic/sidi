@@ -105,11 +105,11 @@ if ($num_deptos_mpios > 1)	$drawConv = 1;
 
 if ($print == 0){
 	$tag_font_label = "label";
-	$size_font_label = 6;  //TamaÒo en pixeles
+	$size_font_label = 6;  //Tama√±o en pixeles
 }
 else{
 	$tag_font_label = "Arial";
-	$size_font_label = 14;  //TamaÒo en pixeles
+	$size_font_label = 14;  //Tama√±o en pixeles
 }
 // Default click point
 $clickx = $width_img / 2;
@@ -188,7 +188,7 @@ if ($id_depto_filtro > 0){
 	$layerObjMpio->set("filteritem","departamen");
 	
 	//Elimina tildes
-	$depto_nombre = strtoupper(strtr($depto_filtro_vo->nombre,"·ÈÌÛ˙Ò","aeioun"));
+	$depto_nombre = strtoupper(strtr($depto_filtro_vo->nombre,"√°√©√≠√≥√∫√±","aeioun"));
 	
 	//Reemplaza Valle del Cauca por Valle
 	if (strtolower($depto_filtro_vo->nombre) == 'valle del cauca'){
@@ -224,13 +224,13 @@ $styleObj->color->setRGB(240,240,240);
 $styleObj->outlinecolor->setRGB($r_vecino,$g_vecino,$b_vecino);
 $styleObj->set("antialias",MS_TRUE);
 
-$classObj->label->set("type",MS_TRUETYPE);
-$classObj->label->set("position",MS_UR);
-$classObj->label->color->setRGB(0,0,0);
-$classObj->label->outlinecolor->setRGB(240,240,240);
-$classObj->label->set("antialias",MS_TRUE);
-$classObj->label->set("font",$tag_font_label);
-$classObj->label->set("size",$size_font_label);  //TamaÒo en pixeles
+//$classObj->label->set("type",MS_TRUETYPE);
+//$classObj->label->set("position",MS_UR);
+//$classObj->label->color->setRGB(0,0,0);
+//$classObj->label->outlinecolor->setRGB(240,240,240);
+//$classObj->label->set("antialias",MS_TRUE);
+//$classObj->label->set("font",$tag_font_label);
+//$classObj->label->set("size",$size_font_label);  //Tama√±o en pixeles
 
 if ($map_ref == 0){
   
@@ -539,7 +539,7 @@ if ($map_ref == 0){
 			$styleObj->set("antialias",MS_TRUE);
 			$classObj->label->set("type",MS_TRUETYPE);
 			$classObj->label->set("font",$tag_font_label);
-			$classObj->label->set("size",$size_font_label);  //TamaÒo en pixeles
+			$classObj->label->set("size",$size_font_label);  //Tama√±o en pixeles
 			$classObj->label->set("position",MS_AUTO);
 			$classObj->label->color->setRGB(0,0,0);
 			$classObj->label->set("antialias",MS_TRUE);
@@ -562,7 +562,7 @@ if ($map_ref == 0){
 			if ($i >= ceil($numclass/2)){
 				$classObj->label->set("type",MS_TRUETYPE);
 				$classObj->label->set("font",$tag_font_label);
-				$classObj->label->set("size",$size_font_label);  //TamaÒo en pixeles
+				$classObj->label->set("size",$size_font_label);  //Tama√±o en pixeles
 				
 				$classObj->label->set("position",MS_CC);
 				$classObj->label->set("antialias",MS_TRUE);
@@ -616,7 +616,7 @@ if ($map_ref == 0){
 	imagecopy($image,$im_tmp,0,0,0,0,$size[0],$size[1]);
 	imagedestroy($im_tmp);
 	
-	//Convenciones, se colocan cuando no es mapa referencia y cuando no es bogot· que tiene solo 1 mpio
+	//Convenciones, se colocan cuando no es mapa referencia y cuando no es bogot√° que tiene solo 1 mpio
 	$x_ini = 10;
 	$ancho = 0;
 	$space_recs = 7;
@@ -651,7 +651,7 @@ if ($map_ref == 0){
 	
 		$x = $x_ini;
 		
-		$alto_rec = $size_font_ttf_legend;  //Rectangulo pequeÒo que tiene el color
+		$alto_rec = $size_font_ttf_legend;  //Rectangulo peque√±o que tiene el color
 		$space_text_rec = 10;  //Espacio entre rectangulo y texto de cada intervalo. horizontal
 		
 		$y_title = $size_font_ttf_titulo + 8;
@@ -801,7 +801,7 @@ if ($map_ref == 0){
 	$_SESSION["xls"] = $css_numero.$header_html.$xls.$footer_html;
 	$_SESSION["html_info_mapserver"] = $header_html.$html.$footer_html;
 	
-	//Guarda el archivo de la imagen con los extras para la opciÛn de guardar mapa
+	//Guarda el archivo de la imagen con los extras para la opci√≥n de guardar mapa
 	imagepng($image,$filename);
 	
 	//Salida al navegador

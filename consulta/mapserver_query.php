@@ -125,7 +125,7 @@ if ($pgConn->RowCount($rs) > 0){
 			if ($variacion == 1){
 				$periodo = split(",",$id_periodo);
 				
-				//(incidencia periodo corriente-incidencia periodo anterior)/(incidencia periodo anterior)*100= % variaciÛn
+				//(incidencia periodo corriente-incidencia periodo anterior)/(incidencia periodo anterior)*100= % variaci√≥n
 				
 				$p_corr = $periodo[1];
 				$p_ant = $periodo[0];
@@ -155,7 +155,7 @@ if ($pgConn->RowCount($rs) > 0){
 				}
 				else{
 					
-					//Si alguno de los 2 valores es 0, se reemplaza con 0.1 para mostrar variaciÛn
+					//Si alguno de los 2 valores es 0, se reemplaza con 0.1 para mostrar variaci√≥n
 					if ($val_corr == 0)	$val_corr = 0.1;
 					if ($val_ant == 0)	$val_ant = 0.1;
 				
@@ -219,7 +219,7 @@ if ($pgConn->RowCount($rs) > 0){
 			if ($variacion == 1){
 				$periodo = split(",",$aaaa);
 				
-				//(incidencia periodo corriente-incidencia periodo anterior)/(incidencia periodo anterior)*100= % variaciÛn
+				//(incidencia periodo corriente-incidencia periodo anterior)/(incidencia periodo anterior)*100= % variaci√≥n
 				
 				$a_corr = $periodo[1];
 				$f_ini_corr = $a_corr."-1-1";
@@ -363,7 +363,7 @@ if ($pgConn->RowCount($rs) > 0){
 			$unidad_html = "Orgs";
 
 			if ($caso == 'tipo')	$caso = 'tipo_org';
-			$link_reporte_html = "&#187;&nbsp;<a href='#' onclick=\"alert('El reporte se genera en la p·gina principal de SIDIH, es decir, debe minimizar esta ventana para verlo');reporteOrg('$id_depto','$id_mpio','id_".$caso."','$id');\">Generar listado de Orgs</a>";
+			$link_reporte_html = "&#187;&nbsp;<a href='#' onclick=\"alert('El reporte se genera en la p√°gina principal de SIDIH, es decir, debe minimizar esta ventana para verlo');reporteOrg('$id_depto','$id_mpio','id_".$caso."','$id');\">Generar listado de Orgs</a>";
 		}
 		else{
 			$nom_org = $org_dao->GetName($id_org);
@@ -443,7 +443,7 @@ if ($pgConn->RowCount($rs) > 0){
 		$f_fin = $_GET["f_fin"];
 		$f_fin_s = split("[-]",$f_fin);
 		
-		$id_actor = 0;  //Por ahora no est· en los filtros
+		$id_actor = 0;  //Por ahora no est√° en los filtros
 		
 		$title_reporte = array("","NUMERO DE EVENTOS","NUMERO DE VICTIMAS");
 		
@@ -700,16 +700,16 @@ if ($pgConn->RowCount($rs) > 0){
 						<td><b>&#187;&nbsp;<?=$vos[0]->nombre ?></b>: <?=$valores[0]?></td>
 					</tr>
 					<tr>
-						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de SituaciÛn Humanitaria","",$vos[1]->nombre) ?></b>: <?=$valores[1]?></td>
+						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de Situaci√≥n Humanitaria","",$vos[1]->nombre) ?></b>: <?=$valores[1]?></td>
 					</tr>
 					<tr>
-						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de SituaciÛn Humanitaria","",$vos[2]->nombre) ?></b>: <?=$valores[2]?></td>
+						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de Situaci√≥n Humanitaria","",$vos[2]->nombre) ?></b>: <?=$valores[2]?></td>
 					</tr>
 					<tr>
-						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de SituaciÛn Humanitaria","",$vos[3]->nombre) ?></b>: <?=$valores[3]?></td>
+						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de Situaci√≥n Humanitaria","",$vos[3]->nombre) ?></b>: <?=$valores[3]?></td>
 					</tr>
 					<tr>
-						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de SituaciÛn Humanitaria","",$vos[4]->nombre) ?></b>: <?=$valores[4]?></td>
+						<td><b>&#187;&nbsp;<?=str_replace(" - Indice de Riesgo de Situaci√≥n Humanitaria","",$vos[4]->nombre) ?></b>: <?=$valores[4]?></td>
 					</tr>
 				</table>			
 				
@@ -730,7 +730,7 @@ if ($pgConn->RowCount($rs) > 0){
 								$subcat_dao = New SubCatEventoConflictoDAO();
 								
 								$subcats = $subcat_dao->GetAllArray('id_cateven = 1');
-								$id_actor = 0;  //Por ahora no est· en los filtros
+								$id_actor = 0;  //Por ahora no est√° en los filtros
 								$f_ini = "$a-1-1";
 								$f_fin = "$a-12-31";
 								

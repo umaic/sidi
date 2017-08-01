@@ -276,9 +276,9 @@ else{
 										Seleccione el departamento en la parte inferior (si no hay ninguno seleccionado ), y click en el bot&oacute;n Generar Mapa;
 										una vez generado el mapa haga click sobre el municipio para obtener el perfil.<br><br>
 										Si prefiere, puede ubicar el municipio r&aacute;pidamente con la opci&oacute;n
-										que aparecer· en la parte inferior. 
+										que aparecer√° en la parte inferior. 
 										<br><br>
-										Para generar el perfil despuÈs de haber usado alguna opciÛn de zoom, haga click sobre <img src='images/mscross/icn_alpha_button_identify.png'>
+										Para generar el perfil despu√©s de haber usado alguna opci√≥n de zoom, haga click sobre <img src='images/mscross/icn_alpha_button_identify.png'>
 										y luego sobre el municipio.
 										<br><br>
 										<b>OPCIONES SOBRE EL MAPA</b>
@@ -421,7 +421,7 @@ else{
 							<table width="450">
 								<tr>
 									<td>
-										Para generar el perfil resumido despuÈs de haber usado alguna opciÛn de zoom, haga click sobre <img src='images/mscross/icn_alpha_button_identify.png'>
+										Para generar el perfil resumido despu√©s de haber usado alguna opci√≥n de zoom, haga click sobre <img src='images/mscross/icn_alpha_button_identify.png'>
 										y luego sobre el municipio.
 										<br><br>
 										<b>OPCIONES SOBRE EL MAPA</b>

@@ -172,14 +172,14 @@ else{
 			$styleObj->outlinecolor->setRGB(204,204,204);
             $styleObj->set('width', 0.2);
 			
-			$classObj->label->set("type",MS_TRUETYPE);
-			$classObj->label->set("font",$tag_font_label);
-			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-			
-			$classObj->label->set("position",MS_CR);
-			$classObj->label->set("antialias",MS_TRUE);
-			$classObj->label->color->setRGB(0,0,0);
-			$classObj->label->outlinecolor->setRGB(255,255,255);
+//			$classObj->label->set("type",MS_TRUETYPE);
+//			$classObj->label->set("font",$tag_font_label);
+//			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//			$classObj->label->set("position",MS_CR);
+//			$classObj->label->set("antialias",MS_TRUE);
+//			$classObj->label->color->setRGB(0,0,0);
+//			$classObj->label->outlinecolor->setRGB(255,255,255);
 			
 			
 		}		
@@ -223,14 +223,14 @@ else{
 			$styleObj->outlinecolor->setRGB(204,204,204);
             $styleObj->set('width', 0.2);
 			
-			$classObj->label->set("type",MS_TRUETYPE);
-			$classObj->label->set("font",$tag_font_label);
-			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-			
-			$classObj->label->set("position",MS_CR);
-			$classObj->label->set("antialias",MS_TRUE);
-			$classObj->label->color->setRGB(0,0,0);
-			$classObj->label->outlinecolor->setRGB(255,255,255);
+//			$classObj->label->set("type",MS_TRUETYPE);
+//			$classObj->label->set("font",$tag_font_label);
+//			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//			$classObj->label->set("position",MS_CR);
+//			$classObj->label->set("antialias",MS_TRUE);
+//			$classObj->label->color->setRGB(0,0,0);
+//			$classObj->label->outlinecolor->setRGB(255,255,255);
 			
 			
 		}
@@ -243,14 +243,14 @@ else{
 			$styleObj =  ms_newStyleObj($classObj);
 			$styleObj->color->setRGB($rgb["r"][0],$rgb["g"][0],$rgb["b"][0]);
 			
-			$classObj->label->set("type",MS_TRUETYPE);
-			$classObj->label->set("font",$tag_font_label);
-			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-			
-			$classObj->label->set("position",MS_CR);
-			$classObj->label->set("antialias",MS_TRUE);
-			$classObj->label->color->setRGB(0,0,0);
-			$classObj->label->outlinecolor->setRGB(255,255,255);
+//			$classObj->label->set("type",MS_TRUETYPE);
+//			$classObj->label->set("font",$tag_font_label);
+//			$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//			$classObj->label->set("position",MS_CR);
+//			$classObj->label->set("antialias",MS_TRUE);
+//			$classObj->label->color->setRGB(0,0,0);
+//			$classObj->label->outlinecolor->setRGB(255,255,255);
 	
 			//Los demas deptos
 			$classObj = ms_newClassObj($layerObj);

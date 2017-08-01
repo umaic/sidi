@@ -598,15 +598,15 @@ for($i=1;$i<($numclass+1);$i++){
         
         //Solo se le coloca nombre a los 3 ultimos del intervalo
         if ($i >= ceil($numclass/2)){
-            $classObj->label->set("type",MS_TRUETYPE);
-            $classObj->label->set("font",$tag_font_label);
-            //$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-            $classObj->label->set("size", 1);  //Tamaño en pixeles
-            
-            $classObj->label->set("position",MS_CR);
-            $classObj->label->set("antialias",MS_TRUE);
-            $classObj->label->color->setRGB(0,0,0);
-            $classObj->label->outlinecolor->setRGB(255,255,255);
+//            $classObj->label->set("type",MS_TRUETYPE);
+//            $classObj->label->set("font",$tag_font_label);
+//            //$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//            $classObj->label->set("size", 1);  //Tamaño en pixeles
+//
+//            $classObj->label->set("position",MS_CR);
+//            $classObj->label->set("antialias",MS_TRUE);
+//            $classObj->label->color->setRGB(0,0,0);
+//            $classObj->label->outlinecolor->setRGB(255,255,255);
         }
     }
 }

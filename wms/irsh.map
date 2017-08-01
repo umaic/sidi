@@ -1,10 +1,10 @@
 MAP
   EXTENT 609516.851102941 760394.184354002 871648.836397059 1027779.315646
-  FONTSET "/srv/www/htdocs/sissh/consulta/fonts/fontset.txt"
+  FONTSET "/var/www/umaic_org/sidi/html/sissh/consulta/fonts/fontset.txt"
   IMAGECOLOR 255 255 255
   IMAGETYPE png
   RESOLUTION 300.000000
-  SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+  SHAPEPATH "/var/www/umaic_org/sidi/html/sissh/images/shapes/"
   SIZE 500 510
   STATUS ON
   UNITS METERS
@@ -74,7 +74,7 @@ MAP
   END
 
   WEB
-    IMAGEPATH "/srv/www/htdocs/tmp"
+    IMAGEPATH "/var/www/umaic_org/sidi/html/tmp"
     IMAGEURL "/tmp/"
     QUERYFORMAT text/html
     LEGENDFORMAT text/html

@@ -4,12 +4,12 @@ MAP
 	IMAGECOLOR 252 243 208
 	IMAGETYPE GIF
 	EXTENT -161112 -462196 1653895 1386463
-	SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
-	FONTSET "/srv/www/htdocs/sissh/consulta/fonts/fontset.txt"
+	SHAPEPATH "/var/www/umaic_org/sidi/html/sissh/images/shapes/"
+	FONTSET "/var/www/umaic_org/sidi/html/sissh/consulta/fonts/fontset.txt"
 	
 	WEB
-		TEMPLATE "/srv/www/htdocs/sissh/consulta/test_mapserver/second.html"
-		IMAGEPATH "/srv/www/htdocs/tmp/"
+		TEMPLATE "/var/www/umaic_org/sidi/html/sissh/consulta/test_mapserver/second.html"
+		IMAGEPATH "/var/www/umaic_org/sidi/html/tmp/"
 		IMAGEURL "/tmp/"
 	END
 	

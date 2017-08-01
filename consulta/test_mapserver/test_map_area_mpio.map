@@ -3,10 +3,10 @@ MAP
 				SIZE 700 710
 				IMAGECOLOR 252 243 208
 				EXTENT 650592.316958813 760399.440574257 830573.314697181 1027774.00632577
-				SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+				SHAPEPATH "/var/www/umaic_org/sidi/html/sissh/images/shapes/"
 				
 				WEB
-					IMAGEPATH "/srv/www/htdocs/tmp/"
+					IMAGEPATH "/var/www/umaic_org/sidi/html/tmp/"
 					IMAGEURL "/tmp/"
 				END
 				

@@ -2,7 +2,7 @@
 
     //dl('php_mapscript.so');
 ms_ResetErrorList();
-    $map_path="/srv/www/htdocs/sissh/consulta/test_mapserver/";
+    $map_path="/var/www/umaic_org/sidi/html/sissh/consulta/test_mapserver/";
     $map = ms_newMapObj($map_path."first.map");
 	$map->set("name","SIDI UMAIC Colombia");
 

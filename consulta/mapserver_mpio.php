@@ -1675,14 +1675,14 @@ else if ($map_ref == 0 && $case == 'perfil'){
 		$styleObj->color->setRGB($rgb["r"][$i],$rgb["g"][$i],$rgb["b"][$i]);
 		$styleObj->outlinecolor->setRGB(204,204,204);
 		
-		$classObj->label->set("type",MS_TRUETYPE);
-		$classObj->label->set("font",$tag_font_label);
-		$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
-		
-		$classObj->label->set("position",MS_CC);
-		$classObj->label->set("antialias",MS_TRUE);
-		$classObj->label->color->setRGB(0,0,0);
-		$classObj->label->outlinecolor->setRGB(255,255,255);
+//		$classObj->label->set("type",MS_TRUETYPE);
+//		$classObj->label->set("font",$tag_font_label);
+//		$classObj->label->set("size",$size_font_label);  //Tamaño en pixeles
+//
+//		$classObj->label->set("position",MS_CC);
+//		$classObj->label->set("antialias",MS_TRUE);
+//		$classObj->label->color->setRGB(0,0,0);
+//		$classObj->label->outlinecolor->setRGB(255,255,255);
 		
 		
 	}	

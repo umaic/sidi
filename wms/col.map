@@ -4,11 +4,11 @@ MAP
   SIZE 900 918
   EXTENT -161112 -462196 1653895 1386463
   UNITS meters
-  SHAPEPATH "/srv/www/htdocs/sissh/images/shapes/"
+  SHAPEPATH "/var/www/umaic_org/sidi/html/sissh/images/shapes/"
   IMAGECOLOR 255 255 255
 
 WEB
-  IMAGEPATH "/srv/www/htdocs/tmp/"
+  IMAGEPATH "/var/www/umaic_org/sidi/html/tmp/"
 #  IMAGEURL "/tmp/"
   METADATA
     "wms_title"     "WMS Ocha"  ##required
