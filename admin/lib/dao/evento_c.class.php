@@ -1877,7 +1877,7 @@ Class EventoConflictoDAO {
                 return;
             }
             
-            $content .= "<tr>";
+            $content .= "</tr>";
             
             if ($reporte == 6){
                 if ($cat_victima_localizacion == 'no'){
@@ -1902,10 +1902,10 @@ Class EventoConflictoDAO {
                     $content .= "</tr>";
                 }
             }
-            
-            
+
+            //Comienzo de los valores
             if ($reporte == 1 || $reporte == 2 || $reporte == 3 || $reporte == 6){
-            
+
                 $hay = 1;
                 $id_depto_ant = 0;
                 foreach ($id_ubi as $id_ubi){
@@ -1925,8 +1925,8 @@ Class EventoConflictoDAO {
                     }
                     
                     if ($esta == 1){
-                        
-                        
+
+	                    $content .= "<tr>";
                         $depto = $depto_dao->Get($id_depto);
                         $mun = $municipio_dao->Get($id_ubi);
                         
@@ -1935,6 +1935,7 @@ Class EventoConflictoDAO {
                         if ($nivel_localizacion == 'mpal'){
                             $content .= "<td>$depto->id</td>";
                             $content .= "<td>$depto->nombre</td>";
+	                        $content .= "<td>$mun->id</td>";
                             $content .= "<td>$mun->nombre</td>";
                         }
                                                 
@@ -2216,7 +2217,7 @@ Class EventoConflictoDAO {
                         
                     }
                 }
-                
+
                 if ($nivel_localizacion == 'deptal'){
                     
                     foreach ($total as $id_depto => $valores){
