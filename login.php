@@ -123,10 +123,6 @@ $title = "SIDI UMAIC";
     <div id="cont">
         <div id="login_div">
             <div id="img_form">
-                <div class="alert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    ¡Atención!: Desde el día 31 de mayo de 2017 cambiamos el mecanismo de inicio de sesión en SIDI. Ahora necesitas iniciar sesión con el correo que registraste en lugar de usar el nombre de usuario.
-                </div>
                 <?php if ($_GET['error'] && $_GET['error_description']) { ?>
                 <div class="alert error">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -135,38 +131,7 @@ $title = "SIDI UMAIC";
 	            <?php } ?>
                 <div><br /><br /></b></div>
                 <div class="button" id="btn-login" onclick="lock.show();">Iniciar Sesión</div>
-                <!--
-        <div><h1 style="text-align: center;">Ingreso</h1></div>
-            <div class="img_iz"><img src="images/lock_2.jpg" alt="" /></div>
-            <div class="fields">
-            <form action="<? echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <fieldset>
-                    <ol>
-                        <li>
-                            <label for="login">Nombre de Usuario</label>
-                            <input type="text" id="login" name="login" class="textfield" />
-                        </li>
-                        <li>
-                            <label for="password">Contrase&ntilde;a</label>
-                            <input type="password" id="password" name="password" class="textfield" />
-                        </li>
-                        <li>
-                           <input type="hidden" name="m_g" value="<?=$_SESSION["m_g"]?>" />
-                           <input type="submit" name="submit" value="Ingresar" class="boton" />
-                        </li>
-                    </ol>
-                </fieldset>
-                </form>
-            </div>
-           <div id="reg">
-                <img src="images/reg_usuario.gif" alt="" /> <a href="registro.php">Registrarse como Usuario</a>
-                <img src="images/spacer.gif" width="30" alt="" />
-                <img src="images/reg_usuario.gif" alt="" /> <a href="contrasena.php">¿Olvid&oacute; su contrase&ntilde;a?</a>
-                <br />
-                <img src="images/reg_org.gif" alt="" /> <a href="registro_org.php">Registrar Informaci&oacute;n de su Organizaci&oacute;n</a>
-            </div>
-        </div>
-        -->
+
                 <div class="seccion">
                     <table>
                         <tr>
