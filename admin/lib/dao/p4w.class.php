@@ -5457,7 +5457,7 @@ Class P4wDAO
                 INNER JOIN organizacion USING(id_org)
                 INNER JOIN estado_proy USING(id_estp)
                 INNER JOIN proyecto_tema USING(id_proy) 
-                INNER JOIN contacto USING(id_con)
+                LEFT JOIN contacto USING(id_con)
                 ";
 
         $cond = $this->_setConditionSi(array('si' => $si_proy));
