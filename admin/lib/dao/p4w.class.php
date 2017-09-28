@@ -3116,7 +3116,7 @@ Class P4wDAO
                   JOIN organizacion USING(id_org)
                   JOIN tipo_org USING(id_tipo)
                   JOIN proyecto_tema USING(id_proy)
-                  WHERE ID_TIPO_VINORGPRO = 1 AND SI_PROY = '4w'
+                  WHERE ID_TIPO_VINORGPRO = 1
                   ORDER BY NOM_ORG";
 
         $rs_s = $this->conn->OpenRecordset($sql_s);
