@@ -492,7 +492,7 @@ switch ($mod){
                 'encabezado','departamento','ciudad','organizacion','direccion','web',
                 'espacios');
             
-            array_walk($ar, 'utf8ing');
+            //array_walk($ar, 'utf8ing');
 
             $rows[] = $ar;
         }
@@ -503,7 +503,7 @@ switch ($mod){
             foreach($$fs as $id => $n) {
             
                 $filters[$fs]['options'][] = array('value' => $id,
-                    'text' => utf8_encode($n));
+                    'text' => $n);
             }
         }
     
@@ -652,7 +652,7 @@ switch ($mod){
             foreach($$fs as $id => $n) {
             
                 $filters[$fs]['options'][] = array('value' => $id,
-                    'text' => utf8_encode($n));
+                    'text' => $n);
             }
         }
 
@@ -664,7 +664,7 @@ switch ($mod){
 if ($render_json) {
     $json = compact('render','title_block','filters','titles','rows','html');
 
-    header('Content-type: application/json');
+    header('Content-type: application/json; charset=utf-8');
     echo json_encode($json);
 } 
 
