@@ -134,7 +134,7 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
 			<h1>EVENTOS <br />CONFLICTO</h1>
 			<ul>
 				<li>
-					<a href="https://sidi.umaic.org/sissh/cron_jobs/sync_from_monitor.php" target="_blank">Sincronizar desde Monitor</a>
+					<a href="../cron_jobs/sync_from_monitor.php" target="_blank">Sincronizar desde Monitor</a>
 				</li>
 				<li>
 					<a href="#" onclick="addTab('actor'); return false;">Actor</a>
