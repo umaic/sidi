@@ -182,7 +182,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 	<table align='center' cellspacing="1" cellpadding="3" border="0">
 		<tr class='pathway'>
 			<td colspan=4>
-				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Organizaciones
+				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Organizaciones
 			</td>
 		</tr>
 		<tr><td><table cellpadding="5">

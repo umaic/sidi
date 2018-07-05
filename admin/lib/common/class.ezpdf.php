@@ -1195,6 +1195,10 @@ function ezTable(&$data,$cols='',$title='',$options=''){
 function ezProcessText($text){
   // this function will intially be used to implement underlining support, but could be used for a range of other
   // purposes
+  //if (mb_detect_encoding($str, 'UTF-8', true) == 'UTF-8') { $text = mb_convert_encoding($text, "ISO-8859-1", "UTF-8"); }
+  //if (mb_detect_encoding($str, 'ISO-8859-1', true) == 'ISO-8859-1') { $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1"); }
+  //$text = mb_convert_encoding($text, "windows-1252", "UTF-8");
+	//$text = utf8_decode($text);
   $search = array('<u>','<U>','</u>','</U>');
   $replace = array('<c:uline>','<c:uline>','</c:uline>','</c:uline>');
   return str_replace($search,$replace,$text);

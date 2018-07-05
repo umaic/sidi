@@ -571,6 +571,8 @@ function AcceptPageBreak()
 
 function Cell($w,$h=0,$txt='',$border=0,$ln=0,$align='',$fill=0,$link='',$currentx=0) //EDITEI
 {
+	//$txt = html_entity_decode($txt);
+
 	//Output a cell
 	$k=$this->k;
 	if($this->y+$h>$this->PageBreakTrigger and !$this->InFooter and $this->AcceptPageBreak())
@@ -615,6 +617,7 @@ function Cell($w,$h=0,$txt='',$border=0,$ln=0,$align='',$fill=0,$link='',$curren
 	}
 	if($txt!='')
 	{
+		//$txt = iconv('UTF-8', 'latin-1', $txt);
 		if($align=='R')	$dx=$w-$this->cMargin-$this->GetStringWidth($txt);
 		elseif($align=='C')	$dx=($w-$this->GetStringWidth($txt))/2;
 		elseif($align=='L' or $align=='J') $dx=$this->cMargin;
@@ -2208,7 +2211,7 @@ function _parsepng($file)
 
 function _parsegif($file) //EDITEI - GIF support is now included
 { 
-	//Function by Jérôme Fenal
+	//Function by JÃ©rÃ´me Fenal
 	require_once(RELATIVE_PATH.'gif.php'); //GIF class in pure PHP from Yamasoft (http://www.yamasoft.com/php-gif.zip)
 
 	$h=0;

@@ -2,14 +2,14 @@
 /**
  * DAO de Municipio
  *
- * Contiene los mÈtodos de la clase Municipio
+ * Contiene los m√©todos de la clase Municipio
  * @author Ruben A. Rojas C.
  */
 
 Class MunicipioDAO {
 
     /**
-     * ConexiÛn a la base de datos
+     * Conexi√≥n a la base de datos
      * @var object
      */
     var $conn;
@@ -41,7 +41,7 @@ Class MunicipioDAO {
 
     /**
      * Constructor
-     * Crea la conexiÛn a la base de datos
+     * Crea la conexi√≥n a la base de datos
      * @access public
      */
     function MunicipioDAO (){
@@ -96,7 +96,7 @@ Class MunicipioDAO {
     /**
      * Consulta Vos
      * @access public
-     * @param string $condicion CondiciÛn que deben cumplir los Tema y que se agrega en el SQL statement.
+     * @param string $condicion Condici√≥n que deben cumplir los Tema y que se agrega en el SQL statement.
      * @param string $limit Limit en el SQL
      * @param string $order by Order by en el SQL 
      * @return array Arreglo de VOs
@@ -108,14 +108,13 @@ Class MunicipioDAO {
         if ($condicion != "") $sql .= " WHERE ".$condicion;
 
         //ORDER
-        $sql .= ($order_by != "") ?  " ORDER BY $order_by" : " ORDER BY ".$this->columna_order;
+        $sql .= ($order_by != "") ?  " ORDER BY $order_by" : " ORDER BY ".$this->columna_order;file_put_contents('/tmp/cont.txt', '>>>' . $sql . "\n\r<<<", FILE_APPEND);
 
         //LIMIT
         if ($limit != "") $sql .= " LIMIT ".$limit;
 
 
         $array = Array();
-
         $rs = $this->conn->OpenRecordset($sql);
         while ($row_rs = $this->conn->FetchObject($rs)){
             //Crea un VO
@@ -131,11 +130,11 @@ Class MunicipioDAO {
 
 
     /**
-     * Consulta los ID de los Municipio que cumplen una condiciÛn
+     * Consulta los ID de los Municipio que cumplen una condici√≥n
      * @access public
-     * @param string $condicion CondiciÛn que deben cumplir los Municipio y que se agrega en el SQL statement.
+     * @param string $condicion Condici√≥n que deben cumplir los Municipio y que se agrega en el SQL statement.
      * @param string $order_by Columna de Ordenamiento.
-     * @return array Arreglo con los ID¥s
+     * @return array Arreglo con los ID¬¥s
      */
     function GetAllArrayID($condicion,$order_by){
 
@@ -159,7 +158,7 @@ Class MunicipioDAO {
      * Consulta los ID del Depto y retorna un string separado por coma para uso en un WHERE
      * @access public
      * @param string $id_depto ID del Departamento
-     * @return string Arreglo con los ID¥s
+     * @return string Arreglo con los ID¬¥s
      */
     function GetIDWhere($id_depto){
 
@@ -177,11 +176,11 @@ Class MunicipioDAO {
     }
 
     /**
-     * Lista los Municipio que cumplen la condiciÛn en el formato dado
+     * Lista los Municipio que cumplen la condici√≥n en el formato dado
      * @access public
-     * @param string $formato Formato en el que se listar·n los Municipio, puede ser Tabla o ComboSelect
-     * @param int $valor_combo ID del Municipio que ser· selccionado cuando el formato es ComboSelect
-     * @param string $condicion CondiciÛn que deben cumplir los Municipio y que se agrega en el SQL statement.
+     * @param string $formato Formato en el que se listar√°n los Municipio, puede ser Tabla o ComboSelect
+     * @param int $valor_combo ID del Municipio que ser√° selccionado cuando el formato es ComboSelect
+     * @param string $condicion Condici√≥n que deben cumplir los Municipio y que se agrega en el SQL statement.
      */
     function ListarCombo($formato,$valor_combo,$condicion){
         $arr = $this->GetAllArray($condicion);
@@ -213,8 +212,8 @@ Class MunicipioDAO {
      * Imprime en pantalla los datos del Municipio
      * @access public
      * @param object $vo Municipio que se va a imprimir
-     * @param string $formato Formato en el que se listar·n los Municipio, puede ser Tabla o ComboSelect
-     * @param int $valor_combo ID del Municipio que ser· selccionado cuando el formato es ComboSelect
+     * @param string $formato Formato en el que se listar√°n los Municipio, puede ser Tabla o ComboSelect
+     * @param int $valor_combo ID del Municipio que ser√° selccionado cuando el formato es ComboSelect
      */
     function Imprimir($vo,$formato,$valor_combo){
 
@@ -509,7 +508,7 @@ Class MunicipioAjax extends MunicipioDAO {
     }	
     
     /**
-     * Lista Municipios alimentaciÛn 4w
+     * Lista Municipios alimentaci√≥n 4w
      * @access public
      * @param string $id_depto ID del Departamento
      * @param int $titulo 1 = Mostrar titulo
@@ -545,7 +544,7 @@ Class MunicipioAjax extends MunicipioDAO {
     }	
     
     /**
-     * Consulta Municipios a partir de divipolas separados por coma - alimentaciÛn 4w
+     * Consulta Municipios a partir de divipolas separados por coma - alimentaci√≥n 4w
      * @access public
      * @param string $ids Divipolas
      */

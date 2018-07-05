@@ -239,7 +239,7 @@ function filtroHome(id,filtro){
 						<div style="margin-bottom:15px;"><img src="<?=$org_vo->logo?>" width="<?=$w?>" height="<?=$h?>" /></div>
 						<div class="body_home_org">
 							<p>
-								No olvide mantener actualizada la información de su Organización:
+								No olvide mantener actualizada la informaciÃ³n de su OrganizaciÃ³n:
 							</p>
 							<p><img src="images/undaf/home/actualizar.png"><a href='t/index_undaf.php?m_e=org&accion=actualizar&id=<?=$_SESSION["id_org"]?>'>Actualizar</a></p>
 						</div>
@@ -248,7 +248,7 @@ function filtroHome(id,filtro){
 					else{ ?>
 						<div class="body_home_org">
 							<p>
-								No olvide mantener actualizada la información de las Agencias del SNU:
+								No olvide mantener actualizada la informaciÃ³n de las Agencias del SNU:
 							</p>
 							<select id='id_org_update' class='select'>
 								<? $org_dao->ListarCombo('combo_sigla','','id_tipo=4') ?>

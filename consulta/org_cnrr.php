@@ -90,7 +90,7 @@ function validar_criterios(){
 	}
 	
   	if (error == 1){
-	    //alert("Seleccione alg鷑 criterio");
+	    //alert("Seleccione alg煤n criterio");
 	    if(confirm("No hay filtros, desea consultar todas las Organizaciones?")){
 	    	document.getElementById('todas').value = 1;
 	    }
@@ -107,7 +107,7 @@ function validar_criterios(){
 	}
 
 	if (error == 1){
-		alert("Seleccione alg鷑 criterio");
+		alert("Seleccione alg煤n criterio");
 		return false;
 	}
 
@@ -121,7 +121,7 @@ function validar_criterios(){
 	}
 
 	if (error == 1){
-		alert("Seleccione la Ubicaci髇 en el mapa");
+		alert("Seleccione la Ubicaci贸n en el mapa");
 		return false;
 	}
 	else{
@@ -195,7 +195,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 				<td class='td_menu_naranja' width="100"><img src="images/cnrr/flecha.gif">&nbsp;<a href="#" onclick="showMenu('consulta');return false;">Consultas</a></td>
 				<td valign="top" width="7" class='td_menu_naranja'><img src="images/cnrr/esquina2.gif"></td>
 				<td><img src="images/spacer.gif"></td>
-				<td class='td_menu_naranja' width="100"><img src="images/cnrr/flecha.gif">&nbsp;<a href="#" onclick="showMenu('grafica');return false;">Gr醘icas</a></td>
+				<td class='td_menu_naranja' width="100"><img src="images/cnrr/flecha.gif">&nbsp;<a href="#" onclick="showMenu('grafica');return false;">Gr谩ficas</a></td>
 				<td valign="top" width="7" class='td_menu_naranja'><img src="images/cnrr/esquina2.gif"></td>
 			</tr>
 			</table>
@@ -207,7 +207,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 				<tr><td align='center' class='titulo_lista' colspan=2>CONSULTA DE ORGANIZACIONES</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan="2"><table cellpadding="5">
-				<tr><td colspan="2">Puede realizar una <b>b鷖queda r醦ida</b> digitando el nombre o la sigla en el siguiente campo:<td></tr>
+				<tr><td colspan="2">Puede realizar una <b>b煤squeda r谩pida</b> digitando el nombre o la sigla en el siguiente campo:<td></tr>
 				<tr><td><img src="images/consulta/busqueda_rapida.gif"></td><td>
 					<select id='case' class='select'>
 						<option value='nombre'>Nombre</option>
@@ -223,8 +223,8 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 				</td></tr>
 				<tr><td colspan=2 class="td_dotted_top">&nbsp;</td></tr>
 				<tr><td colspan=2>
-					Puede consultar Organizaciones usando uno o varios de los siguiente filtros. Haga click sobre el t韙ulo para desplegarlo.<br><br>
-					En cada opci髇 puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
+					Puede consultar Organizaciones usando uno o varios de los siguiente filtros. Haga click sobre el t铆tulo para desplegarlo.<br><br>
+					En cada opci贸n puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
 					<br>&nbsp;
 				</td></tr>
 				<tr>
@@ -237,7 +237,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 									&nbsp;&nbsp;<img src="images/consulta/expandir.gif">&nbsp;&nbsp;<a href="#" onclick="mostrarFiltros('mostrar');">Mostrar</a> | <a href="#" onclick="mostrarFiltros('ocultar');">Ocultar</a>
 								</td>
 							</tr>
-							<tr><td><img id="img_tipo_org" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_tipo_org','img_tipo_org');return false;"><b>Filtrar por Tipo de Organizaci髇</b></a></td></tr>
+							<tr><td><img id="img_tipo_org" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_tipo_org','img_tipo_org');return false;"><b>Filtrar por Tipo de Organizaci贸n</b></a></td></tr>
 							<?
 							$display = 'none';
 							$id_tipo_org = 0;
@@ -285,7 +285,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 									</select>
 								</td>
 							</tr>
-							<tr><td><img id="img_poblacion" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_poblacion','img_poblacion');return false;"><b>Filtrar por Poblaci髇 Objetivo</b></a></td></tr>
+							<tr><td><img id="img_poblacion" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_poblacion','img_poblacion');return false;"><b>Filtrar por Poblaci贸n Objetivo</b></a></td></tr>
 							<?
 							$display = 'none';
 							$id_poblacion = 0;
@@ -327,8 +327,8 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_orgs"])){
 			<table cellpadding="0" cellspacing="0" width="940">
 				<tr><td align='center' class='titulo_lista' colspan=2>GRAFICAS DE ORGANIZACIONES</td></tr>
 				<tr><td>&nbsp;</td></tr>
-				<tr><td><img src="images/cnrr/flecha.gif">&nbsp;<a href="index_cnrr.php?method=graficaConteo">Gr醘ica por Tipo, Poblaci髇, Enfoque o Sector para una Ubicaci髇</a></td></tr>
-				<tr><td><img src="images/cnrr/flecha.gif">&nbsp;<a href="index_cnrr.php?method=graficaConteoDeptoMpio">Gr醘ica por Departamento o Municipio para un Tipo, Poblaci髇, Enfoque o Sector</a></td></tr>
+				<tr><td><img src="images/cnrr/flecha.gif">&nbsp;<a href="index_cnrr.php?method=graficaConteo">Gr谩fica por Tipo, Poblaci贸n, Enfoque o Sector para una Ubicaci贸n</a></td></tr>
+				<tr><td><img src="images/cnrr/flecha.gif">&nbsp;<a href="index_cnrr.php?method=graficaConteoDeptoMpio">Gr谩fica por Departamento o Municipio para un Tipo, Poblaci贸n, Enfoque o Sector</a></td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td>
@@ -364,8 +364,8 @@ if (isset($_POST["id_orgs"]) && !isset($_POST["reportar"])){
 		<tr><td colspan=2>
 			Seleccione el formato del reporte:<br>&nbsp;
 		</td></tr>
-		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte B醩ico</b>: Muestra los datos b醩ico de la Organizaci髇 (Nombre,Sigla,Tipo,Cobertura)</td></tr>
-		<tr><td><input type="radio" name="basico" value="2">&nbsp;<b>Reporte Detallado</b>: Muestra toda la informaci髇 de la Organizaci髇</td></tr>
+		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte B谩sico</b>: Muestra los datos b谩sico de la Organizaci贸n (Nombre,Sigla,Tipo,Cobertura)</td></tr>
+		<tr><td><input type="radio" name="basico" value="2">&nbsp;<b>Reporte Detallado</b>: Muestra toda la informaci贸n de la Organizaci贸n</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td align='center'>
 			<input type="hidden" name="pdf" value="<?=$_POST['pdf']?>" />

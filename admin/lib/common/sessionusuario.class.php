@@ -262,7 +262,6 @@ Class SessionUsuario {
 		$this->usuario->id = NULL;
 
 		$this->usuario->nombre = $userInfo->user_metadata['full_name'];
-		$this->usuario->nombre = $userInfo->nickname;
 		$this->usuario->login = $userInfo->nickname . rand(); //Con cadena aleatoria para evitar duplicados
 		$this->usuario->pass = md5(uniqid(rand(), true));
 

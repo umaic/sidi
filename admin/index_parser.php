@@ -61,7 +61,7 @@ function decodeUTF8($array) {
         return $array;
 }
  
-$_POST = decodeUTF8($_POST);
+//$_POST = decodeUTF8($_POST);
 
 
 //ACCION DE LA FORMA

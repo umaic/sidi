@@ -228,7 +228,7 @@ Class SisshDAO {
 
                 /*** CONTEXTO GENERAL **/
                 $id_datos = array('Demografia' => array(array(1,2,3,345), true, false),
-                                'Geograf&iacute;a' => array(array(589), true, false),
+                                'Geografía' => array(array(589), true, false),
                                 'Indices compuestos' => array(array(707,704,703), true, false)
                                 );
 
@@ -287,8 +287,8 @@ Class SisshDAO {
                 if (!empty($afectacion->charts[2]->data)) {
 
                     $hum_impacto_violencia .= '
-                    <!-- Totales por caracterizacion -->
-                    <h4>G&eacute;nero</h4>
+                    <!-- Totales por caracterización -->
+                    <h4>Género</h4>
                     <table class="table table-bordered">';
 
                     $v = array('Masculino' => 0,
@@ -324,7 +324,7 @@ Class SisshDAO {
 
                 if (!empty($afectacion->charts[3]->data)) {
 
-                    $hum_impacto_violencia .= '<h4>Grupo et&aacute;reo</h4><table class="table table-bordered">';
+                    $hum_impacto_violencia .= '<h4>Grupo etáreo</h4><table class="table table-bordered">';
 
                     foreach ($afectacion->charts[3]->data as $d) {
 
@@ -347,7 +347,7 @@ Class SisshDAO {
 
                 if (!empty($afectacion->charts[1]->data)) {
 
-                    $hum_impacto_violencia .= '<h4>Minorias &eacute;tnicas</h4><table class="table table-bordered">';
+                    $hum_impacto_violencia .= '<h4>Minorias étnicas</h4><table class="table table-bordered">';
 
                     // Recorre el arreglo y extrae Ind, Afr, Otros y sin dato
                     $v = array('AfroColombiano' => 0,
@@ -361,7 +361,7 @@ Class SisshDAO {
                         if ($t == 'AfroColombiano') {
                             $v['AfroColombiano'] = $n;
                         }
-                        else if ($t == utf8_encode('Ind�gena')) {
+                        else if ($t == utf8_encode('Indígena')) {
                             $v['Indigena'] = $n;
                         }
                         else if ($t == 'Otro') {
@@ -387,7 +387,7 @@ Class SisshDAO {
 
                 $hum_impacto_violencia .= '</div>
                     <div class="col-md-7">
-                    <h4>Total por categor&iacute;a, top 5</h4>
+                    <h4>Total por categoría, top 5</h4>
                     <table class="table table-bordered">';
 
                         $s = 0;
@@ -411,7 +411,7 @@ Class SisshDAO {
                 </h3>
                 <small><i>'.$periodo_txt.'</i></small>
                 </div>
-                <br /><h4>Total por categor&iacute;a, top 5</h4>
+                <br /><h4>Total por categoría, top 5</h4>
                 <table class="table table-bordered">';
 
                 $s = 0;
@@ -432,13 +432,13 @@ Class SisshDAO {
                 $hum_respuesta = '<h4>Proyectos ejecutados '.$y_txt.'</h4>
                 <table class="table table-bordered">';
 
-                $block =  "<div style='margin-bottom: 10px'><div class='left'><img src='http://sidi.umaic.org/sissh/images/ocha_icons/%s.png' style='float:left'></div>
+                $block =  "<div style='margin-bottom: 10px'><div class='left'><img src='https://sidi.umaic.org/sissh/images/ocha_icons/%s.png' style='float:left'></div>
                         <div><span style='font-size:18px;'><b>%s</b></span><span style='font-size:11px;'>&nbsp;&nbsp;(EHP: %s)</span></div>
                         <div><span font-size:11x;>%s</span></div></div>";
 
 
-                $hum_respuesta .= "<tr><td>".sprintf($block, 'reporting_red', $respuesta['proyectos'], $respuesta['proyectos_ehp'], 'N&uacute;mero total de proyectos')."</td></tr>".
-                        "<tr><td>".sprintf($block, 'affected_population_red', number_format($respuesta['beneficiarios'],0,'',','), number_format($respuesta['beneficiarios_ehp'],0,'',','), 'N&uacute;mero de beneficiarios directos')."</td></tr>".
+                $hum_respuesta .= "<tr><td>".sprintf($block, 'reporting_red', $respuesta['proyectos'], $respuesta['proyectos_ehp'], 'Número total de proyectos')."</td></tr>".
+                        "<tr><td>".sprintf($block, 'affected_population_red', number_format($respuesta['beneficiarios'],0,'',','), number_format($respuesta['beneficiarios_ehp'],0,'',','), 'Número de beneficiarios directos')."</td></tr>".
                         "<tr><td>".sprintf($block, 'fund_red', number_format($respuesta['presupuesto'],0,'',','), number_format($respuesta['presupuesto_ehp'],0,'',','), 'Presupuesto U$')."</td></tr>".
                         "<tr><td>".sprintf($block, 'house_red', number_format($respuesta['organizaciones'],0,'',','), number_format($respuesta['organizaciones_ehp'],0,'',','), 'Total de organizaciones ejecutoras')."</td></tr>";
 
@@ -511,7 +511,7 @@ Class SisshDAO {
                 echo "<tr><td>&nbsp;</td></tr>";
 
                 echo "</table>";
-                echo "<br><br><div align='center'>[ P&aacute;gina 2 - Datos Sectoriales Generales ]</div>";
+                echo "<br><br><div align='center'>[ Página 2 - Datos Sectoriales Generales ]</div>";
             }
 
             /*** INFORMACION DEMOGRAFICA ***/
@@ -521,12 +521,12 @@ Class SisshDAO {
                 echo "<tr><td class='pagina_minificha'>";
                 echo $header_html;
                 echo "<table cellpadding='0' cellspacing='0' width='920' border=0>";
-                echo "<tr><td class='titulo_pag_minificha'><b>Informaci&oacute;n Demogr&aacute;fica</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
+                echo "<tr><td class='titulo_pag_minificha'><b>Información Demográfica</b></td><td align='right'><b>$ubicacion->nombre</b></td></tr>";
                 echo "<tr><td colspan='2' class='linea_minificha'><img src='images/spacer.gif' height='1'></td></tr>";
 
                 $alto_rect = 25;
 
-                //Cuadro de Fuente y poblaci�n total
+                //Cuadro de Fuente y población total
                 //POBLACION TOTAL
                 //CONSULTA EL PERIODO MAS RECIENTE DEL VALOR DEL DATO
                 $id_dato_pob = 3;
@@ -565,7 +565,7 @@ Class SisshDAO {
                     $redad = array('0-9','10-19','20-29','30-39','40-49','50-59','60-69','70-79','80+');
 
                     $PG = new PowerGraphic;
-                    $PG->title = "Pir�mide Poblacional";
+                    $PG->title = "Pirámide Poblacional";
                     $PG->type = $tipo_grafica[$mod_d_s_tipo_g[11]];
                     $PG->skin      = 1;
                     $PG->axis_y = "Personas";
@@ -642,19 +642,19 @@ Class SisshDAO {
                     }
 
                     else{
-                        echo "<td align='center'><br><b>Piramide Poblacional</b><br><br>No hay Datos disponibles</td>";
+                        echo "<td align='center'><br><b>Pirámide Poblacional</b><br><br>No hay Datos disponibles</td>";
                     }
                 }
 
                 echo "</tr>";
                 echo "</table>";
-                echo "<br><br><div align='center'>[ P&aacute;gina 3 - Informaci&oacute;n Demogr&aacute;fica ]</div>";
+                echo "<br><br><div align='center'>[ Página 3 - Información Demográfica ]</div>";
             }
 
 
 
             echo "</tr></table>";
-            echo "<br><br><div align='center'>[ P&aacute;gina 6 - Accidentes con Mina ]</div>";
+            echo "<br><br><div align='center'>[ Página 6 - Accidentes con Mina ]</div>";
             echo "</td></tr>";
 
             ?>
@@ -778,7 +778,7 @@ Class SisshDAO {
 
                 $html .= "<tr><td><b>".$dato->nombre."</b>
                     <br /><small><i>Fuente: ".$fuente_n.",
-                    A&ntilde;o:". $a[0]."</i></small></td>";
+                    Año:". $a[0]."</i></small></td>";
 
                 $html .= "<td align='right'>$valor</td>";
                 if ($dato_para == 2)	$html .= "<td align='right'>$valor_depto</td>";
@@ -1188,7 +1188,7 @@ Class SisshDAO {
 						?>
 						<td width="65"><b>Nacional</b></td>
 						<td><b>Fuente</b></td>
-						<td><b>A&ntilde;o</b></td>
+						<td><b>Año</b></td>
 					</tr>
 				<?
 				//$pdf->ezNewPage();
@@ -1474,7 +1474,7 @@ Class SisshDAO {
 					if (max($valor_sector) > 0){
 
 						$PG = new PowerGraphic;
-						$PG->title = ($dato_para == 1) ? "Distribuci�n PIB Departamental" : "Distribuci�n PIB Municipal";
+						$PG->title = ($dato_para == 1) ? "Distribución PIB Departamental" : "Distribución PIB Municipal";
 						$PG->type = $tipo_grafica[$mod_d_s_tipo_g[7]];
 						$PG->skin      = 1;
 						$PG->border = 0;
@@ -1600,7 +1600,7 @@ Class SisshDAO {
 				echo "<tr><td>&nbsp;</td></tr>";
 				//Tasa de Asistencia Escolar
 				if (in_array(10,$mod_d_s)){
-					//PARA Acci�n Social
+					//PARA Acción Social
 					$fuente = $fuente_des_dao->Get(2);
 					$tipos = $tipo_des_dao->GetAllArray('');
 
@@ -1724,7 +1724,7 @@ Class SisshDAO {
 				$alto_rect = 25;
 
 				//$pdf->ezNewPage();
-				//$pdf->addText($left,550,14,'<b>Informaci�n Demogr�fica</b>');
+				//$pdf->addText($left,550,14,'<b>Información Demográfica</b>');
 				//$pdf->addText($x_titulo_ubicacion,550,14,"<b>$ubicacion->nombre</b>");
 
 				//$pdf->setLineStyle(1);
@@ -1734,7 +1734,7 @@ Class SisshDAO {
 				//$pdf->line($left,300,$page_width - $left,300);			//Mitad Horizontal
 
 
-				//Cuadro de Fuente y poblaci�n total
+				//Cuadro de Fuente y población total
 				//POBLACION TOTAL
 				//CONSULTA EL PERIODO MAS RECIENTE DEL VALOR DEL DATO
 				$id_dato_pob = 3;
@@ -1785,7 +1785,7 @@ Class SisshDAO {
 					$a_val = $f_tmp[0];
 
 					$PG = new PowerGraphic;
-					$PG->title = "Distribuci�n demogr�fica cabeceras municipales";
+					$PG->title = "Distribución demográfica cabeceras municipales";
 					$PG->type = $tipo_grafica[$mod_d_s_tipo_g[1]];
 					$PG->skin      = 1;
 					$PG->border = 0;
@@ -1829,7 +1829,7 @@ Class SisshDAO {
 				//DISTRIBUCION DEMOGRAFICA POR GRUPOS ETNICOS
 				if (in_array(2,$mod_d_s)){
 
-					//Distribuci�n demogr�fica por grupos etnicos
+					//Distribución demográfica por grupos etnicos
 					$id_dato_pob_indigena = 130;
 					$id_dato_pob_negro = 311;
 					$id_dato_pob_resto = 308;
@@ -1845,7 +1845,7 @@ Class SisshDAO {
 					$a_val_ind = $f_tmp[0];
 
 					$PG = new PowerGraphic;
-					$PG->title = "   Distribuci�n demogr�fica por grupos Etnicos";
+					$PG->title = "   Distribución demográfica por grupos Etnicos";
 					$PG->type = $tipo_grafica[$mod_d_s_tipo_g[2]];
 					$PG->skin      = 1;
 					$PG->border = 0;
@@ -1922,7 +1922,7 @@ Class SisshDAO {
 					$redad = array('0-9','10-19','20-29','30-39','40-49','50-59','60-69','70-79','80+');
 
 					$PG = new PowerGraphic;
-					$PG->title = "Pir�mide Poblacional";
+					$PG->title = "Pirámide Poblacional";
 					$PG->type = $tipo_grafica[$mod_d_s_tipo_g[11]];
 					$PG->skin      = 1;
 					$PG->axis_y = "Personas";
@@ -2029,7 +2029,7 @@ Class SisshDAO {
 				//$pdf->line($left + 350,300,$left+350,$bottom);	//Mitad Vertical Inf
 				//$pdf->line($left,300,$page_width - $left,300);			//Mitad Horizontal
 
-				//Cuadro de Fuente y poblaci�n total
+				//Cuadro de Fuente y población total
 				//POBLACION TOTAL
 				//CONSULTA EL PERIODO MAS RECIENTE DEL VALOR DEL DATO
 				$id_dato_pob = 3;
@@ -2212,7 +2212,7 @@ Class SisshDAO {
 				if (in_array(12,$mod_d_s)){
 
 					$PG = new PowerGraphic;
-					$PG->title = "Coberturas Servicios P�blicos Viviendas";
+					$PG->title = "Coberturas Servicios Públicos Viviendas";
 					$PG->type = $tipo_grafica[$mod_d_s_tipo_g[12]];
 					$PG->skin      = 1;
 					$PG->border = 0;
@@ -2225,18 +2225,18 @@ Class SisshDAO {
 					//DANE
 					//Cobertura Servicio Alcantarillado = 348
 					//Cobertura Servicio de Acueducto = 505
-					//Cobertura Servicio Energ�a El�ctrica = 364
-					//Cobertura Servicio Telef�nico = 383
+					//Cobertura Servicio Energía Eléctrica = 364
+					//Cobertura Servicio Telefónico = 383
 
 					//SISBEN
 					//Cobertura Vivienda SISBEN con Alcantarillado = 504
 					//Cobertura Vivienda SISBEN con Servicio de Acueducto = 322
-					//Cobertura Vivienda SISBEN con Servicio Energ�a El�ctrica = 337
-					//Cobertura Vivienda SISBEN con Servicio Telef�nico = 545
+					//Cobertura Vivienda SISBEN con Servicio Energía Eléctrica = 337
+					//Cobertura Vivienda SISBEN con Servicio Telefónico = 545
 
 					$id_dato_dane = array(348,505,364,383);
 					$id_dato_sisben = array(504,322,337,545);
-					$servicio = array("Alcantarillado","Acueducto","Energ�a El�ctrica","Tel�fono");
+					$servicio = array("Alcantarillado","Acueducto","Energía Eléctrica","Teléfono");
 
 					for($i=0;$i<count($id_dato_dane);$i++){
 
@@ -2348,7 +2348,7 @@ Class SisshDAO {
 				//RECEPCION REGISTRADA POR FUENTE
 				if (in_array(1,$mod_des)){
 
-					//PARA CODHES Y Acci�n Social
+					//PARA CODHES Y Acción Social
 					$fuentes = $fuente_des_dao->GetAllArray('ID_FUEDES IN (1,2)');
 					$tipos = $tipo_des_dao->GetAllArray('');
 
@@ -3846,7 +3846,7 @@ Class SisshDAO {
 	* @access public
     *
     * @param string $modulo
-    * @param string $static_file Nombre de la pagina est�tica
+    * @param string $static_file Nombre de la pagina estática
 	* @return boolean $gen
 	*/
 	function siGenerarStaticByTime($modulo,$static_file){
@@ -4107,7 +4107,7 @@ Class SisshDAO {
 	* Crea y consulta cache de mapa de orgs
 	* @access public
 	* @param string $caso Insertar o consultar
-	* @param string $caso_org Caso espec�fico al generar el mapa: tipo, sector, enfoque, poblacion, una_org
+	* @param string $caso_org Caso específico al generar el mapa: tipo, sector, enfoque, poblacion, una_org
 	* @param int $id ID de la org o ID del tipo o ID del sector o ID del enfoque o ID de la poblacion
 	* @param string $ubicacion ID del departamento o 0 para Nacional
 	* @param string $extent Extension usada para el mapa

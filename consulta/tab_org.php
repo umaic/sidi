@@ -27,8 +27,8 @@
 							<tr><td>&nbsp;</td></tr>
 							<tr>
 								<td align="center">
-									<input type="button" value="Generar Gr·fica" name="submit_org" class="boton" onclick="graficar('bar')">
-									&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar UbicaciÛn" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
+									<input type="button" value="Generar Gr√°fica" name="submit_org" class="boton" onclick="graficar('bar')">
+									&nbsp;&nbsp;<input type="button" id="boton_regresar" value="Seleccionar Ubicaci√≥n" class="boton" style="display:none" onclick="document.getElementById('td_mapa').style.display=''">
 								</td>
 							</tr>
 						</table>					
@@ -48,7 +48,7 @@
 						</table>
 					</td>
 				</tr>
-<!--				<tr><td class="nota_bcg" colspan="2">:: No olvide que luego de generada la gr·fica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
+<!--				<tr><td class="nota_bcg" colspan="2">:: No olvide que luego de generada la gr√°fica, el sistema presenta la opci&oacute;n de generar un reporte detallado de la consulta, para esto, use el bot&oacute;n <b>Generar Reporte</b> que se mostrar&aacute; bajo la gr&aacute;fica una vez sea generada ::</tr>-->
 				<tr><td>&nbsp;</td></tr>
 				<tr><td id="graficaConteoOrg" colspan=2 class="td_grafica_bcg" style="display:none"></td></tr>
 			</table>

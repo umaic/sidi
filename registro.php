@@ -27,7 +27,7 @@ if (isset($_POST["submit"])){
 		$tel = $_POST["tel"];
 		$contacto = $_POST["punto_contacto"];
 		
-		$error_sec = "C骴igo de seguridad incorrecto!";
+		$error_sec = "C贸digo de seguridad incorrecto!";
 	}
 }
 ?>
@@ -46,7 +46,7 @@ function validar(){
 	login = document.getElementById('login').value;
 	sec_code = document.getElementById('security_code').value;
 	
-	if (validar_forma('nombre,Nombre Completos,org,Organizaci髇,tel,Tel閒ono,email,Email,punto_contacto,Punto de cont醕to en OCHA,login,Nombre de Usuario,pass,Contrase馻,security_code,C骴igo de Seguridad',document.getElementById('email').value)){
+	if (validar_forma('nombre,Nombre Completos,org,Organizaci贸n,tel,Tel茅fono,email,Email,punto_contacto,Punto de cont谩cto en OCHA,login,Nombre de Usuario,pass,Contrase帽a,security_code,C贸digo de Seguridad',document.getElementById('email').value)){
 		
 		if (login.indexOf(" ") > 0){
 			alert('El Nombre de Usuario (Login) no puede contener espacios, ej. alopez');
@@ -54,7 +54,7 @@ function validar(){
 		}
 		
 		if (pass_1 != pass_2){
-			alert('Las Contrase馻s no coinciden');
+			alert('Las Contrase帽as no coinciden');
 			return false;
 		}
 	}
@@ -152,7 +152,7 @@ function validar(){
 		}
 		else {?>
 		<tr>
-			 <td align="center" class="titulo_login">Registro realizado con 閤ito, el Administrador fue notificado para realizar la activaci髇 del usuario.</td>
+			 <td align="center" class="titulo_login">Registro realizado con 茅xito, el Administrador fue notificado para realizar la activaci贸n del usuario.</td>
 		</tr>
 		<?
 		}

@@ -10,8 +10,8 @@ if ($_SESSION["m"] == "evento_admin"){ ?>
 }
 if ($_SESSION["m"] == "evento_c_admin"){ ?>
     <td><a href="index.php?m_e=sexo&accion=listar&class=SexoDAO&method=ListarTabla&param=">Sexo</a></td>
-    <td><a href="index.php?m_e=condicion_mina&accion=listar&class=CondicionMinaDAO&method=ListarTabla&param=">Condici髇</a></td>
-    <td><a href="index.php?m_e=sub_condicion&accion=listar&class=SubCondicionDAO&method=ListarTabla&param=">Sub Condici髇</a></td>
+    <td><a href="index.php?m_e=condicion_mina&accion=listar&class=CondicionMinaDAO&method=ListarTabla&param=">Condici贸n</a></td>
+    <td><a href="index.php?m_e=sub_condicion&accion=listar&class=SubCondicionDAO&method=ListarTabla&param=">Sub Condici贸n</a></td>
     <td><a href="index.php?m_e=edad&accion=listar&class=EdadDAO&method=ListarTabla&param=">Edad</a></td>
     <td><a href="index.php?m_e=rango_edad&accion=listar&class=RangoEdadDAO&method=ListarTabla&param=">Rango Edad</a></td>
     <td><a href="index.php?m_e=ocupacion&accion=listar&class=OcupacionDAO&method=ListarTabla&param=">Ocupaci&oacute;n</a></td>
@@ -26,15 +26,15 @@ if ($_SESSION["m"] == "evento_c_admin"){ ?>
 }
 else if ($_SESSION["m"] == "usuario_admin"){ ?>
     <td><a href="index.php?m_e=tipo_usuario&accion=listar&class=TipoUsuarioDAO&method=ListarTabla&param=">Tipo de Usuario</a></td>
-    <td><a href="index.php?m_e=perfil_usuario&accion=listar&class=PerfilUsuarioDAO&method=ListarTabla&param=">Acceso a m骴ulos por Tipo de Usuario</a></td>
+    <td><a href="index.php?m_e=perfil_usuario&accion=listar&class=PerfilUsuarioDAO&method=ListarTabla&param=">Acceso a m贸dulos por Tipo de Usuario</a></td>
 	<td><a href="index.php?m_e=usuario&accion=listar&class=UsuarioDAO&method=ListarTabla&param=">Usuarios</a></td>
 <?
 }
 else if ($_SESSION["m"] == "sistema_admin"){ ?>
-    <td><a href="index.php?m_e=modulo&accion=listar&class=ModuloDAO&method=ListarTabla&param=">M骴ulos</a></td>
-    <td><a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Cont醕tos</a></td>
+    <td><a href="index.php?m_e=modulo&accion=listar&class=ModuloDAO&method=ListarTabla&param=">M贸dulos</a></td>
+    <td><a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Cont谩ctos</a></td>
     <td><a href="index.php?m_e=sector&accion=listar&class=SectorDAO&method=ListarTabla&param=">Sectores</a></td>
-    <td><a href="index.php?m_e=poblacion&accion=listar&class=PoblacionDAO&method=ListarTabla&param=">Poblaci髇</a></td>
+    <td><a href="index.php?m_e=poblacion&accion=listar&class=PoblacionDAO&method=ListarTabla&param=">Poblaci贸n</a></td>
 
 <?
 }
@@ -50,7 +50,7 @@ else if ($_SESSION["m"] == "geo_admin"){ ?>
 <?
 }
 else if ($_SESSION["m"] == "org_admin"){ ?>
-    <td><a href="index.php?m_e=tipo_org&accion=listar&class=TipoOrganizacionDAO&method=ListarTabla&param=">Tipo de Organizaci髇</a></td>
+    <td><a href="index.php?m_e=tipo_org&accion=listar&class=TipoOrganizacionDAO&method=ListarTabla&param=">Tipo de Organizaci贸n</a></td>
     <td><a href="index.php?m_e=enfoque&accion=listar&class=EnfoqueDAO&method=ListarTabla&param=">Enfoques</a></td>
 <?
 }
@@ -75,13 +75,13 @@ else if ($_SESSION["m"] == "desplazamiento_admin"){ ?>
 }
 else if ($_SESSION["m"] == "mina_admin"){ ?>
     <td><a href="index.php?m_e=sexo&accion=listar&class=SexoDAO&method=ListarTabla&param=">Sexo</a></td>
-    <td><a href="index.php?m_e=condicion_mina&accion=listar&class=CondicionMinaDAO&method=ListarTabla&param=">Condici髇</a></td>
+    <td><a href="index.php?m_e=condicion_mina&accion=listar&class=CondicionMinaDAO&method=ListarTabla&param=">Condici贸n</a></td>
     <td><a href="index.php?m_e=edad&accion=listar&class=EdadDAO&method=ListarTabla&param=">Edad</a></td>
     <td><a href="index.php?m_e=estado_mina&accion=listar&class=EstadoMinaDAO&method=ListarTabla&param=">Estado</a></td>
 <?
 }
 else if ($_SESSION["m"] == "cnrr_admin"){ ?>
-    <td><a href="index.php?m_e=cnrr&accion=listar&class=CnrrDAO&method=ListarTablaEPST&param=">Enfoques-Poblaci髇-Sector-Tipo</a></td>
+    <td><a href="index.php?m_e=cnrr&accion=listar&class=CnrrDAO&method=ListarTablaEPST&param=">Enfoques-Poblaci贸n-Sector-Tipo</a></td>
     <td><a href="index.php?m_e=cnrr&accion=listar&class=CnrrDAO&method=ListarTablaPerfil&param=">Permisos por Tipo de Usuario</a></td>
 <?
 }
@@ -91,8 +91,8 @@ else if ($_SESSION["m"] == "evento_consulta"){ ?>
 <?
 }
 else if ($_SESSION["m"] == "org_consulta"){ ?>
-    <td><a href="index_consulta.php?m_e=org&accion=reportar&class=OrganizacionDAO&method=ReporteCoberturaGeografica">Listar por Cobertura Geogr醘ica</a></td>
-	<td><a href="index_consulta.php?m_e=org&accion=reportar&class=OrganizacionDAO&method=Listar&param=tipo">Listar por Tipo de Organizaci髇</a></td>
+    <td><a href="index_consulta.php?m_e=org&accion=reportar&class=OrganizacionDAO&method=ReporteCoberturaGeografica">Listar por Cobertura Geogr谩fica</a></td>
+	<td><a href="index_consulta.php?m_e=org&accion=reportar&class=OrganizacionDAO&method=Listar&param=tipo">Listar por Tipo de Organizaci贸n</a></td>
 <?
 }
 else if ($_SESSION["m"] == "log_admin"){ ?>

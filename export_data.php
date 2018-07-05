@@ -16,7 +16,7 @@ if (isset($_GET['csv2xls'])) {
     // If the files uses a delimiter other than a comma (e.g. a tab), then tell the reader
     //$objReader->setDelimiter("\t");
     // If the files uses an encoding other than UTF-8 or ASCII, then tell the reader
-    //$objReader->setInputEncoding('ISO-8859-1');
+    $objReader->setInputEncoding('Windows-1252');
 
     $objPHPExcel = $objReader->load($_SERVER['DOCUMENT_ROOT'].$_GET['csv_path']);
 
@@ -46,7 +46,7 @@ else {
     else{
         //header("Content-type: application/vnd.ms-excel");
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment; filename=\"".$nom.".xlsx\"");
+        header("Content-Disposition: attachment; filename=\"".$nom.".xls\"");
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

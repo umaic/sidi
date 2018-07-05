@@ -137,7 +137,7 @@ function buscarOrgs(){
 	//El valor de donde, se coloca en js/ajax.js
 }
 function validar(){
-	if (validar_forma('nombre,Nombre,id_tipo,Tipo,id_mun_sede,Municipio Sede,dir,Dirección,tel1,Teléfono 1','')){
+	if (validar_forma('nombre,Nombre,id_tipo,Tipo,id_mun_sede,Municipio Sede,dir,DirecciÃ³n,tel1,TelÃ©fono 1','')){
 		
 		var error = '';
 		var obj = document.getElementsByName('id_sectores[]');
@@ -147,12 +147,12 @@ function validar(){
 		
 		obj = document.getElementsByName('id_poblaciones[]');
 		if (!checkInputChecked(obj)){
-			error += '- Población Beneficiaria\n';
+			error += '- PoblaciÃ³n Beneficiaria\n';
 		}
 
 		obj = document.getElementsByName('id_muns[]');
 		if (!checkInputChecked(obj)){
-			error += '- Cobertura Geográfica por municipio';
+			error += '- Cobertura GeogrÃ¡fica por municipio';
 		}
 
 		if (error != ''){
@@ -163,7 +163,7 @@ function validar(){
 		else{
 			//Aviso de campos vacios
 			var id_nr = Array('sigla','n_rep','t_rep','naci','pu_email','web','tel2','fax');
-			var name_nr = Array('Sigla','Representante','Titulo Representante','Año de fundación en Colombia','Email','Página web','Teléfono 2','Fax');
+			var name_nr = Array('Sigla','Representante','Titulo Representante','AÃ±o de fundaciÃ³n en Colombia','Email','PÃ¡gina web','TelÃ©fono 2','Fax');
 
 			for (var c=0;c<id_nr.length;c++){
 				obj = document.getElementById(id_nr[c]);
@@ -182,7 +182,7 @@ function validar(){
 				if (obj.item(c).value != '')	vacio = 0;
 			}
 
-			if (vacio == 1)	error += '- ¿Cuáles otras organizaciones conoce?\n';
+			if (vacio == 1)	error += '- Â¿CuÃ¡les otras organizaciones conoce?\n';
 
 			vacio = 1;
 			obj = document.getElementsByName('org_trabaja_nombre[]');
@@ -190,7 +190,7 @@ function validar(){
 				if (obj.item(c).value != '')	vacio = 0;
 			}
 
-			if (vacio == 1)	error += '- ¿Con cuáles otras organizaciones trabaja? \n';
+			if (vacio == 1)	error += '- Â¿Con cuÃ¡les otras organizaciones trabaja? \n';
 			
 			if (error != ''){
 				return confirm("Los siguientes campos NO son obligatorios pero estan vacios:\n\n" + error + "\n=======> Desea continuar? ");
@@ -199,7 +199,7 @@ function validar(){
 				<?
 				//Alerta actualizar
 				if ($accion == 'actualizar_mo'){
-					echo "return confirm('Está seguro que desea modificar la información?');";
+					echo "return confirm('EstÃ¡ seguro que desea modificar la informaciÃ³n?');";
 				}
 				else	echo "return true";
 				?>
@@ -223,14 +223,14 @@ function validar(){
 					<? if ($verifi == 0 && $accion == "insertar_mo"){ ?>
 					<tr>
 						<td colspan="2">
-							<b>PASO 1: Verificación</b>
+							<b>PASO 1: VerificaciÃ³n</b>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							Digite el nombre o la sigla (seleccionar sigla en el combo) de la Organización que va a ingresar en el sistema y verifique que no existe
+							Digite el nombre o la sigla (seleccionar sigla en el combo) de la OrganizaciÃ³n que va a ingresar en el sistema y verifique que no existe
 							mediante el listado que aparece debajo del campo a medida que va ingresando caracteres.
-							Si necesita ingresar una Organización Sede, por favor, incluya el nombre de la sede en el título (ej. Ocha - Medellín).
+							Si necesita ingresar una OrganizaciÃ³n Sede, por favor, incluya el nombre de la sede en el tÃ­tulo (ej. Ocha - MedellÃ­n).
 						</td>
 					</tr>
 					<tr>
@@ -334,7 +334,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-					  <td><b>Dirección (*)</b></td>
+					  <td><b>DirecciÃ³n (*)</b></td>
 					  <td colspan="6"><input type="text" name="dir" id="dir" class="textfield" value="<?=$org_vo->dir;?>" size="60" /></td>
 					</tr>
 					<tr>
@@ -351,7 +351,7 @@ function validar(){
 					</tr>
 					<tr>
 					  <td>
-					  <b>Página Web</b></td>
+					  <b>PÃ¡gina Web</b></td>
 					  <td colspan="6">
 					  	<input type="text" name="web" id="web" class="textfield" value="<?=$org_vo->web;?>" size="60" />
 						  <? if ($accion == "actualizar_mo"){ ?>
@@ -360,9 +360,9 @@ function validar(){
 					  </td>
 					</tr>
 					<tr>
-					  <td><b>Teléfono 1 (*)</b></td>
+					  <td><b>TelÃ©fono 1 (*)</b></td>
 					  <td><input type="text" name="tel1" id="tel1" class="textfield" value="<?=$org_vo->tel1;?>" size="15" /></td>
-					  <td><b>Teléfono 2</b></td>
+					  <td><b>TelÃ©fono 2</b></td>
 					  <td><input type="text" name="tel2" id="tel2" class="textfield" value="<?=$org_vo->tel2;?>" size="15" /></td>
 					  <td><b>Fax</b></td>
 					  <td><input type="text" name="fax" id="fax" class="textfield" value="<?=$org_vo->fax;?>" size="10" /></td>
@@ -389,7 +389,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-						<td><b>Poblaci&oacute;n Beneficiaria (*)</b><br><br><font class="nota">(Seleccione el o los tipos de población en los que su Organización focaliza sus actividades)</font></td>
+						<td><b>Poblaci&oacute;n Beneficiaria (*)</b><br><br><font class="nota">(Seleccione el o los tipos de poblaciÃ³n en los que su OrganizaciÃ³n focaliza sus actividades)</font></td>
 						<td colspan="5">
 							<table width="100%">
 								<tr>
@@ -411,7 +411,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-						<td><b>Cobertura Geogr&aacute;fica por Municipio (*)</b><br><br><font class="nota">(Selección el o los municipios en los que la Organización tiene presencia)</font></td>
+						<td><b>Cobertura Geogr&aacute;fica por Municipio (*)</b><br><br><font class="nota">(SelecciÃ³n el o los municipios en los que la OrganizaciÃ³n tiene presencia)</font></td>
 						<td colspan="5">
 							<table width="100%">
 								<input type='hidden' name="id_depto[]" value="<?=$id_depto?>">
@@ -431,7 +431,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-						<td><b>Cobertura Geogr&aacute;fica por Centro Poblado</b><br><br><font class="nota">(Selección el o los centro poblados en los que la Organización tiene presencia)</font></td>
+						<td><b>Cobertura Geogr&aacute;fica por Centro Poblado</b><br><br><font class="nota">(SelecciÃ³n el o los centro poblados en los que la OrganizaciÃ³n tiene presencia)</font></td>
 						<td colspan="5">
 							<table width="100%">
 								<tr>
@@ -450,7 +450,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-					  <td><b>Organización a la que pertenece<br><br><font class="nota">(Si es una sucursal, seleccione aqu&iacute; la sede principal)</font></b></td>
+					  <td><b>OrganizaciÃ³n a la que pertenece<br><br><font class="nota">(Si es una sucursal, seleccione aqu&iacute; la sede principal)</font></b></td>
 					  <td colspan="6">
 						<input type="hidden" id="id_papa" name="id_papa" value="<?=$org_vo->id_papa;?>" />
 						<select id="id_papa" name="id_papa" class="select" />
@@ -461,14 +461,14 @@ function validar(){
 						</td>
 					</tr>						  
 					<tr>	
-					  <td><b>Participa en algún espacio de coordinación?</b></td>
+					  <td><b>Participa en algÃºn espacio de coordinaciÃ³n?</b></td>
 					  <td>
 						<input type="radio" name="esp" <? if ($org_vo->esp_coor != "")  echo " checked "; ?>>&nbsp;Si&nbsp;<input type="radio" name="esp" <? if ($org_vo->esp_coor == "")  echo " checked "; ?>>&nbsp;No
 					  </td>
 					  <td colspan="4"><b>Si, Cual?</b><br><textarea id="esp_coor" name="esp_coor" cols="50" rows="5" class="area"><?=$org_vo->esp_coor?></textarea></td>
 					</tr>						
 					<tr>
-						<td><b>¿Con cu&aacute;les otras organizaciones trabaja?</b></td>
+						<td><b>Â¿Con cu&aacute;les otras organizaciones trabaja?</b></td>
 						<td colspan="5" align='left'>
 							<table cellpadding="3">
 								<?
@@ -488,7 +488,7 @@ function validar(){
 						</td>
 					</tr>
 					<tr>
-						<td><b>¿Cu&aacute;les otras organizaciones conoce?</b></td>
+						<td><b>Â¿Cu&aacute;les otras organizaciones conoce?</b></td>
 						<td colspan="5" align='left'>
 							<table cellpadding="3">
 								<?

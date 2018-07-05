@@ -20,14 +20,14 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
 
 <form method="POST" onsubmit="submitForm(event);return false;">
 	<table class="tabla_insertar">
-		<tr><td align="right">Nombre en Español</td><td><input type="text" id="nombre_es" name="nombre_es" size="40" value="<?=$tipo_org_vo->nombre_es;?>" class="textfield" /></td></tr>
-		<tr><td align="right">Nombre en Inglés</td><td><input type="text" id="nombre_in" name="nombre_in" size="40" value="<?=$tipo_org_vo->nombre_in;?>" class="textfield" /></td></tr>				
+		<tr><td align="right">Nombre en EspaÃ±ol</td><td><input type="text" id="nombre_es" name="nombre_es" size="40" value="<?=$tipo_org_vo->nombre_es;?>" class="textfield" /></td></tr>
+		<tr><td align="right">Nombre en InglÃ©s</td><td><input type="text" id="nombre_in" name="nombre_in" size="40" value="<?=$tipo_org_vo->nombre_in;?>" class="textfield" /></td></tr>				
 		<tr>
 		  <td colspan="2" align='center'>
 			  <br>
 				<input type="hidden" name="accion" value="<?=$accion?>" />
 			<input type="hidden" name="id" value="<?=$tipo_org_vo->id;?>" />									
-				<input type="submit" name="submit" value="Aceptar" class="boton" onclick="return validar_forma('nombre_es,Nombre en Español,nombre_in,Nombre en Inglés','');" />
+				<input type="submit" name="submit" value="Aceptar" class="boton" onclick="return validar_forma('nombre_es,Nombre en EspaÃ±ol,nombre_in,Nombre en InglÃ©s','');" />
 			</td>
 		</tr>
 	</table>

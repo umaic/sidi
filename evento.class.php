@@ -2,14 +2,14 @@
 /**
  * DAO de Evento
  *
- * Contiene los mÈtodos de la clase Evento 
+ * Contiene los m√©todos de la clase Evento
  * @author Ruben A. Rojas C.
  */
 
 Class EventoDAO {
 
 	/**
-	* ConexiÛn a la base de datos
+	* Conexi√≥n a la base de datos
 	* @var object 
 	*/
 	var $conn;
@@ -39,14 +39,14 @@ Class EventoDAO {
 	var $columna_order;
 
 	/**
-	* N˙mero de Registros en Pantalla para ListarTAbla
+	* N√∫mero de Registros en Pantalla para ListarTAbla
 	* @var string
 	*/
 	var $num_reg_pag;
 
 	/**
   * Constructor
-	* Crea la conexiÛn a la base de datos
+	* Crea la conexi√≥n a la base de datos
   * @access public
   */	
 	function EventoDAO (){
@@ -97,9 +97,9 @@ Class EventoDAO {
 	}
 
 	/**
-  * Consulta los datos de los Evento que cumplen una condiciÛn
+  * Consulta los datos de los Evento que cumplen una condici√≥n
   * @access public
-  * @param string $condicion CondiciÛn que deben cumplir los Evento y que se agrega en el SQL statement.
+  * @param string $condicion Condici√≥n que deben cumplir los Evento y que se agrega en el SQL statement.
   * @return array Arreglo de VOs
   */	
 	function GetAllArray($condicion){
@@ -127,11 +127,11 @@ Class EventoDAO {
 	}
 
 	/**
-  * Lista los Evento que cumplen la condiciÛn en el formato dado
+  * Lista los Evento que cumplen la condici√≥n en el formato dado
   * @access public
-  * @param string $formato Formato en el que se listar·n los Evento, puede ser Tabla o ComboSelect
-	* @param int $valor_combo ID del Evento que ser· selccionado cuando el formato es ComboSelect
-  * @param string $condicion CondiciÛn que deben cumplir los Evento y que se agrega en el SQL statement.
+  * @param string $formato Formato en el que se listar√°n los Evento, puede ser Tabla o ComboSelect
+	* @param int $valor_combo ID del Evento que ser√° selccionado cuando el formato es ComboSelect
+  * @param string $condicion Condici√≥n que deben cumplir los Evento y que se agrega en el SQL statement.
   */			
 	function ListarCombo($formato,$valor_combo,$condicion){
 		$arr = $this->GetAllArray($condicion);
@@ -236,7 +236,7 @@ Class EventoDAO {
 
 			echo "<td><div align='justify'>".$arr[$p]->desc."</div></td>";
 			echo "<td align='center'>".$arr[$p]->fecha_registro."</td>";
-			echo "<td align='center'><a href='".$_SERVER['PHP_SELF']."?accion=actualizar&id=".$arr[$p]->id."'>Modificar</a> | <a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('Est· seguro que desea borrar el Evento?');\">Borrar</a></td>";
+			echo "<td align='center'><a href='".$_SERVER['PHP_SELF']."?accion=actualizar&id=".$arr[$p]->id."'>Modificar</a> | <a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('Est√° seguro que desea borrar el Evento?');\">Borrar</a></td>";
 
 			echo "</tr>";
 		}
@@ -248,7 +248,7 @@ Class EventoDAO {
 			$num_pages = ceil($num_arr/$this->num_reg_pag);
 			echo "<tr><td colspan='2' align='center'>";
 
-			echo "Ir a la p·gina:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
+			echo "Ir a la p√°gina:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
 			for ($pa=1;$pa<=$num_pages;$pa++){
 				echo " <option value='".$pa."'";
 				if ($pa == $pag_url)	echo " selected ";
@@ -281,7 +281,7 @@ Class EventoDAO {
 		echo "<table width='100%' align='center' cellspacing='1' cellpadding='3'>
 					<tr><td>&nbsp;</td><td align='center'><b>Informe Diario</b> - <b>".$fecha_tit."</b></td></tr>
 					<tr><td width='12%'><img src='/sissh/images/consulta/generar_pdf.gif' border='0'>&nbsp;<a href='/sissh/admin/reporte_pdf.php?class=EventoDAO&method=ReporteDiarioPDF&param=".$fecha."' target='blank'>Generar PDF</a></td><td align='center' class='titulo_lista'><b>USO INTERNO</b></td></tr>
-					<tr><td>&nbsp;</td><td align='center'><b>La informaciÛn contenida no refleja la opiniÛn del Sistema de las Naciones Unidas</b></td></tr>
+					<tr><td>&nbsp;</td><td align='center'><b>La informaci√≥n contenida no refleja la opini√≥n del Sistema de las Naciones Unidas</b></td></tr>
 					<tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>";
 
 		////SE MUESTRAN LOS EVENTOS POR CATEGORIA
@@ -305,7 +305,7 @@ Class EventoDAO {
   							<td align='center' width='10'><b>Actores</b></td>
   							<td align='center' width='100'><b>Consecuencias Humanitarias</b></td>
   							<td align='center' width='70'><b>Riesgos Humanitarios</b></td>
-  							<td align='center' width='200'><b>DescripciÛn</b></td>
+  							<td align='center' width='200'><b>Descripci√≥n</b></td>
   							<td align='center' width='70'><b>Fecha registro</b></td>
   						</tr>";
 
@@ -377,7 +377,7 @@ Class EventoDAO {
 
 						$z++;
 					}
-					////DescripciÛn de las consecuencias
+					////Descripci√≥n de las consecuencias
 					if ($arr_vo->desc_cons_hum != "")
 					echo " - ".$arr_vo->desc_cons_hum;
 
@@ -393,7 +393,7 @@ Class EventoDAO {
 
 						$z++;
 					}
-					////DescripciÛn de los riegos
+					////Descripci√≥n de los riegos
 					if ($arr_vo->desc_riesg_hum != "")
 					echo " - ".$arr_vo->desc_riesg_hum;
 
@@ -439,7 +439,7 @@ Class EventoDAO {
 		$data = Array(
 		Array('title'=>'<b>Informe Diario</b> - <b>'.$fecha_tit.'</b>'),
 		Array('title'=>'<b>USO INTERNO</b>'),
-		Array('title'=>'<b>La informaciÛn contenida no refleja la opiniÛn del Sistema de las Naciones Unidas</b>')
+		Array('title'=>'<b>La informaci√≥n contenida no refleja la opini√≥n del Sistema de las Naciones Unidas</b>')
 		);
 
 		$pdf->ezTable($data,Array('title'=>''),'',$options);
@@ -463,7 +463,7 @@ Class EventoDAO {
 				'actor'   => '<b>Actores</b>',
 				'cons'   => '<b>Consecuencias Humanitarias</b>',
 				'riesg'   => '<b>Riesgos Humanitarios</b>',
-				'desc'   => '<b>DescripciÛn</b>',
+				'desc'   => '<b>Descripci√≥n</b>',
 				'fecha'   => '<b>Fecha registro</b>');
 
 				$f = 0;
@@ -526,7 +526,7 @@ Class EventoDAO {
 						$z++;
 					}
 
-					////DescripciÛn de las consecuencias
+					////Descripci√≥n de las consecuencias
 					if ($arr_vo->desc_cons_hum != "")
 					$tmp .= " - ".$arr_vo->desc_cons_hum;
 
@@ -541,7 +541,7 @@ Class EventoDAO {
 						else				$tmp .= ", ".$vo->nombre;
 						$z++;
 					}
-					////DescripciÛn de los riegos
+					////Descripci√≥n de los riegos
 					if ($arr_vo->desc_riesg_hum != "")
 					$tmp .= " - ".$arr_vo->desc_riesg_hum;
 
@@ -743,11 +743,11 @@ Class EventoDAO {
 								  <td valign='bottom'>
 									  <div align='justify'>
 										  Naciones Unidas Colombia<br>
-											La informaciÛn contenida en este informe es para uso<br> 
+											La informaci√≥n contenida en este informe es para uso<br> 
 											exclusivo del Sistema de las naciones Unidas, no esta <br>
-											permitida su redistribuciÛn o publicaciÛn
+											permitida su redistribuci√≥n o publicaci√≥n
 											<br><br>
-											La informaciÛn contenida no refleja la opiniÛn del <br>
+											La informaci√≥n contenida no refleja la opini√≥n del <br>
 											Sistema de Naciones Unidas.
 										</div>
 									</td>
@@ -836,17 +836,17 @@ Class EventoDAO {
 		$pdf -> ezSetMargins(50,50,50,50);
 		$pdf->selectFont('lib/common/PDFfonts/Helvetica.afm');
 
-		// Coloca el logo y el pie en todas las p·ginas
+		// Coloca el logo y el pie en todas las p√°ginas
 		$all = $pdf->openObject();
 		$pdf->saveState();
 		$pdf->ezImage('../images/logos/enc_reporte_semanal.jpg',0,65,'none','left');
 
 
 		$pdf->addText(50,103,8,'Naciones Unidas Colombia');
-		$pdf->addText(50,88,8,'La informaciÛn contenida en este informe es para uso');
+		$pdf->addText(50,88,8,'La informaci√≥n contenida en este informe es para uso');
 		$pdf->addText(50,81,8,'exclusivo del Sistema de las naciones Unidas, no esta');
-		$pdf->addText(50,73,8,'permitida su redistribuciÛn o publicaciÛn.');
-		$pdf->addText(50,58,8,'La informaciÛn contenida no refleja la opiniÛn del');
+		$pdf->addText(50,73,8,'permitida su redistribuci√≥n o publicaci√≥n.');
+		$pdf->addText(50,58,8,'La informaci√≥n contenida no refleja la opini√≥n del');
 		$pdf->addText(50,50,8,'Sistema de Naciones Unidas.');
 
 		$pdf->restoreState();
@@ -1134,8 +1134,8 @@ Class EventoDAO {
   * Imprime en pantalla los datos del Evento
   * @access public
   * @param object $vo Evento que se va a imprimir
-  * @param string $formato Formato en el que se listar·n los Evento, puede ser Tabla o ComboSelect
-	* @param int $valor_combo ID del Evento que ser· selccionado cuando el formato es ComboSelect
+  * @param string $formato Formato en el que se listar√°n los Evento, puede ser Tabla o ComboSelect
+	* @param int $valor_combo ID del Evento que ser√° selccionado cuando el formato es ComboSelect
   */			
 	function Imprimir($vo,$formato,$valor_combo){
 
@@ -1294,7 +1294,7 @@ Class EventoDAO {
 
     	?>
     	<script>
-    	if (!confirm("Evento insertado con Èxito, desea definir la UbicaciÛn Geogr·fica del evento en Regiones y Poblados?")){
+    	if (!confirm("Evento insertado con √©xito, desea definir la Ubicaci√≥n Geogr√°fica del evento en Regiones y Poblados?")){
     		location.href="<?=$this->url;?>";
     	}
     	</script>
@@ -1456,13 +1456,13 @@ Class EventoDAO {
 
 		?>
   	<script>
-  	alert("Registro actualizado con Èxito!");
+  	alert("Registro actualizado con √©xito!");
   	</script>
   	<?
 	}
 
 	/**
-	* Actualiza la cobertura geogr·fica de una Evento en la B.D.
+	* Actualiza la cobertura geogr√°fica de una Evento en la B.D.
 	* @access public
 	* @param object $depto_vo VO de Evento que se va a actualizar
 	*/		
@@ -1474,14 +1474,14 @@ Class EventoDAO {
 		if ($paso == 2){
 			?>
 			<script>
-			alert("Cobertura Geogr·fica (Poblado - RegiÛn) registrada con Èxito!");
+			alert("Cobertura Geogr√°fica (Poblado - Regi√≥n) registrada con exito!");
 			</script>
 			<?
 		}
 		if ($paso == 3){
 			?>
 			<script>
-			alert("Cobertura Geogr·fica (Departamento - Municipio) registrada con Èxito!");
+			alert("Cobertura Geogr√°fica (Departamento - Municipio) registrada con √©xito!");
 			location.href = '<?=$this->url;?>';
 			</script>
 			<?
@@ -1489,7 +1489,7 @@ Class EventoDAO {
 		else if ($paso == 4){
 			?>
 			<script>
-			alert("Cobertura Geogr·fica (Parque Natural, Resguardo o Divison Afro) registrada con Èxito!");
+			alert("Cobertura Geogr√°fica (Parque Natural, Resguardo o Divison Afro) registrada con √©xito!");
 			location.href = '<?=$this->url;?>';
 			</script>
 			<?
@@ -1497,7 +1497,7 @@ Class EventoDAO {
 		else if ($paso == 5){
 			?>
 			<script>
-			alert("Cobertura Geogr·fica (Poblado - RegiÛn) registrada con Èxito!");
+			alert("Cobertura Geogr√°fica (Poblado - Regi√≥n) registrada con √©xito!");
 			location.href = '<?=$this->url;?>';
 			</script>
 			<?
@@ -1521,7 +1521,7 @@ Class EventoDAO {
 
     ?>
     <script>
-    alert("Registro eliminado con Èxito!");
+    alert("Registro eliminado con √©xito!");
     location.href = '<?=$this->url;?>';
     </script>
     <?
@@ -1595,7 +1595,7 @@ Class EventoDAO {
 	}
 
 	/**
-  * Muestra la InformaciÛn completa de una OrganizaciÛn
+  * Muestra la Informaci√≥n completa de una Organizaci√≥n
   * @access public
   * @param id $id Id de la Proyecto
   */			
@@ -1687,7 +1687,7 @@ Class EventoDAO {
 		}
 		echo "</td></tr>";
 
-		echo "<tr><td class='tabla_consulta' width='150'><b>DescripciÛn</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
+		echo "<tr><td class='tabla_consulta' width='150'><b>Descripci√≥n</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
 		echo "<tr><td class='tabla_consulta' width='150'><b>Fecha de registro</b></td><td class='tabla_consulta' width='500'>".$arr_vo->fecha_registro."</td></tr>";
 
 		echo "</table>";
@@ -2019,7 +2019,7 @@ Class EventoDAO {
 							<td align='center' width='70'><b>Municipio</b></td>
 							<td align='center' width='100'><b>Tipo de Evento</b></td>
 							<td align='center' width='10'><b>Actores</b></td>
-							<td align='center'><b>DescripciÛn</b></td>
+							<td align='center'><b>Descripci√≥n</b></td>
 							<td align='center' width='70'><b>Fecha evento</b></td>
 							<td align='center' width='70'><b>Fecha registro</b></td>
 							<td align='center' width='80'>Registros: ".$num_arr."</td>
@@ -2115,7 +2115,7 @@ Class EventoDAO {
 	* Reporte PDF - EXCEL
 	* @param Array $id_eventos Id de los Eventos a Reportar
 	* @param Int $formato PDF o Excel
-	* @param Int $basico 1 = B·sico - 2 = Detallado
+	* @param Int $basico 1 = B√°sico - 2 = Detallado
 	* @access public
 	*******************************************************************************/
 	function ReporteEvento($id_eventos,$formato,$basico){
@@ -2148,13 +2148,13 @@ Class EventoDAO {
 			$pdf -> ezSetMargins(80,70,20,20);
 			$pdf->selectFont('admin/lib/common/PDFfonts/Helvetica.afm');
 
-			// Coloca el logo y el pie en todas las p·ginas
+			// Coloca el logo y el pie en todas las p√°ginas
 			$all = $pdf->openObject();
 			$pdf->saveState();
 			$img_att = getimagesize('images/logos/enc_reporte_semanal.jpg');
 			$pdf->addPngFromFile('images/logos/enc_reporte_semanal.png',700,550,$img_att[0]/2,$img_att[1]/2);
 
-			$pdf->addText(300,580,14,'<b>Sala de SituaciÛn Humanitaria</b>');
+			$pdf->addText(300,580,14,'<b>Sala de Situaci√≥n Humanitaria</b>');
 
 			if ($basico == 1){
 				$pdf->addText(350,560,12,'Listado de Eventos');
@@ -2166,7 +2166,7 @@ Class EventoDAO {
 				$pdf->line(50,530,740,530);
 			}
 
-			$pdf->addText(330,30,8,'Sala de SituaciÛn Humanitaria - Naciones Unidas');
+			$pdf->addText(330,30,8,'Sala de Situaci√≥n Humanitaria - Naciones Unidas');
 
 			$pdf->restoreState();
 			$pdf->closeObject();
@@ -2229,7 +2229,7 @@ Class EventoDAO {
 						'actor'   => '<b>Actores</b>',
 						'cons'   => '<b>Consecuencias Humanitarias</b>',
 						'riesg'   => '<b>Riesgos Humanitarios</b>',
-						'desc'   => '<b>DescripciÛn</b>',
+						'desc'   => '<b>Descripci√≥n</b>',
 						'fecha'   => '<b>Fecha registro</b>');
 
 						$f = 0;
@@ -2292,7 +2292,7 @@ Class EventoDAO {
 								$z++;
 							}
 
-							////DescripciÛn de las consecuencias
+							////Descripci√≥n de las consecuencias
 							if ($arr_vo->desc_cons_hum != "")
 							$tmp .= " - ".$arr_vo->desc_cons_hum;
 
@@ -2307,7 +2307,7 @@ Class EventoDAO {
 								else				$tmp .= ", ".$vo->nombre;
 								$z++;
 							}
-							////DescripciÛn de los riegos
+							////Descripci√≥n de los riegos
 							if ($arr_vo->desc_riesg_hum != "")
 							$tmp .= " - ".$arr_vo->desc_riesg_hum;
 
@@ -2348,7 +2348,7 @@ Class EventoDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo PDF de Eventos.<br><br>
-					Para salvarlo use el botÛn derecho del mouse y la opciÛn Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
+					Para salvarlo use el bot√≥n derecho del mouse y la opci√≥n Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
 				</td></tr>
 			</table>
 			<?
@@ -2464,7 +2464,7 @@ Class EventoDAO {
 							$z++;
 						}
 
-						////DescripciÛn de las consecuencias
+						////Descripci√≥n de las consecuencias
 						if ($arr_vo->desc_cons_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -2484,7 +2484,7 @@ Class EventoDAO {
 							else				$tmp .= ",".$vo->nombre;
 							$z++;
 						}
-						////DescripciÛn de los riegos
+						////Descripci√≥n de los riegos
 						if ($arr_vo->desc_riesg_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -2585,7 +2585,7 @@ Class EventoDAO {
 							$z++;
 						}
 
-						////DescripciÛn de las consecuencias
+						////Descripci√≥n de las consecuencias
 						if ($arr_vo->desc_cons_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -2605,7 +2605,7 @@ Class EventoDAO {
 							else				$tmp .= ",".$vo->nombre;
 							$z++;
 						}
-						////DescripciÛn de los riegos
+						////Descripci√≥n de los riegos
 						if ($arr_vo->desc_riesg_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -2702,7 +2702,7 @@ Class EventoDAO {
 						$z++;
 					}
 
-					////DescripciÛn de las consecuencias
+					////Descripci√≥n de las consecuencias
 					if ($arr_vo->desc_cons_hum != ""){
 						//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 						$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -2722,7 +2722,7 @@ Class EventoDAO {
 						else				$tmp .= ",".$vo->nombre;
 						$z++;
 					}
-					////DescripciÛn de los riegos
+					////Descripci√≥n de los riegos
 					if ($arr_vo->desc_riesg_hum != ""){
 						//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 						$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -2762,7 +2762,7 @@ Class EventoDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo TXT de Eventos.<br><br>
-					Para salvarlo use el botÛn derecho del mouse y la opciÛn Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
+					Para salvarlo use el bot√≥n derecho del mouse y la opci√≥n Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
 				</td></tr>
 			</table>
 			<?
@@ -2915,7 +2915,7 @@ Class EventoDAO {
 							<td align='center' width='70'><b>Municipio</b></td>
 							<td align='center' width='100'><b>Tipo de Evento</b></td>
 							<td align='center' width='10'><b>Actores</b></td>
-							<td align='center'><b>DescripciÛn</b></td>
+							<td align='center'><b>Descripci√≥n</b></td>
 							<td align='center' width='70'><b>Fecha registro</b></td>
 							<td align='center' width='80'>Registros: ".$num_arr."</td>
 							</tr>";

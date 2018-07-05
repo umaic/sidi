@@ -2,14 +2,14 @@
 /**
  * DAO de TipoOrganizacion
  *
- * Contiene los métodos de la clase TipoOrganizacion
+ * Contiene los mÃ©todos de la clase TipoOrganizacion
  * @author Ruben A. Rojas C.
  */
 
 Class TipoOrganizacionDAO {
 
 	/**
-	 * Conexión a la base de datos
+	 * ConexiÃ³n a la base de datos
 	 * @var object
 	 */
 	var $conn;
@@ -40,7 +40,7 @@ Class TipoOrganizacionDAO {
 
 	/**
 	 * Constructor
-	 * Crea la conexión a la base de datos
+	 * Crea la conexiÃ³n a la base de datos
 	 * @access public
 	 */
 	function TipoOrganizacionDAO (){
@@ -75,7 +75,7 @@ Class TipoOrganizacionDAO {
 	/**
 	 * Consulta Vos
 	 * @access public
-	 * @param string $condicion Condición que deben cumplir los Tema y que se agrega en el SQL statement.
+	 * @param string $condicion CondiciÃ³n que deben cumplir los Tema y que se agrega en el SQL statement.
 	 * @param string $limit Limit en el SQL
 	 * @param string $order by Order by en el SQL 
 	 * @return array Arreglo de VOs
@@ -108,9 +108,9 @@ Class TipoOrganizacionDAO {
 	}
 
 	/**
-	 * Consulta los datos de los Depto que cumplen una condición
+	 * Consulta los datos de los Depto que cumplen una condiciÃ³n
 	 * @access public
-	 * @param string $condicion Condición que deben cumplir los Depto y que se agrega en el SQL statement.
+	 * @param string $condicion CondiciÃ³n que deben cumplir los Depto y que se agrega en el SQL statement.
 	 * @return array Arreglo de ID
 	 */
 	function GetAllArrayID($condicion){
@@ -133,11 +133,11 @@ Class TipoOrganizacionDAO {
 		return $array;
 	}
 	/**
-	 * Lista los TipoOrganizacion que cumplen la condición en el formato dado
+	 * Lista los TipoOrganizacion que cumplen la condiciÃ³n en el formato dado
 	 * @access public
-	 * @param string $formato Formato en el que se listarán los TipoOrganizacion, puede ser Tabla o ComboSelect
-	 * @param int $valor_combo ID del TipoOrganizacion que será selccionado cuando el formato es ComboSelect
-	 * @param string $condicion Condición que deben cumplir los TipoOrganizacion y que se agrega en el SQL statement.
+	 * @param string $formato Formato en el que se listarÃ¡n los TipoOrganizacion, puede ser Tabla o ComboSelect
+	 * @param int $valor_combo ID del TipoOrganizacion que serÃ¡ selccionado cuando el formato es ComboSelect
+	 * @param string $condicion CondiciÃ³n que deben cumplir los TipoOrganizacion y que se agrega en el SQL statement.
 	 */
 	function ListarCombo($formato,$valor_combo,$condicion){
 		$arr = $this->GetAllArray($condicion);
@@ -176,7 +176,7 @@ Class TipoOrganizacionDAO {
 
 		$layout = new Layout();
 
-		$layout->adminGrid(array('nombre_es' => array ('titulo' => 'Nombre en Espa&ntilde;ol'), 'nombre_in' => array('titulo' => 'Nombre en Ingl&eacute;s')));
+		$layout->adminGrid(array('nombre_es' => array ('titulo' => 'N-Nombre en Espa&ntilde;ol'), 'nombre_in' => array('titulo' => 'Nombre en Ingl&eacute;s')));
 
 	}
 

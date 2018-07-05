@@ -59,7 +59,7 @@ Class Archivo {
 		return $contenido;
 	}
 
-	//$dir = Path físico del directorio
+	//$dir = Path fÃ­sico del directorio
 	//retorna un arreglo con los nombres de los archivos, exceptuado el . y ..
 	function ListarDirectorioEnArreglo($dir){
 		$array = array();
@@ -77,11 +77,11 @@ Class Archivo {
 			return $array;
 		}
 		else{
-			echo "Error al abrir el directorio raíz";
+			echo "Error al abrir el directorio raÃ­z";
 		}
 	}
 
-	//$raiz = Path físico de la raíz
+	//$raiz = Path fÃ­sico de la raÃ­z
 	//$condicion = nombres de directorios separados por coma ",", que no se van a mostrar
 	//retorna un arreglo con los nombres de direcorios
 	function ListarRaizEnArreglo($raiz,$condicion){
@@ -150,7 +150,7 @@ Class Archivo {
 
 		}
 		else{
-			echo "Error al abrir el directorio raíz";
+			echo "Error al abrir el directorio raÃ­z";
 		}
 	}
 }

@@ -431,7 +431,6 @@ Class OrganizacionDAO {
 			$sql .= " LIMIT ".$limit;
 		}
 
-
 		$array = Array();
 
 		$rs = $this->conn->OpenRecordset($sql);

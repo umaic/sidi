@@ -183,6 +183,7 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
             </p>
             <div><a href="#" id="textarea_all"><i class="fa fa-file-text"></i> Seleccionar todo el texto</a></div>
             <textarea class='form-control' id='email_string' wrap='physical' rows="10"><?php echo $value_textarea ?></textarea>
+            <input type="checkbox" name="sep">Usar punto y coma como separador<br>
             </form>
         </div>
 
@@ -286,8 +287,8 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
                         echo "<div class='row'><div class='row-same-height full-height'>";
                         $row = true;
                     }
-
-                    echo "<div class='col-md-6 col-md-height full-height contacto'><div class='full-height'>
+                    if ($contacto->mailchimp == 'cleaned') { $stl = 'background-color: #fff2f2';} else { $stl = '';};
+                    echo "<div class='col-md-6 col-md-height full-height contacto' style='$stl'><div class='full-height'>
                             <div class='right'>
                                 <input type='checkbox' value='$contacto->email' name='check_email' onclick=\"return addEmailToContacto(this.value, this.checked,'email_string')\">
                                 <a href='index.php?accion=borrar&class=".$_GET["class"]."&method=Borrar&param=".$contacto->id."' onclick=\"return confirm('Está seguro que desea borrar el Contácto: ".$arr[$p]->nombre."');\">

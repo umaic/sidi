@@ -146,7 +146,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 	  
 	    //VALOR APORTE
 	  	if (combo_extra != "")
-			var num_per = prompt("Valor del aporte de esta Organizaci髇 al proyecto",0);
+			var num_per = prompt("Valor del aporte de esta Organizaci贸n al proyecto",0);
 			
 	  	in_array = 0;
 		for(o=0;o<num_options;o++){
@@ -176,12 +176,12 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 		  	if (combo_extra != "")
 				resizeCombo(opener.document.getElementById(input_text+combo_extra));
 			
-			if(!confirm('Organizaci髇 agregada, desea agregar otra?')){
+			if(!confirm('Organizaci贸n agregada, desea agregar otra?')){
 			  window.close();
 			}
 		}
 		else{
-		  alert('Ya existe la Organizaci髇');
+		  alert('Ya existe la Organizaci贸n');
 		}
 	}
 }
@@ -201,8 +201,8 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 			<tr>
 				<td>
 					<table cellpadding="5" cellspacing="1"> 
-						<tr><td><b>Opci髇 1</b>: </td><td align="left"><a href="buscar_org.php?<?=$_SERVER["QUERY_STRING"]?>&op=1">Buscar Por Palabra Clave</a></td></tr>
-						<tr><td><b>Opci髇 2</b>: </td><td align="left"><a href="buscar_org.php?<?=$_SERVER["QUERY_STRING"]?>&op=2">Listar todas las Organizaciones</a></td></tr>
+						<tr><td><b>Opci贸n 1</b>: </td><td align="left"><a href="buscar_org.php?<?=$_SERVER["QUERY_STRING"]?>&op=1">Buscar Por Palabra Clave</a></td></tr>
+						<tr><td><b>Opci贸n 2</b>: </td><td align="left"><a href="buscar_org.php?<?=$_SERVER["QUERY_STRING"]?>&op=2">Listar todas las Organizaciones</a></td></tr>
 					</table>
 				</td>
 			</tr>
@@ -253,7 +253,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 			echo "<tr>";
 	    	echo "<td valign='top'>
 					<table width='700' align='center' cellspacing='1' cellpadding='3' class='tabla_consulta'>
-	    				<tr class='titulo_lista'><td align='center' colspan='2'>Resultado de la b鷖queda de Organizaciones por palabra</td></tr>
+	    				<tr class='titulo_lista'><td align='center' colspan='2'>Resultado de la b煤squeda de Organizaciones por palabra</td></tr>
 						<tr><td>Palabra: <b>".$criterio."</b> - Buscando en: <b>";
 						if ($criterio_col == "SIG_ORG")	echo "Sigla";
 						else										echo "Nombre";
@@ -281,7 +281,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 				</td>
 			</tr>
 			<tr>
-				<td colspan='5'><b>Filtrar listado por Tipo de Organizaci髇</b>:
+				<td colspan='5'><b>Filtrar listado por Tipo de Organizaci贸n</b>:
 					<select id= 'tipo' name='tipo' class='select'>";
 						$tipo_dao->ListarCombo('combo',$tipo_url,'');
 			echo "</select>&nbsp;
@@ -327,7 +327,7 @@ function enviar_formulario(input_hidden,input_text,multiple,combo_extra,id,nom){
 				$num_pages = ceil($num_arr_total/$num_reg_pag); 
 				echo "<tr><td colspan='5' align='center'>";
 				
-				echo "Ir a la p醙ina:&nbsp;<select onchange=\"location.href='buscar_org.php?field_hidden=".$_GET["field_hidden"]."&field_text=".$_GET["field_text"]."&multiple=".$_GET["multiple"]."&combo_extra=".$_GET["combo_extra"]."&op=".$_GET["op"]."&col_orden=".$col_orden_url."&dir_orden=".$dir_orden_url."&tipo=".$tipo_url."&page='+this.value\" class='select'>";
+				echo "Ir a la p谩gina:&nbsp;<select onchange=\"location.href='buscar_org.php?field_hidden=".$_GET["field_hidden"]."&field_text=".$_GET["field_text"]."&multiple=".$_GET["multiple"]."&combo_extra=".$_GET["combo_extra"]."&op=".$_GET["op"]."&col_orden=".$col_orden_url."&dir_orden=".$dir_orden_url."&tipo=".$tipo_url."&page='+this.value\" class='select'>";
 				for ($pa=1;$pa<=$num_pages;$pa++){
 					echo " <option value='".$pa."'";
 				if ($pa == $pag_url)	echo " selected ";

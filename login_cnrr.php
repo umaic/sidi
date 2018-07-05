@@ -38,7 +38,7 @@ if (isset($_POST["login_submit"])){
     <table align="center" border="0" cellpadding="5" cellspacing="3" width="500" class="tabla_consulta">
       <tr>
       	<td align='center' colspan='2' class="titulo_lista">
-			<b>Iniciar Sesión de Usuario </b></td>
+			<b>Iniciar Sesiï¿½n de Usuario </b></td>
 		</td>
       </tr>
       <tr><td>&nbsp;</td></tr>

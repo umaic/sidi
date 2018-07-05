@@ -2,14 +2,14 @@
 /**
  * DAO de EventoConflicto
  *
- * Contiene los m�todos de la clase EventoConflicto 
+ * Contiene los métodos de la clase EventoConflicto 
  * @author Ruben A. Rojas C.
  */
 
 Class EventoConflictoDAO {
 
 	/**
-	* Conexi�n a la base de datos
+	* Conexión a la base de datos
 	* @var object 
 	*/
 	var $conn;
@@ -39,14 +39,14 @@ Class EventoConflictoDAO {
 	var $columna_order;
 
 	/**
-	* N�mero de Registros en Pantalla para ListarTAbla
+	* Número de Registros en Pantalla para ListarTAbla
 	* @var string
 	*/
 	var $num_reg_pag;
 
 	/**
   * Constructor
-	* Crea la conexi�n a la base de datos
+	* Crea la conexión a la base de datos
   * @access public
   */	
 	function EventoConflictoDAO (){
@@ -139,9 +139,9 @@ Class EventoConflictoDAO {
 	}
 	
 	/**
-  * Consulta los datos de los EventoConflicto que cumplen una condici�n
+  * Consulta los datos de los EventoConflicto que cumplen una condición
   * @access public
-  * @param string $condicion Condici�n que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
+  * @param string $condicion Condición que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
   * @return array Arreglo de VOs
   */	
 	function GetAllArray($condicion){
@@ -169,11 +169,11 @@ Class EventoConflictoDAO {
 	}
 
 	/**
-  * Lista los EventoConflicto que cumplen la condici�n en el formato dado
+  * Lista los EventoConflicto que cumplen la condición en el formato dado
   * @access public
-  * @param string $formato Formato en el que se listar�n los EventoConflicto, puede ser Tabla o ComboSelect
-	* @param int $valor_combo ID del EventoConflicto que ser� selccionado cuando el formato es ComboSelect
-  * @param string $condicion Condici�n que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
+  * @param string $formato Formato en el que se listarán los EventoConflicto, puede ser Tabla o ComboSelect
+	* @param int $valor_combo ID del EventoConflicto que será selccionado cuando el formato es ComboSelect
+  * @param string $condicion Condición que deben cumplir los EventoConflicto y que se agrega en el SQL statement.
   */			
 	function ListarCombo($formato,$valor_combo,$condicion){
 		$arr = $this->GetAllArray($condicion);
@@ -323,7 +323,7 @@ Class EventoConflictoDAO {
 			echo "<td align='center'>
 				<a href='#' onclick=\"window.open('evento_c/ver.php?id=".$arr[$p]->id."','','top=100,left=100,height=600,width=1024,scrollbars=1');return false;\">Ver</a><br>
 				<a href='index.php?accion=actualizar&id=".$arr[$p]->id."'>Editar</a><br>
-				<a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('Est� seguro que desea borrar el Evento?');\">Borrar</a>
+				<a href='index.php?accion=borrar&class=".$class."&method=Borrar&param=".$arr[$p]->id."' onclick=\"return confirm('Está seguro que desea borrar el Evento?');\">Borrar</a>
 				</td>";
 
 			echo "</tr>";
@@ -336,7 +336,7 @@ Class EventoConflictoDAO {
 			$num_pages = ceil($num_arr/$this->num_reg_pag);
 			echo "<tr><td colspan='5' align='center'>";
 
-			echo "Ir a la p�gina:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
+			echo "Ir a la página:&nbsp;<select onchange=\"location.href='index.php?f_ini=".$f_ini."&f_fin=".$f_fin."&accion=listar&class=".$class."&method=".$method."&param=".$param."&page='+this.value\" class='select'>";
 			for ($pa=1;$pa<=$num_pages;$pa++){
 				echo " <option value='".$pa."'";
 				if ($pa == $pag_url)	echo " selected ";
@@ -352,8 +352,8 @@ Class EventoConflictoDAO {
   * Imprime en pantalla los datos del EventoConflicto
   * @access public
   * @param object $vo EventoConflicto que se va a imprimir
-  * @param string $formato Formato en el que se listar�n los EventoConflicto, puede ser Tabla o ComboSelect
-	* @param int $valor_combo ID del EventoConflicto que ser� selccionado cuando el formato es ComboSelect
+  * @param string $formato Formato en el que se listarán los EventoConflicto, puede ser Tabla o ComboSelect
+	* @param int $valor_combo ID del EventoConflicto que será selccionado cuando el formato es ComboSelect
   */			
 	function Imprimir($vo,$formato,$valor_combo){
 
@@ -420,7 +420,7 @@ Class EventoConflictoDAO {
 	* Consulta los actores de un evento
 	* @access public
 	* @param int $id_desevento ID de la descripcion del evento
-	* @param int $nivel Nivel de profunidad en el �rbol genial�gico
+	* @param int $nivel Nivel de profunidad en el árbol genialógico
 	* @return array Arreglo de Id de los actores, y arreglo de nombres
 	*/			
 	function getActorEvento ($id_desevento,$nivel=1){
@@ -545,9 +545,9 @@ Class EventoConflictoDAO {
 	}
 	
 	/**
-	* Consulta las victimas por descripci�n
+	* Consulta las victimas por descripción
 	* @access public
-	* @param int $id_deseven ID de la descripci�n evento
+	* @param int $id_deseven ID de la descripción evento
 	* @return array Arreglo con las variables
 	*/			
 	function getVictimaDescripcionEvento ($id_deseven){
@@ -701,10 +701,10 @@ Class EventoConflictoDAO {
 	* @access public
 	* @param object $evento_vo VO de EventoConflicto que se va a insertar
 	* @param int $alert Muestra la alerta JS
-	* @param array $num_vict_desc N�mero de v�ctimas por descripci�n
-	* @param array $num_actores_desc N�mero de actores por descripci�n
-	* @param array $num_subactores_desc N�mero de sub actores por descripci�n
-	* @param array $num_subsubactores_desc N�mero de sub sub actores por descripci�n
+	* @param array $num_vict_desc Número de víctimas por descripción
+	* @param array $num_actores_desc Número de actores por descripción
+	* @param array $num_subactores_desc Número de sub actores por descripción
+	* @param array $num_subsubactores_desc Número de sub sub actores por descripción
 	*/		
 	function Insertar($evento_vo,$alert=0,$num_vict_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
 		//DATOS DEL EVENTO
@@ -725,7 +725,7 @@ Class EventoConflictoDAO {
 		if ($alert == 1){
 			?>
 	    	<script>
-	    		alert("Evento insertado con �xito!");
+	    		alert("Evento insertado con éxito!");
 	    		location.href="<?=$this->url;?>";
 	    	</script>
 	 	  	<?
@@ -736,10 +736,10 @@ Class EventoConflictoDAO {
 	* Inserta las tablas de union para el EventoConflicto en la B.D.
 	* @access public
 	* @param object $depto_vo VO de EventoConflicto que se va a insertar
-	* @param array $num_vict_desc N�mero de v�ctimas por descripci�n
-	* @param array $num_actores_desc N�mero de actores por descripci�n
-	* @param array $num_subactores_desc N�mero de sub actores por descripci�n
-	* @param array $num_subsubactores_desc N�mero de sub sub actores por descripci�n
+	* @param array $num_vict_desc Número de víctimas por descripción
+	* @param array $num_actores_desc Número de actores por descripción
+	* @param array $num_subactores_desc Número de sub actores por descripción
+	* @param array $num_subsubactores_desc Número de sub sub actores por descripción
 	*/		
 	function InsertarTablasUnion($evento_vo,$id_evento,$num_vict_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
 
@@ -874,10 +874,10 @@ Class EventoConflictoDAO {
 	* @access public
 	* @param object $evento_vo VO de EventoConflicto que se va a insertar
 	* @param int $alert Muestra la alerta JS
-	* @param array $num_vict_desc N�mero de v�ctimas por descripci�n
-	* @param array $num_actores_desc N�mero de actores por descripci�n
-	* @param array $num_subactores_desc N�mero de sub actores por descripci�n
-	* @param array $num_subsubactores_desc N�mero de sub sub actores por descripci�n
+	* @param array $num_vict_desc Número de víctimas por descripción
+	* @param array $num_actores_desc Número de actores por descripción
+	* @param array $num_subactores_desc Número de sub actores por descripción
+	* @param array $num_subsubactores_desc Número de sub sub actores por descripción
 	*/		
 	function Actualizar($evento_vo,$alert=0,$num_vict_desc,$num_actores_desc,$num_subactores_desc,$num_subsubactores_desc){
 		//DATOS DEL EVENTO
@@ -898,7 +898,7 @@ Class EventoConflictoDAO {
 		if ($alert == 1){
 			?>
 	    	<script>
-	    		alert("Evento actualizado con �xito!");
+	    		alert("Evento actualizado con éxito!");
 	    		location.href="index.php?f_ini=<?=$_SESSION['f_ini']?>&f_fin=<?=$_SESSION['f_fin']?>&class=EventoConflictoDAO&method=ListarTabla&param=&accion=listar&consultar=Consultar";
 	    	</script>
 	 	  	<?
@@ -956,7 +956,7 @@ Class EventoConflictoDAO {
 	}
 
 	/**
-  * Muestra la Informaci�n completa de una Organizaci�n
+  * Muestra la Información completa de una Organización
   * @access public
   * @param id $id Id de la Proyecto
   */			
@@ -1048,7 +1048,7 @@ Class EventoConflictoDAO {
 		}
 		echo "</td></tr>";
 
-		echo "<tr><td class='tabla_consulta' width='150'><b>Descripci�n</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
+		echo "<tr><td class='tabla_consulta' width='150'><b>Descripción</b></td><td class='tabla_consulta' width='500'>".$arr_vo->desc."</td></tr>";
 		echo "<tr><td class='tabla_consulta' width='150'><b>Fecha de registro</b></td><td class='tabla_consulta' width='500'>".$arr_vo->fecha_registro."</td></tr>";
 
 		echo "</table>";
@@ -1105,10 +1105,10 @@ Class EventoConflictoDAO {
 
 		$reporte = $_POST["reporte"];
 		
-		$tit_reporte = array(1 => "Conteo de eventos por Categor�a/Subcategor�a",
+		$tit_reporte = array(1 => "Conteo de eventos por Categoría/Subcategoría",
 							 2 => "Conteo de eventos por confrontaciones entre dos actores",
 							 3 => "Conteo de eventos por periodo de tiempo",
-							 6 => "Cantidad de v�ctimas",
+							 6 => "Cantidad de víctimas",
 							 7 => "Reporte General de Eventos");
 		
 
@@ -2137,7 +2137,7 @@ Class EventoConflictoDAO {
 
 	/**
 	* Lista los Eventos en Excel para depuracion
-	* @param string $sql Condicion SQL cuando se ejecuta este reporte desde el m�todo Reportar()
+	* @param string $sql Condicion SQL cuando se ejecuta este reporte desde el método Reportar()
 	* @access public
 	*/			
 	function ReportarDepuracion($sql=''){
@@ -2239,7 +2239,7 @@ Class EventoConflictoDAO {
 			for ($cl=1;$cl<=$cols_victimas;$cl++){
 				$content .= "<td>VICTIMAS_$cl</td>
 					<td>GRUPO_ETAREO_$cl</td>
-					<td>CONDICI�N_$cl</td>
+					<td>CONDICIÓN_$cl</td>
 					<td>SUB_CONDICION_$cl</td>
 					<td>GRUPO_POBLACIONAL_$cl</td>
 					<td>OCUPACION_$cl</td>
@@ -2252,7 +2252,7 @@ Class EventoConflictoDAO {
 			if ($sql == '') $content .= "<td>TIPO_DE_FUENTE</td>";
 			
 			$content .= "<td>FUENTE</td>
-					<td>DESCRIPCI�N</td>
+					<td>DESCRIPCIÓN</td>
 					<td>FECHA_FUENTE</td>
 					<td>REFERENCIA</td>
 					<td>DEPARTAMENTO</td>
@@ -2504,15 +2504,15 @@ Class EventoConflictoDAO {
 		$size = ceil(filesize($file) / 1000);
 		$size_zip = ceil(filesize($file_zip) / 1000);
 		
-		echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.xls'>Descargar Archivo XLS</a>&nbsp;[ Tama�o: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
-		echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.zip'>Descargar Archivo ZIP</a>&nbsp;[ Tama�o: ".$size_zip." kB ]";
+		echo "<tr><td><img src='/sissh/admin/images/excel.gif'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.xls'>Descargar Archivo XLS</a>&nbsp;[ Tamaño: ".$size." kB ] [ <b>$m Eventos Reportados</b> ]";
+		echo "<tr><td><img src='/sissh/admin/images/zip.png'>&nbsp;<a href='/sissh/admin/evento_c/reporte_eventos.zip'>Descargar Archivo ZIP</a>&nbsp;[ Tamaño: ".$size_zip." kB ]";
 			
 		echo "</table>";
 	}
 
 	
 	/******************************************************************************
-	* N�mero de Eventos aplicando los filtros
+	* Número de Eventos aplicando los filtros
 	* @param $id_mun
 	* @param $id_subcat
 	* @param $id_actor
@@ -2601,7 +2601,7 @@ Class EventoConflictoDAO {
 	}
 	
 	/***************************************************************************************
-	* N�mero de Victimas aplicando filtros
+	* Número de Victimas aplicando filtros
 	* @param string $id_mun
 	* @param array $filtros  Arreglo de filtros, las claves son los nombres del filtro
 	* @access public
@@ -2670,7 +2670,7 @@ Class EventoConflictoDAO {
 	* Reporte PDF - EXCEL
 	* @param Array $id_eventos Id de los EventoConflictos a Reportar
 	* @param Int $formato PDF o Excel
-	* @param Int $basico 1 = B�sico - 2 = Detallado
+	* @param Int $basico 1 = Básico - 2 = Detallado
 	* @access public
 	*******************************************************************************/
 	function ReporteEventoConflicto($id_eventos,$formato,$basico){
@@ -2703,13 +2703,13 @@ Class EventoConflictoDAO {
 			$pdf -> ezSetMargins(80,70,20,20);
 			$pdf->selectFont('admin/lib/common/PDFfonts/Helvetica.afm');
 
-			// Coloca el logo y el pie en todas las p�ginas
+			// Coloca el logo y el pie en todas las páginas
 			$all = $pdf->openObject();
 			$pdf->saveState();
 			$img_att = getimagesize('images/logos/enc_reporte_semanal.jpg');
 			$pdf->addPngFromFile('images/logos/enc_reporte_semanal.png',700,550,$img_att[0]/2,$img_att[1]/2);
 
-			$pdf->addText(300,580,14,'<b>Sala de Situaci�n Humanitaria</b>');
+			$pdf->addText(300,580,14,'<b>Sala de Situación Humanitaria</b>');
 
 			if ($basico == 1){
 				$pdf->addText(350,560,12,'Listado de EventoConflictos');
@@ -2721,7 +2721,7 @@ Class EventoConflictoDAO {
 				$pdf->line(50,530,740,530);
 			}
 
-			$pdf->addText(330,30,8,'Sala de Situaci�n Humanitaria - Naciones Unidas');
+			$pdf->addText(330,30,8,'Sala de Situación Humanitaria - Naciones Unidas');
 
 			$pdf->restoreState();
 			$pdf->closeObject();
@@ -2784,7 +2784,7 @@ Class EventoConflictoDAO {
 						'actor'   => '<b>Actores</b>',
 						'cons'   => '<b>Consecuencias Humanitarias</b>',
 						'riesg'   => '<b>Riesgos Humanitarios</b>',
-						'desc'   => '<b>Descripci�n</b>',
+						'desc'   => '<b>Descripción</b>',
 						'fecha'   => '<b>Fecha registro</b>');
 
 						$f = 0;
@@ -2847,7 +2847,7 @@ Class EventoConflictoDAO {
 								$z++;
 							}
 
-							////Descripci�n de las consecuencias
+							////Descripción de las consecuencias
 							if ($arr_vo->desc_cons_hum != "")
 							$tmp .= " - ".$arr_vo->desc_cons_hum;
 
@@ -2862,7 +2862,7 @@ Class EventoConflictoDAO {
 								else				$tmp .= ", ".$vo->nombre;
 								$z++;
 							}
-							////Descripci�n de los riegos
+							////Descripción de los riegos
 							if ($arr_vo->desc_riesg_hum != "")
 							$tmp .= " - ".$arr_vo->desc_riesg_hum;
 
@@ -2903,7 +2903,7 @@ Class EventoConflictoDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo PDF de EventoConflictos.<br><br>
-					Para salvarlo use el bot�n derecho del mouse y la opci�n Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
+					Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
 				</td></tr>
 			</table>
 			<?
@@ -3019,7 +3019,7 @@ Class EventoConflictoDAO {
 							$z++;
 						}
 
-						////Descripci�n de las consecuencias
+						////Descripción de las consecuencias
 						if ($arr_vo->desc_cons_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -3039,7 +3039,7 @@ Class EventoConflictoDAO {
 							else				$tmp .= ",".$vo->nombre;
 							$z++;
 						}
-						////Descripci�n de los riegos
+						////Descripción de los riegos
 						if ($arr_vo->desc_riesg_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -3140,7 +3140,7 @@ Class EventoConflictoDAO {
 							$z++;
 						}
 
-						////Descripci�n de las consecuencias
+						////Descripción de las consecuencias
 						if ($arr_vo->desc_cons_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -3160,7 +3160,7 @@ Class EventoConflictoDAO {
 							else				$tmp .= ",".$vo->nombre;
 							$z++;
 						}
-						////Descripci�n de los riegos
+						////Descripción de los riegos
 						if ($arr_vo->desc_riesg_hum != ""){
 							//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 							$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -3257,7 +3257,7 @@ Class EventoConflictoDAO {
 						$z++;
 					}
 
-					////Descripci�n de las consecuencias
+					////Descripción de las consecuencias
 					if ($arr_vo->desc_cons_hum != ""){
 						//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 						$arr_vo->desc_cons_hum = str_replace("\r\n","",$arr_vo->desc_cons_hum);
@@ -3277,7 +3277,7 @@ Class EventoConflictoDAO {
 						else				$tmp .= ",".$vo->nombre;
 						$z++;
 					}
-					////Descripci�n de los riegos
+					////Descripción de los riegos
 					if ($arr_vo->desc_riesg_hum != ""){
 						//ELIMINA EL CARACTER DE NUEVA LINEA QUE EL USUARIO INGRESA EN EL TEXTAREA
 						$arr_vo->desc_riesg_hum = str_replace("\r\n","",$arr_vo->desc_riesg_hum);
@@ -3317,7 +3317,7 @@ Class EventoConflictoDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo TXT de EventoConflictos.<br><br>
-					Para salvarlo use el bot�n derecho del mouse y la opci�n Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
+					Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='consulta/csv/evento.txt'>Archivo TXT</a>
 				</td></tr>
 			</table>
 			<?
@@ -3470,7 +3470,7 @@ Class EventoConflictoDAO {
 							<td align='center' width='70'><b>Municipio</b></td>
 							<td align='center' width='100'><b>Tipo de EventoConflicto</b></td>
 							<td align='center' width='10'><b>Actores</b></td>
-							<td align='center'><b>Descripci�n</b></td>
+							<td align='center'><b>Descripción</b></td>
 							<td align='center' width='70'><b>Fecha registro</b></td>
 							<td align='center' width='80'>Registros: ".$num_arr."</td>
 							</tr>";
@@ -3561,7 +3561,7 @@ Class EventoConflictoDAO {
 class EventoConflictoAjax extends EventoConflictoDAO {
 	
 	/**
-	* Gr�fica de Eventos C
+	* Gráfica de Eventos C
 	* @access public
 	* @param $reporte int Reporte
 	* @param  $num_records int Numero de Mpios o Deptos a listar en los reportes 1,2
@@ -3569,7 +3569,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 	* @param  $ubicacion
 	* @param  $f_ini string Fecha Inicial
 	* @param  $f_fin string Fecha Final
-	* @param  $chart string Tipo de gr�fica
+	* @param  $chart string Tipo de gráfica
 	* @param  $filtros array Arreglo con los filtros que se pueden aplicar
 	* @return int
 	*/	
@@ -3586,15 +3586,15 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 				
 		$chk_num_records = array(10 => '',11 => '', 12 => '',13 => '',14 => '',15 => '');
 		$chk_num_records[$num_records] = ' selected ';
-		$title_reporte = array("","N�mero de eventos por Municipio",
-							   "N�mero de eventos por Departamento",
-								"N�mero de eventos por Mes",
-							   "N�mero de eventos por Tipo de acci�n",
+		$title_reporte = array("","Número de eventos por Municipio",
+							   "Número de eventos por Departamento",
+								"Número de eventos por Mes",
+							   "Número de eventos por Tipo de acción",
 							   "Presuntos Actores Participantes");
 		
 		$title = $title_reporte[$reporte];
 
-		//Nombre ubicaci�n
+		//Nombre ubicación
 		$nom_ubi = "Nacional";
 		if ($depto == 1){
 			$ubi = $depto_dao->Get($ubicacion);
@@ -3628,7 +3628,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 		
 		switch ($reporte) {
 			
-			//N�mero de eventos por Municipio
+			//Número de eventos por Municipio
 			case 1:
 					echo "<tr>
 							<td valign='top'>
@@ -3779,7 +3779,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 					//Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
 					\$g->set_x_legend('".utf8_encode("Municipios")."\n\n\n',12);
 					
-					\$g->set_y_legend('".utf8_encode('N�mero de Eventos')."',12);
+					\$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
 					
 					\$g->set_num_decimals(0);
 					
@@ -3805,7 +3805,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
 			break;
 			
-			//N�mero de eventos por Departamento
+			//Número de eventos por Departamento
 			case 2:
 					echo "<tr>
 							<td valign='top'>
@@ -3948,7 +3948,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 					//Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
 					\$g->set_x_legend('".utf8_encode("Departamentos")."\n\n\n',12);
 					
-					\$g->set_y_legend('".utf8_encode('N�mero de Eventos')."',12);
+					\$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
 					
 					\$g->set_num_decimals(0);
 					
@@ -3974,7 +3974,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
 			break;
 
-			//N�mero de eventos por Mes
+			//Número de eventos por Mes
 			case 3:
 				
 				$mes_a = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -4100,7 +4100,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 					//Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
 					\$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
 					
-					\$g->set_y_legend('".utf8_encode('N�mero de Eventos')."',12);
+					\$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
 					
 					\$g->set_num_decimals(0);
 					
@@ -4127,7 +4127,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 
 			break;
 
-			//N�mero de eventos por Subcategor�a (Tipo de acci�n)
+			//Número de eventos por Subcategoría (Tipo de acción)
 			case 4:
 				
 				echo "<tr>
@@ -4270,7 +4270,7 @@ class EventoConflictoAjax extends EventoConflictoDAO {
 						//Espacio para el footer de la imagen con el logo - Toco con x_legend vacio, jejeje
 						\$g->set_x_legend('".utf8_encode("Mes")."\n\n\n',12);
 						
-						\$g->set_y_legend('".utf8_encode('N�mero de Eventos')."',12);
+						\$g->set_y_legend('".utf8_encode('Número de Eventos')."',12);
 						
 						\$g->set_num_decimals(0);";
 					}

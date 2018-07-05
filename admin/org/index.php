@@ -58,7 +58,7 @@ if ($accion == "listar"){
 						<!-- DEPARTAMENTO - MUNICIPIO : INICIO -->
 						<td align="center" width="50%">
 							<table cellspacing="1" cellpadding="5" class="tabla_consulta">
-								<tr><td align='center' class='titulo_lista'>Consulta por ubicaciÛn geogr·fica</td></tr>
+								<tr><td align='center' class='titulo_lista'>Consulta por ubicaci√≥n geogr√°fica</td></tr>
 								<tr><td><b>Seleccione el Departamento</b></td></tr>
 								<tr>
 									<td>

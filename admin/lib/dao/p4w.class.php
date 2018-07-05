@@ -210,7 +210,7 @@ Class P4wDAO
 
         if ($this->getCoberturaNacional($id) == 1) {
             $sq = "SELECT ID_MUN AS id, NOM_MUN AS nom, LATITUDE AS lat,
-                    LONGITUDE AS lon, NOM_DEPTO AS nd, ID_DEPTO AS id_d FROM municipio WHERE 1=1";
+                    LONGITUDE AS lon, ID_DEPTO AS id_d FROM municipio WHERE 1=1";
         }
         else {
 
@@ -321,7 +321,7 @@ Class P4wDAO
     function getTemasAgrupado($id,$cond=''){
 
         $tms = array();
-        foreach(array(1 => 'UNDAF', 2 => 'Cluster', 4 => 'Des-Paz') as $c => $t) {
+        foreach(array(1 => 'UNDAF', 2 => 'Cluster', 4 => 'Des-Paz', 5 => 'Acuerdos') as $c => $t) {
 
             $tms[$c] = $this->getTemas($id, "id_clasificacion = $c");
         }
@@ -346,9 +346,9 @@ Class P4wDAO
     }
 
     /**
-     * Consulta los datos de los Proyecto que cumplen una condici�n
+     * Consulta los datos de los Proyecto que cumplen una condición
      * @access public
-     * @param string $condicion Condici�n que deben cumplir los Proyecto y que se agrega en el SQL statement.
+     * @param string $condicion Condición que deben cumplir los Proyecto y que se agrega en el SQL statement.
      * @return array Arreglo de VOs
      */
     function GetAllArray($condicion,$limit='',$order_by=''){
@@ -386,7 +386,7 @@ Class P4wDAO
     }
 
     /**
-     * Consulta los ID de las Organizacion que cumplen una condici�n
+     * Consulta los ID de las Organizacion que cumplen una condición
      * @access public
      * @param string $condicion Condicin que deben cumplir los Organizacion y que se agrega en el SQL statement.
      * @return array Arreglo de VOs
@@ -683,8 +683,8 @@ Class P4wDAO
      * Imprime en pantalla los datos del Proyecto
      * @access public
      * @param object $vo Proyecto que se va a imprimir
-     * @param string $formato Formato en el que se listar�n los Proyecto, puede ser Tabla o ComboSelect
-     * @param int $valor_combo ID del Proyecto que ser� selccionado cuando el formato es ComboSelect
+     * @param string $formato Formato en el que se listarán los Proyecto, puede ser Tabla o ComboSelect
+     * @param int $valor_combo ID del Proyecto que será selccionado cuando el formato es ComboSelect
      */
     function Imprimir($vo,$formato,$valor_combo){
 
@@ -993,7 +993,7 @@ Class P4wDAO
 	 */
 	function getMecanismoProyecto($id_proy){
 
-		$sql = "SELECT ma.nom_mece FROM proyecto p LEFT JOIN mecanismo_entrega me ON me.id_mece=p.id_mece
+		$sql = "SELECT me.nom_mece FROM proyecto p LEFT JOIN mecanismo_entrega me ON me.id_mece=p.id_mece
                 WHERE p.id_proy = " . $id_proy;
 
 		$rs = $this->conn->OpenRecordset($sql);
@@ -1599,8 +1599,8 @@ Class P4wDAO
         // Solo se activa true en el formulario cuando no existen errores
         $insertar_db = ($importar == '1') ? true : false;
 
-        $t_dir = '../../tmp/';
-        $nc = 62;
+        $t_dir = '/tmp/';
+        $nc = 63;
         $sp = '|';
         $sep_donante = '-';
         $msg = '';
@@ -1623,7 +1623,7 @@ Class P4wDAO
         );
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
-        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = array();
+        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = array();
 
         $latin = array('á','é','í','ó','ú','ñ');
         $normal = array('a','e','i','o','u','n');
@@ -1673,7 +1673,7 @@ Class P4wDAO
 
         // Check numero de cols
         else if (!isset($cf[$r])) {
-            $msg = 'El archivo debe tener m�nimo 3 filas';
+            $msg = 'El archivo debe tener mínimo 3 filas';
         }
 
         // Check numero de cols
@@ -1684,7 +1684,7 @@ Class P4wDAO
         // OK para revisar la info
         else {
             $ne = 0;
-            $msg = '<div>A continuación las filas con errores</div>
+            $msg = '<div>Estas son las filas con errores</div>
             <table><tr><th>Fila</th><th>Error</th></tr>';
             $er = $insertar = false;
             $coda = $noma = 'xxx';
@@ -1702,7 +1702,7 @@ Class P4wDAO
 
                     if (!empty($cf[$r])) {
 
-                        $f = explode($sp, utf8_decode($cf[$r]));
+                        $f = explode($sp, rtrim($cf[$r]));
 
                         $cod_proy = $f[0];
                         $tip_proy = $f[1];
@@ -1731,7 +1731,7 @@ Class P4wDAO
                         $cond_nom = ($cond_cod || empty($nom_proy) || $noma != $nom_proy) ? true : false;
 
                         // No tiene en cuenta los formulados, suspendidos, evaluacion
-                        //$cond_estado = (in_array($estado_proy, array('formulaci�n','suspendido','evaluaci�n'))) ? false : true;
+                        //$cond_estado = (in_array($estado_proy, array('formulación','suspendido','evaluación'))) ? false : true;
                     }
 
                     //INSERTA ********************
@@ -1749,7 +1749,7 @@ Class P4wDAO
                             $ni++;
                         }
 
-                        // Si es la �ltima fila, termina loop
+                        // Si es la última fila, termina loop
                         if ($r == $nf) {
                             break;
                         }
@@ -1792,9 +1792,9 @@ Class P4wDAO
                         if (empty($tip_proy)) {
                             $tipp = 1; //Por defecto 1=Proyecto
                         } else {
-                            $_tipp = $tipo_proyecto_dao->GetAllArray("nom_tipp LIKE '%".$tip_proy."%'");
+                            $_tipp = $tipo_proyecto_dao->GetAllArray(utf8_encode("nom_tipp LIKE '%".$tip_proy."%'"));
                             if (empty($_tipp)) {
-                                $_msg .= "No existe el tipo de proyecto: <b>$tip_proy</b> <br />";
+                                $_msg .= "No existe el tipo de proyecto: <b>" . utf8_decode($tip_proy) . "</b> <br />";
                                 $er = true;
                             }
                             else if (isset($_tipp[0])) {
@@ -1803,28 +1803,30 @@ Class P4wDAO
                         }
 
                         $col = 4;
-	                    //Organización Encargada
+	                    //Organización Ejecutora
                         if ($chks['oe'] && !$er) {
                             $os = $f[$col];
                             $on = $f[++$col];
                             $ot = $f[++$col];
                             if (!empty($os) && !empty($on)) {
-                                $s = str_replace($latin, $normal, trim(strtolower($os)));
-                                $n = str_replace($latin, $normal, trim(strtolower($on)));
+                                //$s = str_replace($latin, $normal, trim(strtolower($os)));
+                                $s=trim($os);
+                                //$n = str_replace($latin, $normal, trim(strtolower($on)));
+	                            $n = trim($on);
                                 $t = trim($ot);
                                 $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
 
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'',"INSTR(nom_org,'$n'),nom_org");
                                 $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
                                 $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Encargada: <b>$kk</b> <br />";
+                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
                                     $id_org_new[] = $kk;
                                     $er = true;
 
                                     if (!empty($tid)) {
-                                        $_sqlo .= "# Fila: ".($r+1)." Org. Encargada \n".sprintf($sqio,$n,$s,$tid);
+                                        $_sqlo .= "# Fila: ".($r+1)." Org. Ejecutora \n".sprintf($sqio,$n,$s,$tid);
                                         $_csvo .= "$n,$s,$tid";
                                     }
                                 }
@@ -1834,13 +1836,14 @@ Class P4wDAO
                             }
                             // Solo sigla
                             else if (!empty($os) && empty($on)) {
-                                $s = str_replace($latin, $normal, strtolower(trim($os)));
+                                //$s = str_replace($latin, $normal, strtolower(trim($os)));
+	                            $s=trim($os);
                                 $kk = "Sigla:$s";
 
-                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'',"INSTR(sig_org,'$s'),sig_org");
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Encargada: <b>$kk</b> <br />";
+                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) ."</b> <br />";
                                     $id_org_new[] = $kk;
                                     $er = true;
                                 }
@@ -1850,13 +1853,14 @@ Class P4wDAO
                             }
                             // Solo nombre
                             else if (empty($os) && !empty($on)) {
-                                $n = str_replace($latin, $normal, strtolower(trim($on)));
+                                //$n = str_replace($latin, $normal, strtolower(trim($on)));
+                                $n=trim($on);
                                 $kk = "Nombre:$n";
 
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'',"INSTR(nom_org,'$n'),nom_org");
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Encargada: <b>$kk</b> <br />";
+                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
                                     $id_org_new[] = $kk;
                                     $er = true;
                                 }
@@ -1865,12 +1869,12 @@ Class P4wDAO
                                 }
                             }
                             else {
-                                $_msgr .= " - No hay Org. Encargada";
-                                $_msg .= "No hay Org. Encargada<br />";
+                                $_msgr .= " - No hay Org. Ejecutora";
+                                $_msg .= "No hay Org. Ejecutora<br />";
                                 $er = true;
                             }
+	                        //echo $kk."\r\n";
                         }
-
 
                         //Implementador
                         $os = $f[++$col];
@@ -1883,25 +1887,28 @@ Class P4wDAO
 
                             foreach($_v as $i => $v) {
 
-                                $s = str_replace($latin, $normal, strtolower(trim($v)));
-                                $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-                                $t = str_replace($latin, $normal, strtolower(trim($ot)));
-                                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+                                //$s = str_replace($latin, $normal, strtolower(trim($v)));
+	                            $s = trim($v);
+                                //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+	                            $n = trim($_n[$i]);
+                                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+	                            $t = trim($ot);
+                                $kk = "2Sigla:$s,Nombre:$n,Tipo:$t";
 
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'',"INSTR(nom_org,'$n'),nom_org");
                                 $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
                                 $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el operador: $kk";
+                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
                                     if ($chks['oo']) {
 
-                                        $_msg .= "No existe el operador: <b>$kk</b> <br />";
+                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk) ."</b> <br />";
                                         $id_org_new[] = $kk;
                                         $er = true;
 
                                         if (!empty($tid)) {
-                                            $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$n,$s,$tid);
+                                            $_sqlo .= "# Fila: ".($r+1).", Implementador \n".sprintf($sqio,$n,$s,$tid);
                                             $_csvo .= "$n,$s,$tid";
                                         }
                                     }
@@ -1918,15 +1925,16 @@ Class P4wDAO
 
                             foreach($_v as $i => $v) {
 
-                                $s = str_replace($latin, $normal, strtolower(trim($v)));
+                                //$s = str_replace($latin, $normal, strtolower(trim($v)));
+	                            $s = trim($v);
                                 $kk = "Sigla:$s";
 
-                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'',"INSTR(sig_org,'$s'),sig_org");
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el operador: $kk";
+                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
                                     if ($chks['oo']) {
-                                        $_msg .= "No existe el operador: <b>$kk</b> <br />";
+                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk). "</b> <br />";
                                         $id_org_new[] = $kk;
                                         $er = true;
                                     }
@@ -1946,23 +1954,25 @@ Class P4wDAO
                                 $s = '';
                                 $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
 
-                                $n = str_replace($latin, $normal, strtolower($_n));
-                                $t = str_replace($latin, $normal, strtolower(trim($ot)));
-                                $kk = "Nombre:$v,Tipo:$t";
+                                //$n = str_replace($latin, $normal, strtolower($_n));
+                                $n=trim($_n);
+                                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+	                            $t=trim($ot);
+                                $kk = "Nombre:$n,Tipo:$t";
 
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
+                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'',"INSTR(nom_org,'$n'),nom_org");
                                 $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
                                 $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el operador: $kk";
+                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
                                     if ($chks['oo']) {
-                                        $_msg .= "No existe el operador: <b>$kk</b> <br />";
+                                        $_msg .= "No existe el implementdor: <b>" . utf8_decode($kk). "</b> <br />";
                                         $id_org_new[] = $kk;
                                         $er = true;
 
                                         if (!empty($tid)) {
-                                            $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$_n,$s,$tid);
+                                            $_sqlo .= "# Fila: ".($r+1).", Implementador \n".sprintf($sqio,$_n,$s,$tid);
                                             $_csvo .= "$n,$s,$tid";
                                         }
                                     }
@@ -1974,10 +1984,10 @@ Class P4wDAO
                         }
                         else {
 
-                            $_msgr .= " - No hay operador";
+                            $_msgr .= " - No hay implementador";
 
                             if ($chks['oo']) {
-                                $_msg .= "No hay operador<br />";
+                                $_msg .= "No hay implementador<br />";
                                 $er = true;
                             }
                         }
@@ -2002,7 +2012,7 @@ Class P4wDAO
                                 else {
                                     $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 2");
                                     if (empty($sec)) {
-                                        $_msg .= "No existe el sector: <b>$v</b> <br />";
+                                        $_msg .= "No existe el sector: <b>" . utf8_decode($v). "</b> <br />";
                                         $er = true;
                                         if (!in_array($v, $id_tema_new)) {
                                             $id_tema_new[] = $v;
@@ -2023,18 +2033,16 @@ Class P4wDAO
                             $_v = explode('-', $resultado);
 
                             foreach($_v as $v) {
-
-                                $v = str_replace($from, $to, trim($v));
+	                            $v = trim($v);
 
                                 if (in_array($v, $resultados)) {
                                     $_idt = array_search($v, $resultados);
                                     $p_vo->id_temas[$_idt] = array();
-                                    $p_vo->id_tema_p = $_idt;
                                 }
                                 else {
                                     $rsts = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
                                     if (empty($rsts)) {
-                                        $_msg .= "No existe el resultado: <b>$v</b> <br />";
+                                        $_msg .= "No existe el resultado:<b>" . utf8_decode($v) . "</b> <br />";
                                         $er = true;
                                         if (!in_array($v, $id_tema_new)) {
                                             $id_tema_new[] = $v;
@@ -2042,7 +2050,6 @@ Class P4wDAO
                                     }
                                     else if (isset($rsts[0]) && !array_key_exists($rsts[0], $p_vo->id_temas)) {
                                         $p_vo->id_temas[$rsts[0]] = array();
-                                        $p_vo->id_tema_p = $rsts[0];
                                         $resultados[$rsts[0]] = $v;
                                     }
                                 }
@@ -2267,8 +2274,10 @@ Class P4wDAO
 
                                 foreach($_v as $i => $v) {
 
-                                    $s = str_replace($latin, $normal, strtolower(trim($v)));
-                                    $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+                                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+	                                $s = trim($v);
+                                    //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+	                                $n = trim($_n[$i]);
                                     //$t = str_replace($latin, $normal, strtolower(trim($ot)));
                                     $kk = "Nombre:$n,Tipo:$t";
 
@@ -2277,10 +2286,10 @@ Class P4wDAO
                                     $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                     if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: $kk";
+                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
                                         if ($chks['oo']) {
 
-                                            $_msg .= "No existe el donante: <b>$kk</b> <br />";
+                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
                                             $id_org_new[] = $kk;
                                             $er = true;
 
@@ -2303,15 +2312,16 @@ Class P4wDAO
 
                                 foreach($_v as $i => $v) {
 
-                                    $s = str_replace($latin, $normal, strtolower(trim($v)));
+                                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+	                                $s = trim($v);
                                     $kk = "Sigla:$s";
 
                                     $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
 
                                     if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: $kk";
+                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
                                         if ($chks['oo']) {
-                                            $_msg .= "No existe el donante: <b>$kk</b> <br />";
+                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
                                             $id_org_new[] = $kk;
                                             $er = true;
                                         }
@@ -2330,10 +2340,13 @@ Class P4wDAO
                                 foreach($_v as $i => $v) {
 
                                     $s = '';
-                                    $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+                                    //$_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+	                                $_n = trim($v);
 
-                                    $n = str_replace($latin, $normal, strtolower($_n));
-                                    $t = str_replace($latin, $normal, strtolower(trim($ot)));
+                                    //$n = str_replace($latin, $normal, strtolower($_n));
+	                                $n = trim($_n);
+                                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+	                                $t = trim($ot);
                                     $kk = "Nombre:$v,Tipo:$t";
 
                                     $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
@@ -2341,9 +2354,9 @@ Class P4wDAO
                                     $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                     if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: $kk";
+                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
                                         if ($chks['oo']) {
-                                            $_msg .= "No existe el donante: <b>$kk</b> <br />";
+                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
                                             $id_org_new[] = $kk;
                                             $er = true;
 
@@ -2432,7 +2445,7 @@ Class P4wDAO
                             $v = trim($ce);
                             $contacto = $contacto_dao->GetAllArray("email_con LIKE '%$v%'");
                             if (empty($contacto)) {
-                                $_msg .= "No existe el contacto: <b>$v</b> <br />";
+                                $_msg .= "No existe el contacto: <b>" . utf8_decode($v) . "</b> <br />";
                                 $er = true;
 
                                 if (!in_array($v, $id_con_new)) {
@@ -2579,25 +2592,28 @@ Class P4wDAO
 
 		                foreach($_v as $i => $v) {
 
-			                $s = str_replace($latin, $normal, strtolower(trim($v)));
-			                $n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-			                $t = str_replace($latin, $normal, strtolower(trim($ot)));
-			                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+			                //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                $s = trim($v);
+			                //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+			                $n = trim($_n[$i]);
+			                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                $t = trim($ot);
+			                $kk = "3Sigla:$s,Nombre:$n,Tipo:$t";
 
 			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
 			                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
 			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
 			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el operador: $kk";
+				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
 				                if ($chks['oo']) {
 
-					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
 					                $id_org_new[] = $kk;
 					                $er = true;
 
 					                if (!empty($tid)) {
-						                $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$n,$s,$tid);
+						                $_sqlo .= "# Fila: ".($r+1).", Beneficiario NP \n".sprintf($sqio,$n,$s,$tid);
 						                $_csvo .= "$n,$s,$tid";
 					                }
 				                }
@@ -2614,15 +2630,16 @@ Class P4wDAO
 
 		                foreach($_v as $i => $v) {
 
-			                $s = str_replace($latin, $normal, strtolower(trim($v)));
+			                //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                $s = trim($v);
 			                $kk = "Sigla:$s";
 
 			                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
 
 			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el operador: $kk";
+				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
 				                if ($chks['oo']) {
-					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
 					                $id_org_new[] = $kk;
 					                $er = true;
 				                }
@@ -2642,8 +2659,10 @@ Class P4wDAO
 			                $s = '';
 			                $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
 
-			                $n = str_replace($latin, $normal, strtolower($_n));
-			                $t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                //$n = str_replace($latin, $normal, strtolower($_n));
+			                $n = trim($v);
+			                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                $t = trim($ot);
 			                $kk = "Nombre:$v,Tipo:$t";
 
 			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
@@ -2651,14 +2670,14 @@ Class P4wDAO
 			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
 			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el operador: $kk";
+				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
 				                if ($chks['oo']) {
-					                $_msg .= "No existe el operador: <b>$kk</b> <br />";
+					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
 					                $id_org_new[] = $kk;
 					                $er = true;
 
 					                if (!empty($tid)) {
-						                $_sqlo .= "# Fila: ".($r+1).", Operador \n".sprintf($sqio,$_n,$s,$tid);
+						                $_sqlo .= "# Fila: ".($r+1).", Beneficiario NP \n".sprintf($sqio,$_n,$s,$tid);
 						                $_csvo .= "$n,$s,$tid";
 					                }
 				                }
@@ -2670,10 +2689,10 @@ Class P4wDAO
 	                }
 	                else {
 
-		                $_msgr .= " - No hay operador";
+		                $_msgr .= " - No hay beneficiario NP";
 
 		                if ($chks['ob']) {
-			                $_msg .= "No hay operador<br />";
+			                $_msg .= "No hay beneficiario NP<br />";
 			                $er = true;
 		                }
 	                }
@@ -2708,7 +2727,7 @@ Class P4wDAO
 
                                     $ms = $mun_dao->GetAllArrayID("id_mun = '".$v[0]."'",'');
                                     if (!isset($ms[0]) && !in_array($v, $id_mun_new)) {
-                                        $_msg .= "No existe el divipola: <b>$v[0]</b> <br />";
+                                        $_msg .= "No existe el divipola: <b>" . utf8_decode($v[0]) . "</b> <br />";
                                         $id_mun_new[] = $v;
                                         $er = true;
                                     }
@@ -2733,10 +2752,11 @@ Class P4wDAO
                         else if (!empty($municipio) && !$in_kws) {
                             $_v = explode(',', $municipio);
                             foreach($_v as $v) {
-                                $v = str_replace(array('�','�','�','�','�','�'), array('a','e','i','o','u','n'), trim($v));
-                                $ms = $mun_dao->GetAllArrayID("nom_mun LIKE '%".$v."%'",'');
+                                //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
+	                            $v =  trim($v);
+	                            $ms = $mun_dao->GetAllArrayID("nom_mun LIKE '%".$v."%'",'');
                                 if (empty($ms) && !in_array($v, $id_mun_new)) {
-                                    $_msg .= "No existe el municipio: <b>$v</b> <br />";
+                                    $_msg .= "No existe el municipio: <b>" . utf8_decode($v). "</b> <br />";
                                     $id_mun_new[] = $v;
                                     $er = true;
                                 }
@@ -2761,12 +2781,13 @@ Class P4wDAO
                         else if ((empty($divipola) && !empty($departamento) && empty($municipio)) || $in_kws) {
                             $_v = explode(',', $departamento);
                             foreach($_v as $v) {
-                                $v = str_replace(array('�','�','�','�','�','�'), array('a','e','i','o','u','n'), trim($v));
+                                //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
+	                            $v =  trim($v);
                                 // Solo depto
                                 $ds = $depto_dao->GetAllArrayID("nom_depto LIKE '%".$v."%'");
                                 if (empty($ds)) {
 
-                                    $_msg .= "No existe el departamento: <b>$v</b> <br />";
+                                    $_msg .= "No existe el departamento: <b>" . utf8_decode($v) . "</b> <br />";
                                     $er = true;
 
                                     if (!in_array($v, $id_depto_new)) {
@@ -2803,7 +2824,7 @@ Class P4wDAO
                     else {
                         $_moda = $modalidad_asistencia_dao->GetAllArray("nom_moda LIKE '%".$cbt_ma."%'");
                         if (empty($_moda)) {
-                            $_msg .= "No existe la modalidad de asistencia: <b>$cbt_ma</b> <br />";
+                            $_msg .= "No existe la modalidad de asistencia: <b>" . utf8_decode($cbt_ma) . "</b> <br />";
                             $er = true;
                         }
                         else if (isset($_moda[0])) {
@@ -2818,7 +2839,7 @@ Class P4wDAO
                     else {
                         $_mece = $mecanismo_entrega_dao->GetAllArray("nom_mece LIKE '%".$cbt_me."%'");
                         if (empty($_mece)) {
-                            $_msg .= "No existe el mecanismo de entrega: <b>$cbt_me</b> <br />";
+                            $_msg .= "No existe el mecanismo de entrega: <b>" . utf8_decode($cbt_me). "</b> <br />";
                             $er = true;
                         }
                         else if (isset($_mece[0])) {
@@ -2849,16 +2870,46 @@ Class P4wDAO
 
                     //URL Soportes
 	                $soportes = $f[++$col];
-	                if (filter_var($soportes, FILTER_VALIDATE_URL) === FALSE) {
+	                if (filter_var($soportes, FILTER_VALIDATE_URL) !== FALSE) {
 		                $p_vo->soportes = $soportes;
 	                } else {
 		                $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
 		                $er = true;
 	                }
 
+	                //Acuerdos de Paz con las FARC
+	                $acu = $f[++$col];
+	                if ($chks['s'] && !empty($acu)) {
+		                $_v = explode('-', $acu);
+
+		                foreach($_v as $v) {
+		                    $v = trim($v);
+			                if (in_array($v, $acuerdos)) {
+				                $_idt = array_search($v, $acuerdos);
+				                $p_vo->id_temas[$_idt] = array();
+			                }
+			                else {
+				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 5");
+				                if (empty($sec)) {
+					                $_msg .= "No existe el código de subtema de los Acuerdos de Paz con las FARC: <b>" . utf8_decode($v). "</b> <br />";
+					                $er = true;
+					                if (!in_array($v, $id_tema_new)) {
+						                $id_tema_new[] = $v;
+					                }
+				                }
+				                else if (isset($acu[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
+					                $p_vo->id_temas[$acu[0]] = array();
+					                $acuerdos[$acu[0]] = $v;
+				                }
+			                }
+		                }
+	                }
+
+	                //FIN DEL RECORRIDO DE UNA FILA
+
                     if ($er) {
                         $ne++;
-                        $msg .= "<tr><td>".($r+1)."</td><td>$_msg</td></tr>";
+                        $msg .= "<tr><td>".($r+1)."</td><td>" . $_msg . "</td></tr>";
                     }
                     else {
 
@@ -2938,7 +2989,7 @@ Class P4wDAO
             $msg = '';
         }
 
-        $result['rsu'] = utf8_encode($rsu);
+        $result['rsu'] = $rsu;
         $result['msg'] = utf8_encode($msg);
         $result['check'] = ($ne == 0) ? true : false;
         $result['ne'] = $ne;
@@ -2971,8 +3022,7 @@ Class P4wDAO
             $archivo->Escribir($f,$_csvc);
             $archivo->Cerrar($f);
         }
-
-        echo json_encode($result);
+	    echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
     }
 
@@ -3134,10 +3184,10 @@ Class P4wDAO
     }
 
     /**
-     * Borra masivamente consulta a�os de proyectos de un ejecutor
+     * Borra masivamente consulta años de proyectos de un ejecutor
      * @access public
      * @param int $org_id ID de la organizacion ejecutora
-     * @param string $ys A�os para borrar
+     * @param string $ys Años para borrar
      *
      * @return string $json
      */
@@ -3173,7 +3223,7 @@ Class P4wDAO
     }
 
     /**
-     * Consulta los a�os de proyectos dado una org y el tipo de relacion
+     * Consulta los años de proyectos dado una org y el tipo de relacion
      * @access public
      * @param int $org_id ID de la organizacion
      * @param int $tipo Id del tipo 1=Ejecutora, 2=Donante, 3=Implementador
@@ -3648,7 +3698,7 @@ Class P4wDAO
             list($yyyy_ini,$mes_ini,$dia_ini) = explode('-', $inicio_proy);
             list($yyyy_fin,$mes_fin,$dia_fin) = explode('-', $fin_proy);
 
-            // Se calculan el # de meses que tiene el proyecto en los a�os de filtro
+            // Se calculan el # de meses que tiene el proyecto en los años de filtro
             $meses_proy_yyyy = 0;
             foreach ($yyyy as $y) {
                 for ($mes=1;$mes<13;$mes++) {
@@ -3692,11 +3742,11 @@ Class P4wDAO
 
                     $pres_total += $pres_real;
 
-                    // El presupuesto real de los a�os de filtro se divide en los meses
-                    // que el proyecto esta en los a�os de filtro
+                    // El presupuesto real de los años de filtro se divide en los meses
+                    // que el proyecto esta en los años de filtro
                     $pres_real_mes = $pres_real / $meses_proy_yyyy;
 
-                    // Para cada mes de los a�os de filtro se suma el presupuesto real
+                    // Para cada mes de los años de filtro se suma el presupuesto real
                     // de ese mes
                     foreach ($yyyy as $y) {
                         for ($mes=1;$mes<13;$mes++) {
@@ -3744,7 +3794,7 @@ Class P4wDAO
 
         // Filtros para el titulo del reporte
         $csv = "Reporte de presupuesto y beneficiarios por meses." .$this->tituloReporte4W()."\n";
-        $csv .= "A�o,Mes,Presupuesto,Beneficiarios\n";
+        $csv .= "Año,Mes,Presupuesto,Beneficiarios\n";
 
         foreach ($yyyy as $y) {
             for ($mes=1;$mes<13;$mes++) {
@@ -3830,7 +3880,9 @@ Class P4wDAO
                 $tabla = "proyecto_tema";
                 $col_id_filtro = "id_tema";
             break;
-
+	        case 'acuerdo':
+		        $tabla = "proyecto_tema";
+		        $col_id_filtro = "id_tema";
             case 'poblacion':
                 $tabla = "proyecto_beneficiario";
                 $col_id_filtro = "id_pobla";
@@ -4043,6 +4095,15 @@ Class P4wDAO
                 }
             }
 
+	        // Aplica filtro de acuerdos de paz
+	        if ($case == 'acuerdo') {
+		        if (array_search('acuerdo', $_SESSION['4w_f']['c']) !== false) {
+			        $id_tema = $_SESSION['4w_f']['id'][array_search('acuerdo',$_SESSION['4w_f']['c'])];
+
+			        $cond .= " AND id_tema IN (".$id_tema.")";
+		        }
+	        }
+
             // Aplica filtro de SRP
             $srp = array_search('srp', $_SESSION['4w_f']['c']);
             if ($srp !== false) {
@@ -4050,10 +4111,10 @@ Class P4wDAO
             }
 
             // Aplica filtro de interagencialidad
-            /*$srp = array_search('inter', $_SESSION['4w_f']['c']);
+            $inter = array_search('inter', $_SESSION['4w_f']['c']);
             if ($inter !== false) {
-                $cond .= " AND interagencial =1 ";
-            }*/
+                $cond .= " AND inter =1 ";
+            }
         }
 
         if ($cond != '')    $sql .= " AND $cond";
@@ -4078,7 +4139,7 @@ Class P4wDAO
     }
 
     /******************************************************************************
-     * Cuenta el n�mero de Proyectos de un Tema, Poblacion, etc
+     * Cuenta el número de Proyectos de un Tema, Poblacion, etc
      * @param string $case Tema, Poblacion
      * @param int $id Id de Tema, Poblacion
      * @param boolean $depto 1=Departamento , 0=Municipio, 2=Nacional
@@ -4329,9 +4390,9 @@ Class P4wDAO
             $cond .= " AND p.srp_proy = 1";
         }
 
-        /*if (!empty($params['inter']) && $params['inter'] == 1 ) {
-            $cond .= " AND p.interagencial = 1";
-        }*/
+        if (!empty($params['inter']) && $params['inter'] == 1 ) {
+            $cond .= " AND p.inter = 1";
+        }
 
         $sql .= ' WHERE '.$cond.' GROUP BY p.id_proy';
 
@@ -4342,7 +4403,7 @@ Class P4wDAO
         file_put_contents($this->sql_log_file, $log);
 
         $ejecutora_filtro = $donante_filtro = array();
-        $implementadora_filtro = $cluster_filtro = array();
+        $implementadora_filtro = $cluster_filtro = $acuerdo_filtro = array();
         $estado_filtro = $departamento_filtro = $municipio_filtro = array();
         $periodo_filtro = array();
         $aporte_donantes = 0;
@@ -4361,6 +4422,7 @@ Class P4wDAO
                     $id_proy = $row->id;
                     $id_org_e = $row->id_org;
                     $id_temas = explode(',', $row->id_tema);
+	                $id_acuerdos = explode(',', $row->id_tema);
 
                     // filtra temas por categoria
                     foreach ($id_temas as $i => $id_ttemp) {
@@ -4368,6 +4430,13 @@ Class P4wDAO
                             unset($id_temas[$i]);
                         }
                     }
+
+	                // filtra temas solo de acuerdos
+	                foreach ($id_acuerdos as $i => $id_ttemp) {
+		                if ($tema_dao->GetFieldValue($id_ttemp,'id_clasificacion') != 5) {
+			                unset($id_acuerdos[$i]);
+		                }
+	                }
 
                     $id_estp = $row->id_estp;
                     $inicio_proy = $row->inicio_proy;
@@ -4401,7 +4470,7 @@ Class P4wDAO
                             $aporte = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$donacion,$inicio_proy,$fin_proy,$duracion_proy);
 
                             if ($filtro_cluster) {
-                                $pres_tema = $this->getPresTema($id_proy,$aporte);
+                                $pres_tema = $this->getPresTema($id_proy,$aporte,4);
 
                                 $_t = $filtros['id_tema'];
 
@@ -4517,10 +4586,12 @@ Class P4wDAO
                         }
                     }
 
-                    $benf_proy = $this->getCantBenef($row->id);
+                    $benf_proy = $this->getCantBenef($row->id);//ob_start();var_dump(json_encode($benf_proy));$imprimir = trim(ob_get_clean());echo "<script>console.log('PHP: ". $imprimir . "')</script>);";
                     if (!empty($benf_proy['d']['total'])) {
                         if (!empty($filtro_periodo)) {
                             $benef2suma = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$benf_proy['d']['total'],$inicio_proy,$fin_proy,$duracion_proy);
+	                        $benef2suma_h = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$benf_proy['d']['h']['total'],$inicio_proy,$fin_proy,$duracion_proy);
+	                        $benef2suma_m = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$benf_proy['d']['m']['total'],$inicio_proy,$fin_proy,$duracion_proy);
 
                             // Si no es humanitario los beneficiarios se dividen por resultado
                             if ($desarrollo && isset($filtros['id_tema'])) {
@@ -4545,9 +4616,13 @@ Class P4wDAO
                         }
                         else {
                             $benef2suma = $benf_proy['d']['total'];
+	                        $benef2suma_h = $benf_proy['d']['h']['total'];
+	                        $benef2suma_m = $benf_proy['d']['m']['total'];
                         }
 
                         $nb += $benef2suma;
+	                    $nb_h += $benef2suma_h;
+	                    $nb_m += $benef2suma_m;
                     }
 
                     if (!empty($row->costo_proy)) {
@@ -4667,6 +4742,16 @@ Class P4wDAO
                         }
                     }
 
+	                // Lista filtro acuerdos de paz
+	                foreach($id_acuerdos as $id_acuerdo) {
+		                if (!array_key_exists($id_acuerdo, $acuerdo_filtro)) {
+			                $acuerdo_filtro[$id_acuerdo] = 1;
+		                }
+		                else {
+			                $acuerdo_filtro[$id_acuerdo] += 1;
+		                }
+	                }
+
                     // Lista filtro estado
                     if (!array_key_exists($id_estp, $estado_filtro)) {
                         $estado_filtro[$id_estp] = 1;
@@ -4721,6 +4806,8 @@ Class P4wDAO
                 <input type="hidden" id="4w_no" value="'.number_format($no).'" />
                 <input type="hidden" id="4w_ni" value="'.number_format($ni).'" />
                 <input type="hidden" id="4w_nb" value="'.number_format($nb).'" />
+                <input type="hidden" id="4w_nb_h" value="'.number_format($nb_h).'" />
+                <input type="hidden" id="4w_nb_m" value="'.number_format($nb_m).'" />
                 <input type="hidden" id="4w_npres" value="'.number_format($npres).'" />
                 <input type="hidden" id="4w_npres_gob" value="'.number_format($pres2gob).'" />
                 <input type="hidden" id="4w_npres_sin_donante" value="'.number_format($pres_sin_donante).'" />
@@ -4896,7 +4983,8 @@ Class P4wDAO
                         'departamento' => 'Departamento',
                         'municipio' => 'Municipio',
                         'estado' => 'Estado',
-                        'periodo' => 'Periodo'
+                        'periodo' => 'Periodo',
+                        'acuerdo' => 'Acuerdos de Paz'
                         );
 
                     foreach($ts as $t => $ti) {
@@ -4935,46 +5023,51 @@ Class P4wDAO
         }
 
         //echo $sql;
-        file_put_contents ('/tmp/sidi_4w.txt' , "SQL:".$sql."\r\n", FILE_APPEND);
+        //file_put_contents ('/tmp/sidi_4w.txt' , "SQL:".$sql."\r\n", FILE_APPEND);
 
-        $encabezado1 = "Información Básica,,,,,";
+	    $encabezado1 = "Código 4w,";
+        $encabezado1 .= "Información Básica,,,,";
 	    $encabezado1 .= "Organización ejecutora,,,";
-	    $encabezado1 .= "Implementador,,,";
+	    $encabezado1 .= "Implementadores,,,";
 	    $encabezado1 .= "Sectores Humanitarios*,";
 	    $encabezado1 .= "Resultados esperados UNDAF*,";
 	    $encabezado1 .= "Tiempo de ejecución *,,,";
 	    $encabezado1 .= "Estado Proyecto*,";
 	    $encabezado1 .= "Presupuesto del proyecto,,,,,,";
-	    $encabezado1 .= "Donante (Fuente de los recursos),,,";
+	    $encabezado1 .= "Donantes (Fuente de los recursos),,";
+	    $encabezado1 .= "Adjudicación de recursos,";
 	    $encabezado1 .= "SRP*,";
 	    $encabezado1 .= "Contacto en Terreno*,,,";
 	    $encabezado1 .= "Beneficiarios poblacionales,,,,,,,,,,,,,,,,";
 	    $encabezado1 .= "Beneficiarios indirectos,,,";
-	    $encabezado1 .= "Beneficiarios No-poblacionales,,,";
+	    $encabezado1 .= "Beneficiarios No-poblacionales (Organizaciones),,,";
 	    $encabezado1 .= "Cobertura Geográfica,,,,,";
 	    $encabezado1 .= "Interagencial*,";
 	    $encabezado1 .= "Cash Based Transfer,,,,";
-	    $encabezado1 .= "URL soportes del proyecto,";
+	    $encabezado1 .= "Soportes del proyecto,";
+	    $encabezado1 .= "Acuerdos de Paz con las FARC,";
 	    $encabezado1 .= "\r\n";
 
-        $encabezado2 .= "Código 4w,Código Interno*,Tipo de Proyecto*,Nombre del proyecto *,Descripción del proyecto*,"; //Información Básica
+        $encabezado2 .= ",Código Interno*,Tipo de Proyecto*,Nombre del proyecto *,Descripción del proyecto*,"; //Información Básica
 	    $encabezado2 .= "Sigla *,Nombre *,Tipo *,"; //"Organización ejecutora
-	    $encabezado2 .= "Sigla,Nombre*,Tipo*,"; //Implementador
+	    $encabezado2 .= "Sigla (Sep. por guión),Nombre (Sep. por guión)*,Tipo (Sep. por guión) *,"; //Implementadores
         $encabezado2 .= "Separados por guión (-),"; //Sectores Humanitarios
 	    $encabezado2 .= "Separados por guión (-),"; //esultados esperados UNDAF
 	    $encabezado2 .= "Fecha de inicio*,Fecha de finalización*,Meses*,"; //Tiempo de ejecución
 	    $encabezado2 .= ","; //Estado Proyecto
 	    $encabezado2 .= "Presupuesto Total(USD)*,Presupuesto Año 1 (USD),Presupuesto Año 2 (USD),Presupuesto Año 3 (USD),Presupuesto Año 4 (USD),Presupuesto Año 5 (USD),"; //Presupuesto del proyecto
-	    $encabezado2 .= "Nombre,Monto (USD),Fecha de adjudicación De recursos,"; //Donante (Fuente de los recursos)
+	    $encabezado2 .= "Nombre (Sep. por guión),Monto (USD) (Sep. por guión),"; //Donantes (Fuente de los recursos)
+	    $encabezado2 .= "Fecha,"; //Adjudicación de recursos
 	    $encabezado2 .= "Hace parte del plan estratégico de respuesta? (0 o 1),"; //SRP
 	    $encabezado2 .= "Nombre del responsable*,Correo Electrónico*,Celular*,"; //Contacto en Terreno
 	    $encabezado2 .= "Total beneficiarios*,Total mujeres,Mujeres 0-5 años,Mujeres 6-18 años,Mujeres 18-64 años,Mujeres 65+ años,Total hombres,Hombres 0-5 años,Hombres 6-18 años,Hombres 18-64 años,Hombres 65+ años,Num. de víctimas del conflicto,Num. afectados por desastres,Num. desmovilizados/Reinsertados,Num. afrocolombianos, Num. indígenas,"; //Beneficiarios poblacionales
         $encabezado2 .= "Total Beneficiarios Indirectos,Total mujeres,Total hombres,"; //Beneficiarios indirectos
 	    $encabezado2 .= "Sigla,Nombre,Tipo,"; //Beneficiarios No-poblacionales
-	    $encabezado2 .= "Código División Político-Administrativa,Departamento*,Municipio*,Latitud,Longitud,";
+	    $encabezado2 .= "Código División Político-Administrativa (Sep. por coma),Departamento* (Sep. por coma),Municipio* (Sep. por coma),Latitud (Sep. por coma),Longitud (Sep. por coma),";
 	    $encabezado2 .= "Cumple los requisitos de interagencialidad? (0 ó 1),"; // Interagencial
 	    $encabezado2 .= "Modalidad de Asistencia,Mecanismo de entrega,Frecuencia de distribución,Valor por persona (USD),"; //Cash Based Transfer
 	    $encabezado2 .= ","; //URL soportes del proyecto
+	    $encabezado2 .= "Códigos de subtema (Sep. por guión),"; //Acuerdos de Paz con las FARC
 	    $encabezado2 .= "\r\n";
 
 	    $csv = $encabezado1 . $encabezado2;
@@ -5055,9 +5148,9 @@ Class P4wDAO
 
                 }
 
-                $csv .= ',"'.((!empty($impls['sig'])) ? implode('-', $impls['sig']) : '').'"';
-                $csv .= ',"'.((!empty($impls['nom'])) ? implode('-', $impls['nom']) : '').'"';
-                $csv .= ',"'.((!empty($impls['tipo'])) ? implode('-', $impls['tipo']) : '').'"';
+                $csv .= ',"'.((!empty($impls['sig'])) ? implode('-', str_replace('-', '_', $impls['sig'])) : '').'"';
+                $csv .= ',"'.((!empty($impls['nom'])) ? implode('-', str_replace('-', '_', $impls['nom'])) : '').'"';
+                $csv .= ',"'.((!empty($impls['tipo'])) ? implode('-', str_replace('-', '_', $impls['tipo'])) : '').'"';
 
                 $html .= '<div><i>Cobertura: </i>';
                 if ($row->cobertura_nal_proy == 1) {
@@ -5079,7 +5172,7 @@ Class P4wDAO
 
                 $html .= '<div>';
                 $tms = $this->getTemasAgrupado($id);
-                foreach(array(1 => 'UNDAF', 2 => 'Cluster') as $c => $t) {
+                foreach(array(1 => 'UNDAF', 2 => 'Cluster', 5 => 'Acuerdos') as $c => $t) {
                     if (!empty($tms[$c])) {
                         $n = count($tms[$c]['id']);
 
@@ -5107,15 +5200,15 @@ Class P4wDAO
                 $html .= '</div>';
 
 	            // Cluster
-	            $csv .= ',"'.(empty($tms[2]['id']) ? '' : implode('-', $tms[2]['nom'])).'"';
+	            $csv .= ',"'.(empty($tms[2]['id']) ? '' : implode('-', str_replace('-', '_', $tms[2]['nom']))).'"';
 
                 // Undaf
                 //$csv .= ',"'.(empty($tms[1]['id']) ? '' : implode('-', $tms[1]['nom'])).'"';
 
                 // Des-Paz
-                $csv .= ',"'.(empty($tms[4]['id']) ? '' : implode('-', $tms[4]['nom'])).'"';
+                $csv .= ',"'.(empty($tms[4]['id']) ? '' : implode('-', str_replace('-', '_', $tms[4]['nom']))).'"';
 
-	            $csv .= ',"' . $row->inicio_proy . '","' . $row->fin_proy . '","' . $row->duracion_proy . '"';
+	            $csv .= ',"' . date("Y/m/d",strtotime(str_replace('/','-',$row->inicio_proy))) . '","' . date("Y/m/d",strtotime(str_replace('/','-',$row->fin_proy))) . '","' . $row->duracion_proy . '"';
 
                 // Ficha proyecto
                 $html .= '<div id="ficha_'.$id.'" class="fichap">
@@ -5144,11 +5237,11 @@ Class P4wDAO
 
                 // Timeline
                 if (!empty($row->inicio_proy) && !empty($row->fin_proy) &&
-                    $row->inicio_proy != '0000-00-00' && $row->fin_proy != '0000-00-00') {
+                    $row->inicio_proy != '0000/00/00' && $row->fin_proy != '0000/00/00') {
 
                     //$meses = $fecha->RestarFechas($row->inicio_proy, $row->fin_proy, 'meses');
                     $meses = $row->duracion_proy;
-                    $hoy = date('Y-m-d');
+                    $hoy = date('Y/m/d');
                     $fm = $fecha->RestarFechas($hoy, $row->fin_proy, 'meses');
 
                     if ($fm < 0 || strtotime($hoy) > strtotime($row->fin_proy)) {
@@ -5205,7 +5298,7 @@ Class P4wDAO
 	            $csv .= ',"'.((!empty($dons['a'])) ? implode('-', $dons['a']) : '').'"';
 	            //$csv .= ',"'.((!empty($dons['c'])) ? implode('-', $dons['c']) : '').'"';
 
-	            $csv .= ',"'.$row->far_proy.'"';
+	            $csv .= ',"'.date("Y/m/d",strtotime(str_replace('/','-',$row->far_proy))).'"';
 
                 //SRP
                 $csv .= ','.$row->srp_proy;
@@ -5333,41 +5426,40 @@ Class P4wDAO
 	            }
 
 	            //Beneficiarios No-poblacionales
-	            $csv .= ',"' . ((!empty($bens['sig'])) ? implode('-', $bens['sig']) : '') . '"';
-	            $csv .= ',"' . ((!empty($bens['nom'])) ? implode('-', $bens['nom']) : '') . '"';
-	            $csv .= ',"' . ((!empty($bens['tipo'])) ? implode('-', $bens['tipo']) : '') . '"';
+	            $csv .= ',"' . ((!empty($bens['sig'])) ? implode('-', str_replace('-', '_', $bens['sig'])) : '') . '"';
+	            $csv .= ',"' . ((!empty($bens['nom'])) ? implode('-', str_replace('-', '_', $bens['nom'])) : '') . '"';
+	            $csv .= ',"' . ((!empty($bens['tipo'])) ? implode('-', str_replace('-', '_', $bens['tipo'])) : '') . '"';
 
                 // Cobertura
-
                 $_cb = $this->getMpiosCobertura($id);
 
 	            $csv .= ',"';
 	            if (is_array($_cb['ids'])) {
-		            $csv .= implode('-', $_cb['ids']);
+		            $csv .= implode(',', str_replace(',', '_', $_cb['ids']));
 	            }
 
                 $csv .= '","';
                 if (is_array($_cb['deptos'])) {
-                    $csv .= implode('-', $_cb['deptos']);
+                    $csv .= implode(',', str_replace(',', '_', $_cb['deptos']));
                 }
 
                 $csv .= '","';
                 if (is_array($_cb['noms'])) {
-                    $csv .= implode('-', $_cb['noms']);
+                    $csv .= implode(',', str_replace(',', '_', $_cb['noms']));
                 }
 
 	            $csv .= '","';
 	            if (is_array($_cb['lat'])) {
-		            $csv .= implode('-', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lat'])     );
+		            //$csv .= implode(',', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lat'])     );
 	            }
 
 	            $csv .= '","';
 	            if (is_array($_cb['lon'])) {
-		            $csv .= implode('-', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lon']));
+		            //$csv .= implode(',', str_replace(array("\r\n", "\r", "\n",'"',','), '',$_cb['lon']));
 	            }
 
 	            //Interagencial
-	            $csv .= '",' . $row->inter;
+	            $csv .= '",' . intval($row->inter);
 
 	            //Cash Based Transfer
 	            $csv .= ',"' . $this->getModalidadProyecto($row->id) . '"';
@@ -5378,6 +5470,14 @@ Class P4wDAO
 
                 //URL soportes del proyecto
 	            $csv .= ',"' . $row->soportes  . '"';
+
+	            //Acuerdos de Paz con las FARC
+	            $subtem = array();
+	            foreach ($tms[5]['nom'] as $acu_n) {
+		            if (preg_match('/^(\d\.\d\.\d\.*)/', $acu_n, $matches)) //Dejar solo el código
+		            $subtem[] = $matches[0];
+	            }
+	            $csv .= ',"'.(empty($tms[5]['id']) ? '' : implode('-', $subtem)).'"';
 
                 $html .= '</div></div>';
 
@@ -5407,7 +5507,7 @@ Class P4wDAO
             $archivo->Cerrar($file);
              */
 
-            $csv = utf8_encode($csv);
+            $csv = utf8_decode($csv);
             $sissh->createFileCache($csv, $path_file.'.csv');
             $sissh->createFileCache($csv, $path_file_proyectos);  // proyectos_4w.csv
 
@@ -5449,7 +5549,7 @@ Class P4wDAO
         $sql = "SELECT DISTINCT(p.id_proy) AS id, nom_proy, cod_proy, des_proy, inicio_proy, fin_proy,
                 costo_proy, duracion_proy, cobertura_nal_proy, cant_benf_proy,
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
-                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, cel_con, srp_proy
+                ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, cel_con, srp_proy, inter
                 ,inter,id_tipp,far_proy,id_moda,id_mece,frecd,valp,
                 costo_proy1,costo_proy2,costo_proy3,costo_proy4,costo_proy5,num_vic,num_afe,num_des,num_afr,num_ind,soportes
                 FROM proyecto AS p
@@ -5483,6 +5583,10 @@ Class P4wDAO
                         $sql .= ' JOIN tema USING(id_tema)';
                         $cond .= ' AND id_tema IN ('.$id.') AND id_clasificacion = 1';
                     break;
+	                case 'acuerdo':
+		                $sql .= ' JOIN tema USING(id_tema)';
+		                $cond .= ' AND id_tema IN ('.$id.') AND id_clasificacion = 5';
+		                break;
                     case 'ejecutora':
                         $cond .= ' AND v.id_org = '.$id.' AND v.id_tipo_vinorgpro = 1';
                     break;
@@ -5606,7 +5710,9 @@ Class P4wDAO
                            'donante' => 'organizacion',
                            'departamento' => 'departamento',
                            'municipio' => 'municipio',
-                           'estado' => 'estado_proy');
+                           'estado' => 'estado_proy',
+                           'acuerdo' => 'tema',
+                );
 
             $cid_proy = 'id_proy';
 
@@ -5673,6 +5779,12 @@ Class P4wDAO
                     $cond = "p.$cid = t.$cid";
                     $cid_proy = $cid;
                 break;
+
+	            case 'acuerdo':
+		            $cid = 'id_tema';
+		            $cnom = 'nom_tema';
+		            $cond = 'id_clasificacion = 5';
+		            break;
             }
 
             $col_order = 'n';
@@ -5780,7 +5892,7 @@ Class P4wDAO
             }
         }
         else {
-            $html .= '<div class="fila">No existe informaci&oacute;n</div>';
+            $html .= '<div class="fila">No existe información</div>';
         }
 
         return $html;
@@ -5829,7 +5941,7 @@ Class P4wDAO
 
                 $sql_ehp = 'SELECT id_org FROM org_espacio WHERE id_esp = 2';
 
-                // Espacios de coordinaci�n
+                // Espacios de coordinación
                 switch($grupo) {
                     case 'ehp':
                         $condo .= " AND v.id_org IN ($sql_ehp)";
@@ -5862,7 +5974,7 @@ Class P4wDAO
 
                     $sql_ehp = 'SELECT id_org FROM org_espacio WHERE id_esp = 2';
 
-                    // Espacios de coordinaci�n
+                    // Espacios de coordinación
                     switch($grupo) {
                         case 'ehp':
                             $condo .= " AND v.id_org IN ($sql_ehp)";
@@ -5930,7 +6042,7 @@ Class P4wDAO
                     unset($_SESSION['4w_f']['id'][$_i]);
                 }
 
-                var_dump($_SESSION['4w_f']['c']);
+                //var_dump($_SESSION['4w_f']['c']);
             }
             else {
                 $_c = $params['c'];
@@ -6331,29 +6443,29 @@ Class P4wDAO
 
                 //echo "meses_filtro = $meses_filtro <br />";
 
-                // El filtro de a�o esta entre ini y fin
+                // El filtro de año esta entre ini y fin
                 if ($yini < $filtro_ini && $yfin > $filtro_fin) {
                     //$real = $pm * $meses_filtro;
                     //echo "entro con $cant y dio: $real<br />";
                     $real = 12 * $pm;
                 }
-                // El a�o de filtro es mayor que el periodo del proy
+                // El año de filtro es mayor que el periodo del proy
                 else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini == $filtro_fin) {
                     $real = 0;
                 }
-                // El a�o de filtro es mayor que el periodo del proy
+                // El año de filtro es mayor que el periodo del proy
                 else if ($yini < $filtro_ini && $yfin < $filtro_fin && $filtro_ini < $filtro_fin) {
                     $real = $mfin * $pm;
                 }
-                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                // El filtro de mas de 1 año toma unos meses del proyecto
                 else if ($yini < $filtro_ini && $yfin > $filtro_fin && $filtro_ini < $filtro_fin) {
                     $real = 0;
                 }
-                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                // El filtro de mas de 1 año toma unos meses del proyecto
                 else if ($yini < $filtro_ini && $filtro_fin == $yfin && $filtro_ini == $filtro_fin) {
                     $real = $mfin * $pm;
                 }
-                // El filtro de mas de 1 a�o toma unos meses del proyecto
+                // El filtro de mas de 1 año toma unos meses del proyecto
                 else if ($yini < $filtro_ini && $yfin == $filtro_fin && $filtro_ini < $filtro_fin) {
                     $real = ($meses_filtro - (12 - $mfin)) * $pm;
                 }
@@ -6386,7 +6498,7 @@ Class P4wDAO
                 else if ($yini == $filtro_ini && $yfin < $filtro_fin) {
                     $real = $cant;
                 }
-                // Filtro es de 1 a�o y es el mismo del proyecto
+                // Filtro es de 1 año y es el mismo del proyecto
                 else if ($yini == $filtro_ini && $yfin == $filtro_fin) {
                     $real = $cant;
                 }

@@ -1231,7 +1231,7 @@ function output($debug=0){
   $this->checkAllHere();
 
   $xref=array();
-  $content="%PDF-1.3\n%âãÏÓ\n";
+  $content="%PDF-1.3\n%Ã¢Ã£ÃÃ“\n";
 //  $content="%PDF-1.3\n";
   $pos=strlen($content);
   foreach($this->objects as $k=>$v){
@@ -2154,6 +2154,9 @@ function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$
 * add text to the document, at a specified location, size and angle on the page
 */
 function addText($x,$y,$size,$text,$angle=0,$wordSpaceAdjust=0){
+	//file_put_contents('/tmp/cont.txt', '>>>' . mb_detect_encoding($str, 'UTF-8', true) . '<<<', FILE_APPEND);
+  if (mb_detect_encoding($str, 'UTF-8', true) == 'UTF-8') { $text = mb_convert_encoding($text, "ISO-8859-1", "UTF-8"); }
+  if (mb_detect_encoding($str, 'ISO-8859-1', true) == 'ISO-8859-1') { $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1"); }
   if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 
   // if there are any open callbacks, then they should be called, to show the start of the line
@@ -2329,7 +2332,7 @@ function PRVTadjustWrapText($text,$actual,$width,&$x,&$adjust,$justification){
 * justification and angle can also be specified for the text
 */
 function addTextWrap($x,$y,$width,$size,$text,$justification='left',$angle=0,$test=0){
-  // this will display the text, and if it goes beyond the width $width, will backtrack to the 
+  // this will display the text, and if it goes beyond the width $width, will backtrack to the
   // previous space or hyphen, and return the remainder of the text.
 
   // $justification can be set to 'left','right','center','centre','full'

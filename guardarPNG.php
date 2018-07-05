@@ -8,7 +8,6 @@ session_start();
 //LIBRERIAS
 include("admin/lib/common/archivo.class.php");
 
-echo 'entro';
 
 //INICIALIZACION DE VARIABLES
 $archivo = New Archivo();

@@ -79,7 +79,7 @@ function validar_criterios(){
   	var error = 1;
 
 	if (document.getElementById("id_dato").value == ''){
-		alert("Seleccione algún Dato Sectorial");
+		alert("Seleccione algÃºn Dato Sectorial");
 		return false;
 	}
 }
@@ -133,7 +133,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún departamento");
+		alert("Debe seleccionar algÃºn departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','admin/ajax_data.php?object=comboBoxMunicipio&multiple=17&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -182,7 +182,7 @@ function addDatoToReport(){
 		chk_id = 0;
 		
 		des_geo_txt =  (des_geo[id_dato_sel] == 1) ? 'Departamental' : 'Municipal';
-		alert('El dato seleccionado solo está disponible a nivel ' + des_geo_txt);
+		alert('El dato seleccionado solo estÃ¡ disponible a nivel ' + des_geo_txt);
 	}
 
 	//check que no este el dato en la lista
@@ -280,7 +280,7 @@ if (!isset($_GET["method"])){
 	<table align='center' cellspacing="1" cellpadding="5" border="0" width="900">
 		<tr class='pathway'>
 			<td colspan=4>
-				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Datos Sectoriales
+				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Datos Sectoriales
 			</td>
 		</tr>
 		<tr>
@@ -384,7 +384,7 @@ if (!isset($_GET["method"])){
 				<table border="0" width="900" cellpadding=3 cellspacing=1>
 					<tr>
 						<td class="titulo_filtro" width="410">&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Ubicaci&oacute;n Geogr&aacute;fica</td>
-						<td class="titulo_filtro" >&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Filtro Específico</td>
+						<td class="titulo_filtro" >&nbsp;<img src="images/gra_resumen/fl_filtro.gif">&nbsp;Filtro EspecÃ­fico</td>
 					</tr>
 					<tr>
 						<td>
@@ -429,7 +429,7 @@ if (!isset($_GET["method"])){
 							</select>&nbsp;
 							<input type="text" name='filtro_dato' class="textfield" size="6">
 							<span id='td_entre' style="display:none">&nbsp;y&nbsp;<input type="text" name='filtro_dato_entre' class="textfield" size="10"></span>
-							 (El valor debe ser un número)
+							 (El valor debe ser un nÃºmero)
 						</td>
 					</tr>
 				</table>
@@ -465,7 +465,7 @@ if (!isset($_GET["method"])){
 			<tr><td colspan=2>
 				Seleccione el formato del reporte:<br>&nbsp;
 			</td></tr>
-			<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte Básico</b></td></tr>
+			<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte BÃ¡sico</b></td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td align='center'>
 				<input type="hidden" name="pdf" value="<?=$_POST['pdf']?>" />

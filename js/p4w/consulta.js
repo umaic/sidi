@@ -157,7 +157,7 @@ function addBaseLayer(c){
                 map.addLayer(ly);
 
                 var wms_departamentos = new OpenLayers.Layer.WMS("Departamentos",
-                    "http://geonode.umaic.org/geoserver/wms",
+                    "https://geonode.umaic.org/geoserver/wms",
                     {
                         layers: "geonode:col_admbnda_adm1_igac_ochal",
                         transparent: true
@@ -540,7 +540,7 @@ function addLayerpL() {
 }
 
 function addFiltertoList(h1, h2, c, id, filter_map) {
-
+console.log(h1);console.log(h2);console.log(c);console.log(id);
     var append = true;
     var ide = 'div_tt_' + c;
     var id_span = ide + '_span_' + id;
@@ -727,6 +727,7 @@ function changeTotales() {
     $j('#norg_h2').html($j('#proys').find('#4w_no').val());
     $j('#nimp_h2').html($j('#proys').find('#4w_ni').val());
     $j('#nbenef_h2').html($j('#proys').find('#4w_nb').val());
+    $j('#nbenef_h2').attr('title', 'Hombres:' + $j('#proys').find('#4w_nb_h').val() + ' Mujeres:' + $j('#proys').find('#4w_nb_m').val());
     $j('#npres_h2').html($j('#proys').find('#4w_npres').val());
     $j('#npres_gob_h2').html($j('#proys').find('#4w_npres_gob').val());
     $j('#npres_sin_donante_h2').html($j('#proys').find('#4w_npres_sin_donante').val());
@@ -1062,6 +1063,7 @@ function addEventosFiltros() {
     ts['periodo'] = 'Periodo';
     ts['departamento'] = 'Departamento';
     ts['municipio'] = 'Municipio';
+    ts['acuerdo'] = 'Acuerdos de Paz';
 
     for (var id in ts) {
         $j('#filtros').find('div.f' + id).each(function(){

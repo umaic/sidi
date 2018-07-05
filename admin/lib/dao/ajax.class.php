@@ -2,21 +2,21 @@
 /**
  * DAO de Ajax
  *
- * Contiene los métodos de la clase Ajax
+ * Contiene los mÃ©todos de la clase Ajax
  * @author Ruben A. Rojas C.
  */
 
 Class AjaxDAO {
 
   /**
-	* Conexión a la base de datos
+	* ConexiÃ³n a la base de datos
 	* @var object
 	*/
 	var $conn;
 
   /**
   * Constructor
-	* Crea la conexión a la base de datos
+	* Crea la conexiÃ³n a la base de datos
   * @access public
   */
 	function AjaxDAO (){

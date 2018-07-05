@@ -41,10 +41,10 @@ $id_depto = Array();
 $num_deptos = 0;
 $id_cat = 0;
 $chk_conf = "";
-$id_orgs_d = ""; //Organización donante
-$id_orgs_e = ""; //Organización ejecutora
-$id_orgs_s = ""; //Organización implementadora
-$id_orgs_b = ""; //Organización beneficiaria
+$id_orgs_d = ""; //OrganizaciÃ³n donante
+$id_orgs_e = ""; //OrganizaciÃ³n ejecutora
+$id_orgs_s = ""; //OrganizaciÃ³n implementadora
+$id_orgs_b = ""; //OrganizaciÃ³n beneficiaria
 $display_socios_un = 'none';
 $costo_proy = '';
 $costo_proy_ind = '';
@@ -289,7 +289,7 @@ $j(function() {
             <div class="left rules">
                 Para <b>Organizaci&oacute;n</b> ejecutora, Implementadores y Donantes, 
                 escriba el <b>NOMBRE</b> o la 
-                <b>SIGLA</b> en Espa&ntilde;ol o Ingl&eacute;s y seleccione laOrganización de <br /> 
+                <b>SIGLA</b> en Espa&ntilde;ol o Ingl&eacute;s y seleccione la OrganizaciÃ³n de <br />
                 la lista que aparecer&aacute;. Si la busqueda no arroja resultados, utilice el bot&oacute;n <br />
                 de la esquina derecha, + Organizaci&oacute;n, cree la Organizaci&oacute;n y realice la busqueda <br />
                 de nuevo en el campo correspondiente.  Para <b>Contacto</b> puede buscar por nombre, apellido o email.
@@ -341,7 +341,7 @@ $j(function() {
                 </div>
                 <div class="nota">* Diligencie los meses o la <br />fecha de finalizaci&oacute;n</div>
                 <div class="field">
-                    <label for="duracion_proy">Duración en meses</label>
+                    <label for="duracion_proy">DuraciÃ³n en meses</label>
                     <input type="text" name="duracion_proy" id="duracion_proy" class="textfield ri" value="<?=$p_vo->duracion_proy;?>" size="5"  onkeypress="return validarFloat(event)"/>
                 </div>
                 <div class="field">
@@ -356,35 +356,35 @@ $j(function() {
                         <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <div class="field">
-                    <label for="ofar">Fecha adjudicación de Recursos</label>
+                    <label for="ofar">Fecha adjudicaciÃ³n de Recursos</label>
                     <input type="text" id="ofar" name="ofar" value="<?php echo $p_vo->ofar ?>" size="10" class="textfield" />
                 </div>
                 <div class="field">
-                    <label for="costo_proy1">Presupuesto Año 1 (USD)</label>
+                    <label for="costo_proy1">Presupuesto AÃ±o 1 (USD)</label>
                     <input type="text" name="costo_proy1" id="costo_proy1" class="textfield" value="<? echo $p_vo->costo_proy1;?>" size="15"
                            onkeypress="return validarNum(event)"/>
                     <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <div class="field">
-                    <label for="costo_proy2">Presupuesto Año 2 (USD)</label>
+                    <label for="costo_proy2">Presupuesto AÃ±o 2 (USD)</label>
                     <input type="text" name="costo_proy2" id="costo_proy2" class="textfield" value="<? echo $p_vo->costo_proy2;?>" size="15"
                            onkeypress="return validarNum(event)"/>
                     <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <div class="field">
-                    <label for="costo_proy3">Presupuesto Año 3 (USD)</label>
+                    <label for="costo_proy3">Presupuesto AÃ±o 3 (USD)</label>
                     <input type="text" name="costo_proy3" id="costo_proy3" class="textfield" value="<? echo $p_vo->costo_proy3;?>" size="15"
                            onkeypress="return validarNum(event)"/>
                     <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <div class="field">
-                    <label for="costo_proy4">Presupuesto Año 4 (USD)</label>
+                    <label for="costo_proy4">Presupuesto AÃ±o 4 (USD)</label>
                     <input type="text" name="costo_proy4" id="costo_proy4" class="textfield" value="<? echo $p_vo->costo_proy4;?>" size="15"
                            onkeypress="return validarNum(event)"/>
                     <br /><span class="nota">Valor enterno sin comas ni puntos</span>
                 </div>
                 <div class="field">
-                    <label for="costo_proy5">Presupuesto Año 5 (USD)</label>
+                    <label for="costo_proy5">Presupuesto AÃ±o 5 (USD)</label>
                     <input type="text" name="costo_proy5" id="costo_proy5" class="textfield" value="<? echo $p_vo->costo_proy5;?>" size="15"
                            onkeypress="return validarNum(event)"/>
                     <br /><span class="nota">Valor enterno sin comas ni puntos</span>
@@ -452,7 +452,7 @@ $j(function() {
                     $inter_no = ($p_vo->inter == 0) ? 'checked' : '';
                     $inter_si = ($p_vo->inter == 1) ? 'checked' : '';
                     ?>
-                    <label>¿Es un proyecto que cumple los requisitos de interagencialidad?</label>
+                    <label>Â¿Es un proyecto que cumple los requisitos de interagencialidad?</label>
                     <input type="radio" id="inter_no" name="inter" value="0" <?php echo $inter_no ?> />&nbsp;<label for="inter_no" class="ch">No</label>&nbsp;
                     <input type="radio" id="inter_si" name="inter" value="1"  <?php echo $inter_si ?>/>&nbsp;<label for="inter_si" class="ch">Si</label>&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Proyecto_Interagencial" target="_blank">Criterios de interagencialidad</a>)
@@ -486,7 +486,7 @@ $j(function() {
                     </select>
                 </div>
                 <div class="field">
-                    <label for="cbt_f">Frecuencia de Distribución</label>
+                    <label for="cbt_f">Frecuencia de DistribuciÃ³n</label>
                     <input type="text" id="cbt_f" name="cbt_f" value="<?php echo $p_vo->cbt_f ?>" size="10" class="textfield" />
                 </div>
                 <div class="field">
@@ -538,7 +538,7 @@ $j(function() {
                 <hr>
                 <div class="imps">
                     <label class="left">Donantes</label>
-                    <label class="right">C&oacute;digo proy.</label>
+                    <!-- label class="right">C&oacute;digo proy.</label -->
                     <label class="right">Aporte U$</label>
 
                     <?php 
@@ -552,7 +552,7 @@ $j(function() {
                         <textarea type="text" id="nom_org_d_%d" name="nom_org_d[]" class="textfield nom_org_d" 
                         onkeydown="buscarOcurr(event, \'nom_org_d_%d\', \'id_orgs_d_%d\', \'ocurr_org_d_%d\');" />%s</textarea>
                         <textarea type="text" id="valor_org_d_%d" name="valor_org_d_%d" class="textfield extra_org_d" onkeypress="return validarNum(event)">%s</textarea>
-                        <textarea type="text" id="codigo_org_d_%d" name="codigo_org_d_%d" class="textfield extra_org_d">%s</textarea>
+                        <!-- textarea type="text" id="codigo_org_d_%d" name="codigo_org_d_%d" class="textfield extra_org_d">%s</textarea -->
                         <div id="ocurr_org_d_%d" class="ocurrencia"></div>
                     </div>';
 
@@ -596,7 +596,7 @@ $j(function() {
         <!-- INFORMACION GENERAL : FIN -->	
 
         <div class="tabbertab" id="tema">
-            <h2>SECTOR / RESULTADO</h2><br>
+            <h2>SECTOR / RESULTADO / ACUERDOS</h2><br>
             <div class="left">
             <div class="t">SECTOR / RESULTADO</div>
                 <?php 
@@ -743,6 +743,41 @@ $j(function() {
                     </td>
                 </tr>
                 </table>
+                <div class="t">ACUERDOS DE PAZ CON LAS FARC</div>
+                <table>
+                    <tr>
+                        <td width="50%" valign="top">
+	                        <?php
+	                        $id_c = 5;
+	                        $tsp = $tema_dao->GetAllArray("id_clasificacion = $id_c AND id_papa=0");
+	                        foreach($tsp as $tp1) {
+		                        echo '<br /><b>'.$tp1->nombre.'</b>';
+		                        $tx = $tema_dao->GetAllArray("id_papa=" . $tp1->id);
+                                foreach($tx as $tp)
+                                {
+	                                echo '<br /><b>' . $tp->nombre . '</b>';
+	                                echo '<table class="table_cluster">';
+	                                $ts = $tema_dao->GetAllArray("id_papa=" . $tp->id);
+	                                foreach ($ts as $_t => $t)
+	                                {
+		                                $check = (array_key_exists($t->id, $p_vo->id_temas)) ? ' checked ' : '';
+
+		                                echo '<tr class="tema">
+                                                <td width="400">
+                                                   <input type="checkbox" id="t_' . $t->id . '" name="id_temas[]" value="' . $t->id . '" ' . $check . ' class="tema_des" />
+                                                   <label for="t_' . $t->id . '" class="ch">' . $t->nombre . '</label>
+                                                   </td>
+                                                   <td>' . $t->def . '</td>
+                                                </tr>';
+	                                }
+
+	                                echo '</table>';
+                                }
+	                        }
+	                        ?>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="clear"></div>
             <?php 
@@ -879,7 +914,7 @@ $j(function() {
                         </div>
                     </div>
                     <div class="checkbox">
-                        Víctimas del conflicto:
+                        VÃ­ctimas del conflicto:
                         <input type="text" class="textfield" id="num_vic" name="num_vic" value="<?php echo (!empty($p_vo->num_vic)) ? $p_vo->num_vic : '' ?>" />
                     </div>
                     <div class="checkbox">
@@ -895,7 +930,7 @@ $j(function() {
                         <input type="text" class="textfield" id="num_afr" name="num_afr" value="<?php echo (!empty($p_vo->num_afr)) ? $p_vo->num_afr : '' ?>" />
                     </div>
                     <div class="checkbox">
-                        Indígenas:
+                        IndÃ­genas:
                         <input type="text" class="textfield" id="num_ind" name="num_ind" value="<?php echo (!empty($p_vo->num_ind)) ? $p_vo->num_ind : '' ?>" />
                     </div>
                     <br />
@@ -1178,8 +1213,7 @@ $j(function() {
                                     if ($num > $rows*$cols) {
                                         $rows = ceil($num / $cols);
                                     }
-
-                                    foreach ($muns as $m => $mun){
+                                                                        foreach ($muns as $m => $mun){
                                         
                                         $check = (in_array($mun->id,$p_vo->id_muns)) ? " checked " : "";
                                         
@@ -1226,7 +1260,7 @@ $j(function() {
                                     Esta opci&oacute;n le permite agregar la cobertura del proyecto <br />
                                     usando el mapa, para ello, marque un punto en el mapa, los valores <br />
                                     de Latitud y Longitud aparecer&aacute;n y luego procese el punto.  <br />
-                                    Deberá aparecer el correspondiente muncicipio.  Repita este procedimiento <br />
+                                    DeberÃ¡ aparecer el correspondiente muncicipio.  Repita este procedimiento <br />
                                     para todos los lugares.
                                 </div>
                                 <div class="left">

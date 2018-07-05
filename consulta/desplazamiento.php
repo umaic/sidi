@@ -64,7 +64,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alg�n departamento");
+		alert("Debe seleccionar algún departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','admin/ajax_data.php?object=comboBoxMunicipio&multiple=10&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -111,7 +111,7 @@ function validar_criterios(){
 
   	if (error == 1){
   		if (!checkInputChecked(document.forms[0].aaaa_periodo)){
-		    alert("Seleccione alg�n criterio");
+		    alert("Seleccione algún criterio");
 		    return false;
   		}
   		else{
@@ -183,13 +183,13 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_desplazamientos"])){
 <table align='center' cellspacing="1" cellpadding="3" border="0" width="850">
 	<tr class='pathway'>
 		<td colspan=4>
-			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Desplazamiento
+			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Desplazamiento
 		</td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr><td colspan=2>
 		Puede consultar Datos de Desplazamientos usando uno o varios de los siguiente filtros.
-		En cada opci�n puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
+		En cada opción puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
 		<br>&nbsp;
 	</td></tr>
 	<tr>
@@ -410,7 +410,7 @@ if (isset($_POST["id_desplazamientos"]) && !isset($_POST["reportar"])){
 		<tr><td colspan=2>
 			Seleccione el formato del reporte:<br>&nbsp;
 		</td></tr>
-		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte Est�ndar</b>: Muestra la informaci�n del Dato de Desplazamiento</td></tr>
+		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte Estï¿½ndar</b>: Muestra la informaciï¿½n del Dato de Desplazamiento</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td align='center'>
 			<input type="hidden" name="pdf" value="<?=$_POST['pdf']?>" />

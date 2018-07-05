@@ -71,7 +71,7 @@ if (isset($_GET["id_org_r"])){
 <script>
 function validar(){
 	
-	if (validar_forma('nombre,Nombre,sigla,Sigla,id_tipo,Tipo,id_mun_sede,Sede,pu_email,Email,tel1,Teléfono 1',document.getElementById('pu_email').value)){
+	if (validar_forma('nombre,Nombre,sigla,Sigla,id_tipo,Tipo,id_mun_sede,Sede,pu_email,Email,tel1,TelÃ©fono 1',document.getElementById('pu_email').value)){
 		
 		//SECTOR
 		error = 1;
@@ -83,7 +83,7 @@ function validar(){
 		}
 		
 		if (error == 1){
-			alert("Seleccione algún Sector");
+			alert("Seleccione algÃºn Sector");
 			return false;
 		}
 		
@@ -97,7 +97,7 @@ function validar(){
 		}
 		
 		if (error == 1){
-			alert("Seleccione algún Enfoque");
+			alert("Seleccione algÃºn Enfoque");
 			return false;
 		}
 
@@ -111,7 +111,7 @@ function validar(){
 		}
 		
 		if (error == 1){
-			alert("Seleccione algúna Población Beneficiaria");
+			alert("Seleccione algÃºna PoblaciÃ³n Beneficiaria");
 			return false;
 		}
 
@@ -127,11 +127,11 @@ function validar(){
 		}
 
 		if (error == 1){
-			alert("Seleccione la Cobertura Geográfica por Municipio");
+			alert("Seleccione la Cobertura GeogrÃ¡fica por Municipio");
 			return false;
 		}
 		
-		return validar_forma('ingresa_nombre,Nombre de la persona quien ingresa la Información,ingresa_email,Email de la persona quien ingresa la Información,ingresa_tel,Teléfono de la persona quien ingresa la Información','');
+		return validar_forma('ingresa_nombre,Nombre de la persona quien ingresa la InformaciÃ³n,ingresa_email,Email de la persona quien ingresa la InformaciÃ³n,ingresa_tel,TelÃ©fono de la persona quien ingresa la InformaciÃ³n','');
 		
 	}
 	else{
@@ -150,7 +150,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún departamento");
+		alert("Debe seleccionar algÃºn departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','admin/ajax_data.php?object=comboBoxMunicipio&multiple=17&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -176,17 +176,17 @@ function listarMunicipios(combo_depto){
 	    	</tr>
 	    	<tr>
 	    		<td colspan="5">
-			    	<H1>Gracias por compartir la información sobre su organización.</H1><br>
+			    	<H1>Gracias por compartir la informaciÃ³n sobre su organizaciÃ³n.</H1><br>
 		
-					Para iniciar el registro de su organización primero seccione el departamento donde se encuentra la <strong>sede de su organización</strong>.
+					Para iniciar el registro de su organizaciÃ³n primero seccione el departamento donde se encuentra la <strong>sede de su organizaciÃ³n</strong>.
 					<br><br>
-					Si su organización tiene más de una sede agradecemos haga un registro por cada una.
+					Si su organizaciÃ³n tiene mÃ¡s de una sede agradecemos haga un registro por cada una.
 					
-					Después podrá indicar la cobertura geográfica de su organización o de esa sede específica en diferente
+					DespuÃ©s podrÃ¡ indicar la cobertura geogrÃ¡fica de su organizaciÃ³n o de esa sede especÃ­fica en diferente
 	    		</td>
 	    	</tr>
 			<tr>
-				<td align="left" colspan="5"><b>Seleccione el Departamento donde se encuentra su organización</b>
+				<td align="left" colspan="5"><b>Seleccione el Departamento donde se encuentra su organizaciÃ³n</b>
 	     		&nbsp;
 				 	<select id="id_depto" name="id_depto" class="select" onchange="location.href='<?=$_SERVER['PHP_SELF']?>?id_depto='+this.value">
 	    		  		<option value=''>Seleccione alguno...</option>
@@ -200,7 +200,7 @@ function listarMunicipios(combo_depto){
   			<?
 	    	if (isset($_GET['id_depto']) || $ver == 1){ ?>
 	  			<tr>
-				<td align="left" colspan="5"><b>Seleccione el Municipio donde se encuentra su organización</b>&nbsp;				
+				<td align="left" colspan="5"><b>Seleccione el Municipio donde se encuentra su organizaciÃ³n</b>&nbsp;				
 					<select id="id_mun_sede" name="id_mun_sede" class="select">
 					<option value=''>Seleccione alguno...</option>
 					<?
@@ -236,11 +236,11 @@ function listarMunicipios(combo_depto){
 					</td>
 		        </tr>
 				<tr>
-				  <td align="right"><b>Dirección</b></td>
+				  <td align="right"><b>DirecciÃ³n</b></td>
 				  <td align="left" colspan="3"><input type="text" name="dir" id="dir" class="textfield"value='<?=$org_vo->dir;?>' size="67" /></td>
 				</tr>
 				<tr>
-				  <td align="right"><b>Año de fundaci&oacute;n en Colombia</b></td>
+				  <td align="right"><b>AÃ±o de fundaci&oacute;n en Colombia</b></td>
 				  <td  align="left"><input type="text" name="naci" id="naci" class="textfield" value='<?=$org_vo->naci;?>' size="23" /></td>
 				</tr>
 				<tr>
@@ -254,13 +254,13 @@ function listarMunicipios(combo_depto){
 				  <td align="left"><input type="text" name="pu_email" id="pu_email" class="textfield" value='<?=$org_vo->pu_email;?>' size="30"/></td>
 				</tr>
 				<tr>
-				  <td align="right"><b>Página Web</b></td>
+				  <td align="right"><b>PÃ¡gina Web</b></td>
 				  <td align="left" colspan="3"><input type="text" name="web" id="web" class="textfield" value='<?=$org_vo->web;?>' size="60" /></td>
 				</tr>
 				<tr>
-				  	<td align="right"><b>Teléfono 1</b></td>
+				  	<td align="right"><b>TelÃ©fono 1</b></td>
 				  	<td align="left" colspan="3"><input type="text" name="tel1" id="tel1" class="textfield" value='<?=$org_vo->tel1;?>' size="15" />
-				  		&nbsp;&nbsp;<b>Teléfono 2</b>&nbsp;&nbsp;
+				  		&nbsp;&nbsp;<b>TelÃ©fono 2</b>&nbsp;&nbsp;
 						&nbsp;&nbsp;<input type="text" name="tel2" id="tel2" class="textfield" value='<?=$org_vo->tel2;?>' size="15" />
 						&nbsp;&nbsp;<b>Fax</b>
 						&nbsp;&nbsp;<input type="text" name="fax" id="fax" class="textfield" value='<?=$org_vo->fax;?>' size="10" />
@@ -291,7 +291,7 @@ function listarMunicipios(combo_depto){
 				</tr>
 				<tr><td height="1"><img src="images/spacer.gif" height="1"></td><td height="1" class="td_dotted_top" colspan="3"><img src="images/spacer.gif" height="1"></tr>
 				<tr>
-					<td><b>Enfoque de la Organización</b><br><br><font class="nota">(Seleccione el o los enfoques de las acciones de la Organizaci&oacute;n)</font></td>
+					<td><b>Enfoque de la OrganizaciÃ³n</b><br><br><font class="nota">(Seleccione el o los enfoques de las acciones de la Organizaci&oacute;n)</font></td>
 					<td colspan="3">
 						<table width="100%" border="0">
 							<tr>
@@ -315,7 +315,7 @@ function listarMunicipios(combo_depto){
 				</tr>						
 				<tr><td height="1"><img src="images/spacer.gif" height="1"></td><td height="1" class="td_dotted_top" colspan="3"><img src="images/spacer.gif" height="1"></tr>
 				<tr>
-					<td><b>Poblaci&oacute;n Beneficiaria</b><br><br><font class="nota">(Seleccione el o los tipos de población en los que su Organización focaliza sus actividades)</font></td>
+					<td><b>Poblaci&oacute;n Beneficiaria</b><br><br><font class="nota">(Seleccione el o los tipos de poblaciÃ³n en los que su OrganizaciÃ³n focaliza sus actividades)</font></td>
 					<td colspan="3">
 						<table width="100%">
 							<tr>
@@ -338,7 +338,7 @@ function listarMunicipios(combo_depto){
 				</tr>
 				<tr><td height="1"><img src="images/spacer.gif" height="1"></td><td height="1" class="td_dotted_top" colspan="3"><img src="images/spacer.gif" height="1"></tr>
 				<tr>
-					<td><b>Cobertura Geogr&aacute;fica por Municipio</b><br><br><font class="nota">(Selección el o los municipios en los que la Organización tiene presencia)</font></td>
+					<td><b>Cobertura Geogr&aacute;fica por Municipio</b><br><br><font class="nota">(SelecciÃ³n el o los municipios en los que la OrganizaciÃ³n tiene presencia)</font></td>
 					<td colspan="3" align="left">
 						<table width="100%" border="0" align="left">
 							<tr>
@@ -375,7 +375,7 @@ function listarMunicipios(combo_depto){
 				</tr>
 				<tr><td height="1"><img src="images/spacer.gif" height="1"></td><td height="1" class="td_dotted_top" colspan="3"><img src="images/spacer.gif" height="1"></tr>
 				<tr>	
-				  <td><b>Participa en algún espacio de coordinación?</b></td>
+				  <td><b>Participa en algÃºn espacio de coordinaciÃ³n?</b></td>
 				  <td colspan="3" align='left'>
 				    <? if ($org_vo->esp_coor == ""){ ?>
 				  		<input type="radio" name="esp">Si&nbsp;<input type="radio" name="esp" checked>No
@@ -386,10 +386,10 @@ function listarMunicipios(combo_depto){
 				  	   }
 				  	   ?>
 				  	&nbsp;&nbsp;
-				  	<b>Si, ¿Cual?</b><br><textarea id="esp_coor" name="esp_coor" cols="50" rows="5" class="area"><?=$org_vo->esp_coor;?></textarea></td>
+				  	<b>Si, Â¿Cual?</b><br><textarea id="esp_coor" name="esp_coor" cols="50" rows="5" class="area"><?=$org_vo->esp_coor;?></textarea></td>
 				</tr>				
 				<tr>	
-				  <td><b>Comentarios Generales</b><br><br><font class="nota">(Adicione información general de la Organización, tal como: misión, visión, o un párrafo corto que complemente el trabajo que la Organización desarrolla)</font></td>
+				  <td><b>Comentarios Generales</b><br><br><font class="nota">(Adicione informaciÃ³n general de la OrganizaciÃ³n, tal como: misiÃ³n, visiÃ³n, o un pÃ¡rrafo corto que complemente el trabajo que la OrganizaciÃ³n desarrolla)</font></td>
 				  <td colspan="3" align='left'>
 				  	<textarea id="descripcion" name="descripcion" cols="50" rows="9" class="area"><?=$org_vo->des;?></textarea>
 				  </td>
@@ -410,7 +410,7 @@ function listarMunicipios(combo_depto){
 					</td>
 				</tr>
 				<tr>
-					<td><b>¿Conoce  organizaciones que trabajen/relacionadas con población vulnerable?</b></td>
+					<td><b>Â¿Conoce  organizaciones que trabajen/relacionadas con poblaciÃ³n vulnerable?</b></td>
 					<td colspan="3" align='left'>
 						<table cellpadding="3">
 							<?
@@ -428,7 +428,7 @@ function listarMunicipios(combo_depto){
 				</tr>
 				<tr><td height="1"><img src="images/spacer.gif" height="1"></td><td height="1" class="td_dotted_top" colspan="3"><img src="images/spacer.gif" height="1"></tr>
 				<tr>
-					<td><b>Persona quien ingresa la Información</b></td>
+					<td><b>Persona quien ingresa la InformaciÃ³n</b></td>
 					<td colspan="3" align='left'>Nombre&nbsp;<input type="text" id="ingresa_nombre" name="ingresa_nombre" class="textfield" value='<?=$org_vo->ingresa_nombre?>' size="15">&nbsp;
 					Email&nbsp;<input type="text" id="ingresa_email" name="ingresa_email" class="textfield" value='<?=$org_vo->ingresa_email?>' size="20">&nbsp;
 					Tel&nbsp;<input type="text" id="ingresa_tel" name="ingresa_tel" class="textfield" value='<?=$org_vo->ingresa_tel?>' size="20"></td>
@@ -451,7 +451,7 @@ function listarMunicipios(combo_depto){
 		}
 		else {?>
 		<tr>
-			 <td align="center" class="titulo_login">Registro realizado con éxito!</td>
+			 <td align="center" class="titulo_login">Registro realizado con Ã©xito!</td>
 		</tr>
 		<?
 		}

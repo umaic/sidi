@@ -178,6 +178,13 @@ $j(function() {
                 <li>* <b>Columna BJ</b>: URL soportes del proyecto</li>
             </ul>
         </fieldset>
+        <fieldset>
+            <legend>Acuerdos de Paz con las FARC</legend>
+            <ul>
+                <li>* <b>Columna BK</b>: Códigos de subtema
+                </li>
+            </ul>
+        </fieldset>
 
         </p>
     </div>	
@@ -191,7 +198,7 @@ $j(function() {
             <span id="insertar_bd_si" class="hide">Si&nbsp;<input type="radio" id="" name="insertar_db" value="1" /></span>
         </p>
         <hr>
-        <p>Los proyectos que tengan el mismo <b>c&oacute;digo</b>, la misma <b>Organizaci &oacute;n encargada 
+        <p>Los proyectos que tengan el mismo <b>c&oacute;digo</b>, la misma <b>Organizaci&oacute;n encargada
             (Sigla-Nombre-Tipo)</b>, la misma <b>fecha de inicio</b> y la misma <b>localizaci&oacute;n</b> no ser&aacute;n
             importados dado que se consideran como duplicidad
         </p>

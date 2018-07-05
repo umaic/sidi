@@ -85,7 +85,7 @@ function validar_criterios(){
 	}
 
   	if (error == 1){
-	    alert("Seleccione alg˙n criterio");
+	    alert("Seleccione alg√∫n criterio");
 	    return false;
 	}
 	else{
@@ -153,13 +153,13 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_minas"])){
 	<tr><td align='center' class='titulo_lista' colspan=2>CONSULTA DE DATOS DE EVENTOS POR MINAS</td></tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr><td colspan=2>
-		Puede consultar Datos de Eventos por Minas usando uno o varios de los siguiente filtros. Haga click sobre el tÌtulo para desplegarlo.<br><br>
-		En cada opciÛn puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
+		Puede consultar Datos de Eventos por Minas usando uno o varios de los siguiente filtros. Haga click sobre el t√≠tulo para desplegarlo.<br><br>
+		En cada opci√≥n puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
 		<br>&nbsp;
 	</td></tr>
 	<tr><td><img src="images/consulta/clean.gif">&nbsp;&nbsp;<a href="#" onclick="limpiarFiltros();">Limpiar Filtros</a>&nbsp;&nbsp;<img src="images/consulta/expandir.gif">&nbsp;&nbsp;<a href="#" onclick="mostrarFiltros('mostrar');">Mostrar</a> | <a href="#" onclick="mostrarFiltros('ocultar');">Ocultar</a> Todos los Filtros</a></td></tr>
 	<tr><td>&nbsp;</td></tr>
-	<tr><td><b>Especifique el rango de fecha de la consulta de eventos, o deje los campos vacÌos para no aplicar este filtro</b></td></tr>
+	<tr><td><b>Especifique el rango de fecha de la consulta de eventos, o deje los campos vac√≠os para no aplicar este filtro</b></td></tr>
 	<tr>
 		<td id="td_fecha">
 			Fecha desde&nbsp;
@@ -202,7 +202,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_minas"])){
 			</select>
 		</td>
 	</tr>
-	<tr><td><img id="img_condicion" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_condicion','img_condicion');return false;"><b>Filtrar por CondiciÛn</b></a></td></tr>
+	<tr><td><img id="img_condicion" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_condicion','img_condicion');return false;"><b>Filtrar por Condici√≥n</b></a></td></tr>
 	<?
 	$display = 'none';
 	$id_condicion = 0;
@@ -266,7 +266,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["id_minas"])){
 			</select>
 		</td>
 	</tr>
-	<tr><td><img id="img_cobertura" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_cobertura','img_cobertura');return false;"><b>Filtrar por Cobertura Geogr·fica</b></a></td></tr>
+	<tr><td><img id="img_cobertura" src="images/flecha.gif">&nbsp;&nbsp;<a href="#" onclick="unHide('td_cobertura','img_cobertura');return false;"><b>Filtrar por Cobertura Geogr√°fica</b></a></td></tr>
 	<?
 	$display = 'none';
 	if (isset($_GET['id_depto']))	$display = '';
@@ -354,7 +354,7 @@ if (isset($_POST["id_minas"]) && !isset($_POST["reportar"])){
 		<tr><td colspan=2>
 			Seleccione el formato del reporte:<br>&nbsp;
 		</td></tr>
-		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte Est·ndar</b>: Muestra la informaciÛn del Evento con Mina</td></tr>
+		<tr><td><input type="radio" name="basico" value="1" checked>&nbsp;<b>Reporte Est√°ndar</b>: Muestra la informaci√≥n del Evento con Mina</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td align='center'>
 			<input type="hidden" name="pdf" value="<?=$_POST['pdf']?>" />

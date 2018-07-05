@@ -409,8 +409,9 @@ else {
                 'periodo' => array('Periodo', 'f_p', 'Periodo'),
                 'departamento' => array('Departamento', 'f_u', 'Departamento'),
                 'municipio' => array('Municipio', 'f_u', 'Municipio'),
-                'modalidad_asistencia' => array('Modalidad Asistencia', 'f_d', 'Modalidad Asistencia'),
-                'mecanismo_entrega' => array('Mecanismo de Entrega', 'f_d', 'Mecanismo de Entrega'),
+                //'mecanismo_entrega' => array('Mecanismo de Entrega', 'f_m', 'Mecanismo de Entrega'),
+                //'modalidad_asistencia' => array('Modalidad Asistencia', 'f_a', 'Modalidad Asistencia'),
+                'acuerdo' => array('Acuerdos de Paz', 'f_z', 'Acuerdos de Paz'),
             );
 
             foreach($fs as $_f => $_a) {
@@ -578,7 +579,7 @@ else {
                       </div>
                       <?php } else {?>
                           <div class="inter_off boton">
-                              <a href="#" id="btn_inter">Solo proyectos interagenciales</a>  <a href="https://wiki.umaic.org/wiki/Agencia_de_las_Naciones_Unidas" target="_blank"> [?]</a>
+                              <a href="#" id="btn_inter">Solo proyectos interagenciales</a>  <a href="https://wiki.umaic.org/wiki/Proyecto_Interagencial" target="_blank"> [?]</a>
                           </div>
                       <?php }?>
                     <div id="resumen">
@@ -587,7 +588,7 @@ else {
                             <div class="left nbenef">
                                 <div class="left img"><img src="images/ocha_icons/affected_population_red.png"></div>
                                 <div class="left">
-                                    <h2 id="nbenef_h2"></h2>
+                                    <h2 id="nbenef_h2" title="Hombres:0, Mujeres 0"></h2>
                                     <h3>beneficiarios directos</h3>
                                 </div>
                             </div>

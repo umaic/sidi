@@ -70,7 +70,7 @@ function validar_criterios(){
 			}
 		}
 	
-		msg = "No ha seleccionado ningún criterio, desea generar el listado de TODOS los eventos en el sistema? (Tardará varios minutos)";
+		msg = "No ha seleccionado ningÃºn criterio, desea generar el listado de TODOS los eventos en el sistema? (TardarÃ¡ varios minutos)";
 		
 		f1_ini = document.getElementById('date1_ini');
 		f1_fin = document.getElementById('date1_fin');
@@ -99,7 +99,7 @@ function listarSubtipos(id_combo_cat){
 	var id_cats = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alguna categoría");
+		alert("Debe seleccionar alguna categorÃ­a");
 	}
 	else{
 		getDataV1('comboBoxSubcategoria','admin/ajax_data.php?object=comboBoxSubcategoria&multiple=10&separador=1&id_cat='+id_cats,'comboBoxSubcategoria')
@@ -117,7 +117,7 @@ function listarSubcondicion(id_combo_cond){
 	var id_conds = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar alguna condición");
+		alert("Debe seleccionar alguna condiciÃ³n");
 	}
 	else{
 		getDataV1('comboBoxSubcondicion','admin/ajax_data.php?object=comboBoxSubcondicion&multiple=10&separador=1&id_condicion='+id_conds,'comboBoxSubcondicion')
@@ -135,7 +135,7 @@ function listarRangoEdad(id_combo_edad){
 	var id_edad = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún Grupo Etareo");
+		alert("Debe seleccionar algÃºn Grupo Etareo");
 	}
 	else{
 		getDataV1('comboBoxRangoEdad','admin/ajax_data.php?object=comboBoxRangoEdad&multiple=10&separador=1&id_edad='+id_edad,'comboBoxRangoEdad')
@@ -153,7 +153,7 @@ function listarSubetnia(id_combo_etnia){
 	var id_etnia = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún Grupo Poblacional");
+		alert("Debe seleccionar algÃºn Grupo Poblacional");
 	}
 	else{
 		getDataV1('comboBoxSubetnia','admin/ajax_data.php?object=comboBoxSubetnia&multiple=10&separador=1&id_etnia='+id_etnia,'comboBoxSubetnia')
@@ -171,7 +171,7 @@ function listarMunicipios(combo_depto){
 	var id_deptos = selected.join(",");
 
 	if (selected.length == 0){
-		alert("Debe seleccionar algún departamento");
+		alert("Debe seleccionar algÃºn departamento");
 	}
 	else{
 		getDataV1('comboBoxMunicipio','admin/ajax_data.php?object=comboBoxMunicipio&multiple=10&id_deptos='+id_deptos,'comboBoxMunicipio')
@@ -349,7 +349,7 @@ addPeriodo = function () {
 }
 
 
-//con esta función eliminamos el campo cuyo link de eliminación sea presionado
+//con esta funciÃ³n eliminamos el campo cuyo link de eliminaciÃ³n sea presionado
 elimCamp = function (evt){
 	evt = evento(evt);
 	nCampo = rObj(evt);
@@ -366,7 +366,7 @@ evento = function (evt) { //esta funcion nos devuelve el tipo de evento disparad
 	return (!evt) ? event : evt;
 }
 
-//con esta función recuperamos una instancia del objeto que disparo el evento
+//con esta funciÃ³n recuperamos una instancia del objeto que disparo el evento
 rObj = function (evt) {
 	return evt.srcElement ?  evt.srcElement : evt.target;
 }
@@ -454,18 +454,18 @@ if (!isset($_POST["submit"])){
 <table align='center' cellspacing="1" cellpadding="5" border="0" width="900">
 	<tr class='pathway'>
 		<td>
-			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Eventos del Conflicto
+			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Eventos del Conflicto
 		</td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
 	<tr><td>
 		Puede consultar Eventos usando uno o varios de los siguiente filtros.
-		En cada opción puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
+		En cada opciÃ³n puede seleccionar uno o varios criterios usando la tecla Ctrl y el click izquierdo del mouse.
 		<br>&nbsp;
 	</td></tr>
 <!--		<tr><td><img src="images/consulta/clean.gif">&nbsp;&nbsp;<a href="#" onclick="limpiarFiltros();">Limpiar Filtros</a></td></tr>-->
 	<tr><td><img src="images/ir_reporte.gif">&nbsp;<b>SELECCIONE EL REPORTE QUE DESEA GENERAR</b>&nbsp;</td></tr> 
-	<tr><td>[ Detalle hace referencia a la información que va a ir en las filas del reporte, ej, Detalle por Zona Geogr&aacute;fica mostrará un listado de los Departamentos o Municipios y en las columnas la información que se seleccione: Categorias, Actores, etc ]</td></tr> 
+	<tr><td>[ Detalle hace referencia a la informaciÃ³n que va a ir en las filas del reporte, ej, Detalle por Zona Geogr&aacute;fica mostrarÃ¡ un listado de los Departamentos o Municipios y en las columnas la informaciÃ³n que se seleccione: Categorias, Actores, etc ]</td></tr> 
 	<tr>
 		<td>
 			<table cellpadding="5" cellspacing="0">
@@ -481,7 +481,7 @@ if (!isset($_POST["submit"])){
 									<input type="radio" name="reporte" value=1 checked onclick="showFiltros(1);">&nbsp;1. Conteo de eventos por Categor&iacute;a/Subcategor&iacute;a<br>
 									<input type="radio" name="reporte" value=2 onclick="showFiltros('2');">&nbsp;2. Conteo de eventos por confrontaciones entre dos actores<br>
 									<input type="radio" name="reporte" value=3 onclick="showFiltros('3');">&nbsp;3. Conteo de eventos por periodo de tiempo&nbsp;<img src="images/date_tb.png"><br>
-									<input type="radio" name="reporte" value=6 onclick="showFiltros('6');">&nbsp;4. Cantidad de víctimas por&nbsp;
+									<input type="radio" name="reporte" value=6 onclick="showFiltros('6');">&nbsp;4. Cantidad de vÃ­ctimas por&nbsp;
 									<select name="cat_victima_localizacion" class="select">
 										<option value="no" selected>Categor&iacute;as</option>
 										<option value="sexo">Sexo</option>
@@ -531,7 +531,7 @@ if (!isset($_POST["submit"])){
 							</tr>
 							<tr>
 								<td class="table_login" colspan="2">
-									<input type="radio" name="reporte" value=7 onclick="showFiltros('7');">&nbsp;7. Reporte general con toda la información asociada a un evento (Este reporte debe ser usado junto a un filtro dada la cantidad de registros)<br>
+									<input type="radio" name="reporte" value=7 onclick="showFiltros('7');">&nbsp;7. Reporte general con toda la informaciÃ³n asociada a un evento (Este reporte debe ser usado junto a un filtro dada la cantidad de registros)<br>
 								</td>
 							</tr>
 						</table>
@@ -541,9 +541,9 @@ if (!isset($_POST["submit"])){
 		</td>
 	</tr>			
 	<tr><td>&nbsp;</td></tr>
-	<tr><td class="td_dotted_CCCCCC"><img src='images/ir.png'>&nbsp;Ir a filtro de: <a href='#cat'>Categor&iacute;a</a> | <a href='#actor'>Actores</a> | <a href='#ubi'>Ubicación Geográfica</a></td></tr>
+	<tr><td class="td_dotted_CCCCCC"><img src='images/ir.png'>&nbsp;Ir a filtro de: <a href='#cat'>Categor&iacute;a</a> | <a href='#actor'>Actores</a> | <a href='#ubi'>UbicaciÃ³n GeogrÃ¡fica</a></td></tr>
 	<tr><td>&nbsp;</td></tr>
-	<tr><td><img src="images/fecha.jpg">&nbsp;<b>Especifique el rango de fecha de la consulta de eventos, o deje los campos vacíos para no aplicar este filtro, si el reporte <br> es el 3,5,6 (marcados con <img src="images/date_tb.png">) puede agregar los periodos que desee. Para seleccionar la fecha click sobre el icono de calendario.</b></td></tr>
+	<tr><td><img src="images/fecha.jpg">&nbsp;<b>Especifique el rango de fecha de la consulta de eventos, o deje los campos vacÃ­os para no aplicar este filtro, si el reporte <br> es el 3,5,6 (marcados con <img src="images/date_tb.png">) puede agregar los periodos que desee. Para seleccionar la fecha click sobre el icono de calendario.</b></td></tr>
 	<tr>
 		<td id="td_fecha"><a name='fecha'></a>
 			<table border="0" id='table_periodo' cellspacing="2" cellpadding="3">
@@ -585,8 +585,8 @@ if (!isset($_POST["submit"])){
 						<img src="images/consulta/mostrar_combo.png">&nbsp;<a href="#" onclick="listarSubtipos('id_cat');return false;">Listar Subcategor&iacute;a</a>
 					</td>
 					<td id="comboBoxSubcategoria" valign="top">
-						Seleccione algún tipo y use la opción Listar<br><br>
-						Puede seleccionar varios con la tecla Ctrl y botón izquierdo del mouse
+						Seleccione algÃºn tipo y use la opciÃ³n Listar<br><br>
+						Puede seleccionar varios con la tecla Ctrl y botÃ³n izquierdo del mouse
 					</td>
 				</tr>
 			</table>
@@ -663,8 +663,8 @@ if (!isset($_POST["submit"])){
 											<img src="images/consulta/mostrar_combo.png">&nbsp;<a href="#" onclick="listarSubcondicion('id_condicion');return false;">Listar Subcondici&oacute;n</a>
 										</td>
 										<td id="comboBoxSubcondicion" valign="top">
-											Seleccione alguna condici&oacute;n y use la opción Listar<br><br>
-											Puede seleccionar varios con la tecla Ctrl y botón izquierdo del mouse
+											Seleccione alguna condici&oacute;n y use la opciÃ³n Listar<br><br>
+											Puede seleccionar varios con la tecla Ctrl y botÃ³n izquierdo del mouse
 										</td>
 									</tr>
 								</table>
@@ -685,8 +685,8 @@ if (!isset($_POST["submit"])){
 											<img src="images/consulta/mostrar_combo.png">&nbsp;<a href="#" onclick="listarRangoEdad('id_edad');return false;">Listar Rango de edad</a>
 										</td>
 										<td id="comboBoxRangoEdad" valign="top">
-											Seleccione alg&uacute; Grupo Etareo y use la opción Listar<br><br>
-											Puede seleccionar varios con la tecla Ctrl y botón izquierdo del mouse
+											Seleccione alg&uacute; Grupo Etareo y use la opciÃ³n Listar<br><br>
+											Puede seleccionar varios con la tecla Ctrl y botÃ³n izquierdo del mouse
 										</td>
 									</tr>
 								</table>
@@ -707,8 +707,8 @@ if (!isset($_POST["submit"])){
 											<img src="images/consulta/mostrar_combo.png">&nbsp;<a href="#" onclick="listarSubetnia('id_etnia');return false;">Listar Etnia</a>
 										</td>
 										<td id="comboBoxSubetnia" valign="top">
-											Seleccione alg&uacute; Grupo Poblacional y use la opción Listar<br><br>
-											Puede seleccionar varios con la tecla Ctrl y botón izquierdo del mouse
+											Seleccione alg&uacute; Grupo Poblacional y use la opciÃ³n Listar<br><br>
+											Puede seleccionar varios con la tecla Ctrl y botÃ³n izquierdo del mouse
 										</td>
 									</tr>
 								</table>

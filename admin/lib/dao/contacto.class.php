@@ -440,6 +440,7 @@ Class ContactoDAO {
 		$vo->social = $Result->SOCIAL_CON;
 		$vo->actua = $Result->UPDATE_CON;
 		$vo->id_mun = $Result->ID_MUN;
+		$vo->mailchimp = $Result->MAILCHIMP_STATUS;
 
 		//Organizacion
 		$sql = "SELECT id_org FROM ".$this->tabla."_org WHERE $this->columna_id = $vo->id";

@@ -2150,7 +2150,7 @@ Class DesplazamientoDAO {
 	 */
 	function ImportarCSV($userfile,$id_clase,$id_tipo,$id_fuente,$accion,$id_periodo_s,$f_corte){
 
-		$db = 'ocha_sissh_despla_import';
+		$db = 'sidi_despla_import';
 
 		$archivo = New Archivo();
 		$mun_dao = New MunicipioDAO();

@@ -2,14 +2,14 @@
 /**
  * DAO de Mina
  *
- * Contiene los métodos de la clase Mina
+ * Contiene los mÃ©todos de la clase Mina
  * @author Ruben A. Rojas C.
  */
 
 Class MinaDAO {
 
 	/**
-	* Conexión a la base de datos
+	* ConexiÃ³n a la base de datos
 	* @var object
 	*/
 	var $conn;
@@ -39,20 +39,20 @@ Class MinaDAO {
 	var $columna_order;
 
 	/**
-	* Número de Registros en Pantalla para ListarTAbla
+	* NÃºmero de Registros en Pantalla para ListarTAbla
 	* @var string
 	*/
 	var $num_reg_pag;
 
 	/**
-	* URL para redireccionar después de Insertar, Actualizar o Borrar
+	* URL para redireccionar despuÃ©s de Insertar, Actualizar o Borrar
 	* @var string
 	*/
 	var $url;
 
 	/**
   * Constructor
-	* Crea la conexión a la base de datos
+	* Crea la conexiÃ³n a la base de datos
   * @access public
   */
 	function MinaDAO (){
@@ -120,9 +120,9 @@ Class MinaDAO {
 	}
 
 	/**
-  * Consulta los datos de los Mina que cumplen una condición
+  * Consulta los datos de los Mina que cumplen una condiciÃ³n
   * @access public
-  * @param string $condicion Condición que deben cumplir los Mina y que se agrega en el SQL statement.
+  * @param string $condicion CondiciÃ³n que deben cumplir los Mina y que se agrega en el SQL statement.
   * @return array Arreglo de VOs
   */
 	function GetAllArray($condicion,$limit,$order_by){
@@ -246,7 +246,7 @@ Class MinaDAO {
 	
 	
 	/**
-	* Consulta el año inicial y el mas reciente con información de minas
+	* Consulta el aÃ±o inicial y el mas reciente con informaciÃ³n de minas
 	* @access public
 	* @return array $a $a = array('ini','fin')
 	*/
@@ -404,7 +404,7 @@ Class MinaDAO {
 				$num_pages = ceil($num_arr/$this->num_reg_pag);
 				echo "<tr><td colspan='8' align='center'>";
 
-				echo "Ir a la página:&nbsp;<select onchange=\"location.href='index.php?accion=listar&id_depto_exp=".$id_depto_exp."&id_mun_exp=".$id_mun_exp."&class=".$_GET["class"]."&method=".$_GET["method"]."&param=".$_GET["param"]."&page='+this.value\" class='select'>";
+				echo "Ir a la pÃ¡gina:&nbsp;<select onchange=\"location.href='index.php?accion=listar&id_depto_exp=".$id_depto_exp."&id_mun_exp=".$id_mun_exp."&class=".$_GET["class"]."&method=".$_GET["method"]."&param=".$_GET["param"]."&page='+this.value\" class='select'>";
 				for ($pa=1;$pa<=$num_pages;$pa++){
 					echo " <option value='".$pa."'";
 					if ($pa == $pag_url)	echo " selected ";
@@ -421,8 +421,8 @@ Class MinaDAO {
   * Imprime en pantalla los datos del Mina
   * @access public
   * @param object $vo Mina que se va a imprimir
-  * @param string $formato Formato en el que se listarán los Mina, puede ser Tabla o ComboSelect
-	* @param int $valor_combo ID del Mina que será selccionado cuando el formato es ComboSelect
+  * @param string $formato Formato en el que se listarÃ¡n los Mina, puede ser Tabla o ComboSelect
+	* @param int $valor_combo ID del Mina que serÃ¡ selccionado cuando el formato es ComboSelect
   */
 	function Imprimir($vo,$formato,$valor_combo){
 
@@ -499,7 +499,7 @@ Class MinaDAO {
 
 
 	/**
-	* Vacía la Tabla
+	* VacÃ­a la Tabla
 	* @access public
 	*/
 	function EmptyTable(){
@@ -754,7 +754,7 @@ Class MinaDAO {
 
 		//TITULO DE CONDICION
 		if (isset($_POST["id_condicion"])){
-			echo "<img src='images/flecha.gif'> Condición: ";
+			echo "<img src='images/flecha.gif'> CondiciÃ³n: ";
 			$t = 0;
 			foreach($id_condicion as $id_t){
 				$vo  = $condicion_dao->Get($id_t);
@@ -841,7 +841,7 @@ Class MinaDAO {
 					<td width='150'>Estado</td>
 					<td width='60'>Sexo</td>
 					<td width='150'>Edad</td>
-					<td width='150'>Condición</td>
+					<td width='150'>CondiciÃ³n</td>
 					<td width='100'>Eventos</td>
 			    </tr>";
 
@@ -901,7 +901,7 @@ Class MinaDAO {
 	* Reporte PDF - EXCEL
 	* @param Array $id_minas Id de los Minas a Reportar
 	* @param Int $formato PDF o Excel
-	* @param Int $basico 1 = Básico - 2 = Detallado
+	* @param Int $basico 1 = BÃ¡sico - 2 = Detallado
 	* @param Int $dato_para 1 = Dato en Departamento - 2 = Dato en Municipio
 	* @access public
 	*******************************************************************************/
@@ -932,13 +932,13 @@ Class MinaDAO {
 			}
 
 
-			// Coloca el logo y el pie en todas las páginas
+			// Coloca el logo y el pie en todas las pÃ¡ginas
 			$all = $pdf->openObject();
 			$pdf->saveState();
 			$img_att = getimagesize('images/logos/enc_reporte_semanal.jpg');
 			$pdf->addPngFromFile('images/logos/enc_reporte_semanal.png',700,550,$img_att[0]/2,$img_att[1]/2);
 
-			$pdf->addText(300,550,14,'<b>Sala de Situación Humanitaria</b>');
+			$pdf->addText(300,550,14,'<b>Sala de SituaciÃ³n Humanitaria</b>');
 
 			if ($basico == 1){
 				$pdf->addText(300,530,12,'Listado de Eventos con de Mina');
@@ -984,7 +984,7 @@ Class MinaDAO {
 				'estado'   => '<b>Estado</b>',
 				'sexo'   => '<b>Sexo</b>',
 				'edad'   => '<b>Edad</b>',
-				'condicion'   => '<b>Condición</b>',
+				'condicion'   => '<b>CondiciÃ³n</b>',
 				'cantidad'   => '<b>Cantidad</b>',
 				);
 
@@ -1045,7 +1045,7 @@ Class MinaDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo PDF de Eventos con Mina.<br><br>
-					Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
+					Para salvarlo use el botÃ³n derecho del mouse y la opciÃ³n Guardar destino como sobre el siguiente link: <a href='<?=$nom_archivo;?>'>Archivo PDF</a>
 				</td></tr>
 			</table>
 			<?
@@ -1120,7 +1120,7 @@ Class MinaDAO {
 				<tr><td>&nbsp;</td></tr>
 				<tr><td colspan=2>
 					Se ha generado correctamente el archivo CSV de Eventos con Mina.<br><br>
-					Para salvarlo use el botón derecho del mouse y la opción Guardar destino como sobre el siguiente link: <a href='consulta/csv/mina.csv'>Archivo CSV</a>
+					Para salvarlo use el botÃ³n derecho del mouse y la opciÃ³n Guardar destino como sobre el siguiente link: <a href='consulta/csv/mina.csv'>Archivo CSV</a>
 				</td></tr>
 			</table>
 			<?
@@ -1263,7 +1263,7 @@ Class MinaDAO {
 					<td width='150'>Estado</td>
 					<td width='60'>Sexo</td>
 					<td width='150'>Edad</td>
-					<td width='150'>Condición</td>
+					<td width='150'>CondiciÃ³n</td>
 					<td width='100'>Eventos</td>
 			    </tr>";
 
@@ -1384,7 +1384,7 @@ Class MinaDAO {
 		if ($num_cols_file != $num_cols_form){
 		    ?>
 		    <script>
-		    alert("El número de columnas del archivo CSV no es correcto, deben existir 8 columnas");
+		    alert("El nÃºmero de columnas del archivo CSV no es correcto, deben existir 8 columnas");
 		    location.href = 'index.php?accion=importar';
 		    </script>
 		    <?
@@ -1411,7 +1411,7 @@ Class MinaDAO {
 				$mina->id_cat = array(4); //Uso de explosivos remanentes de guerra
 				$mina->id_subcat = array($arr_t_e[strtolower($linea[1])]);
 				
-				$mina->id_fuente = array(6); //Entidad Pública
+				$mina->id_fuente = array(6); //Entidad PÃºblica
 				$mina->id_subfuente = array(78); //Observatorio de minas de la vicepresidencia
 
 
@@ -1432,7 +1432,7 @@ Class MinaDAO {
 					}
 					$aaaa = $f_tmp[2];
 
-					//ALGUNOS AÑOS VIENEN DE 2 DIGITOS - TODOS LOS AÑOS SON MAYORES A 2000
+					//ALGUNOS AÃ‘OS VIENEN DE 2 DIGITOS - TODOS LOS AÃ‘OS SON MAYORES A 2000
 					if ($aaaa < 100){
 						$aaaa += 2000;
 					}
@@ -1526,10 +1526,10 @@ Class MinaAjax extends MinaDAO {
 	* @param String $filtros Filtros
 	* @param Int $depto Desagregacion geografica, 0 = Mpal 1 = Deptal 2 = Nacional
 	* @param String $ubicacion Id de la Ubicacion
-	* @param String $f_ini	Año Inicial
-	* @param String $f_fin	Año Final
-	* @param Int $grafica	Tipo de gráfica
-	* @param string $ejex Años o Meses en el ejex
+	* @param String $f_ini	AÃ±o Inicial
+	* @param String $f_fin	AÃ±o Final
+	* @param Int $grafica	Tipo de grÃ¡fica
+	* @param string $ejex AÃ±os o Meses en el ejex
 	* @param string $dato_para_reporte_5 Municipios o Departamentos
 	* @param string $acc_vic Numero de Accidentes o Numero de Victimas
 	*/
@@ -1551,7 +1551,7 @@ Class MinaAjax extends MinaDAO {
 		$ini = $f_ini;
 		$fin = $f_fin;
 		$filtros_post  = $filtros;
-		$title = ($acc_vic == 'acc') ? "Accidentes con Mina" : "Víctimas con Mina";
+		$title = ($acc_vic == 'acc') ? "Accidentes con Mina" : "VÃ­ctimas con Mina";
 
 		//$mes_t = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		$mes_t = array("","Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
@@ -1602,7 +1602,7 @@ Class MinaAjax extends MinaDAO {
 		
 		if ($por_periodo == 1){
 			if ($ejex == 'aaaa'){
-				$ejex_title =  'Año';
+				$ejex_title =  'AÃ±o';
 				$ejex_angulo = 0;
 			}
 			else{
@@ -1614,7 +1614,7 @@ Class MinaAjax extends MinaDAO {
 				}
 			}
 			
-			//PERIODOS - AÑOS o MESES o etc
+			//PERIODOS - AÃ‘OS o MESES o etc
 			for ($a=$ini;$a<=$fin;$a++){
 				if ($ejex == 'aaaa'){
 					$periodo[] = $a;
@@ -2155,17 +2155,17 @@ Class MinaAjax extends MinaDAO {
 
 	
 	/**
-	* Genera el reporte de Desplazamiento apartir de una gráfica - GRAFICAS Y RESUMENES
+	* Genera el reporte de Desplazamiento apartir de una grÃ¡fica - GRAFICAS Y RESUMENES
 	* @access public
 	* @param $reporte Reporte a mostrar
-	* @param $exp_rec Clase de Desplazamiento. 1 = Expulsión 2 =Recepción
+	* @param $exp_rec Clase de Desplazamiento. 1 = ExpulsiÃ³n 2 =RecepciÃ³n
 	* @param $filtros Filtros depende del reporte
 	* @param $depto Desagregacion geografica 0 = Mpal 1 = Deptal 2 = Nacional
 	* @param $ubicacion Id de la Ubicacion
-	* @param $f_ini	Año Inicial
-	* @param $f_fin	Año Final
+	* @param $f_ini	AÃ±o Inicial
+	* @param $f_fin	AÃ±o Final
 	* @param $tipo_nal	Tipo de reporte nacional
-	* @param string $ejex Años o Meses en el ejex
+	* @param string $ejex AÃ±os o Meses en el ejex
 	* @param string $acc_vic Numero de Accidentes o Numero de Victimas
 	*/
 	function reporteGraResumenMina($reporte,$filtros,$depto,$ubicacion,$f_ini,$f_fin,$tipo_nal,$ejex,$acc_vic){
@@ -2244,7 +2244,7 @@ Class MinaAjax extends MinaDAO {
 	
 			if ($por_periodo == 1){
 				if ($ejex == 'aaaa'){
-					$ejex_title =  'Año';
+					$ejex_title =  'AÃ±o';
 					$ejex_angulo = 0;
 				}
 				else{
@@ -2256,7 +2256,7 @@ Class MinaAjax extends MinaDAO {
 					}
 				}
 				
-				//PERIODOS - AÑOS o MESES o etc
+				//PERIODOS - AÃ‘OS o MESES o etc
 				for ($a=$ini;$a<=$fin;$a++){
 					if ($ejex == 'aaaa'){
 						$periodo[] = $a;

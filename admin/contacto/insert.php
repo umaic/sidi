@@ -69,12 +69,12 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
         <tr>
             <td valign="top">
                 <fieldset>
-                    <h2 class="clear">Datos b&aacute;sicos</h2>
+                    <h2 class="clear">Datos básicos</h2>
                     <label>Nombres (*)</label>
                     <input type="text" id="nombre" name="nombre" size="30" value="<?=$contacto_vo->nombre;?>" class="textfield" />
                     <label>Apellidos (*)</label>
                     <input type="text" id="apellido" name="apellido" size="30" value="<?=$contacto_vo->apellido;?>" class="textfield" />
-                    <label>Tel&eacute;fono directo</label>
+                    <label>Teléfono directo</label>
                     <input type="text" id="tel" name="tel" size="30" value="<?=$contacto_vo->tel;?>" class="textfield" />
                     <label>Fax</label>
                     <input type="text" id="fax" name="fax" size="30" value="<?=$contacto_vo->fax;?>" class="textfield" />
@@ -105,8 +105,8 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
                     </span>
                     <br /><br />
                     <div class="instruc">
-                        Seleccione los siguientes campos, si no encuentra la opci&oacute;n,
-                        puede crearla con el link + Crear opci&oacute;n junto al nombre
+                        Seleccione los siguientes campos, si no encuentra la opción,
+                        puede crearla con el link + Crear opción junto al nombre
                     </div><br />
                     <?
                     //CARACTERISITCAS
@@ -120,10 +120,10 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
                         $col_id = $contacto_col->id;
 
                         echo "<div class='left'><label>$col_nom</label></div>
-                              <div class='right crear_col' data-col-id=$col_id><a href='#'>+ Crear opci&oacute;n</a></div>
+                              <div class='right crear_col' data-col-id=$col_id><a href='#'>+ Crear opción</a></div>
                               <div class='clear'></div>
                               <div class='hide crear_col_val' id='div_col_val_$col_id'>
-                              <input type='text' id='crear_".$col_id."_val' value='' class='textfield' placeholder='Escriba la nueva opci&oacute;n' />&nbsp;
+                              <input type='text' id='crear_".$col_id."_val' value='' class='textfield' placeholder='Escriba la nueva opción' />&nbsp;
                               <a href='#' class='crear_col' data-col-id=$col_id>Guardar</a>
                               </div>
                               <select id='".$col_id."_opcion' name='".$col_id."_opcion' class='select'><option value=''></option>";
@@ -135,13 +135,13 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
             </td>
             <td valign="top">
                 <fieldset>
-                    <h3 style="display:inline; ">Organizaci&oacute;n a la que pertenece (*)</h3>
-                    [ <a href="?m_e=org&accion=insertar" target="_blank">Crear Organizaci&oacute;n</a> ]
-                    <div class="instruc"><br>Busque la organizaci&oacute;n a la que pertenece el contacto, para ello, escriba el NOMBRE o la SIGLA en Espa&ntilde;ol
-						 o Ingl&uacute;s y seleccione la
-                    Organizaci&oacute;n de la lista que aparecer&aacute,. Si la busqueda no arroja resultados, utilice la opci&oacute;n, [ Crear Organizaci�n ],
-                    creela y realice la busqueda de nuevo en el campo correspondiente. Tenga presente que al crear una organizaci&oacute;n
-                    esta queda autom&aacute;ticamente creada en todo SIDI, por tanto es muy importante no crear una que ya exista!
+                    <h3 style="display:inline; ">Organización a la que pertenece (*)</h3>
+                    [ <a href="?m_e=org&accion=insertar" target="_blank">Crear Organización</a> ]
+                    <div class="instruc"><br>Busque la organización a la que pertenece el contacto, para ello, escriba el NOMBRE o la SIGLA en Español
+						 o Inglés y seleccione la
+                    Organización de la lista que aparecerá,. Si la busqueda no arroja resultados, utilice la opción, [ Crear Organización ],
+                    creela y realice la busqueda de nuevo en el campo correspondiente. Tenga presente que al crear una organizacin
+                    esta queda automáticamente creada en todo SIDI, por tanto es muy importante no crear una que ya exista!
                     </div>
                     <div style="margin:10px 0">
                         Buscar por nombre o sigla:&nbsp;
@@ -150,12 +150,12 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
                     </div>
 
                     <div style="margin:10px 0">
-                        <b>Organizaci&oacute;n seleccionada</b>:&nbsp;
+                        <b>Organización seleccionada</b>:&nbsp;
                         <input type="hidden" id="org_id" name="id_org[]" value="<?php echo $id_org ?>" />
                         <span id="org_nom"><?php echo $nom_org ?></span>
                     </div>
 
-                <h3>Espacios / Listas de correo a las pertenece el cont&aacute;cto</h3>
+                <h3>Espacios / Listas de correo a las pertenece el contacto</h3>
                     <!--
                     <div style="margin:10px 0">
                         Filtrar lista por letra inicial&nbsp;
@@ -221,7 +221,7 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
                             }
                             else{
                                 $error = 1;
-                                echo "<div>Su perfil de usuario no tiene habilitado ning&uacute;n espacio, cont&aacute;cte al administrador</div>";
+                                echo "<div>Su perfil de usuario no tiene habilitado ningún espacio, contacte al administrador</div>";
                             }
                             ?>
                         </div>
