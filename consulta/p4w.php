@@ -412,6 +412,7 @@ else {
                 //'mecanismo_entrega' => array('Mecanismo de Entrega', 'f_m', 'Mecanismo de Entrega'),
                 //'modalidad_asistencia' => array('Modalidad Asistencia', 'f_a', 'Modalidad Asistencia'),
                 'acuerdo' => array('Acuerdos de Paz', 'f_z', 'Acuerdos de Paz'),
+                'hrp' => array('HRP', 'f_z', 'HRP'),
             );
 
             foreach($fs as $_f => $_a) {
@@ -574,7 +575,7 @@ else {
                   </ul>
                   <div id="resumen_div">
                       <?php if (!$desarrollo) { ?>
-                      <div class="srp_off boton">
+                      <div class="srp_off boton" style="display: none;">
                           <a href="#" id="btn_srp">Solo proyectos que hacen parte del SRP</a>  <a href="https://wiki.umaic.org/wiki/Plan_de_Respuesta_Humanitaria" target="_blank"> [?]</a>
                       </div>
                       <?php } else {?>

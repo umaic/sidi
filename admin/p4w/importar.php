@@ -179,13 +179,33 @@ $j(function() {
             </ul>
         </fieldset>
         <fieldset>
-            <legend>Acuerdos de Paz con las FARC</legend>
+            <legend>Acuerdos de Paz</legend>
             <ul>
                 <li>* <b>Columna BK</b>: Códigos de subtema
                 </li>
             </ul>
         </fieldset>
-
+        <fieldset>
+            <legend>Clasificación CAD</legend>
+            <ul>
+                <li>* <b>Columna BL</b>: Códigos de clasificación CAD
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Clasificación ODS</legend>
+            <ul>
+                <li>* <b>Columna BM</b>: Códigos de clasificación ODS
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>Emergencias</legend>
+            <ul>
+                <li>* <b>Columna BN</b>: Nombre de la Emergencia
+                </li>
+            </ul>
+        </fieldset>
         </p>
     </div>	
     <div id="prs" class="left">

@@ -321,7 +321,7 @@ Class P4wDAO
     function getTemasAgrupado($id,$cond=''){
 
         $tms = array();
-        foreach(array(1 => 'UNDAF', 2 => 'Cluster', 4 => 'Des-Paz', 5 => 'Acuerdos') as $c => $t) {
+        foreach(array(1 => 'UNDAF', 2 => 'Cluster', 4 => 'Des-Paz', 5 => 'Acuerdos', 6 => 'CAD', 7 => 'ODS') as $c => $t) {
 
             $tms[$c] = $this->getTemas($id, "id_clasificacion = $c");
         }
@@ -1002,6 +1002,22 @@ Class P4wDAO
 		return (isset($row[0])) ? $row[0] : 0;
 	}
 
+    /**
+     * Consulta la emergencia de un proyecto
+     * @access public
+     * @param int $id_proy ID del proyecto
+     */
+    function getEmergenciaProyecto($id_proy){
+
+        $sql = "SELECT e.nom_emergencia FROM proyecto p LEFT JOIN emergencia e ON e.id_emergencia=p.id_emergencia
+                WHERE p.id_proy = " . $id_proy;
+
+        $rs = $this->conn->OpenRecordset($sql);
+        $row = $this->conn->FetchRow($rs);
+
+        return (isset($row[0])) ? $row[0] : '';
+    }
+
 	/**
      * Consulta el aporte de un donante
      * @access public
@@ -1581,6 +1597,7 @@ Class P4wDAO
         require_once 'lib/dao/tipo_proyecto.class.php';
         require_once 'lib/dao/mecanismo_entrega.class.php';
         require_once 'lib/dao/modalidad_asistencia.class.php';
+	    require_once 'lib/dao/emergencia.class.php';
 
         //Inicializacion de variables
         $archivo = New Archivo();
@@ -1594,6 +1611,7 @@ Class P4wDAO
         $tipo_proyecto_dao = New TipoProyectoDAO();
         $mecanismo_entrega_dao = New MecanismoEntregaDAO();
         $modalidad_asistencia_dao = New ModalidadAsistenciaDAO();
+	    $emergencia_dao = New EmergenciaDAO();
         $date = new Date();
 
         // Solo se activa true en el formulario cuando no existen errores
@@ -1623,7 +1641,7 @@ Class P4wDAO
         );
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
-        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = array();
+        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = $clasificacioncad = array();
 
         $latin = array('á','é','í','ó','ú','ñ');
         $normal = array('a','e','i','o','u','n');
@@ -2425,8 +2443,11 @@ Class P4wDAO
 
                     if ($srp == 1) {
                         $p_vo->srp_proy = 1;
-                    }
-                    else {
+                    } elseif ($srp == 2) {
+                        $p_vo->srp_proy = 2;
+                    } elseif ($srp == 3) {
+                        $p_vo->srp_proy = 3;
+                    } else {
                         $p_vo->srp_proy = 0;
                     }
 
@@ -2869,13 +2890,19 @@ Class P4wDAO
                     }
 
                     //URL Soportes
-	                $soportes = $f[++$col];
-	                if (filter_var($soportes, FILTER_VALIDATE_URL) !== FALSE) {
-		                $p_vo->soportes = $soportes;
-	                } else {
-		                $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
-		                $er = true;
-	                }
+	                $soportes = trim($f[++$col]);
+                    if (!empty($soportes))
+                    {
+	                    if (filter_var($soportes, FILTER_VALIDATE_URL) !== false)
+	                    {
+		                    $p_vo->soportes = $soportes;
+	                    }
+	                    else
+	                    {
+		                    $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
+		                    $er   = true;
+	                    }
+                    }
 
 	                //Acuerdos de Paz con las FARC
 	                $acu = $f[++$col];
@@ -2902,6 +2929,78 @@ Class P4wDAO
 					                $acuerdos[$acu[0]] = $v;
 				                }
 			                }
+		                }
+	                }
+
+	                //Clasificación CAD
+	                $cad = $f[++$col];
+	                if ($chks['s'] && !empty($cad)) {
+		                $_v = explode('-', $cad);
+
+		                foreach($_v as $v) {
+			                $v = trim($v);
+			                if (in_array($v, $clasificacioncad)) {
+				                $_idt = array_search($v, $clasificacioncad);
+				                $p_vo->id_temas[$_idt] = array();
+			                }
+			                else {
+				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 6");
+				                if (empty($sec)) {
+					                $_msg .= "No existe el código de Clasificación CAD: <b>" . utf8_decode($v). "</b> <br />";
+					                $er = true;
+					                if (!in_array($v, $id_tema_new)) {
+						                $id_tema_new[] = $v;
+					                }
+				                }
+				                else if (isset($cad[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
+					                $p_vo->id_temas[$cad[0]] = array();
+					                $clasificacioncad[$cad[0]] = $v;
+				                }
+			                }
+		                }
+	                }
+
+	                //Clasificación ODS
+	                $ods = $f[++$col];
+	                if ($chks['s'] && !empty($ods)) {
+		                $_v = explode('-', $ods);
+
+		                foreach($_v as $v) {
+			                $v = trim($v);
+			                if (in_array($v, $clasificacionods)) {
+				                $_idt = array_search($v, $clasificacionods);
+				                $p_vo->id_temas[$_idt] = array();
+			                }
+			                else {
+				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 7");
+				                if (empty($sec)) {
+					                $_msg .= "No existe el código de Clasificación ODS: <b>" . utf8_decode($v). "</b> <br />";
+					                $er = true;
+					                if (!in_array($v, $id_tema_new)) {
+						                $id_tema_new[] = $v;
+					                }
+				                }
+				                else if (isset($ods[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
+					                $p_vo->id_temas[$ods[0]] = array();
+					                $clasificacionods[$ods[0]] = $v;
+				                }
+			                }
+		                }
+	                }
+
+	                //Emergencias
+	                $emergencia = $f[++$col];
+	                if (empty($emergencia)) {
+		                $emergencia = '';
+	                }
+	                else {
+		                $_emer = $emergencia_dao->GetAllArray("nom_emergencia LIKE '%".trim($emergencia)."%'");
+		                if (empty($_emer)) {
+			                $_msg .= "No existe la emergencia: <b>" . utf8_decode($emergencia) . "</b> <br />";
+			                $er = true;
+		                }
+		                else if (isset($_emer[0])) {
+			                $emergencia = $_emer[0]->id;
 		                }
 	                }
 
@@ -4404,7 +4503,7 @@ Class P4wDAO
 
         $ejecutora_filtro = $donante_filtro = array();
         $implementadora_filtro = $cluster_filtro = $acuerdo_filtro = array();
-        $estado_filtro = $departamento_filtro = $municipio_filtro = array();
+        $hrp_filtro = $estado_filtro = $departamento_filtro = $municipio_filtro = array();
         $periodo_filtro = array();
         $aporte_donantes = 0;
         $pres2gob = 0;
@@ -4439,6 +4538,7 @@ Class P4wDAO
 	                }
 
                     $id_estp = $row->id_estp;
+                    $id_hrp = $row->srp_proy;
                     $inicio_proy = $row->inicio_proy;
                     $fin_proy = $row->fin_proy;
                     $duracion_proy = $row->duracion_proy;
@@ -4760,6 +4860,14 @@ Class P4wDAO
                         $estado_filtro[$id_estp] += 1;
                     }
 
+                    // Lista filtro hrp
+                    if (!array_key_exists($id_hrp, $hrp_filtro)) {
+                        $hrp_filtro[$id_hrp] = 1;
+                    }
+                    else {
+                        $hrp_filtro[$id_hrp] += 1;
+                    }
+
                     // Lista filtro periodo con ini
                     if (!array_key_exists($yyyy_ini, $periodo_filtro)) {
                         $periodo_filtro[$yyyy_ini] = 1;
@@ -4984,7 +5092,8 @@ Class P4wDAO
                         'municipio' => 'Municipio',
                         'estado' => 'Estado',
                         'periodo' => 'Periodo',
-                        'acuerdo' => 'Acuerdos de Paz'
+                        'acuerdo' => 'Acuerdos de Paz',
+                        'hrp' => 'HRP'
                         );
 
                     foreach($ts as $t => $ti) {
@@ -5045,7 +5154,10 @@ Class P4wDAO
 	    $encabezado1 .= "Interagencial*,";
 	    $encabezado1 .= "Cash Based Transfer,,,,";
 	    $encabezado1 .= "Soportes del proyecto,";
-	    $encabezado1 .= "Acuerdos de Paz con las FARC,";
+	    $encabezado1 .= "Acuerdos de Paz,";
+        $encabezado1 .= "Clasificación CAD,";
+        $encabezado1 .= "Clasificación ODS,";
+        $encabezado1 .= "Emergencias,";
 	    $encabezado1 .= "\r\n";
 
         $encabezado2 .= ",Código Interno*,Tipo de Proyecto*,Nombre del proyecto *,Descripción del proyecto*,"; //Información Básica
@@ -5067,7 +5179,10 @@ Class P4wDAO
 	    $encabezado2 .= "Cumple los requisitos de interagencialidad? (0 ó 1),"; // Interagencial
 	    $encabezado2 .= "Modalidad de Asistencia,Mecanismo de entrega,Frecuencia de distribución,Valor por persona (USD),"; //Cash Based Transfer
 	    $encabezado2 .= ","; //URL soportes del proyecto
-	    $encabezado2 .= "Códigos de subtema (Sep. por guión),"; //Acuerdos de Paz con las FARC
+	    $encabezado2 .= "Códigos de subtema (Sep. por guión),"; //Acuerdos de Paz
+        $encabezado2 .= "Códigos de clasificación CAD (Sep. por guión),"; //Clasificación CAD
+        $encabezado2 .= "Códigos de clasificación ODS (Sep. por guión),"; //Clasificación ODS
+        $encabezado2 .= "Nombre de la emergencia,"; //Clasificación ODS
 	    $encabezado2 .= "\r\n";
 
 	    $csv = $encabezado1 . $encabezado2;
@@ -5172,7 +5287,7 @@ Class P4wDAO
 
                 $html .= '<div>';
                 $tms = $this->getTemasAgrupado($id);
-                foreach(array(1 => 'UNDAF', 2 => 'Cluster', 5 => 'Acuerdos') as $c => $t) {
+                foreach(array(1 => 'UNDAF', 2 => 'Cluster', 5 => 'Acuerdos', 6 => 'CAD', 7 => 'ODS') as $c => $t) {
                     if (!empty($tms[$c])) {
                         $n = count($tms[$c]['id']);
 
@@ -5471,13 +5586,32 @@ Class P4wDAO
                 //URL soportes del proyecto
 	            $csv .= ',"' . $row->soportes  . '"';
 
-	            //Acuerdos de Paz con las FARC
+	            //Acuerdos de Paz
 	            $subtem = array();
 	            foreach ($tms[5]['nom'] as $acu_n) {
 		            if (preg_match('/^(\d\.\d\.\d\.*)/', $acu_n, $matches)) //Dejar solo el código
 		            $subtem[] = $matches[0];
 	            }
 	            $csv .= ',"'.(empty($tms[5]['id']) ? '' : implode('-', $subtem)).'"';
+
+                //Clasificación CAD
+                $subtem = array();
+                foreach ($tms[6]['nom'] as $cad_n) {
+                    if (preg_match('/^(\d{5}\.*)/', $cad_n, $matches)) //Dejar solo el código
+                        $subtem[] = $matches[0];
+                }
+                $csv .= ',"'.(empty($tms[6]['id']) ? '' : implode('-', $subtem)).'"';
+
+                //Clasificación ODS
+                $subtem = array();
+                foreach ($tms[7]['nom'] as $ods_n) {
+                    if (preg_match('/^(\d\.\d\.*)/', $ods_n, $matches)) //Dejar solo el código
+                        $subtem[] = $matches[0];
+                }
+                $csv .= ',"'.(empty($tms[7]['id']) ? '' : implode('-', $subtem)).'"';
+
+                //Emergencia
+                $csv .= ',"' . $this->getEmergenciaProyecto($row->id) . '"';
 
                 $html .= '</div></div>';
 
@@ -5659,6 +5793,9 @@ Class P4wDAO
                     case 'emergencia':
                         $cond .= " AND id_emergencia = $id";
                     break;
+                    case 'hrp':
+                        $cond .= " AND srp_proy = $id";
+                        break;
                     default:
                         // Para todo el mapa solo se muestran los proys en muns
                         //$sql .= 'JOIN mun_proy USING(id_proy)';
@@ -5813,6 +5950,24 @@ Class P4wDAO
                         $_extra_1 = (!empty($rown->extra_1)) ? $rown->extra_1 : '';
 
                     }
+
+	                if ($c == 'hrp') {
+		                switch ($_id) {
+			                case 0:
+				                $_nom = 'No';
+				                break;
+			                case 1:
+				                $_nom = 'HRP';
+				                break;
+			                case 2:
+				                $_nom = 'Adenda';
+				                break;
+			                case 3:
+				                $_nom = 'HRP y Adenda';
+				                break;
+		                }
+
+	                }
 
                     if ($c == 'departamento' || $c == 'municipio') {
 

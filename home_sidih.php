@@ -76,8 +76,8 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                        <?php } ?>
                   </p>
                   <p>
-                       <a href="p4w.php?x=!5tgbHU8765*&titulo=Respuesta a emergencia frontera colombo-venezolana&resumen=0&filtros=ejecutora,cluster,ubicacion&html=brand&c=emergencia&id=1&si_proy=4w">
-                          ** Emergencia frontera colombo-venezolana
+                       <a href="p4w.php?x=!5tgbHU8765*&titulo=Emergencia%20Venezuela%202018&resumen=0&filtros=ejecutora,cluster,ubicacion&html=brand&c=emergencia&id=2&si_proy=4w">
+                          ** Emergencia Venezuela 2018
                       </a>
                   </p>
                </div>

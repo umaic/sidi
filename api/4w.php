@@ -345,7 +345,7 @@ switch ($mod){
 
 
 		$sql = "SELECT 
-p.id_proy AS ID,
+p.id_proy AS Id,
 p.cod_proy AS Codigo,
 tp.nom_tipp AS Tipo,
 p.nom_proy AS Nombre,
@@ -373,72 +373,72 @@ LEFT JOIN tipo_proy tp ON p.id_tipp=tp.id_tipp
 LEFT JOIN estado_proy ep ON p.id_estp=ep.id_estp
 LEFT JOIN modalidad_asistencia ma ON ma.id_moda=p.id_moda
 LEFT JOIN mecanismo_entrega me ON me.id_mece=p.id_mece
-LEFT JOIN p4w_beneficiario pb1 ON pb1.id_proy=p.id_proy
-LEFT JOIN p4w_beneficiario pb2 ON pb2.id_proy=p.id_proy
-LEFT JOIN p4w_beneficiario pb3 ON pb3.id_proy=p.id_proy
-LEFT JOIN p4w_beneficiario pb4 ON pb4.id_proy=p.id_proy
-LEFT JOIN p4w_beneficiario pb5 ON pb5.id_proy=p.id_proy
-LEFT JOIN p4w_beneficiario pb6 ON pb6.id_proy=p.id_proy
+LEFT JOIN p4w_beneficiario pb1 ON 
+(pb1.id_proy=p.id_proy AND pb1.tipo_rel=1 AND pb1.genero_p4w_b IS NULL AND pb1.edad_p4w_b IS NULL)
+LEFT JOIN p4w_beneficiario pb2 ON 
+(pb2.id_proy=p.id_proy AND pb2.tipo_rel=1 AND pb2.genero_p4w_b='m' AND pb2.edad_p4w_b IS NULL)
+LEFT JOIN p4w_beneficiario pb3 ON 
+(pb3.id_proy=p.id_proy AND pb3.tipo_rel=1 AND pb3.genero_p4w_b='h' AND pb3.edad_p4w_b IS NULL)
+LEFT JOIN p4w_beneficiario pb4 ON 
+(pb4.id_proy=p.id_proy AND pb4.tipo_rel=2 AND pb4.genero_p4w_b IS NULL AND pb4.edad_p4w_b IS NULL)
+LEFT JOIN p4w_beneficiario pb5 ON 
+(pb5.id_proy=p.id_proy AND pb5.tipo_rel=2 AND pb5.genero_p4w_b='m' AND pb5.edad_p4w_b IS NULL)
+LEFT JOIN p4w_beneficiario pb6 ON 
+(pb6.id_proy=p.id_proy AND pb6.tipo_rel=2 AND pb6.genero_p4w_b='h' AND pb6.edad_p4w_b IS NULL)
 WHERE 
-pb1.tipo_rel=1 AND pb1.genero_p4w_b IS NULL AND pb1.edad_p4w_b IS NULL
-AND pb2.tipo_rel=1 AND pb2.genero_p4w_b='m' AND pb2.edad_p4w_b IS NULL
-AND pb3.tipo_rel=1 AND pb3.genero_p4w_b='h' AND pb3.edad_p4w_b IS NULL
-AND pb4.tipo_rel=2 AND pb4.genero_p4w_b IS NULL AND pb4.edad_p4w_b IS NULL
-AND pb5.tipo_rel=2 AND pb5.genero_p4w_b='m' AND pb5.edad_p4w_b IS NULL
-AND pb6.tipo_rel=2 AND pb6.genero_p4w_b='h' AND pb6.edad_p4w_b IS NULL
-AND p.actua_proy >= '" .$fecha . "'";
+p.actua_proy >= '" .$fecha . "'";
 
 		$result = $conn->OpenRecordset($sql);
 		while ($row = $conn->FetchAssoc($result)){
-			$json[$row['ID']] = $row;
-			unset($json[$row['ID']]['ID']);
+			$json[$row['Id']] = $row;
+
 
 			//Ejecutor
-			$sql2 = "SELECT o.nom_org AS Nombre, nit_org AS NIT
+			$sql2 = "SELECT o.id_org AS Id, o.nom_org AS Nombre, nit_org AS NIT
 					FROM proyecto p
 					LEFT JOIN vinculorgpro vop ON vop.id_proy=p.id_proy
 					LEFT JOIN organizacion o ON o.id_org=vop.id_org
 					WHERE vop.id_tipo_vinorgpro=1
-					AND p.id_proy=".$row['ID'];
+					AND p.id_proy=".$row['Id'];
 			$result2 = $conn->OpenRecordset($sql2);
 			$row2 = $conn->FetchAssoc($result2);
-			$json[$row['ID']]['Organizacion_Ejecutora'][] = $row2;
+			$json[$row['Id']]['Organizacion_Ejecutora'][] = $row2;
 
 			//Implementador
-			$sql3 = "SELECT o.nom_org AS Nombre, nit_org AS NIT
+			$sql3 = "SELECT o.id_org AS Id, o.nom_org AS Nombre, nit_org AS NIT
 					FROM proyecto p
 					LEFT JOIN vinculorgpro vop ON vop.id_proy=p.id_proy
 					LEFT JOIN organizacion o ON o.id_org=vop.id_org
 					WHERE vop.id_tipo_vinorgpro=3
-					AND p.id_proy=".$row['ID'];
+					AND p.id_proy=".$row['Id'];
 			$result3 = $conn->OpenRecordset($sql3);
 			while ($row3 = $conn->FetchAssoc($result3))
 			{
-				$json[$row['ID']]['Organizacion_Implementadora'][] = $row3;
+				$json[$row['Id']]['Organizacion_Implementadora'][] = $row3;
 			}
 
 			//Donante
-			$sql4 = "SELECT o.nom_org AS Nombre, nit_org AS NIT, valor_aporte AS Aporte
+			$sql4 = "SELECT o.id_org AS Id, o.nom_org AS Nombre, nit_org AS NIT, valor_aporte AS Aporte
 					FROM proyecto p
 					LEFT JOIN vinculorgpro vop ON vop.id_proy=p.id_proy
 					LEFT JOIN organizacion o ON o.id_org=vop.id_org
 					WHERE vop.id_tipo_vinorgpro=2
-					AND p.id_proy=".$row['ID'];
+					AND p.id_proy=".$row['Id'];
 			$result4 = $conn->OpenRecordset($sql4);
 			while ($row4 = $conn->FetchAssoc($result4))
 			{
-				$json[$row['ID']]['Organizacion_Donante'][] = $row4;
+				$json[$row['Id']]['Organizacion_Donante'][] = $row4;
 			}
 
 			//Contacto
-			$sql5 = "SELECT CONCAT(c.nom_con, ' ', c.ape_con) AS Nombre, c.cel_con AS Telefono
+			$sql5 = "SELECT c.id_con AS Id, CONCAT(c.nom_con, ' ', c.ape_con) AS Nombre, c.cel_con AS Telefono
 					FROM proyecto p
 					LEFT JOIN contacto c ON c.id_con=p.id_con
-					WHERE p.id_proy=".$row['ID'];
+					WHERE p.id_proy=".$row['Id'];
 			$result5 = $conn->OpenRecordset($sql5);
 			while ($row5 = $conn->FetchAssoc($result5))
 			{
-				$json[$row['ID']]['Contacto_en_Terreno'][] = $row5;
+				$json[$row['Id']]['Contacto_en_Terreno'][] = $row5;
 			}
 
 			//Municipios
@@ -447,62 +447,87 @@ AND p.actua_proy >= '" .$fecha . "'";
 			LEFT JOIN mun_proy mp ON mp.id_proy=p.id_proy
 			LEFT JOIN municipio m ON m.id_mun=mp.id_mun
 			LEFT JOIN departamento d ON d.id_depto=m.id_depto
-			WHERE p.id_proy=".$row['ID'];
+			WHERE p.id_proy=".$row['Id'];
 			$result6 = $conn->OpenRecordset($sql6);
 			while ($row6 = $conn->FetchAssoc($result6))
 			{
-				$json[$row['ID']]['Municipios'][] = $row6;
+				$json[$row['Id']]['Municipios'][] = $row6;
 			}
 
 
 			//Sector Humanitario
-			$sql7 = "SELECT t.nom_tema AS Nombre
+			$sql7 = "SELECT  t.id_tema AS Id,t.nom_tema AS Nombre
 			FROM proyecto p
 			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
 			LEFT JOIN tema t ON t.id_tema=pt.id_tema
 			WHERE t.id_clasificacion=2
-			AND p.id_proy=".$row['ID'];
+			AND p.id_proy=".$row['Id'];
 			$result7 = $conn->OpenRecordset($sql7);
 			while ($row7 = $conn->FetchAssoc($result7))
 			{
-				$json[$row['ID']]['Sector_Humanitario'][] = $row7;
+				$json[$row['Id']]['Sector_Humanitario'][] = $row7;
 			}
 
 			//Resultado UNDAF
-			$sql8 = "SELECT t.nom_tema AS Nombre
+			$sql8 = "SELECT  t.id_tema AS Id,t.nom_tema AS Nombre
 			FROM proyecto p
 			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
 			LEFT JOIN tema t ON t.id_tema=pt.id_tema
 			WHERE t.id_clasificacion=4
-			AND p.id_proy=".$row['ID'];
+			AND p.id_proy=".$row['Id'];
 			$result8 = $conn->OpenRecordset($sql8);
 			while ($row8 = $conn->FetchAssoc($result8))
 			{
-				$json[$row['ID']]['Resultado_UNDAF'][] = $row8;
+				$json[$row['Id']]['Resultado_UNDAF'][] = $row8;
 			}
 
 			//Acuerdos de Paz
-			$sql9 = "SELECT t.nom_tema AS Nombre
+			$sql9 = "SELECT  t.id_tema AS Id, REGEXP_SUBSTR(t.nom_tema, '[0-9]+\.[0-9]+\.[0-9]+') AS Codigo, SUBSTRING(t.nom_tema, 7) AS Nombre
 			FROM proyecto p
 			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
 			LEFT JOIN tema t ON t.id_tema=pt.id_tema
 			WHERE t.id_clasificacion=5
-			AND p.id_proy=".$row['ID'];
+			AND p.id_proy=".$row['Id'];
 			$result9 = $conn->OpenRecordset($sql9);
 			while ($row9 = $conn->FetchAssoc($result9))
 			{
-				$json[$row['ID']]['Acuerdos_de_Paz'][] = $row9;
+				$json[$row['Id']]['Acuerdos_de_Paz'][] = $row9;
+			}
+
+			//CAD
+			$sql10 = "SELECT t.id_tema AS Id, REGEXP_SUBSTR(t.nom_tema, '[0-9]{5}') AS Codigo, SUBSTRING(t.nom_tema, 7) AS Nombre
+			FROM proyecto p
+			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
+			LEFT JOIN tema t ON t.id_tema=pt.id_tema
+			WHERE t.id_clasificacion=6
+			AND p.id_proy=".$row['Id'];
+			$result10 = $conn->OpenRecordset($sql10);
+			while ($row10 = $conn->FetchAssoc($result10))
+			{
+				$json[$row['Id']]['CAD'][] = $row10;
+			}
+
+			//ODS
+			$sql11 = "SELECT t.id_tema AS Id, trim(REGEXP_SUBSTR(t.nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?')) AS Codigo, SUBSTRING(t.nom_tema, 5) AS Nombre
+			FROM proyecto p
+			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
+			LEFT JOIN tema t ON t.id_tema=pt.id_tema
+			WHERE t.id_clasificacion=7
+			AND p.id_proy=".$row['ID'];
+			$result11 = $conn->OpenRecordset($sql11);
+			while ($row11 = $conn->FetchAssoc($result11))
+			{
+				$json[$row['Id']]['ODS'][] = $row11;
 			}
 
 		}
 
 
-		header('Content-type: text/json');
-		header('Content-type: application/json');
+		header('Content-type: application/json; charset=UTF-8');
 		header("Pragma: no-cache");
 		header("Expires: 0");
 
-		echo json_encode ($json);
+		echo json_encode (array_values($json), JSON_UNESCAPED_UNICODE);
 
 		break;
 

@@ -439,13 +439,19 @@ $j(function() {
                 </div>
                 <div class="field">
                     <?php 
-                    $srp_no = ($p_vo->srp_proy == 0) ? 'checked' : '';    
-                    $srp_si = ($p_vo->srp_proy == 1) ? 'checked' : '';    
+                    $srp_no = ($p_vo->srp_proy == 0) ? 'selected' : '';
+                    $srp_si = ($p_vo->srp_proy == 1) ? 'selected' : '';
+                    $srp_adenda = ($p_vo->srp_proy == 2) ? 'selected' : '';
+                    $srp_siyadenda = ($p_vo->srp_proy == 3) ? 'selected' : '';
                     ?>
-                    <label for="srp_proy">Hace parte del plan estrat&eacute;gico de respuesta</label>
-                    <input type="radio" id="srp_no" name="srp_proy" value="0" <?php echo $srp_no ?> />&nbsp;<label for="srp_no" class="ch">No</label>&nbsp;
-                    <input type="radio" id="srp_si" name="srp_proy" value="1" <?php echo $srp_si ?> />&nbsp;<label for="srp_si" class="ch">Si</label>&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Plan_de_Respuesta_Humanitaria" target="_blank">SRP por sus siglas en ingl&eacute;s</a>)
+                    <label for="srp_proy">¿Hace parte del Plan de Respuesta Humanitaria?</label>
+                    <select id="srp_proy" name="srp_proy" class="select">
+                        <option value='0' <?php echo $srp_no ?>>No</option>
+                        <option value='1' <?php echo $srp_si ?>>HRP</option>
+                        <option value='2' <?php echo $srp_adenda ?>>Adenda</option>
+                        <option value='3' <?php echo $srp_siyadenda ?>>HRP y Adenda</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="https://wiki.umaic.org/wiki/Plan_de_Respuesta_Humanitaria" target="_blank">HRP por sus siglas en ingl&eacute;s</a>)
                 </div>
                 <div class="field">
                     <?php
@@ -596,7 +602,7 @@ $j(function() {
         <!-- INFORMACION GENERAL : FIN -->	
 
         <div class="tabbertab" id="tema">
-            <h2>SECTOR / RESULTADO / ACUERDOS</h2><br>
+            <h2>CLASIFICACIONES</h2><br>
             <div class="left">
             <div class="t">SECTOR / RESULTADO</div>
                 <?php 
@@ -743,10 +749,10 @@ $j(function() {
                     </td>
                 </tr>
                 </table>
-                <div class="t">ACUERDOS DE PAZ CON LAS FARC</div>
+                <div class="t">ACUERDOS DE PAZ / CAD / ODS</div>
                 <table>
                     <tr>
-                        <td width="50%" valign="top">
+                        <td width="33%" valign="top">
 	                        <?php
 	                        $id_c = 5;
 	                        $tsp = $tema_dao->GetAllArray("id_clasificacion = $id_c AND id_papa=0");
@@ -767,7 +773,7 @@ $j(function() {
                                                    <input type="checkbox" id="t_' . $t->id . '" name="id_temas[]" value="' . $t->id . '" ' . $check . ' class="tema_des" />
                                                    <label for="t_' . $t->id . '" class="ch">' . $t->nombre . '</label>
                                                    </td>
-                                                   <td>' . $t->def . '</td>
+                                                   
                                                 </tr>';
 	                                }
 
@@ -775,6 +781,52 @@ $j(function() {
                                 }
 	                        }
 	                        ?>
+                        </td>
+                        <td width="33%" valign="top">
+                            <?php
+                            $id_c = 6;
+                            $tsp = $tema_dao->GetAllArray("id_clasificacion = $id_c AND id_papa=0");
+                            foreach($tsp as $tp) {
+                                echo '<br /><b>'.$tp->nombre.'</b><br />
+                                <table class="table_cluster">';
+                                $ts = $tema_dao->GetAllArray("id_papa=".$tp->id);
+                                foreach($ts as $_t => $t) {
+                                    $check = (array_key_exists($t->id,$p_vo->id_temas)) ? ' checked ' : '';
+
+                                    echo '<tr class="tema">
+                                            <td width="400">
+                                               <input type="checkbox" id="t_'.$t->id.'" name="id_temas[]" value="'.$t->id.'" '.$check.' class="tema_des" />
+                                               <label for="t_'.$t->id.'" class="ch">'.$t->nombre.'</label>
+                                               </td>
+                                            </tr>';
+                                }
+
+                                echo '</table><br />';
+                            }
+                            ?>
+                        </td>
+                        <td width="33%" valign="top">
+                            <?php
+                            $id_c = 7;
+                            $tsp = $tema_dao->GetAllArray("id_clasificacion = $id_c AND id_papa=0");
+                            foreach($tsp as $tp) {
+                                echo '<br /><b>'.$tp->nombre.'</b><br />
+                                <table class="table_cluster">';
+                                $ts = $tema_dao->GetAllArray("id_papa=".$tp->id);
+                                foreach($ts as $_t => $t) {
+                                    $check = (array_key_exists($t->id,$p_vo->id_temas)) ? ' checked ' : '';
+
+                                    echo '<tr class="tema">
+                                            <td width="400">
+                                               <input type="checkbox" id="t_'.$t->id.'" name="id_temas[]" value="'.$t->id.'" '.$check.' class="tema_des" />
+                                               <label for="t_'.$t->id.'" class="ch">'.$t->nombre.'</label>
+                                               </td>
+                                            </tr>';
+                                }
+
+                                echo '</table><br />';
+                            }
+                            ?>
                         </td>
                     </tr>
                 </table>

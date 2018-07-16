@@ -1064,6 +1064,7 @@ function addEventosFiltros() {
     ts['departamento'] = 'Departamento';
     ts['municipio'] = 'Municipio';
     ts['acuerdo'] = 'Acuerdos de Paz';
+    ts['hrp'] = 'HRP';
 
     for (var id in ts) {
         $j('#filtros').find('div.f' + id).each(function(){
