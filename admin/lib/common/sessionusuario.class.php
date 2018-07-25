@@ -61,7 +61,7 @@ Class SessionUsuario {
 	 * @userInfo (type) about this param
 	 * @return (array) arreglo con los valores del usuario existente
 	*/
-	function ValidarUsuarioAuth0 ($code,$pagina_exito,$pagina_error,$admin=0){
+	function ValidarUsuarioAuth0 ($pagina_exito,$pagina_error,$admin=0){
 
 		include_once("admin/lib/common/auth0_config.php");
 
@@ -71,14 +71,17 @@ Class SessionUsuario {
 			'client_id'     => $auth0_client_id,
 			'client_secret' => $auth0_client_secret,
 			'redirect_uri'  => $auth0_redirect_uri,
-			'persist_id_token' => false,
-			'persist_refresh_token' => false
+			'audience'      => $auth0_audience,
+			'scope'         => $auth0_scope,
+			'persist_id_token' => true,
+			'persist_access_token' => true,
+			'persist_refresh_token' => true
 		));
 		try {
 
 			$userInfo = (object) $this->auth0->getUser();
 
-			if (!$userInfo) {
+			if (empty((array) $userInfo)) {
 				$this->auth0->login();
 			} else
 			{
@@ -127,7 +130,7 @@ Class SessionUsuario {
 		$email = $userInfo->email;
 
 		//ID de Auth0
-		$auth0Uid = $userInfo->user_id;
+		$auth0Uid = $userInfo->sub;
 
 		$sql = "SELECT usuario.* FROM usuario
                       INNER JOIN usuario_auth0 ON usuario_auth0.sidi_id_usuario = usuario.id_usuario
@@ -222,13 +225,13 @@ Class SessionUsuario {
 		$sidiuserid = $usuario_sidi->ID_USUARIO;
 		$intdatetime = time();
 
-		if ($this->doesAuth0UserExists($userInfo->user_id)) {
+		if ($this->doesAuth0UserExists($userInfo->sub)) {
 			//Ya estaba enlazado
 			//ToDo: Actualiza el id_sidi en app_metadata de Auth0
 
 		} else {
 			//Crear la relación Auth0
-			$sql = "INSERT INTO usuario_auth0(sidi_id_usuario,auth0_id_usuario,fecha_relacion,enlace) VALUES ($sidiuserid,'$userInfo->user_id',$intdatetime,1)";
+			$sql = "INSERT INTO usuario_auth0(sidi_id_usuario,auth0_id_usuario,fecha_relacion,enlace) VALUES ($sidiuserid,'$userInfo->sub',$intdatetime,1)";
 			$this->conn->Execute($sql);
 
 			//ToDo: Actualiza el id_sidi en app_metadata de Auth0
@@ -261,14 +264,14 @@ Class SessionUsuario {
 
 		$this->usuario->id = NULL;
 
-		$this->usuario->nombre = $userInfo->user_metadata['full_name'];
+		$this->usuario->nombre = $userInfo->name;
 		$this->usuario->login = $userInfo->nickname . rand(); //Con cadena aleatoria para evitar duplicados
 		$this->usuario->pass = md5(uniqid(rand(), true));
 
 		$this->usuario->id_tipo = 18; //Perfil por defecto: Consulta Externa
 		$this->usuario->email = $userInfo->email;
-		$this->usuario->org = $userInfo->user_metadata['organization'];
-		$this->usuario->tel = $userInfo->user_metadata['cell'];
+		$this->usuario->org = '';
+		$this->usuario->tel = '';
 		$this->usuario->punto_contacto = "Creado por Auth0";
 		$this->usuario->cnrr = 0;
 		$this->usuario->activo = 1; //Todos los usuarios nuevos registrados quedan activos por defecto
@@ -283,10 +286,10 @@ Class SessionUsuario {
 
 		$intdatetime = time();
 
-		if ($this->doesAuth0UserExists($userInfo->user_id)) {
-			$sql = "UPDATE usuario_auth0 SET sidi_id_usuario=$sidiuserid,fecha_relacion=$intdatetime WHERE auth0_id_usuario='$userInfo->user_id'";
+		if ($this->doesAuth0UserExists($userInfo->sub)) {
+			$sql = "UPDATE usuario_auth0 SET sidi_id_usuario=$sidiuserid,fecha_relacion=$intdatetime WHERE auth0_id_usuario='$userInfo->sub'";
 		} else {
-			$sql = "INSERT INTO usuario_auth0(sidi_id_usuario,auth0_id_usuario,fecha_relacion,enlace) VALUES ($sidiuserid,'$userInfo->user_id',$intdatetime,1)";
+			$sql = "INSERT INTO usuario_auth0(sidi_id_usuario,auth0_id_usuario,fecha_relacion,enlace) VALUES ($sidiuserid,'$userInfo->sub',$intdatetime,1)";
 		}
 		$this->conn->Execute($sql);
 
