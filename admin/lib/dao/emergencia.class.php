@@ -2,14 +2,14 @@
 /**
  * DAO de Emergencia
  *
- * Contiene los métodos de la clase Emergencia 
+ * Contiene los mï¿½todos de la clase Emergencia 
  * @author Ruben A. Rojas C.
  */
 
 Class EmergenciaDAO {
 
 	/**
-	 * Conexión a la base de datos
+	 * Conexiï¿½n a la base de datos
 	 * @var object 
 	 */
 	var $conn;
@@ -40,7 +40,7 @@ Class EmergenciaDAO {
 
 	/**
 	 * Constructor
-	 * Crea la conexión a la base de datos
+	 * Crea la conexiï¿½n a la base de datos
 	 * @access public
 	 */	
 	function EmergenciaDAO (){
@@ -73,9 +73,9 @@ Class EmergenciaDAO {
 	}
 
 	/**
-	 * Consulta los datos de los Tema que cumplen una condición
+	 * Consulta los datos de los Tema que cumplen una condiciï¿½n
 	 * @access public
-	 * @param string $condicion Condición que deben cumplir los Tema y que se agrega en el SQL statement.
+	 * @param string $condicion Condiciï¿½n que deben cumplir los Tema y que se agrega en el SQL statement.
 	 * @param string $limit Limit en el SQL
 	 * @param string $order by Order by en el SQL 
 	 * @return array Arreglo de VOs
@@ -111,17 +111,17 @@ Class EmergenciaDAO {
 			$vo = $this->GetFromResult($vo,$row_rs);
 			//Carga el arreglo
 			$array[] = $vo;
-		}  
+		}
 		//Retorna el Arreglo de VO
 		return $array;
 	}
 
 	/**
-	 * Lista los Emergencia que cumplen la condición en el formato dado
+	 * Lista los Emergencia que cumplen la condiciï¿½n en el formato dado
 	 * @access public
-	 * @param string $formato Formato en el que se listarán los Emergencia, puede ser Tabla o ComboSelect
-	 * @param int $valor_combo ID del Emergencia que será selccionado cuando el formato es ComboSelect
-	 * @param string $condicion Condición que deben cumplir los Emergencia y que se agrega en el SQL statement.
+	 * @param string $formato Formato en el que se listarï¿½n los Emergencia, puede ser Tabla o ComboSelect
+	 * @param int $valor_combo ID del Emergencia que serï¿½ selccionado cuando el formato es ComboSelect
+	 * @param string $condicion Condiciï¿½n que deben cumplir los Emergencia y que se agrega en el SQL statement.
 	 */			
 	function ListarCombo($formato,$valor_combo,$condicion){
 		$arr = $this->GetAllArray($condicion);

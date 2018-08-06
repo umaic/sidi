@@ -1585,6 +1585,7 @@ Class P4wDAO
         require_once 'lib/model/depto.class.php';
         require_once 'lib/model/contacto.class.php';
         require_once 'lib/model/estado_proyecto.class.php';
+	    require_once 'lib/model/emergencia.class.php';
         require_once 'lib/model/mecanismo_entrega.class.php';
         require_once 'lib/model/modalidad_asistencia.class.php';
         require_once 'lib/dao/municipio.class.php';
@@ -1618,7 +1619,7 @@ Class P4wDAO
         $insertar_db = ($importar == '1') ? true : false;
 
         $t_dir = '/tmp/';
-        $nc = 63;
+        $nc = 66;
         $sp = '|';
         $sep_donante = '-';
         $msg = '';
@@ -1641,7 +1642,7 @@ Class P4wDAO
         );
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
-        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = $clasificacioncad = array();
+        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = $clasificacioncad = $clasificacionods = array();
 
         $latin = array('á','é','í','ó','ú','ñ');
         $normal = array('a','e','i','o','u','n');
@@ -2918,7 +2919,7 @@ Class P4wDAO
 			                else {
 				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 5");
 				                if (empty($sec)) {
-					                $_msg .= "No existe el código de subtema de los Acuerdos de Paz con las FARC: <b>" . utf8_decode($v). "</b> <br />";
+					                $_msg .= "No existe el la clase Acuerdos de Paz: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
 						                $id_tema_new[] = $v;
@@ -2946,7 +2947,7 @@ Class P4wDAO
 			                else {
 				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 6");
 				                if (empty($sec)) {
-					                $_msg .= "No existe el código de Clasificación CAD: <b>" . utf8_decode($v). "</b> <br />";
+					                $_msg .= "No existe la clase CAD: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
 						                $id_tema_new[] = $v;
@@ -2974,7 +2975,7 @@ Class P4wDAO
 			                else {
 				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 7");
 				                if (empty($sec)) {
-					                $_msg .= "No existe el código de Clasificación ODS: <b>" . utf8_decode($v). "</b> <br />";
+					                $_msg .= "No existe la clase ODS: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
 						                $id_tema_new[] = $v;
@@ -2989,7 +2990,6 @@ Class P4wDAO
 	                }
 
 	                //Emergencias
-	                $emergencia = $f[++$col];
 	                if (empty($emergencia)) {
 		                $emergencia = '';
 	                }
@@ -3003,7 +3003,6 @@ Class P4wDAO
 			                $emergencia = $_emer[0]->id;
 		                }
 	                }
-
 	                //FIN DEL RECORRIDO DE UNA FILA
 
                     if ($er) {
