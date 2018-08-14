@@ -1642,7 +1642,7 @@ Class P4wDAO
         );
         $ni = 0;
         $ne = -1; // En -1 para mostrar error si falla alguna validación básica de columnas, etc
-        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = $clasificacioncad = $clasificacionods = array();
+        $id_org_new = $id_tema_new = $id_org_s_new = $id_mun_new = $id_depto_new = $id_con_new = $sectores = $resultados = $contactos = $acuerdos = $clasificacionescad = $clasificacionesods = array();
 
         $latin = array('á','é','í','ó','ú','ñ');
         $normal = array('a','e','i','o','u','n');
@@ -1912,10 +1912,10 @@ Class P4wDAO
 	                            $n = trim($_n[$i]);
                                 //$t = str_replace($latin, $normal, strtolower(trim($ot)));
 	                            $t = trim($ot);
-                                $kk = "2Sigla:$s,Nombre:$n,Tipo:$t";
+                                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
 
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'',"INSTR(nom_org,'$n'),nom_org");
-                                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+	                            $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' ",'',"INSTR(nom_org,'$n'),nom_org");
+	                            $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
                                 $tid = (empty($tipo[0])) ? 0 : $tipo[0];
 
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
@@ -1986,7 +1986,7 @@ Class P4wDAO
                                 if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
                                     $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
                                     if ($chks['oo']) {
-                                        $_msg .= "No existe el implementdor: <b>" . utf8_decode($kk). "</b> <br />";
+                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk). "</b> <br />";
                                         $id_org_new[] = $kk;
                                         $er = true;
 
@@ -2141,18 +2141,18 @@ Class P4wDAO
                                     $p_vo->fin_proy = $v[2].'-'.$v[0].'-'.$v[1];
                                 }
                                 else {
-                                    $_msgr .= " - Fecha de finalización incorrecta: <b>$_f</b>";
+                                    $_msgr .= " - Fecha de final incorrecta: <b>$_f</b>";
                                     if ($chks['f']) {
-                                        $_msg .= "Fecha de finalización incorrecta: <b>$_f</b> <br />";
+                                        $_msg .= "Fecha de final incorrecta: <b>$_f</b> <br />";
                                         $er = true;
                                     }
                                 }
                             }
                         }
                         else {
-                            $_msgr .= " - No tiene fecha de finalización";
+                            $_msgr .= " - No tiene fecha final";
                             if ($chks['f']) {
-                                $_msg .= "No tiene fecha de finalización<br />";
+                                $_msg .= "No tiene fecha final<br />";
                                 $er = true;
                             }
                         }
@@ -2609,8 +2609,8 @@ Class P4wDAO
 	                $ot = $f[++$col];
 	                if (!empty($os) && !empty($on)) {
 
-		                $_v = explode(',', trim($os));
-		                $_n = explode(',', trim($on));
+		                $_v = explode('-', trim($os));
+		                $_n = explode('-', trim($on));
 
 		                foreach($_v as $i => $v) {
 
@@ -2906,9 +2906,9 @@ Class P4wDAO
                     }
 
 	                //Acuerdos de Paz con las FARC
-	                $acu = $f[++$col];
-	                if ($chks['s'] && !empty($acu)) {
-		                $_v = explode('-', $acu);
+	                $acuerdo = $f[++$col];
+	                if ($chks['s'] && !empty($acuerdo)) {
+		                $_v = explode('-', $acuerdo);
 
 		                foreach($_v as $v) {
 		                    $v = trim($v);
@@ -2917,8 +2917,8 @@ Class P4wDAO
 				                $p_vo->id_temas[$_idt] = array();
 			                }
 			                else {
-				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 5");
-				                if (empty($sec)) {
+				                $acu = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 5");
+				                if (empty($acu)) {
 					                $_msg .= "No existe el la clase Acuerdos de Paz: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
@@ -2934,69 +2934,70 @@ Class P4wDAO
 	                }
 
 	                //Clasificación CAD
-	                $cad = $f[++$col];
-	                if ($chks['s'] && !empty($cad)) {
-		                $_v = explode('-', $cad);
+	                $clasificacioncad = $f[++$col];
+	                if ($chks['s'] && !empty($clasificacioncad)) {
+		                $_v = explode('-', $clasificacioncad);
 
 		                foreach($_v as $v) {
 			                $v = trim($v);
-			                if (in_array($v, $clasificacioncad)) {
-				                $_idt = array_search($v, $clasificacioncad);
+			                if (in_array($v, $clasificacionescad)) {
+				                $_idt = array_search($v, $clasificacionescad);
 				                $p_vo->id_temas[$_idt] = array();
 			                }
 			                else {
-				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 6");
-				                if (empty($sec)) {
+				                $cad = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]{3,5} ') = '$v' AND id_clasificacion = 6");
+				                if (empty($cad)) {
 					                $_msg .= "No existe la clase CAD: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
 						                $id_tema_new[] = $v;
 					                }
 				                }
-				                else if (isset($cad[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
+				                else if (isset($cad[0]) && !array_key_exists($cad[0], $p_vo->id_temas)) {
 					                $p_vo->id_temas[$cad[0]] = array();
-					                $clasificacioncad[$cad[0]] = $v;
+					                $clasificacionescad[$cad[0]] = $v;
 				                }
 			                }
 		                }
 	                }
 
 	                //Clasificación ODS
-	                $ods = $f[++$col];
-	                if ($chks['s'] && !empty($ods)) {
-		                $_v = explode('-', $ods);
+	                $clasificacionods = $f[++$col];
+	                if ($chks['s'] && !empty($clasificacionods)) {
+		                $_v = explode('-', $clasificacionods);
 
 		                foreach($_v as $v) {
 			                $v = trim($v);
-			                if (in_array($v, $clasificacionods)) {
-				                $_idt = array_search($v, $clasificacionods);
+			                if (in_array($v, $clasificacionesods)) {
+				                $_idt = array_search($v, $clasificacionesods);
 				                $p_vo->id_temas[$_idt] = array();
 			                }
 			                else {
-				                $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 7");
-				                if (empty($sec)) {
+				                $ods = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 7");
+				                if (empty($ods)) {
 					                $_msg .= "No existe la clase ODS: <b>" . utf8_decode($v). "</b> <br />";
 					                $er = true;
 					                if (!in_array($v, $id_tema_new)) {
 						                $id_tema_new[] = $v;
 					                }
 				                }
-				                else if (isset($ods[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
+				                else if (isset($ods[0]) && !array_key_exists($ods[0], $p_vo->id_temas)) {
 					                $p_vo->id_temas[$ods[0]] = array();
-					                $clasificacionods[$ods[0]] = $v;
+					                $clasificacionesods[$ods[0]] = $v;
 				                }
 			                }
 		                }
 	                }
 
 	                //Emergencias
-	                if (empty($emergencia)) {
-		                $emergencia = '';
+	                $emer = trim($f[++$col]);
+	                if (empty($emer)) {
+		                $emergencia = 0;
 	                }
 	                else {
-		                $_emer = $emergencia_dao->GetAllArray("nom_emergencia LIKE '%".trim($emergencia)."%'");
+		                $_emer = $emergencia_dao->GetAllArray("nom_emergencia LIKE '%".trim($emer)."%'");
 		                if (empty($_emer)) {
-			                $_msg .= "No existe la emergencia: <b>" . utf8_decode($emergencia) . "</b> <br />";
+			                $_msg .= "No existe la emergencia: <b>" . utf8_decode($emer) . "</b> <br />";
 			                $er = true;
 		                }
 		                else if (isset($_emer[0])) {
@@ -3036,7 +3037,7 @@ Class P4wDAO
                         $p_vo->id_orgs_coor_valor_ap = Array();
                         $p_vo->cant_benf_proy = '';
                         $p_vo->validado_cluster_proy = 1;
-                        $p_vo->id_emergencia = 0;
+                        $p_vo->id_emergencia = $emergencia;
 
                         $p_vo->duracion_proy = $duracion_proy;
 
