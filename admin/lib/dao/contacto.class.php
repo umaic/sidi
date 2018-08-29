@@ -481,7 +481,7 @@ Class ContactoDAO {
 			$sql =  "INSERT INTO ".$this->tabla."
 			(".$this->columna_nombre.",ape_con,tel_con,cel_con,fax_con,email_con,social_con,creac_con,update_con,id_mun)
 			VALUES
-			('".$contacto_vo->nombre."','$contacto_vo->apellido','".$contacto_vo->tel."','".$contacto_vo->cel."','".$contacto_vo->fax."','".$contacto_vo->email."','".$contacto_vo->social."', now(), now(),'".$contacto_vo->id_mun."')";
+			(CAP_FIRST('".$contacto_vo->nombre."'),CAP_FIRST('$contacto_vo->apellido'),'".$contacto_vo->tel."','".$contacto_vo->cel."','".$contacto_vo->fax."','".strtolower(trim($contacto_vo->email))."','".$contacto_vo->social."', now(), now(),'".$contacto_vo->id_mun."')";
 			$this->conn->Execute($sql);
 
 			$contacto_vo->id = $this->conn->GetGeneratedID();
@@ -572,13 +572,13 @@ Class ContactoDAO {
 	 */
 	function Actualizar($contacto_vo, $alert = 1){
 		$sql =  "UPDATE ".$this->tabla." SET ";
-		$sql .= $this->columna_nombre." = '".$contacto_vo->nombre."',";
-		$sql .= "ape_con = '".$contacto_vo->apellido."',";
+		$sql .= $this->columna_nombre." = CAP_FIRST('".trim($contacto_vo->nombre)."'),";
+		$sql .= "ape_con = CAP_FIRST('".trim($contacto_vo->apellido)."'),";
 		$sql .= "tel_con = '".$contacto_vo->tel."',";
 		$sql .= "cel_con = '".$contacto_vo->cel."',";
 		$sql .= "fax_con = '".$contacto_vo->fax."',";
 		$sql .= "update_con = now(),";
-		$sql .= "email_con = '".$contacto_vo->email."',";
+		$sql .= "email_con = '".strtolower(trim($contacto_vo->email))."',";
 		$sql .= "social_con = '".$contacto_vo->social."',";
         $sql .= "id_mun = '".$contacto_vo->id_mun."'";
 
