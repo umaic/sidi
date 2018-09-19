@@ -1,4 +1,4 @@
-var offsetfrommouse=[0,-35]; //image x,y offsets from cursor position in pixels. Enter 0,0 for no offset
+var offsetfrommouse=[0,35]; //image x,y offsets from cursor position in pixels. Enter 0,0 for no offset
 var displayduration=0; //duration in seconds image should remain visible. 0 for always.
 var currentimageheight = 10;	// maximum image size.
 var div = document.getElementById('enlarge');

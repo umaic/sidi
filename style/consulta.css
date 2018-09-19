@@ -341,9 +341,10 @@ form {
 .info_mouse{
 	position: absolute;
 	visibility: hidden;
-	z-index: 1000;
+	z-index: 5000;
 	background: url(../images/consulta/bcg_info_mouse.gif);
-	width:160px;
+	background-position: 50% 0%;
+	width: 160px;
 	height: 30px;
 	text-align: center;
 	font-size: 13px;
@@ -354,10 +355,10 @@ form {
 .info_mouse_ie{
 	position: absolute;
 	visibility: hidden;
-	z-index: 1000;
+	z-index: 5000;
 	background-color: #f1f1f1;
 	border: 1px solid #cccccc;
-	width:160px;
+	width: 160px;
 	height: 30px;
 	text-align: center;
 	font-size: 13px;
