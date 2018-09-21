@@ -48,7 +48,7 @@ function initMap(c) {
 
     mtipo = c;
     fromProjection = new OpenLayers.Projection('EPSG:4326'); // World Geodetic System 1984 projection (lon/lat)
-    toProjection = new OpenLayers.Projection('EPSG:900913'); // WGS84 OSM/Google Mercator projection (meters)
+    toProjection = new OpenLayers.Projection('EPSG:3857'); // WGS84 OSM/Google Mercator projection (meters)
     OpenLayers.ImgPath = "images/openlayers/";
     strategies = [new OpenLayers.Strategy.Cluster({ distance: 50})];
 
@@ -157,10 +157,11 @@ function addBaseLayer(c){
                 map.addLayer(ly);
 
                 var wms_departamentos = new OpenLayers.Layer.WMS("Departamentos",
-                    "https://geonode.umaic.org/geoserver/wms",
+                    "https://geonode.umaic.org/geoserver/ows",
                     {
                         layers: "geonode:col_admbnda_adm1_igac_ochal",
-                        transparent: true
+                        transparent: true,
+                        srs:"EPSG:4326",
                     }, {
                         opacity: 0.5,
                         singleTile: true
