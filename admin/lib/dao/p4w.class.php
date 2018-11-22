@@ -1416,7 +1416,7 @@ Class P4wDAO
         //ORGANIZACIONES DONANTES
         $arr = $proyecto_vo->id_orgs_d;
         foreach ($arr as $a){
-            if (!empty($a)) {
+	        if (!empty($a)) {
                 $valor = (empty($proyecto_vo->id_orgs_d_valor_ap[$a])) ? 0 : $proyecto_vo->id_orgs_d_valor_ap[$a];
                 $codigo = (empty($proyecto_vo->id_orgs_d_codigo[$a])) ? '' : $proyecto_vo->id_orgs_d_codigo[$a];
                 $sql = "INSERT INTO vinculorgpro (ID_TIPO_VINORGPRO,ID_ORG,ID_PROY,VALOR_APORTE,CODIGO) VALUES (2,$a,$id_proyecto,$valor,'$codigo')";
@@ -1621,7 +1621,7 @@ Class P4wDAO
         $t_dir = '/tmp/';
         $nc = 66;
         $sp = '|';
-        $sep_donante = '-';
+        $sep_donante = '--';
         $msg = '';
         $check = true;
         //Campos obligatorios en la importación desde excel
@@ -1744,15 +1744,15 @@ Class P4wDAO
                             }
                         }
 
+                        //El código de proyecto no puede ser igual al de la fila anterior
                         $cond_cod = (empty($cod_proy) || $coda != $cod_proy) ? true : false;
 
-                        // Nombre si no tiene codigo
+	                    //El nombre de proyecto no puede ser igual al de la fila anterior
                         $cond_nom = ($cond_cod || empty($nom_proy) || $noma != $nom_proy) ? true : false;
 
                         // No tiene en cuenta los formulados, suspendidos, evaluacion
                         //$cond_estado = (in_array($estado_proy, array('formulación','suspendido','evaluación'))) ? false : true;
                     }
-
                     //INSERTA ********************
                     if ($r > 2 && $insertar && $cond_cod && $cond_nom && $insertar_db) {
 
@@ -1774,1237 +1774,1403 @@ Class P4wDAO
                         }
                     }
 
-                    if ($cond_cod && $cond_nom) {
-                        $p_vo = New P4w();
-                        $insertar = false;
-                        $_msgr = '';
-
-                        // Check obligatorios
-                        if ($chks['ob']) {
-                            $_msg = '';
-                            foreach($cobli as $_c => $c) {
-                                if (empty($f[$c])) {
-                                    if (empty($_msg)) {
-                                        $_msg .= 'Columnas obligatorias: ';
-                                    }
-
-                                    $_msg .= chr(65 + $c).' - ';
-                                    $er = true;
-                                }
-                            }
-                        }
-
-                        // Se asigna codigo si no tiene
-                        $col = 0;
-                        if (!empty($p_vo->id_orgs_e[0]) && empty($cod_proy)) {
-                            $_sq = 'SELECT COUNT(id_proy) FROM vinculorgpro WHERE
-                                id_org = '.$p_vo->id_orgs_e[0].' AND id_tipo_vinorgpro = 1';
-                            $_rs = $this->conn->OpenRecordset($_sq);
-                            $_row = $this->conn->FetchRow($_rs);
-                            $num = (empty($_row[$col])) ? 1 : ($_row[$col] + 1);
-
-                            $cod_proy = '4W-'.$s.'-'.$num;
-                        }
-
-                        // Tipo de Proyecto
-                        $tipp = $tip_proy;
-                        if (empty($tip_proy)) {
-                            $tipp = 1; //Por defecto 1=Proyecto
-                        } else {
-                            $_tipp = $tipo_proyecto_dao->GetAllArray(utf8_encode("nom_tipp LIKE '%".$tip_proy."%'"));
-                            if (empty($_tipp)) {
-                                $_msg .= "No existe el tipo de proyecto: <b>" . utf8_decode($tip_proy) . "</b> <br />";
-                                $er = true;
-                            }
-                            else if (isset($_tipp[0])) {
-                                $tipp = $_tipp[0]->id;
-                            }
-                        }
-
-                        $col = 4;
-	                    //Organización Ejecutora
-                        if ($chks['oe'] && !$er) {
-                            $os = $f[$col];
-                            $on = $f[++$col];
-                            $ot = $f[++$col];
-                            if (!empty($os) && !empty($on)) {
-                                //$s = str_replace($latin, $normal, trim(strtolower($os)));
-                                $s=trim($os);
-                                //$n = str_replace($latin, $normal, trim(strtolower($on)));
-	                            $n = trim($on);
-                                $t = trim($ot);
-                                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
-
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'',"INSTR(nom_org,'$n'),nom_org");
-                                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-                                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
-                                    $id_org_new[] = $kk;
-                                    $er = true;
-
-                                    if (!empty($tid)) {
-                                        $_sqlo .= "# Fila: ".($r+1)." Org. Ejecutora \n".sprintf($sqio,$n,$s,$tid);
-                                        $_csvo .= "$n,$s,$tid";
-                                    }
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_e[] = $orgs[0];
-                                }
-                            }
-                            // Solo sigla
-                            else if (!empty($os) && empty($on)) {
-                                //$s = str_replace($latin, $normal, strtolower(trim($os)));
-	                            $s=trim($os);
-                                $kk = "Sigla:$s";
-
-                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'',"INSTR(sig_org,'$s'),sig_org");
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) ."</b> <br />";
-                                    $id_org_new[] = $kk;
-                                    $er = true;
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_e[] = $orgs[0];
-                                }
-                            }
-                            // Solo nombre
-                            else if (empty($os) && !empty($on)) {
-                                //$n = str_replace($latin, $normal, strtolower(trim($on)));
-                                $n=trim($on);
-                                $kk = "Nombre:$n";
-
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'',"INSTR(nom_org,'$n'),nom_org");
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msg .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
-                                    $id_org_new[] = $kk;
-                                    $er = true;
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_e[] = $orgs[0];
-                                }
-                            }
-                            else {
-                                $_msgr .= " - No hay Org. Ejecutora";
-                                $_msg .= "No hay Org. Ejecutora<br />";
-                                $er = true;
-                            }
-	                        //echo $kk."\r\n";
-                        }
-
-                        //Implementador
-                        $os = $f[++$col];
-                        $on = $f[++$col];
-                        $ot = $f[++$col];
-                        if (!empty($os) && !empty($on)) {
-
-                            $_v = explode(',', trim($os));
-                            $_n = explode(',', trim($on));
-
-                            foreach($_v as $i => $v) {
-
-                                //$s = str_replace($latin, $normal, strtolower(trim($v)));
-	                            $s = trim($v);
-                                //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-	                            $n = trim($_n[$i]);
-                                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-	                            $t = trim($ot);
-                                $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
-
-	                            $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' ",'',"INSTR(nom_org,'$n'),nom_org");
-	                            $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-                                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
-                                    if ($chks['oo']) {
-
-                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk) ."</b> <br />";
-                                        $id_org_new[] = $kk;
-                                        $er = true;
-
-                                        if (!empty($tid)) {
-                                            $_sqlo .= "# Fila: ".($r+1).", Implementador \n".sprintf($sqio,$n,$s,$tid);
-                                            $_csvo .= "$n,$s,$tid";
-                                        }
-                                    }
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_s[] = $orgs[0];
-                                }
-                            }
-                        }
-                        // Solo sigla
-                        else if (!empty($os) && empty($on)) {
-
-                            $_v = explode(',', trim($os));
-
-                            foreach($_v as $i => $v) {
-
-                                //$s = str_replace($latin, $normal, strtolower(trim($v)));
-	                            $s = trim($v);
-                                $kk = "Sigla:$s";
-
-                                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'',"INSTR(sig_org,'$s'),sig_org");
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
-                                    if ($chks['oo']) {
-                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk). "</b> <br />";
-                                        $id_org_new[] = $kk;
-                                        $er = true;
-                                    }
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_s[] = $orgs[0];
-                                }
-                            }
-                        }
-                        // Solo nombre
-                        else if (empty($os) && !empty($on)) {
-
-                            $_v = explode(',', trim($on));
-
-                            foreach($_v as $i => $v) {
-
-                                $s = '';
-                                $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
-
-                                //$n = str_replace($latin, $normal, strtolower($_n));
-                                $n=trim($_n);
-                                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-	                            $t=trim($ot);
-                                $kk = "Nombre:$n,Tipo:$t";
-
-                                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'',"INSTR(nom_org,'$n'),nom_org");
-                                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-                                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-                                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
-                                    if ($chks['oo']) {
-                                        $_msg .= "No existe el implementador: <b>" . utf8_decode($kk). "</b> <br />";
-                                        $id_org_new[] = $kk;
-                                        $er = true;
-
-                                        if (!empty($tid)) {
-                                            $_sqlo .= "# Fila: ".($r+1).", Implementador \n".sprintf($sqio,$_n,$s,$tid);
-                                            $_csvo .= "$n,$s,$tid";
-                                        }
-                                    }
-                                }
-                                else if (isset($orgs[0])) {
-                                    $p_vo->id_orgs_s[] = $orgs[0];
-                                }
-                            }
-                        }
-                        else {
-
-                            $_msgr .= " - No hay implementador";
-
-                            if ($chks['oo']) {
-                                $_msg .= "No hay implementador<br />";
-                                $er = true;
-                            }
-                        }
-
-                        // Sectores Humanitarios
-                        $sec = $f[++$col];
-                        if ($chks['s'] && !empty($sec)) {
-                            $_v = explode('-', $sec);
-
-                            $from = array_merge($latin, array('Albergues y elementos no alimentarios'));
-                            $to =   array_merge($normal, array('Alojamiento y ayuda no alimentaria'));
-
-                            foreach($_v as $v) {
-
-                                $v = str_replace($from, $to, trim($v));
-
-                                if (in_array($v, $sectores)) {
-                                    $_idt = array_search($v, $sectores);
-                                    $p_vo->id_temas[$_idt] = array();
-                                    $p_vo->id_tema_p = $_idt;
-                                }
-                                else {
-                                    $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 2");
-                                    if (empty($sec)) {
-                                        $_msg .= "No existe el sector: <b>" . utf8_decode($v). "</b> <br />";
-                                        $er = true;
-                                        if (!in_array($v, $id_tema_new)) {
-                                            $id_tema_new[] = $v;
-                                        }
-                                    }
-                                    else if (isset($sec[0]) && !array_key_exists($sec[0], $p_vo->id_temas)) {
-                                        $p_vo->id_temas[$sec[0]] = array();
-                                        $p_vo->id_tema_p = $sec[0];
-                                        $sectores[$sec[0]] = $v;
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // Resultados UNDAF
-                        $resultado = $f[++$col];
-                        if ($chks['s'] && !empty($resultado)) {
-                            $_v = explode('-', $resultado);
-
-                            foreach($_v as $v) {
-	                            $v = trim($v);
-
-                                if (in_array($v, $resultados)) {
-                                    $_idt = array_search($v, $resultados);
-                                    $p_vo->id_temas[$_idt] = array();
-                                }
-                                else {
-                                    $rsts = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
-                                    if (empty($rsts)) {
-                                        $_msg .= "No existe el resultado:<b>" . utf8_decode($v) . "</b> <br />";
-                                        $er = true;
-                                        if (!in_array($v, $id_tema_new)) {
-                                            $id_tema_new[] = $v;
-                                        }
-                                    }
-                                    else if (isset($rsts[0]) && !array_key_exists($rsts[0], $p_vo->id_temas)) {
-                                        $p_vo->id_temas[$rsts[0]] = array();
-                                        $resultados[$rsts[0]] = $v;
-                                    }
-                                }
-                            }
-                        }
-
-                        // Fecha inicio
-                        $fini = $f[++$col];
-                        if (!empty($fini)) {
-                            $_f = trim($fini);
-                            $v = explode('/', $_f);
-                            if (count($v) != 3) {
-                                if ($chks['f']) {
-                                    $_msg .= "Fecha de inicio incorrecta, no tiene 3 elementos: <b>$fini</b> <br />";
-                                    $er = true;
-                                }
-                            }
-                            else {
-                                // Check formato
-                                // yyyy-/mm-/dd
-                                if (preg_match($re_yyyy_mm_dd, $_f)) {
-                                    $p_vo->inicio_proy = $v[0].'-'.$v[1].'-'.$v[2];
-                                }
-                                // dd-/mm-/yyyy
-                                else if (preg_match($re_dd_mm_yyyy, $_f) ) {
-                                    $p_vo->inicio_proy = $v[2].'-'.$v[1].'-'.$v[0];
-                                }
-                                // mm-/dd-/yyyy
-                                else if (preg_match($re_mm_dd_yyyy, $_f) ) {
-                                    $p_vo->inicio_proy = $v[2].'-'.$v[0].'-'.$v[1];
-                                }
-                                else {
-                                    $_msgr .= " - Fecha de inicio incorrecta: <b>$_f</b>";
-                                    if ($chks['f']) {
-                                        $_msg .= "Fecha de inicio incorrecta: <b>$_f</b> <br />";
-                                        $er = true;
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            $_msgr .= " - No tiene fecha de inicio";
-                            if ($chks['f']) {
-                                $_msg .= "No tiene fecha de inicio<br />";
-                                $er = true;
-                            }
-                        }
-
-                        // Fecha final
-                        $ffinal = $f[++$col];
-                        if (!empty($ffinal)) {
-                            $_f = $ffinal;
-                            $v = explode('/', $_f);
-                            if (count($v) != 3) {
-                                $_msg .= "Fecha final incorrecta: <b>$ffinal</b> <br />";
-                                $er = true;
-                            }
-                            else {
-                                // Check formato
-                                // yyyy-mm-dd
-                                if (preg_match($re_yyyy_mm_dd, $_f)) {
-                                    $p_vo->fin_proy = $v[0].'-'.$v[1].'-'.$v[2];
-                                }
-                                // dd-mm-yyyy
-                                else if (preg_match($re_dd_mm_yyyy, $_f) ) {
-                                    $p_vo->fin_proy = $v[2].'-'.$v[1].'-'.$v[0];
-                                }
-                                // mm-dd-yyyy
-                                else if (preg_match($re_mm_dd_yyyy, $_f) ) {
-                                    $p_vo->fin_proy = $v[2].'-'.$v[0].'-'.$v[1];
-                                }
-                                else {
-                                    $_msgr .= " - Fecha de final incorrecta: <b>$_f</b>";
-                                    if ($chks['f']) {
-                                        $_msg .= "Fecha de final incorrecta: <b>$_f</b> <br />";
-                                        $er = true;
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            $_msgr .= " - No tiene fecha final";
-                            if ($chks['f']) {
-                                $_msg .= "No tiene fecha final<br />";
-                                $er = true;
-                            }
-                        }
-
-                        // Duracion proy
-                        $duracion_proy = $f[++$col];
-                        if (empty($duracion_proy)) {
-                            $p_vo->duracion_proy = $date->RestarFechas($p_vo->inicio_proy,$p_vo->fin_proy);
-                        }
-                        else {
-                            $p_vo->duracion_proy = $duracion_proy;
-                        }
-
-                        // Estado
-                        $estado = $estado_proy;
-                        //if (empty($estado_proy)) {
-                            $estado = (strtotime('now') < $p_vo->fin_proy) ? 3 : 4;
-                        //}
-                        /*
-                        else {
-                            $_estp = $estado_dao->GetAllArray("nom_estp LIKE '%".$estado_proy."%'");
-                            if (empty($_estp)) {
-                                $_msg .= "No existe el estado de proyecto: <b>$estado_proy</b> <br />";
-                                $er = true;
-                            }
-                            else if (isset($_estp[0])) {
-                                $estado = $_estp[0]->id;
-                            }
-                        }
-                         */
-
-                        // Presupuesto
-                        $col = $col + 2;
-                        $p_vo->costo_proy = 0;
-                        $presu = floor($f[$col]);
-                        if (strpos($presu,",") > 0 OR strpos($presu,".") > 0) {
-                            $_msgr .= ' - El presupuesto contiene separadores de miles o de decimales';
-                            if ($chks['p']) {
-                                $_msg .= "El presupuesto contiene separadores de miles o de decimales - $presu<br />";
-                                $er = true;
-                            }
-                        }
-                        elseif (isset($presu) && is_numeric($presu)) {
-                            $p_vo->costo_proy = number_format(trim($presu),0,'','');
-                        }
-                        else {
-                            $_msgr .= ' - No tiene Presupuesto';
-                            if ($chks['p']) {
-                                $_msg .= "No tiene presupuesto - $presu<br />";
-                                $er = true;
-                            }
-                        }
-
-	                    $p_vo->costo_proy1 = 0;
-	                    $presu1 = floor($f[++$col]);
-	                    if (strpos($presu1,",") > 0 OR strpos($presu1,".") > 0) {
-		                    $_msgr .= ' - El presupuesto del año 1 contiene separadores de miles o de decimales';
-		                    if ($chks['p']) {
-			                    $_msg .= "El presupuesto del año 1 contiene separadores de miles o de decimales - $presu1<br />";
-			                    $er = true;
-		                    }
-	                    }
-                        elseif (isset($presu1) && is_numeric($presu1)) {
-		                    $p_vo->costo_proy1 = number_format(trim($presu1),0,'','');
-	                    }
-
-	                    $p_vo->costo_proy2 = 0;
-	                    $presu2 = floor($f[++$col]);
-	                    if (strpos($presu2,",") > 0 OR strpos($presu2,".") > 0) {
-		                    $_msgr .= ' - El presupuesto del año 2 contiene separadores de miles o de decimales';
-		                    if ($chks['p']) {
-			                    $_msg .= "El presupuesto del año 2 contiene separadores de miles o de decimales - $presu2<br />";
-			                    $er = true;
-		                    }
-	                    }
-                        elseif (isset($presu2) && is_numeric($presu2)) {
-		                    $p_vo->costo_proy2 = number_format(trim($presu2),0,'','');
-	                    }
-
-	                    $p_vo->costo_proy3 = 0;
-	                    $presu3 = floor($f[++$col]);
-	                    if (strpos($presu3,",") > 0 OR strpos($presu3,".") > 0) {
-		                    $_msgr .= ' - El presupuesto del año 3 contiene separadores de miles o de decimales';
-		                    if ($chks['p']) {
-			                    $_msg .= "El presupuesto del año 3 contiene separadores de miles o de decimales - $presu2<br />";
-			                    $er = true;
-		                    }
-	                    }
-                        elseif (isset($presu3) && is_numeric($presu3)) {
-		                    $p_vo->costo_proy3 = number_format(trim($presu3),0,'','');
-	                    }
-
-	                    $p_vo->costo_proy4 = 0;
-	                    $presu4 = floor($f[++$col]);
-	                    if (strpos($presu4,",") > 0 OR strpos($presu4,".") > 0) {
-		                    $_msgr .= ' - El presupuesto del año 4 contiene separadores de miles o de decimales';
-		                    if ($chks['p']) {
-			                    $_msg .= "El presupuesto del año 4 contiene separadores de miles o de decimales - $presu4<br />";
-			                    $er = true;
-		                    }
-	                    }
-                        elseif (isset($presu4) && is_numeric($presu4)) {
-		                    $p_vo->costo_proy4 = number_format(trim($presu4),0,'','');
-	                    }
-
-	                    $p_vo->costo_proy5 = 0;
-	                    $presu5 = floor($f[++$col]);
-	                    if (strpos($presu5,",") > 0 OR strpos($presu5,".") > 0) {
-		                    $_msgr .= ' - El presupuesto del año 5 contiene separadores de miles o de decimales';
-		                    if ($chks['p']) {
-			                    $_msg .= "El presupuesto del año 5 contiene separadores de miles o de decimales - $presu5<br />";
-			                    $er = true;
-		                    }
-	                    }
-                        elseif (isset($presu5) && is_numeric($presu5)) {
-		                    $p_vo->costo_proy5 = number_format(trim($presu5),0,'','');
-	                    }
-
-	                    // Checks Donante
-                        $os = $f[++$col];
-                        $on = $os;
-                        $om = $f[++$col];
-                        /*
-                        if ($os) {
-                            $p_vo->id_orgs_d[] = 4507; // Id org Central Emergency Respond Found
-                            $p_vo->id_orgs_d_valor_ap[4507] = $p_vo->costo_proy;
-                        }
-                        else if (!empty($erf)) {
-                            $p_vo->id_orgs_d[] = 6649; // Id org Emergency Respond Found
-                            $p_vo->id_orgs_d_valor_ap[6649] = $p_vo->costo_proy;
-                        }
-                        else {
-                         */
-                            if (!empty($os) && !empty($on)) {
-
-                                $_v = explode($sep_donante, trim($os));
-                                $_n = explode($sep_donante, trim($on));
-
-                                foreach($_v as $i => $v) {
-
-                                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
-	                                $s = trim($v);
-                                    //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-	                                $n = trim($_n[$i]);
-                                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-                                    $kk = "Nombre:$n,Tipo:$t";
-
-                                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
-                                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-                                    $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-                                    if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
-                                        if ($chks['oo']) {
-
-                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
-                                            $id_org_new[] = $kk;
-                                            $er = true;
-
-                                            if (!empty($tid)) {
-                                                $_sqlo .= "# Fila: ".($r+1).", donante \n".sprintf($sqio,$n,$s,$tid);
-                                                $_csvo .= "$n,$s,$tid";
-                                            }
-                                        }
-                                    }
-                                    else if (isset($orgs[0])) {
-                                        $p_vo->id_orgs_d[] = $orgs[0];
-                                        $p_vo->id_orgs_d_valor_ap[] = $om;
-                                    }
-                                }
-                            }
-                            // Solo sigla
-                            else if (!empty($os) && empty($on)) {
-
-                                $_v = explode($sep_donante_, trim($os));
-
-                                foreach($_v as $i => $v) {
-
-                                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
-	                                $s = trim($v);
-                                    $kk = "Sigla:$s";
-
-                                    $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
-
-                                    if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
-                                        if ($chks['oo']) {
-                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
-                                            $id_org_new[] = $kk;
-                                            $er = true;
-                                        }
-                                    }
-                                    else if (isset($orgs[0])) {
-                                        $p_vo->id_orgs_d[] = $orgs[0];
-                                        $p_vo->id_orgs_d_valor_ap[] = $om;
-                                    }
-                                }
-                            }
-                            // Solo nombre
-                            else if (empty($os) && !empty($on)) {
-
-                                $_v = explode(',', trim($on));
-
-                                foreach($_v as $i => $v) {
-
-                                    $s = '';
-                                    //$_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
-	                                $_n = trim($v);
-
-                                    //$n = str_replace($latin, $normal, strtolower($_n));
-	                                $n = trim($_n);
-                                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-	                                $t = trim($ot);
-                                    $kk = "Nombre:$v,Tipo:$t";
-
-                                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
-                                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-                                    $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-                                    if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-                                        $_msgr .= " - No existe el donante: " . utf8_decode($kk);
-                                        if ($chks['oo']) {
-                                            $_msg .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
-                                            $id_org_new[] = $kk;
-                                            $er = true;
-
-                                            if (!empty($tid)) {
-                                                $_sqlo .= "# Fila: ".($r+1).", donante \n".sprintf($sqio,$_n,$s,$tid);
-                                                $_csvo .= "$n,$s,$tid";
-                                            }
-                                        }
-                                    }
-                                    else if (isset($orgs[0])) {
-                                        $p_vo->id_orgs_d[] = $orgs[0];
-                                        $p_vo->id_orgs_d_valor_ap[] = $om;
-                                    }
-                                }
-                            }
-                        //}
-
-                        // Check duplicidades
-                        /*
-                        $codigo = $f[0];
-                        $nombre = '';
-                        if ($this->checkExiste(compact('codigo', 'id_org', 'nombre'))) {
-                        }
-                        */
-                    }
-
-                    $ofar = $f[++$col];
-                    if (!empty($ofar)) {
-                        $_f = trim($ofar);
-                        $v = explode('/', $_f);
-                        if (count($v) != 3) {
-                            if ($chks['f']) {
-                                $_msg .= "Fecha de adjudicación de recursos incorrecta, no tiene 3 elementos: <b>$ofar</b> <br />";
-                                $er = true;
-                            }
-                        }
-                        else {
-                            // Check formato
-                            // yyyy-/mm-/dd
-                            if (preg_match($re_yyyy_mm_dd, $_f)) {
-                                $p_vo->ofar = $v[0].'-'.$v[1].'-'.$v[2];
-                            }
-                            // dd-/mm-/yyyy
-                            else if (preg_match($re_dd_mm_yyyy, $_f) ) {
-                                $p_vo->ofar = $v[2].'-'.$v[1].'-'.$v[0];
-                            }
-                            // mm-/dd-/yyyy
-                            else if (preg_match($re_mm_dd_yyyy, $_f) ) {
-                                $p_vo->ofar = $v[2].'-'.$v[0].'-'.$v[1];
-                            }
-                            else {
-                                $_msgr .= " - Fecha de adjudicación de recursos incorrecta: <b>$_f</b>";
-                                if ($chks['f']) {
-                                    $_msg .= "Fecha de adjudicación de recursos incorrecta: <b>$_f</b> <br />";
-                                    $er = true;
-                                }
-                            }
-                        }
-                    } else {
-                        $p_vo->ofar = '0000-00-00';
-                    }
-
-
-                    // HRP
-                    $srp = trim($f[++$col]);
-
-                    if ($srp == 1) {
-                        $p_vo->srp_proy = 1;
-                    } elseif ($srp == 2) {
-                        $p_vo->srp_proy = 2;
-                    } elseif ($srp == 3) {
-                        $p_vo->srp_proy = 3;
-                    } else {
-                        $p_vo->srp_proy = 0;
-                    }
-
-                    // Contacto
-                    $cn = $f[++$col];
-                    $ce = $f[++$col];
-                    $cc = $f[++$col];
-                    $p_vo->id_con = 0;
-                    if ($chks['con'] && !empty($ce)) {
-                        $v = trim($cn);
-
-                        if (in_array($v, $contactos)) {
-                            $p_vo->id_con = array_search($v, $contactos);
-                        }
-                        else {
-                            $v = trim($ce);
-                            $contacto = $contacto_dao->GetAllArray("email_con LIKE '%$v%'");
-                            if (empty($contacto)) {
-                                $_msg .= "No existe el contacto: <b>" . utf8_decode($v) . "</b> <br />";
-                                $er = true;
-
-                                if (!in_array($v, $id_con_new)) {
-                                    $id_con_new[] = $v;
-                                    $_sqlc .= sprintf($sqic,$cn,$ce,$cc);
-                                    //$_csvc .= "$f[1],$f[2],$f[16],$f[17],$f[18]";
-                                }
-                            }
-                            else if (isset($contacto[0])) {
-                                $p_vo->id_con = $contacto[0]->id;
-                                $contactos[$p_vo->id_con] = $v;
-                            }
-                        }
-                    }
-
-
-                    // Beneficiarios poblacionales
-                    $benef = $f[++$col];
-                    $benf_g = array(
-                                    ++$col => array('m','total'),
-                                    ++$col => array('m',1),
-                                    ++$col => array('m',2),
-                                    ++$col => array('m',3),
-                                    ++$col => array('m',4),
-                                    ++$col => array('h','total'),
-                                    ++$col => array('h',1),
-                                    ++$col => array('h',2),
-                                    ++$col => array('h',3),
-                                    ++$col => array('h',4)
-                                    );
-                    $str_benef = strlen($benef);
-                    if (!empty($str_benef)) {
-
-                        preg_match("/\d+/", trim($benef), $v);
-
-                        if ($benef == '0' || !empty($v[0])) {
-                            $p_vo->benf_proy['d']['total'] = $v[0];
-
-                            // Benf. por genero y rango de edad
-                            foreach($benf_g as $_g => $_s) {
-                                preg_match("/\d+/", trim($f[$_g]), $v);
-                                if (!empty($v[0])) {
-                                    $p_vo->benf_proy['d'][$_s[0]][$_s[1]] = $v[0];
-                                }
-                            }
-                        }
-                        else {
-                            $_msgr .= "Beneficiario=$benef es texto<br />";
-                            if ($chks['benef']) {
-                                $_msg .= "Beneficiario=$benef es texto<br />";
-                                $er = true;
-                            }
-                        }
-
-                    }
-                    else {
-                        $_msgr .= " - No tiene beneficiarios";
-                        if ($chks['benef']){
-                            $_msg .= "No tiene beneficiarios<br />";
-                            $er = true;
-                        }
-                    }
-
-	                $num_vic = trim($f[++$col]);
-	                if (intval($num_vic) > 0) {
-		                $p_vo->num_vic = intval($num_vic);
-	                }
-	                else {
-		                $p_vo->num_vic = 0;
-	                }
-
-	                $num_afe = trim($f[++$col]);
-	                if (intval($num_afe) > 0) {
-		                $p_vo->num_afe = intval($num_afe);
-	                }
-	                else {
-		                $p_vo->num_afe = 0;
-	                }
-
-	                $num_des = trim($f[++$col]);
-	                if (intval($num_des) > 0) {
-		                $p_vo->num_des = intval($num_des);
-	                }
-	                else {
-		                $p_vo->num_des = 0;
-	                }
-
-	                $num_afr = trim($f[++$col]);
-	                if (intval($num_afr) > 0) {
-		                $p_vo->num_afr = intval($num_afr);
-	                }
-	                else {
-		                $p_vo->num_afr = 0;
-	                }
-
-	                $num_ind = trim($f[++$col]);
-	                if (intval($num_ind) > 0) {
-		                $p_vo->num_ind = intval($num_ind);
-	                }
-	                else {
-		                $p_vo->num_ind = 0;
-	                }
-
-                    // Beneficiarios indirectos
-                    $benef_ind_total = $f[++$col];
-                    $benef_ind_m = $f[++$col];
-                    $benef_ind_h = $f[++$col];
-                    
-                    $str_benef = strlen($benef_ind_total);
-                    if (!empty($str_benef)) {
-
-                        preg_match("/\d+/", trim($benef_ind_total), $v);
-
-                        if ($benef_ind_total == '0' || !empty($v[0])) {
-                            $p_vo->benf_proy['i']['total'] = $v[0];
-
-                            preg_match("/\d+/", trim($benef_ind_m), $v);
-                            if (!empty($v[0])) {
-                                $p_vo->benf_proy['i']['m']['total'] = $v[0];
-                            }
-                            preg_match("/\d+/", trim($benef_ind_h), $v);
-                            if (!empty($v[0])) {
-                                $p_vo->benf_proy['i']['h']['total'] = $v[0];
-                            }
-                        }
-                        else {
-                            $_msgr .= "Beneficiario Indirecto=$benef es texto<br />";
-                            if ($chks['benef']) {
-                                $_msg .= "Beneficiario Indirecto=$benef es texto<br />";
-                                $er = true;
-                            }
-                        }
-
-                    }
-
-	                // Beneficiarios No-Poblacionales
-	                $os = $f[++$col];
-	                $on = $f[++$col];
-	                $ot = $f[++$col];
-	                if (!empty($os) && !empty($on)) {
-
-		                $_v = explode('-', trim($os));
-		                $_n = explode('-', trim($on));
-
-		                foreach($_v as $i => $v) {
-
-			                //$s = str_replace($latin, $normal, strtolower(trim($v)));
-			                $s = trim($v);
-			                //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
-			                $n = trim($_n[$i]);
-			                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-			                $t = trim($ot);
-			                $kk = "3Sigla:$s,Nombre:$n,Tipo:$t";
-
-			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'",'','');
-			                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
-				                if ($chks['oo']) {
-
-					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
-					                $id_org_new[] = $kk;
-					                $er = true;
-
-					                if (!empty($tid)) {
-						                $_sqlo .= "# Fila: ".($r+1).", Beneficiario NP \n".sprintf($sqio,$n,$s,$tid);
-						                $_csvo .= "$n,$s,$tid";
-					                }
-				                }
-			                }
-			                else if (isset($orgs[0])) {
-				                $p_vo->id_orgs_b[] = $orgs[0];
-			                }
-		                }
-	                }
-	                // Solo sigla
-	                else if (!empty($os) && empty($on)) {
-
-		                $_v = explode(',', trim($os));
-
-		                foreach($_v as $i => $v) {
-
-			                //$s = str_replace($latin, $normal, strtolower(trim($v)));
-			                $s = trim($v);
-			                $kk = "Sigla:$s";
-
-			                $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'",'','');
-
-			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
-				                if ($chks['oo']) {
-					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
-					                $id_org_new[] = $kk;
-					                $er = true;
-				                }
-			                }
-			                else if (isset($orgs[0])) {
-				                $p_vo->id_orgs_b[] = $orgs[0];
-			                }
-		                }
-	                }
-	                // Solo nombre
-	                else if (empty($os) && !empty($on)) {
-
-		                $_v = explode(',', trim($on));
-
-		                foreach($_v as $i => $v) {
-
-			                $s = '';
-			                $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
-
-			                //$n = str_replace($latin, $normal, strtolower($_n));
-			                $n = trim($v);
-			                //$t = str_replace($latin, $normal, strtolower(trim($ot)));
-			                $t = trim($ot);
-			                $kk = "Nombre:$v,Tipo:$t";
-
-			                $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'",'','');
-			                $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
-			                $tid = (empty($tipo[0])) ? 0 : $tipo[0];
-
-			                if (empty($orgs[0]) && !in_array($kk, $id_org_new)) {
-				                $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
-				                if ($chks['oo']) {
-					                $_msg .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
-					                $id_org_new[] = $kk;
-					                $er = true;
-
-					                if (!empty($tid)) {
-						                $_sqlo .= "# Fila: ".($r+1).", Beneficiario NP \n".sprintf($sqio,$_n,$s,$tid);
-						                $_csvo .= "$n,$s,$tid";
-					                }
-				                }
-			                }
-			                else if (isset($orgs[0])) {
-				                $p_vo->id_orgs_b[] = $orgs[0];
-			                }
-		                }
-	                }
-	                else {
-
-		                $_msgr .= " - No hay beneficiario NP";
-
-		                if ($chks['ob']) {
-			                $_msg .= "No hay beneficiario NP<br />";
-			                $er = true;
-		                }
-	                }
-
-
-                    // Divipola
-                    $kws = array('departamental');
-                    $divipola = $f[++$col];
-                    $departamento = $f[++$col];
-                    $municipio = $f[++$col];
-                    $latitud = $f[++$col];
-                    $longitud = $f[++$col];
-                    $cob_nal = 0;
-
-                    if (strtolower($divipola) == 'nacional' || strtolower($departamento) == 'nacional' || strtolower($municipio) == 'nacional') {
-                        $con_nal = 1;
-                    }
-                    else {
-                        $in_kws = in_array(trim(strtolower($municipio)), $kws);
-
-                        if ($chks['cob'] && !empty($divipola) && !$in_kws) {
-                            $_v = explode(',', $divipola);
-                            foreach($_v as $dv) {
-                                preg_match("/\d+/", trim($dv), $v);
-
-                                // Tiene divipola
-                                if (isset($v[0])) {
-                                    // 4 digitos
-                                    if (strlen($v[0]) == 4) {
-                                        $v[0] = '0'.$v[0];
-                                    }
-
-                                    $ms = $mun_dao->GetAllArrayID("id_mun = '".$v[0]."'",'');
-                                    if (!isset($ms[0]) && !in_array($v, $id_mun_new)) {
-                                        $_msg .= "No existe el divipola: <b>" . utf8_decode($v[0]) . "</b> <br />";
-                                        $id_mun_new[] = $v;
-                                        $er = true;
-                                    }
-                                    else {
-                                        if (!in_array($v[0], $p_vo->id_muns)) {
-                                            $p_vo->id_muns[] = $v[0];
-                                        }
-
-                                        if (!in_array(substr($v[0],0,2), $p_vo->id_deptos)) {
-                                            $p_vo->id_deptos[] = substr($v[0],0,2);
-                                        }
-
-                                        if (!empty($latitud) && !empty($longitud)) {
-                                            $p_vo->longitude[$v[0]] = $longitud;
-                                            $p_vo->latitude[$v[0]] = $latitud;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // No divipola si nombre mpio
-                        else if (!empty($municipio) && !$in_kws) {
-                            $_v = explode(',', $municipio);
-                            foreach($_v as $v) {
-                                //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
-	                            $v =  trim($v);
-	                            $ms = $mun_dao->GetAllArrayID("nom_mun LIKE '%".$v."%'",'');
-                                if (empty($ms) && !in_array($v, $id_mun_new)) {
-                                    $_msg .= "No existe el municipio: <b>" . utf8_decode($v). "</b> <br />";
-                                    $id_mun_new[] = $v;
-                                    $er = true;
-                                }
-                                else if (!empty($ms[0])) {
-
-                                    if (!in_array($ms[0], $p_vo->id_muns)) {
-                                        $p_vo->id_muns[] = $ms[0];
-                                    }
-
-                                    if (!in_array(substr($ms[0],0,2), $p_vo->id_deptos)) {
-                                        $p_vo->id_deptos[] = substr($ms[0],0,2);
-                                    }
-
-                                    if (!empty($latitud) && !empty($longitud)) {
-                                        $p_vo->longitude[$ms[0]] = $longitud;
-                                        $p_vo->latitude[$ms[0]] = $latitud;
-                                    }
-                                }
-                            }
-                        }
-                        // Solo nombre depto
-                        else if ((empty($divipola) && !empty($departamento) && empty($municipio)) || $in_kws) {
-                            $_v = explode(',', $departamento);
-                            foreach($_v as $v) {
-                                //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
-	                            $v =  trim($v);
-                                // Solo depto
-                                $ds = $depto_dao->GetAllArrayID("nom_depto LIKE '%".$v."%'");
-                                if (empty($ds)) {
-
-                                    $_msg .= "No existe el departamento: <b>" . utf8_decode($v) . "</b> <br />";
-                                    $er = true;
-
-                                    if (!in_array($v, $id_depto_new)) {
-                                        $id_depto_new[] = $v;
-                                    }
-                                }
-                                else {
-                                    if (!in_array($ds[0], $p_vo->id_deptos)) {
-                                        $p_vo->id_deptos[] = $ds[0];
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            $_msg .= "No tiene cobertura<br />";
-                            $er = true;
-                        }
-                    }
-
-                    // Interagencial
-                    $inter = intval(trim($f[++$col]));
-                    if ($inter == 1) {
-                        $p_vo->inter = 1;
-                    }
-                    else {
-                        $p_vo->inter = 0;
-                    }
-
-                    //Cash Based Transfer
-                    $cbt_ma = $f[++$col];
-                    if (empty($cbt_ma)) {
-                        $cbt_ma = '';
-                    }
-                    else {
-                        $_moda = $modalidad_asistencia_dao->GetAllArray("nom_moda LIKE '%".$cbt_ma."%'");
-                        if (empty($_moda)) {
-                            $_msg .= "No existe la modalidad de asistencia: <b>" . utf8_decode($cbt_ma) . "</b> <br />";
-                            $er = true;
-                        }
-                        else if (isset($_moda[0])) {
-                            $cbt_ma = $_moda[0]->id;
-                        }
-                    }
-
-                    $cbt_me = $f[++$col];
-                    if (empty($cbt_me)) {
-                        $cbt_me = '';
-                    }
-                    else {
-                        $_mece = $mecanismo_entrega_dao->GetAllArray("nom_mece LIKE '%".$cbt_me."%'");
-                        if (empty($_mece)) {
-                            $_msg .= "No existe el mecanismo de entrega: <b>" . utf8_decode($cbt_me). "</b> <br />";
-                            $er = true;
-                        }
-                        else if (isset($_mece[0])) {
-                            $cbt_me = $_mece[0]->id;
-                        }
-                    }
-
-                    $cbt_f = $f[++$col];
-                    if (empty($cbt_f)) {
-                        $p_vo->cbt_f = "";
-                    }
-                    else {
-                        $p_vo->cbt_f = $cbt_f;
-                    }
-                    $cbt_val = floor($f[++$col]);
-                    if (strpos($cbt_val,",") > 0 OR strpos($cbt_val,".") > 0) {
-                        $_msgr .= ' - El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales';
-                        if ($chks['p']) {
-                            $_msg .= "El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales - $cbt_val<br />";
-                            $er = true;
-                        }
-                    }
-                    elseif (isset($cbt_val) && is_numeric($cbt_val)) {
-                        $p_vo->cbt_val = number_format(trim($cbt_val),0,'','');
-                    }
-                    else {
-                    }
-
-                    //URL Soportes
-	                $soportes = trim($f[++$col]);
-                    if (!empty($soportes))
+                    if ($cond_cod && $cond_nom)
                     {
-	                    if (filter_var($soportes, FILTER_VALIDATE_URL) !== false)
+	                    $p_vo     = New P4w();
+	                    $insertar = false;
+	                    $_msgr    = '';
+
+	                    // Check obligatorios
+	                    if ($chks['ob'])
 	                    {
-		                    $p_vo->soportes = $soportes;
+		                    $_msg = '';
+		                    foreach ($cobli as $_c => $c)
+		                    {
+			                    if (empty($f[$c]))
+			                    {
+				                    if (empty($_msg))
+				                    {
+					                    $_msg .= 'Columnas obligatorias: ';
+				                    }
+
+				                    $_msg .= chr(65 + $c) . ' - ';
+				                    $er   = true;
+			                    }
+		                    }
+	                    }
+
+	                    // Se asigna codigo si no tiene
+	                    $col = 0;
+	                    if (!empty($p_vo->id_orgs_e[0]) && empty($cod_proy))
+	                    {
+		                    $_sq  = 'SELECT COUNT(id_proy) FROM vinculorgpro WHERE
+                                id_org = ' . $p_vo->id_orgs_e[0] . ' AND id_tipo_vinorgpro = 1';
+		                    $_rs  = $this->conn->OpenRecordset($_sq);
+		                    $_row = $this->conn->FetchRow($_rs);
+		                    $num  = (empty($_row[$col])) ? 1 : ($_row[$col] + 1);
+
+		                    $cod_proy = '4W-' . $s . '-' . $num;
+	                    }
+
+	                    // Tipo de Proyecto
+	                    $tipp = $tip_proy;
+	                    if (empty($tip_proy))
+	                    {
+		                    $tipp = 1; //Por defecto 1=Proyecto
 	                    }
 	                    else
 	                    {
-		                    $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
-		                    $er   = true;
+		                    $_tipp = $tipo_proyecto_dao->GetAllArray(utf8_encode("nom_tipp LIKE '%" . $tip_proy . "%'"));
+		                    if (empty($_tipp))
+		                    {
+			                    $_msg .= "No existe el tipo de proyecto: <b>" . utf8_decode($tip_proy) . "</b> <br />";
+			                    $er   = true;
+		                    }
+		                    else if (isset($_tipp[0]))
+		                    {
+			                    $tipp = $_tipp[0]->id;
+		                    }
 	                    }
+
+	                    $col = 4;
+	                    //Organización Ejecutora
+	                    if ($chks['oe'] && !$er)
+	                    {
+		                    $os = $f[$col];
+		                    $on = $f[++$col];
+		                    $ot = $f[++$col];
+		                    if (!empty($os) && !empty($on))
+		                    {
+			                    //$s = str_replace($latin, $normal, trim(strtolower($os)));
+			                    $s = trim($os);
+			                    //$n = str_replace($latin, $normal, trim(strtolower($on)));
+			                    $n  = trim($on);
+			                    $t  = trim($ot);
+			                    $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'", '', "INSTR(nom_org,'$n'),nom_org");
+			                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                    $tid  = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msg         .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
+				                    $id_org_new[] = $kk;
+				                    $er           = true;
+
+				                    if (!empty($tid))
+				                    {
+					                    $_sqlo .= "# Fila: " . ($r + 1) . " Org. Ejecutora \n" . sprintf($sqio, $n, $s, $tid);
+					                    $_csvo .= "$n,$s,$tid";
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_e[] = $orgs[0];
+			                    }
+		                    }
+		                    // Solo sigla
+		                    else if (!empty($os) && empty($on))
+		                    {
+			                    //$s = str_replace($latin, $normal, strtolower(trim($os)));
+			                    $s  = trim($os);
+			                    $kk = "Sigla:$s";
+
+			                    $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'", '', "INSTR(sig_org,'$s'),sig_org");
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msg         .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
+				                    $id_org_new[] = $kk;
+				                    $er           = true;
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_e[] = $orgs[0];
+			                    }
+		                    }
+		                    // Solo nombre
+		                    else if (empty($os) && !empty($on))
+		                    {
+			                    //$n = str_replace($latin, $normal, strtolower(trim($on)));
+			                    $n  = trim($on);
+			                    $kk = "Nombre:$n";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'", '', "INSTR(nom_org,'$n'),nom_org");
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msg         .= "No existe la Org. Ejecutora: <b>" . utf8_decode($kk) . "</b> <br />";
+				                    $id_org_new[] = $kk;
+				                    $er           = true;
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_e[] = $orgs[0];
+			                    }
+		                    }
+		                    else
+		                    {
+			                    $_msgr .= " - No hay Org. Ejecutora";
+			                    $_msg  .= "No hay Org. Ejecutora<br />";
+			                    $er    = true;
+		                    }
+		                    //echo $kk."\r\n";
+	                    }
+
+	                    //Implementador
+	                    $os = $f[++$col];
+	                    $on = $f[++$col];
+	                    $ot = $f[++$col];
+	                    if (!empty($os) && !empty($on))
+	                    {
+
+		                    $_v = explode('--', trim($os));
+		                    $_n = explode('--', trim($on));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                    $s = trim($v);
+			                    //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+			                    $n = trim($_n[$i]);
+			                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                    $t  = trim($ot);
+			                    $kk = "Sigla:$s,Nombre:$n,Tipo:$t";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' ", '', "INSTR(nom_org,'$n'),nom_org");
+			                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                    $tid  = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+
+					                    $_msg         .= "No existe el implementador: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+
+					                    if (!empty($tid))
+					                    {
+						                    $_sqlo .= "# Fila: " . ($r + 1) . ", Implementador \n" . sprintf($sqio, $n, $s, $tid);
+						                    $_csvo .= "$n,$s,$tid";
+					                    }
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_s[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    // Solo sigla
+	                    else if (!empty($os) && empty($on))
+	                    {
+
+
+
+		                    $_v = explode('--', trim($os));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                    $s  = trim($v);
+			                    $kk = "Sigla:$s";
+
+			                    $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'", '', "INSTR(sig_org,'$s'),sig_org");
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+					                    $_msg         .= "No existe el implementador: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_s[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    // Solo nombre
+	                    else if (empty($os) && !empty($on))
+	                    {
+
+
+		                    $_v = explode('--', trim($on));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+			                    $s  = '';
+			                    $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+			                    //$n = str_replace($latin, $normal, strtolower($_n));
+			                    $n  = trim($_n);
+			                    $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+			                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                    $t  = trim($ot);
+			                    $kk = "Nombre:$n,Tipo:$t";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'", '', "INSTR(nom_org,'$n'),nom_org");
+			                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                    $tid  = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el implementador: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+					                    $_msg         .= "No existe el implementador: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+
+					                    if (!empty($tid))
+					                    {
+						                    $_sqlo .= "# Fila: " . ($r + 1) . ", Implementador \n" . sprintf($sqio, $_n, $s, $tid);
+						                    $_csvo .= "$n,$s,$tid";
+					                    }
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_s[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    else
+	                    {
+
+		                    $_msgr .= " - No hay implementador";
+
+		                    if ($chks['oo'])
+		                    {
+			                    $_msg .= "No hay implementador<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    // Sectores Humanitarios
+	                    $sec = $f[++$col];
+	                    if ($chks['s'] && !empty($sec))
+	                    {
+		                    $_v = explode('--', $sec);
+
+		                    $from = array_merge($latin, array('Albergues y elementos no alimentarios'));
+		                    $to   = array_merge($normal, array('Alojamiento y ayuda no alimentaria'));
+
+		                    foreach ($_v as $v)
+		                    {
+
+			                    $v = str_replace($from, $to, trim($v));
+
+			                    if (in_array($v, $sectores))
+			                    {
+				                    $_idt                  = array_search($v, $sectores);
+				                    $p_vo->id_temas[$_idt] = array();
+				                    $p_vo->id_tema_p       = $_idt;
+			                    }
+			                    else
+			                    {
+				                    $sec = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 2");
+				                    if (empty($sec))
+				                    {
+					                    $_msg .= "No existe el sector: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+					                    if (!in_array($v, $id_tema_new))
+					                    {
+						                    $id_tema_new[] = $v;
+					                    }
+				                    }
+				                    else if (isset($sec[0]) && !array_key_exists($sec[0], $p_vo->id_temas))
+				                    {
+					                    $p_vo->id_temas[$sec[0]] = array();
+					                    $p_vo->id_tema_p         = $sec[0];
+					                    $sectores[$sec[0]]       = $v;
+				                    }
+			                    }
+		                    }
+	                    }
+
+	                    // Resultados UNDAF
+	                    $resultado = $f[++$col];
+	                    if ($chks['s'] && !empty($resultado))
+	                    {
+		                    $_v = explode('--', $resultado);
+
+		                    foreach ($_v as $v)
+		                    {
+			                    $v = trim($v);
+
+			                    if (in_array($v, $resultados))
+			                    {
+				                    $_idt                  = array_search($v, $resultados);
+				                    $p_vo->id_temas[$_idt] = array();
+			                    }
+			                    else
+			                    {
+				                    $rsts = $tema_dao->GetAllArrayID("nom_tema LIKE '%$v%' AND id_clasificacion = 4");
+				                    if (empty($rsts))
+				                    {
+					                    $_msg .= "No existe el resultado:<b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+					                    if (!in_array($v, $id_tema_new))
+					                    {
+						                    $id_tema_new[] = $v;
+					                    }
+				                    }
+				                    else if (isset($rsts[0]) && !array_key_exists($rsts[0], $p_vo->id_temas))
+				                    {
+					                    $p_vo->id_temas[$rsts[0]] = array();
+					                    $resultados[$rsts[0]]     = $v;
+				                    }
+			                    }
+		                    }
+	                    }
+
+	                    // Fecha inicio
+	                    $fini = $f[++$col];
+	                    if (!empty($fini))
+	                    {
+		                    $_f = trim($fini);
+		                    $v  = explode('/', $_f);
+		                    if (count($v) != 3)
+		                    {
+			                    if ($chks['f'])
+			                    {
+				                    $_msg .= "Fecha de inicio incorrecta, no tiene 3 elementos: <b>$fini</b> <br />";
+				                    $er   = true;
+			                    }
+		                    }
+		                    else
+		                    {
+			                    // Check formato
+			                    // yyyy-/mm-/dd
+			                    if (preg_match($re_yyyy_mm_dd, $_f))
+			                    {
+				                    $p_vo->inicio_proy = $v[0] . '-' . $v[1] . '-' . $v[2];
+			                    }
+			                    // dd-/mm-/yyyy
+			                    else if (preg_match($re_dd_mm_yyyy, $_f))
+			                    {
+				                    $p_vo->inicio_proy = $v[2] . '-' . $v[1] . '-' . $v[0];
+			                    }
+			                    // mm-/dd-/yyyy
+			                    else if (preg_match($re_mm_dd_yyyy, $_f))
+			                    {
+				                    $p_vo->inicio_proy = $v[2] . '-' . $v[0] . '-' . $v[1];
+			                    }
+			                    else
+			                    {
+				                    $_msgr .= " - Fecha de inicio incorrecta: <b>$_f</b>";
+				                    if ($chks['f'])
+				                    {
+					                    $_msg .= "Fecha de inicio incorrecta: <b>$_f</b> <br />";
+					                    $er   = true;
+				                    }
+			                    }
+		                    }
+	                    }
+	                    else
+	                    {
+		                    $_msgr .= " - No tiene fecha de inicio";
+		                    if ($chks['f'])
+		                    {
+			                    $_msg .= "No tiene fecha de inicio<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    // Fecha final
+	                    $ffinal = $f[++$col];
+	                    if (!empty($ffinal))
+	                    {
+		                    $_f = $ffinal;
+		                    $v  = explode('/', $_f);
+		                    if (count($v) != 3)
+		                    {
+			                    $_msg .= "Fecha final incorrecta: <b>$ffinal</b> <br />";
+			                    $er   = true;
+		                    }
+		                    else
+		                    {
+			                    // Check formato
+			                    // yyyy-mm-dd
+			                    if (preg_match($re_yyyy_mm_dd, $_f))
+			                    {
+				                    $p_vo->fin_proy = $v[0] . '-' . $v[1] . '-' . $v[2];
+			                    }
+			                    // dd-mm-yyyy
+			                    else if (preg_match($re_dd_mm_yyyy, $_f))
+			                    {
+				                    $p_vo->fin_proy = $v[2] . '-' . $v[1] . '-' . $v[0];
+			                    }
+			                    // mm-dd-yyyy
+			                    else if (preg_match($re_mm_dd_yyyy, $_f))
+			                    {
+				                    $p_vo->fin_proy = $v[2] . '-' . $v[0] . '-' . $v[1];
+			                    }
+			                    else
+			                    {
+				                    $_msgr .= " - Fecha de final incorrecta: <b>$_f</b>";
+				                    if ($chks['f'])
+				                    {
+					                    $_msg .= "Fecha de final incorrecta: <b>$_f</b> <br />";
+					                    $er   = true;
+				                    }
+			                    }
+		                    }
+	                    }
+	                    else
+	                    {
+		                    $_msgr .= " - No tiene fecha final";
+		                    if ($chks['f'])
+		                    {
+			                    $_msg .= "No tiene fecha final<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    // Duracion proy
+	                    $duracion_proy = $f[++$col];
+	                    if (empty($duracion_proy))
+	                    {
+		                    $p_vo->duracion_proy = $date->RestarFechas($p_vo->inicio_proy, $p_vo->fin_proy);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->duracion_proy = $duracion_proy;
+	                    }
+
+	                    // Estado
+	                    $estado = $estado_proy;
+	                    //if (empty($estado_proy)) {
+	                    $estado = (strtotime('now') < $p_vo->fin_proy) ? 3 : 4;
+	                    //}
+	                    /*
+						else {
+							$_estp = $estado_dao->GetAllArray("nom_estp LIKE '%".$estado_proy."%'");
+							if (empty($_estp)) {
+								$_msg .= "No existe el estado de proyecto: <b>$estado_proy</b> <br />";
+								$er = true;
+							}
+							else if (isset($_estp[0])) {
+								$estado = $_estp[0]->id;
+							}
+						}
+						 */
+
+	                    // Presupuesto
+	                    $col              = $col + 2;
+	                    $p_vo->costo_proy = 0;
+	                    $presu            = floor($f[$col]);
+	                    if (strpos($presu, ",") > 0 OR strpos($presu, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto contiene separadores de miles o de decimales - $presu<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu) && is_numeric($presu))
+	                    {
+		                    $p_vo->costo_proy = number_format(trim($presu), 0, '', '');
+	                    }
+	                    else
+	                    {
+		                    $_msgr .= ' - No tiene Presupuesto';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "No tiene presupuesto - $presu<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    $p_vo->costo_proy1 = 0;
+	                    $presu1            = floor($f[++$col]);
+	                    if (strpos($presu1, ",") > 0 OR strpos($presu1, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto del año 1 contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto del año 1 contiene separadores de miles o de decimales - $presu1<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu1) && is_numeric($presu1))
+	                    {
+		                    $p_vo->costo_proy1 = number_format(trim($presu1), 0, '', '');
+	                    }
+
+	                    $p_vo->costo_proy2 = 0;
+	                    $presu2            = floor($f[++$col]);
+	                    if (strpos($presu2, ",") > 0 OR strpos($presu2, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto del año 2 contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto del año 2 contiene separadores de miles o de decimales - $presu2<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu2) && is_numeric($presu2))
+	                    {
+		                    $p_vo->costo_proy2 = number_format(trim($presu2), 0, '', '');
+	                    }
+
+	                    $p_vo->costo_proy3 = 0;
+	                    $presu3            = floor($f[++$col]);
+	                    if (strpos($presu3, ",") > 0 OR strpos($presu3, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto del año 3 contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto del año 3 contiene separadores de miles o de decimales - $presu2<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu3) && is_numeric($presu3))
+	                    {
+		                    $p_vo->costo_proy3 = number_format(trim($presu3), 0, '', '');
+	                    }
+
+	                    $p_vo->costo_proy4 = 0;
+	                    $presu4            = floor($f[++$col]);
+	                    if (strpos($presu4, ",") > 0 OR strpos($presu4, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto del año 4 contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto del año 4 contiene separadores de miles o de decimales - $presu4<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu4) && is_numeric($presu4))
+	                    {
+		                    $p_vo->costo_proy4 = number_format(trim($presu4), 0, '', '');
+	                    }
+
+	                    $p_vo->costo_proy5 = 0;
+	                    $presu5            = floor($f[++$col]);
+	                    if (strpos($presu5, ",") > 0 OR strpos($presu5, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El presupuesto del año 5 contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El presupuesto del año 5 contiene separadores de miles o de decimales - $presu5<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($presu5) && is_numeric($presu5))
+	                    {
+		                    $p_vo->costo_proy5 = number_format(trim($presu5), 0, '', '');
+	                    }
+
+	                    // Checks Donante
+	                    $on = $f[++$col];
+	                    $om = $f[++$col];
+	                    $_m = explode($sep_donante, trim($om));
+	                    // Solo nombre
+	                    if (!empty($on))
+	                    {
+
+		                    $_v = explode($sep_donante, trim($on));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    $s = '';
+			                    //$_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+			                    $_n = trim($v);
+
+			                    //$n = str_replace($latin, $normal, strtolower($_n));
+			                    $n = trim($_n);
+			                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                    $t  = trim($ot);
+			                    $kk = "Nombre:$v";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'", '', '');
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el donante: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+					                    $_msg         .= "No existe el donante: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+
+					                    if (!empty($tid))
+					                    {
+						                    $_sqlo .= "# Fila: " . ($r + 1) . ", donante \n" . sprintf($sqio, $_n, $s, $tid);
+						                    $_csvo .= "$n,$s,$tid";
+					                    }
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_d[]          = $orgs[0];
+				                    $p_vo->id_orgs_d_valor_ap[$orgs[0]] = $_m[$i];
+			                    }
+		                    }
+	                    }
+	                    //}
+
+	                    // Check duplicidades
+	                    /*
+						$codigo = $f[0];
+						$nombre = '';
+						if ($this->checkExiste(compact('codigo', 'id_org', 'nombre'))) {
+						}
+						*/
+
+
+	                    $ofar = $f[++$col];
+	                    if (!empty($ofar))
+	                    {
+		                    $_f = trim($ofar);
+		                    $v  = explode('/', $_f);
+		                    if (count($v) != 3)
+		                    {
+			                    if ($chks['f'])
+			                    {
+				                    $_msg .= "Fecha de adjudicación de recursos incorrecta, no tiene 3 elementos: <b>$ofar</b> <br />";
+				                    $er   = true;
+			                    }
+		                    }
+		                    else
+		                    {
+			                    // Check formato
+			                    // yyyy-/mm-/dd
+			                    if (preg_match($re_yyyy_mm_dd, $_f))
+			                    {
+				                    $p_vo->ofar = $v[0] . '-' . $v[1] . '-' . $v[2];
+			                    }
+			                    // dd-/mm-/yyyy
+			                    else if (preg_match($re_dd_mm_yyyy, $_f))
+			                    {
+				                    $p_vo->ofar = $v[2] . '-' . $v[1] . '-' . $v[0];
+			                    }
+			                    // mm-/dd-/yyyy
+			                    else if (preg_match($re_mm_dd_yyyy, $_f))
+			                    {
+				                    $p_vo->ofar = $v[2] . '-' . $v[0] . '-' . $v[1];
+			                    }
+			                    else
+			                    {
+				                    $_msgr .= " - Fecha de adjudicación de recursos incorrecta: <b>$_f</b>";
+				                    if ($chks['f'])
+				                    {
+					                    $_msg .= "Fecha de adjudicación de recursos incorrecta: <b>$_f</b> <br />";
+					                    $er   = true;
+				                    }
+			                    }
+		                    }
+	                    }
+	                    else
+	                    {
+		                    $p_vo->ofar = '0000-00-00';
+	                    }
+
+
+	                    // HRP
+	                    $srp = trim($f[++$col]);
+
+	                    if ($srp == 'HRP')
+	                    {
+		                    $p_vo->srp_proy = 1;
+	                    }
+                        elseif ($srp == 'Adenda')
+	                    {
+		                    $p_vo->srp_proy = 2;
+	                    }
+                        elseif ($srp == 'HRP y Adenda')
+	                    {
+		                    $p_vo->srp_proy = 3;
+	                    }
+	                    else
+	                    {
+		                    $p_vo->srp_proy = 0;
+	                    }
+
+	                    // Contacto
+	                    $cn = $f[++$col];
+	                    $ce           = $f[++$col];
+	                    $cc           = $f[++$col];
+	                    $p_vo->id_con = 0;
+	                    if ($chks['con'] && !empty($ce))
+	                    {
+		                    $v = trim($cn);
+
+		                    if (in_array($v, $contactos))
+		                    {
+			                    $p_vo->id_con = array_search($v, $contactos);
+		                    }
+		                    else
+		                    {
+			                    $v        = trim($ce);
+			                    $contacto = $contacto_dao->GetAllArray("email_con LIKE '%$v%'");
+			                    if (empty($contacto))
+			                    {
+				                    $_msg .= "No existe el contacto: <b>" . utf8_decode($v) . "</b> <br />";
+				                    $er   = true;
+
+				                    if (!in_array($v, $id_con_new))
+				                    {
+					                    $id_con_new[] = $v;
+					                    $_sqlc        .= sprintf($sqic, $cn, $ce, $cc);
+					                    //$_csvc .= "$f[1],$f[2],$f[16],$f[17],$f[18]";
+				                    }
+			                    }
+			                    else if (isset($contacto[0]))
+			                    {
+				                    $p_vo->id_con             = $contacto[0]->id;
+				                    $contactos[$p_vo->id_con] = $v;
+			                    }
+		                    }
+	                    }
+
+
+	                    // Beneficiarios poblacionales
+	                    $benef = $f[++$col];
+	                    $benf_g    = array(
+		                    ++$col => array('m', 'total'),
+		                    ++$col => array('m', 1),
+		                    ++$col => array('m', 2),
+		                    ++$col => array('m', 3),
+		                    ++$col => array('m', 4),
+		                    ++$col => array('h', 'total'),
+		                    ++$col => array('h', 1),
+		                    ++$col => array('h', 2),
+		                    ++$col => array('h', 3),
+		                    ++$col => array('h', 4)
+	                    );
+	                    $str_benef = strlen($benef);
+	                    if (!empty($str_benef))
+	                    {
+
+		                    preg_match("/\d+/", trim($benef), $v);
+
+		                    if ($benef == '0' || !empty($v[0]))
+		                    {
+			                    $p_vo->benf_proy['d']['total'] = $v[0];
+
+			                    // Benf. por genero y rango de edad
+			                    foreach ($benf_g as $_g => $_s)
+			                    {
+				                    preg_match("/\d+/", trim($f[$_g]), $v);
+				                    if (!empty($v[0]))
+				                    {
+					                    $p_vo->benf_proy['d'][$_s[0]][$_s[1]] = $v[0];
+				                    }
+			                    }
+		                    }
+		                    else
+		                    {
+			                    $_msgr .= "Beneficiario=$benef es texto<br />";
+			                    if ($chks['benef'])
+			                    {
+				                    $_msg .= "Beneficiario=$benef es texto<br />";
+				                    $er   = true;
+			                    }
+		                    }
+
+	                    }
+	                    else
+	                    {
+		                    $_msgr .= " - No tiene beneficiarios";
+		                    if ($chks['benef'])
+		                    {
+			                    $_msg .= "No tiene beneficiarios<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    $num_vic = trim($f[++$col]);
+	                    if (intval($num_vic) > 0)
+	                    {
+		                    $p_vo->num_vic = intval($num_vic);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->num_vic = 0;
+	                    }
+
+	                    $num_afe = trim($f[++$col]);
+	                    if (intval($num_afe) > 0)
+	                    {
+		                    $p_vo->num_afe = intval($num_afe);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->num_afe = 0;
+	                    }
+
+	                    $num_des = trim($f[++$col]);
+	                    if (intval($num_des) > 0)
+	                    {
+		                    $p_vo->num_des = intval($num_des);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->num_des = 0;
+	                    }
+
+	                    $num_afr = trim($f[++$col]);
+	                    if (intval($num_afr) > 0)
+	                    {
+		                    $p_vo->num_afr = intval($num_afr);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->num_afr = 0;
+	                    }
+
+	                    $num_ind = trim($f[++$col]);
+	                    if (intval($num_ind) > 0)
+	                    {
+		                    $p_vo->num_ind = intval($num_ind);
+	                    }
+	                    else
+	                    {
+		                    $p_vo->num_ind = 0;
+	                    }
+
+	                    // Beneficiarios indirectos
+	                    $benef_ind_total = $f[++$col];
+	                    $benef_ind_m     = $f[++$col];
+	                    $benef_ind_h     = $f[++$col];
+
+	                    $str_benef = strlen($benef_ind_total);
+	                    if (!empty($str_benef))
+	                    {
+
+		                    preg_match("/\d+/", trim($benef_ind_total), $v);
+
+		                    if ($benef_ind_total == '0' || !empty($v[0]))
+		                    {
+			                    $p_vo->benf_proy['i']['total'] = $v[0];
+
+			                    preg_match("/\d+/", trim($benef_ind_m), $v);
+			                    if (!empty($v[0]))
+			                    {
+				                    $p_vo->benf_proy['i']['m']['total'] = $v[0];
+			                    }
+			                    preg_match("/\d+/", trim($benef_ind_h), $v);
+			                    if (!empty($v[0]))
+			                    {
+				                    $p_vo->benf_proy['i']['h']['total'] = $v[0];
+			                    }
+		                    }
+		                    else
+		                    {
+			                    $_msgr .= "Beneficiario Indirecto=$benef es texto<br />";
+			                    if ($chks['benef'])
+			                    {
+				                    $_msg .= "Beneficiario Indirecto=$benef es texto<br />";
+				                    $er   = true;
+			                    }
+		                    }
+
+	                    }
+
+	                    // Beneficiarios No-Poblacionales
+	                    $os = $f[++$col];
+	                    $on = $f[++$col];
+	                    $ot = $f[++$col];
+	                    if (!empty($os) && !empty($on))
+	                    {
+
+		                    $_v = explode('--', trim($os));
+		                    $_n = explode('--', trim($on));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                    $s = trim($v);
+			                    //$n = str_replace($latin, $normal, strtolower(trim($_n[$i])));
+			                    $n = trim($_n[$i]);
+			                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                    $t  = trim($ot);
+			                    $kk = "3Sigla:$s,Nombre:$n,Tipo:$t";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%' AND sig_org LIKE '%$s%'", '', '');
+			                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                    $tid  = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+
+					                    $_msg         .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+
+					                    if (!empty($tid))
+					                    {
+						                    $_sqlo .= "# Fila: " . ($r + 1) . ", Beneficiario NP \n" . sprintf($sqio, $n, $s, $tid);
+						                    $_csvo .= "$n,$s,$tid";
+					                    }
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_b[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    // Solo sigla
+	                    else if (!empty($os) && empty($on))
+	                    {
+
+		                    $_v = explode('--', trim($os));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    //$s = str_replace($latin, $normal, strtolower(trim($v)));
+			                    $s  = trim($v);
+			                    $kk = "Sigla:$s";
+
+			                    $orgs = $org_dao->GetAllArrayID("sig_org LIKE '%$s%'", '', '');
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+					                    $_msg         .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_b[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    // Solo nombre
+	                    else if (empty($os) && !empty($on))
+	                    {
+
+		                    $_v = explode('--', trim($on));
+
+		                    foreach ($_v as $i => $v)
+		                    {
+
+			                    $s  = '';
+			                    $_n = ucwords(strtolower(str_replace($latinUpper, $latinLower, trim($v))));
+
+			                    //$n = str_replace($latin, $normal, strtolower($_n));
+			                    $n = trim($v);
+			                    //$t = str_replace($latin, $normal, strtolower(trim($ot)));
+			                    $t  = trim($ot);
+			                    $kk = "Nombre:$v,Tipo:$t";
+
+			                    $orgs = $org_dao->GetAllArrayID("nom_org LIKE '%$n%'", '', '');
+			                    $tipo = $tipo_dao->GetAllArrayID("nomb_tipo_es LIKE '%$t%'");
+			                    $tid  = (empty($tipo[0])) ? 0 : $tipo[0];
+
+			                    if (empty($orgs[0]) && !in_array($kk, $id_org_new))
+			                    {
+				                    $_msgr .= " - No existe el beneficiario NP: " . utf8_decode($kk);
+				                    if ($chks['oo'])
+				                    {
+					                    $_msg         .= "No existe el beneficiario NP: <b>" . utf8_decode($kk) . "</b> <br />";
+					                    $id_org_new[] = $kk;
+					                    $er           = true;
+
+					                    if (!empty($tid))
+					                    {
+						                    $_sqlo .= "# Fila: " . ($r + 1) . ", Beneficiario NP \n" . sprintf($sqio, $_n, $s, $tid);
+						                    $_csvo .= "$n,$s,$tid";
+					                    }
+				                    }
+			                    }
+			                    else if (isset($orgs[0]))
+			                    {
+				                    $p_vo->id_orgs_b[] = $orgs[0];
+			                    }
+		                    }
+	                    }
+	                    else
+	                    {
+
+		                    $_msgr .= " - No hay beneficiario NP";
+
+		                    if ($chks['ob'])
+		                    {
+			                    $_msg .= "No hay beneficiario NP<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+
+	                    // Divipola
+	                    $kws          = array('departamental');
+	                    $divipola     = $f[++$col];
+	                    $departamento = $f[++$col];
+	                    $municipio    = $f[++$col];
+	                    $latitud      = $f[++$col];
+	                    $longitud     = $f[++$col];
+	                    $cob_nal      = 0;
+	                    if (strtolower($divipola) == 'nacional' || strtolower($departamento) == 'nacional' || strtolower($municipio) == 'nacional')
+	                    {
+		                    $cob_nal = 1;
+	                    }
+	                    else
+	                    {
+		                    $in_kws = in_array(trim(strtolower($municipio)), $kws);
+
+		                    if ($chks['cob'] && !empty($divipola) && !$in_kws)
+		                    {
+			                    $_v = explode('--', $divipola);
+			                    foreach ($_v as $dv)
+			                    {
+				                    preg_match("/\d+/", trim($dv), $v);
+
+				                    // Tiene divipola
+				                    if (isset($v[0]))
+				                    {
+					                    // 4 digitos
+					                    if (strlen($v[0]) == 4)
+					                    {
+						                    $v[0] = '0' . $v[0];
+					                    }
+
+					                    $ms = $mun_dao->GetAllArrayID("id_mun = '" . $v[0] . "'", '');
+					                    if (!isset($ms[0]) && !in_array($v, $id_mun_new))
+					                    {
+						                    $_msg         .= "No existe el divipola: <b>" . utf8_decode($v[0]) . "</b> <br />";
+						                    $id_mun_new[] = $v;
+						                    $er           = true;
+					                    }
+					                    else
+					                    {
+						                    if (!in_array($v[0], $p_vo->id_muns))
+						                    {
+							                    $p_vo->id_muns[] = $v[0];
+						                    }
+
+						                    if (!in_array(substr($v[0], 0, 2), $p_vo->id_deptos))
+						                    {
+							                    $p_vo->id_deptos[] = substr($v[0], 0, 2);
+						                    }
+
+						                    if (!empty($latitud) && !empty($longitud))
+						                    {
+							                    $p_vo->longitude[$v[0]] = $longitud;
+							                    $p_vo->latitude[$v[0]]  = $latitud;
+						                    }
+					                    }
+				                    }
+			                    }
+		                    }
+		                    // No divipola si nombre mpio
+		                    else if (!empty($municipio) && !$in_kws)
+		                    {
+			                    $_v = explode('--', $municipio);
+			                    foreach ($_v as $v)
+			                    {
+				                    //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
+				                    $v  = trim($v);
+				                    $ms = $mun_dao->GetAllArrayID("nom_mun LIKE '%" . $v . "%'", '');
+				                    if (empty($ms) && !in_array($v, $id_mun_new))
+				                    {
+					                    $_msg         .= "No existe el municipio: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $id_mun_new[] = $v;
+					                    $er           = true;
+				                    }
+				                    else if (!empty($ms[0]))
+				                    {
+
+					                    if (!in_array($ms[0], $p_vo->id_muns))
+					                    {
+						                    $p_vo->id_muns[] = $ms[0];
+					                    }
+
+					                    if (!in_array(substr($ms[0], 0, 2), $p_vo->id_deptos))
+					                    {
+						                    $p_vo->id_deptos[] = substr($ms[0], 0, 2);
+					                    }
+
+					                    if (!empty($latitud) && !empty($longitud))
+					                    {
+						                    $p_vo->longitude[$ms[0]] = $longitud;
+						                    $p_vo->latitude[$ms[0]]  = $latitud;
+					                    }
+				                    }
+			                    }
+		                    }
+		                    // Solo nombre depto
+		                    else if ((empty($divipola) && !empty($departamento) && empty($municipio)) || $in_kws)
+		                    {
+			                    $_v = explode('--', $departamento);
+			                    foreach ($_v as $v)
+			                    {
+				                    //$v = str_replace(array('á','é','í','ó','ú','ñ'), array('a','e','i','o','u','n'), trim($v));
+				                    $v = trim($v);
+				                    // Solo depto
+				                    $ds = $depto_dao->GetAllArrayID("nom_depto LIKE '%" . $v . "%'");
+				                    if (empty($ds))
+				                    {
+
+					                    $_msg .= "No existe el departamento: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+
+					                    if (!in_array($v, $id_depto_new))
+					                    {
+						                    $id_depto_new[] = $v;
+					                    }
+				                    }
+				                    else
+				                    {
+					                    if (!in_array($ds[0], $p_vo->id_deptos))
+					                    {
+						                    $p_vo->id_deptos[] = $ds[0];
+					                    }
+				                    }
+			                    }
+		                    }
+		                    else
+		                    {
+			                    $_msg .= "No tiene cobertura<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    // Interagencial
+	                    $inter = intval(trim($f[++$col]));
+	                    if ($inter == 1)
+	                    {
+		                    $p_vo->inter = 1;
+	                    }
+	                    else
+	                    {
+		                    $p_vo->inter = 0;
+	                    }
+
+	                    //Cash Based Transfer
+	                    $cbt_ma = trim($f[++$col]);
+	                    if (empty($cbt_ma))
+	                    {
+		                    $cbt_ma = '';
+	                    }
+	                    else
+	                    {
+		                    $_moda = $modalidad_asistencia_dao->GetAllArray("nom_moda LIKE '%" . $cbt_ma . "%'");
+		                    if (empty($_moda))
+		                    {
+			                    $_msg .= "No existe la modalidad de asistencia: <b>" . utf8_decode($cbt_ma) . "</b> <br />";
+			                    $er   = true;
+		                    }
+		                    else if (isset($_moda[0]))
+		                    {
+			                    $cbt_ma = $_moda[0]->id;
+		                    }
+	                    }
+
+	                    $cbt_me = trim($f[++$col]);
+	                    if (empty($cbt_me))
+	                    {
+		                    $cbt_me = '';
+	                    }
+	                    else
+	                    {
+		                    $_mece = $mecanismo_entrega_dao->GetAllArray("nom_mece LIKE '%" . $cbt_me . "%'");
+		                    if (empty($_mece))
+		                    {
+			                    $_msg .= "No existe el mecanismo de entrega: <b>" . utf8_decode($cbt_me) . "</b> <br />";
+			                    $er   = true;
+		                    }
+		                    else if (isset($_mece[0]))
+		                    {
+			                    $cbt_me = $_mece[0]->id;
+		                    }
+	                    }
+
+	                    $cbt_f = $f[++$col];
+	                    if (empty($cbt_f))
+	                    {
+		                    $p_vo->cbt_f = "";
+	                    }
+	                    else
+	                    {
+		                    $p_vo->cbt_f = $cbt_f;
+	                    }
+	                    $cbt_val = floor($f[++$col]);
+	                    if (strpos($cbt_val, ",") > 0 OR strpos($cbt_val, ".") > 0)
+	                    {
+		                    $_msgr .= ' - El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales';
+		                    if ($chks['p'])
+		                    {
+			                    $_msg .= "El valor por persona de Cash Based Transfer contiene separadores de miles o de decimales - $cbt_val<br />";
+			                    $er   = true;
+		                    }
+	                    }
+                        elseif (isset($cbt_val) && is_numeric($cbt_val))
+	                    {
+		                    $p_vo->cbt_val = number_format(trim($cbt_val), 0, '', '');
+	                    }
+	                    else
+	                    {
+	                    }
+
+	                    //URL Soportes
+	                    $soportes = trim($f[++$col]);
+	                    if (!empty($soportes))
+	                    {
+		                    if (filter_var($soportes, FILTER_VALIDATE_URL) !== false)
+		                    {
+			                    $p_vo->soportes = $soportes;
+		                    }
+		                    else
+		                    {
+			                    $_msg .= "El URL de soportes del proyecto no es válido - $soportes<br />";
+			                    $er   = true;
+		                    }
+	                    }
+
+	                    //Acuerdos de Paz con las FARC
+	                    $acuerdo = $f[++$col];
+	                    if ($chks['s'] && !empty($acuerdo))
+	                    {
+		                    $_v = explode('--', $acuerdo);
+
+		                    foreach ($_v as $v)
+		                    {
+			                    $v = trim($v);
+			                    if (in_array($v, $acuerdos))
+			                    {
+				                    $_idt                  = array_search($v, $acuerdos);
+				                    $p_vo->id_temas[$_idt] = array();
+			                    }
+			                    else
+			                    {
+				                    $acu = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 5");
+				                    if (empty($acu))
+				                    {
+					                    $_msg .= "No existe el la clase Acuerdos de Paz: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+					                    if (!in_array($v, $id_tema_new))
+					                    {
+						                    $id_tema_new[] = $v;
+					                    }
+				                    }
+				                    else if (isset($acu[0]) && !array_key_exists($acu[0], $p_vo->id_temas))
+				                    {
+					                    $p_vo->id_temas[$acu[0]] = array();
+					                    $acuerdos[$acu[0]]       = $v;
+				                    }
+			                    }
+		                    }
+	                    }
+
+	                    //Clasificación CAD
+	                    $clasificacioncad = $f[++$col];
+	                    if ($chks['s'] && !empty($clasificacioncad))
+	                    {
+		                    $_v = explode('--', $clasificacioncad);
+
+		                    foreach ($_v as $v)
+		                    {
+			                    $v = trim($v);
+			                    if (in_array($v, $clasificacionescad))
+			                    {
+				                    $_idt                  = array_search($v, $clasificacionescad);
+				                    $p_vo->id_temas[$_idt] = array();
+			                    }
+			                    else
+			                    {
+				                    $cad = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]{3,5} ') = '$v' AND id_clasificacion = 6");
+				                    if (empty($cad))
+				                    {
+					                    $_msg .= "No existe la clase CAD: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+					                    if (!in_array($v, $id_tema_new))
+					                    {
+						                    $id_tema_new[] = $v;
+					                    }
+				                    }
+				                    else if (isset($cad[0]) && !array_key_exists($cad[0], $p_vo->id_temas))
+				                    {
+					                    $p_vo->id_temas[$cad[0]]     = array();
+					                    $clasificacionescad[$cad[0]] = $v;
+				                    }
+			                    }
+		                    }
+	                    }
+
+	                    //Clasificación ODS
+	                    $clasificacionods = $f[++$col];
+	                    if ($chks['s'] && !empty($clasificacionods))
+	                    {
+		                    $_v = explode('--', $clasificacionods);
+
+		                    foreach ($_v as $v)
+		                    {
+			                    $v = trim($v);
+			                    if (in_array($v, $clasificacionesods))
+			                    {
+				                    $_idt                  = array_search($v, $clasificacionesods);
+				                    $p_vo->id_temas[$_idt] = array();
+			                    }
+			                    else
+			                    {
+				                    $ods = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 7");
+				                    if (empty($ods))
+				                    {
+					                    $_msg .= "No existe la clase ODS: <b>" . utf8_decode($v) . "</b> <br />";
+					                    $er   = true;
+					                    if (!in_array($v, $id_tema_new))
+					                    {
+						                    $id_tema_new[] = $v;
+					                    }
+				                    }
+				                    else if (isset($ods[0]) && !array_key_exists($ods[0], $p_vo->id_temas))
+				                    {
+					                    $p_vo->id_temas[$ods[0]]     = array();
+					                    $clasificacionesods[$ods[0]] = $v;
+				                    }
+			                    }
+		                    }
+	                    }
+
+	                    //Emergencias
+	                    $emer = trim($f[++$col]);
+	                    if (empty($emer))
+	                    {
+		                    $emergencia = 0;
+	                    }
+	                    else
+	                    {
+		                    $_emer = $emergencia_dao->GetAllArray("nom_emergencia LIKE '%" . trim($emer) . "%'");
+		                    if (empty($_emer))
+		                    {
+			                    $_msg .= "No existe la emergencia: <b>" . utf8_decode($emer) . "</b> <br />";
+			                    $er   = true;
+		                    }
+		                    else if (isset($_emer[0]))
+		                    {
+			                    $emergencia = $_emer[0]->id;
+		                    }
+	                    }
+	                    //FIN DEL RECORRIDO DE UNA FILA
+                    } else {
+	                    $_msgr .= "Nombre o codigo del proyecto es igual que en la fila anterior <br />";
+	                    $_msg .= "Nombre o codigo del proyecto es igual que en la fila anterior";
+	                    $er   = true;
                     }
-
-	                //Acuerdos de Paz con las FARC
-	                $acuerdo = $f[++$col];
-	                if ($chks['s'] && !empty($acuerdo)) {
-		                $_v = explode('-', $acuerdo);
-
-		                foreach($_v as $v) {
-		                    $v = trim($v);
-			                if (in_array($v, $acuerdos)) {
-				                $_idt = array_search($v, $acuerdos);
-				                $p_vo->id_temas[$_idt] = array();
-			                }
-			                else {
-				                $acu = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 5");
-				                if (empty($acu)) {
-					                $_msg .= "No existe el la clase Acuerdos de Paz: <b>" . utf8_decode($v). "</b> <br />";
-					                $er = true;
-					                if (!in_array($v, $id_tema_new)) {
-						                $id_tema_new[] = $v;
-					                }
-				                }
-				                else if (isset($acu[0]) && !array_key_exists($acu[0], $p_vo->id_temas)) {
-					                $p_vo->id_temas[$acu[0]] = array();
-					                $acuerdos[$acu[0]] = $v;
-				                }
-			                }
-		                }
-	                }
-
-	                //Clasificación CAD
-	                $clasificacioncad = $f[++$col];
-	                if ($chks['s'] && !empty($clasificacioncad)) {
-		                $_v = explode('-', $clasificacioncad);
-
-		                foreach($_v as $v) {
-			                $v = trim($v);
-			                if (in_array($v, $clasificacionescad)) {
-				                $_idt = array_search($v, $clasificacionescad);
-				                $p_vo->id_temas[$_idt] = array();
-			                }
-			                else {
-				                $cad = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]{3,5} ') = '$v' AND id_clasificacion = 6");
-				                if (empty($cad)) {
-					                $_msg .= "No existe la clase CAD: <b>" . utf8_decode($v). "</b> <br />";
-					                $er = true;
-					                if (!in_array($v, $id_tema_new)) {
-						                $id_tema_new[] = $v;
-					                }
-				                }
-				                else if (isset($cad[0]) && !array_key_exists($cad[0], $p_vo->id_temas)) {
-					                $p_vo->id_temas[$cad[0]] = array();
-					                $clasificacionescad[$cad[0]] = $v;
-				                }
-			                }
-		                }
-	                }
-
-	                //Clasificación ODS
-	                $clasificacionods = $f[++$col];
-	                if ($chks['s'] && !empty($clasificacionods)) {
-		                $_v = explode('-', $clasificacionods);
-
-		                foreach($_v as $v) {
-			                $v = trim($v);
-			                if (in_array($v, $clasificacionesods)) {
-				                $_idt = array_search($v, $clasificacionesods);
-				                $p_vo->id_temas[$_idt] = array();
-			                }
-			                else {
-				                $ods = $tema_dao->GetAllArrayID("REGEXP_SUBSTR(nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?') = '$v' AND id_clasificacion = 7");
-				                if (empty($ods)) {
-					                $_msg .= "No existe la clase ODS: <b>" . utf8_decode($v). "</b> <br />";
-					                $er = true;
-					                if (!in_array($v, $id_tema_new)) {
-						                $id_tema_new[] = $v;
-					                }
-				                }
-				                else if (isset($ods[0]) && !array_key_exists($ods[0], $p_vo->id_temas)) {
-					                $p_vo->id_temas[$ods[0]] = array();
-					                $clasificacionesods[$ods[0]] = $v;
-				                }
-			                }
-		                }
-	                }
-
-	                //Emergencias
-	                $emer = trim($f[++$col]);
-	                if (empty($emer)) {
-		                $emergencia = 0;
-	                }
-	                else {
-		                $_emer = $emergencia_dao->GetAllArray("nom_emergencia LIKE '%".trim($emer)."%'");
-		                if (empty($_emer)) {
-			                $_msg .= "No existe la emergencia: <b>" . utf8_decode($emer) . "</b> <br />";
-			                $er = true;
-		                }
-		                else if (isset($_emer[0])) {
-			                $emergencia = $_emer[0]->id;
-		                }
-	                }
-	                //FIN DEL RECORRIDO DE UNA FILA
 
                     if ($er) {
                         $ne++;
@@ -3073,6 +3239,7 @@ Class P4wDAO
                     $coda = $cod_proy;
                     $noma = $nom_proy;
                     $np++;
+
                 }
 
                 $r++;
@@ -4503,7 +4670,7 @@ Class P4wDAO
 
         $ejecutora_filtro = $donante_filtro = array();
         $implementadora_filtro = $cluster_filtro = $acuerdo_filtro = array();
-        $hrp_filtro = $estado_filtro = $departamento_filtro = $municipio_filtro = array();
+	    $emergencias_filtro = $hrp_filtro = $estado_filtro = $departamento_filtro = $municipio_filtro = array();
         $periodo_filtro = array();
         $aporte_donantes = 0;
         $pres2gob = 0;
@@ -4539,6 +4706,7 @@ Class P4wDAO
 
                     $id_estp = $row->id_estp;
                     $id_hrp = $row->srp_proy;
+	                $id_emergencias = $row->id_emergencia;
                     $inicio_proy = $row->inicio_proy;
                     $fin_proy = $row->fin_proy;
                     $duracion_proy = $row->duracion_proy;
@@ -4570,7 +4738,7 @@ Class P4wDAO
                             $aporte = $this->getPresupuestoBeneficiariosRealMeses($id_proy,$donacion,$inicio_proy,$fin_proy,$duracion_proy);
 
                             if ($filtro_cluster) {
-                                $pres_tema = $this->getPresTema($id_proy,$aporte,4);
+                                $pres_tema = $this->getPresTema($id_proy,$aporte,2);
 
                                 $_t = $filtros['id_tema'];
 
@@ -4868,6 +5036,14 @@ Class P4wDAO
                         $hrp_filtro[$id_hrp] += 1;
                     }
 
+	                // Lista filtro emergencias
+	                if (!array_key_exists($id_emergencias, $emergencias_filtro)) {
+		                $emergencias_filtro[$id_emergencias] = 1;
+	                }
+	                else {
+		                $emergencias_filtro[$id_emergencias] += 1;
+	                }
+
                     // Lista filtro periodo con ini
                     if (!array_key_exists($yyyy_ini, $periodo_filtro)) {
                         $periodo_filtro[$yyyy_ini] = 1;
@@ -5093,7 +5269,8 @@ Class P4wDAO
                         'estado' => 'Estado',
                         'periodo' => 'Periodo',
                         'acuerdo' => 'Acuerdos de Paz',
-                        'hrp' => 'HRP'
+                        'hrp' => 'HRP',
+                        'emergencias' => 'Emergencias'
                         );
 
                     foreach($ts as $t => $ti) {
@@ -5685,6 +5862,7 @@ Class P4wDAO
                 GROUP_CONCAT(DISTINCT id_tema) AS id_tema, nom_org, sig_org, v.id_org, id_estp, nom_estp
                 ,CONCAT(nom_con,' ',ape_con) AS nom_ape_con ,email_con, cel_con, srp_proy, inter
                 ,inter,id_tipp,far_proy,id_moda,id_mece,frecd,valp,
+                id_emergencia,
                 costo_proy1,costo_proy2,costo_proy3,costo_proy4,costo_proy5,num_vic,num_afe,num_des,num_afr,num_ind,soportes
                 FROM proyecto AS p
                 INNER JOIN vinculorgpro AS v USING(id_proy)
@@ -5796,6 +5974,9 @@ Class P4wDAO
                     case 'hrp':
                         $cond .= " AND srp_proy = $id";
                         break;
+	                case 'emergencias':
+		                $cond .= " AND id_emergencia = $id";
+		                break;
                     default:
                         // Para todo el mapa solo se muestran los proys en muns
                         //$sql .= 'JOIN mun_proy USING(id_proy)';
@@ -5849,6 +6030,7 @@ Class P4wDAO
                            'municipio' => 'municipio',
                            'estado' => 'estado_proy',
                            'acuerdo' => 'tema',
+                           'emergencias' => 'emergencia',
                 );
 
             $cid_proy = 'id_proy';
@@ -5921,6 +6103,13 @@ Class P4wDAO
 		            $cid = 'id_tema';
 		            $cnom = 'nom_tema';
 		            $cond = 'id_clasificacion = 5';
+		            break;
+
+	            case 'emergencias':
+		            $cid = 'id_emergencia';
+		            $cnom = 'nom_emergencia';
+		            $cond = "p.$cid = t.$cid AND id_emergencia > 0";
+		            $cid_proy = $cid;
 		            break;
             }
 

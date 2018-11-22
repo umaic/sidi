@@ -157,7 +157,7 @@ function addBaseLayer(c){
                 map.addLayer(ly);
 
                 var wms_departamentos = new OpenLayers.Layer.WMS("Departamentos",
-                    "https://geonode.umaic.org/geoserver/ows",
+                    "https://geodatos.umaic.org/geoserver/wms",
                     {
                         layers: "geonode:col_admbnda_adm1_igac_ochal",
                         transparent: true,
@@ -166,7 +166,7 @@ function addBaseLayer(c){
                         opacity: 0.5,
                         singleTile: true
                     });
-                map.addLayer(wms_departamentos);
+                //map.addLayer(wms_departamentos);
 
 
             }
@@ -1066,6 +1066,7 @@ function addEventosFiltros() {
     ts['municipio'] = 'Municipio';
     ts['acuerdo'] = 'Acuerdos de Paz';
     ts['hrp'] = 'HRP';
+    ts['emergencias'] = 'Emergencias';
 
     for (var id in ts) {
         $j('#filtros').find('div.f' + id).each(function(){

@@ -397,7 +397,7 @@ else {
         <div id="loading" class="alpha60">
             <img src="images/p4w/ajax-loader.png" />
         </div>
-        <div id="filtros">
+        <div id="filtros">°
             <!--<div class="g t">filtros</div>-->
             <?php
             $fs = array(
@@ -413,6 +413,7 @@ else {
                 //'modalidad_asistencia' => array('Modalidad Asistencia', 'f_a', 'Modalidad Asistencia'),
                 'acuerdo' => array('Acuerdos de Paz', 'f_z', 'Acuerdos de Paz'),
                 'hrp' => array('HRP', 'f_z', 'HRP'),
+                'emergencias' => array('Emergencias', 'f_p', 'Emergencias'),
             );
 
             foreach($fs as $_f => $_a) {
