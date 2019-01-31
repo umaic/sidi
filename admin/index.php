@@ -7,7 +7,7 @@ include_once 'lib/dao/log.class.php';
 //LOGOUT
 if (isset($_GET["accion"]) && $_GET["accion"] == "logout"){
 	$s = New SessionUsuario();
-	$s->Logout();
+	$s->Logout('../index.php');
 	die;
 }
 
