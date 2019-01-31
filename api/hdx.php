@@ -31,7 +31,7 @@ function nf($num) {
 
 switch ($mod){
 
-    case '3w':
+    case '3wold':
 
         $mun_dao = FactoryDAO::factory('municipio');
         $depto_dao = FactoryDAO::factory('depto');
@@ -195,6 +195,129 @@ switch ($mod){
         }
 
     break;
+
+	case '3w':
+
+		//Año
+		if (!empty($_GET['yyyy'])) {
+			if (intval($_GET['yyyy']) > 0)
+			{
+				$yyyy = intval($_GET['yyyy']);
+			}
+		} else {
+			$yyyy = intval(date("Y"));
+		}
+
+		//Formato
+		if (!empty($_GET['f'])) {
+			if (intval($_GET['f']) > 0)
+			{
+				$f = intval($_GET['f']);
+			}
+		} else {
+			$f = 0;
+		}
+
+
+			$sql = "
+SELECT o.id_org AS 'Id|#meta+id',
+TRIM(o.sig_org) AS 'Acronym|#org+code'
+,ot.nomb_tipo_es AS 'OrgType|#org+type'
+,t.nom_tema AS 'Sector|#sector+name'
+,d.nom_depto AS 'Department|#adm1+name'
+,Concat('CO',d.id_depto) AS 'DepCode|#adm1+code'
+FROM organizacion o
+LEFT JOIN tipo_org ot ON ot.`ID_TIPO`=o.`ID_TIPO`
+LEFT JOIN vinculorgpro vop ON (vop.id_org=o.id_org AND (vop.id_tipo_vinorgpro=1 OR vop.id_tipo_vinorgpro=2 OR vop.id_tipo_vinorgpro=3))
+LEFT JOIN proyecto p ON p.id_proy=vop.id_proy
+LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
+LEFT JOIN tema t ON t.id_tema=pt.id_tema
+LEFT JOIN mun_proy mp ON mp.id_proy=p.id_proy
+LEFT JOIN departamento d ON d.id_depto=Left(mp.id_mun,2)
+WHERE 
+TRIM(o.sig_org) <> '' AND o.sig_org IS NOT NULL
+AND vop.id_proy IS NOT NULL -- Tiene proyectos
+AND t.id_clasificacion=2 AND t.id_papa=0 AND t.id_tema <> 133 AND t.id_tema <> 159 -- Cluster sin hijos
+AND mp.id_mun <> '00000' -- Solo departamentales
+AND
+(
+(YEAR(p.inicio_proy) < $yyyy AND YEAR(p.fin_proy) > $yyyy)
+OR
+(YEAR(p.inicio_proy) < $yyyy AND YEAR(p.fin_proy) = $yyyy)
+OR
+(YEAR(p.inicio_proy) = $yyyy AND YEAR(p.fin_proy) > $yyyy)
+)
+
+GROUP BY o.sig_org,ot.nomb_tipo_in,t.nom_tema,d.nom_depto,d.id_depto
+ORDER BY Trim(o.sig_org)
+,d.id_depto";
+
+
+			$result = $conn->OpenRecordset($sql);
+			while ($row = $conn->FetchAssoc($result))
+			{
+				$json[$row['Id|#meta+id']] = $row;
+
+			}
+
+			if ($f == 1) {
+
+				// Formato Lista de Listas
+
+				// Tomamos los encabezados del primer elemento
+				$first_e = array_pop(array_reverse($json));
+				$json_tags = array_keys($first_e);
+				$json_heads = array_keys($first_e);
+
+				array_walk($json_tags, function (&$v)
+				{
+					$values = explode("|", $v);
+					$v = $values[0];
+				});
+				array_walk($json_heads, function (&$v)
+				{
+					$values = explode("|", $v);
+					$v = $values[1];
+				});
+
+				//Eliminar las claves de cada elemento
+				function array2listoflists(&$v)
+				{
+					$v = array_values($v);
+				}
+				array_walk($json, function (&$v)
+				{
+					$v = array_values($v);
+				});
+
+				//Agregar los encabezados
+				array_unshift($json, $json_heads);
+				array_unshift($json, $json_tags);
+
+
+			} else {
+				// Formato Arreglos
+				$newjson = array();
+				array_walk($json, function (&$item, $key) {
+					foreach ($item as $k => $v)
+					{
+						global $newjson;
+						$values = explode("|", $k);
+						$newjson[$key][$values[1]] = $v;
+
+					}
+				});
+
+				$json = $newjson;
+				//$json[0] = ["_comment" => trim($sql)];
+			}
+
+			header('Content-type: application/json; charset=UTF-8');
+			header("Pragma: no-cache");
+			header("Expires: 0");
+
+			echo json_encode (array_values($json), JSON_UNESCAPED_UNICODE);
+			break;
 
 }
 
