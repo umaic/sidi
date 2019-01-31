@@ -105,9 +105,9 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
         <div class="modulo">
             <h1>Contactos</h1>
             <ul>
-                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=contacto&accion=insertar">Insertar</a></li>
-                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Consultar</a></li>
-                <li><img src="images/home/importar.png">&nbsp;<a href="index.php?m_e=contacto&accion=importar">Importar</a></li>
+                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=contacto&accion=insertar&class=ContactoDAO&m_g=consulta">Insertar</a></li>
+                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&m_g=consulta&method=ListarTabla&param=">Consultar</a></li>
+                <li><img src="images/home/importar.png">&nbsp;<a href="index.php?m_e=contacto&accion=importar&m_g=alimentacion">Importar</a></li>
             </ul>
         </div>
     <? } ?>
@@ -117,8 +117,8 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
         <div class="modulo">
             <h1>Proyectos</h1>
             <ul>
-                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=p4w&accion=insertar">Insertar</a>
-                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=p4w&accion=listar&class=P4wDAO&method=Dashboard&param=&si_proy=4w">Consultar</a></li>
+                <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=p4w&accion=insertar&m_g=consulta">Insertar</a>
+                <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=p4w&m_g=consulta&accion=listar&class=P4wDAO&method=Dashboard&param=&si_proy=4w">Consultar</a></li>
             </ul>
         </div>
     <? } ?>
