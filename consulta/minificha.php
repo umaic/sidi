@@ -130,7 +130,7 @@ function asignarVariablesH(id_depto,id_mun){
 
 <form action="index.php?m_e=minificha&accion=generar&class=Minificha" method="POST">
 <table align='center' cellspacing="1" cellpadding="3" border="0">
-	<tr class='pathway'><td colspan=4>&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; Perfil Geográfico</td></tr>
+	<tr class='pathway'><td colspan=4>&nbsp;<img src='images/user-home.png'>&nbsp;<a href='https://sidi.umaic.org'>Inicio</a> &gt; Perfil Geográfico</td></tr>
 	<tr>
 		<?
 		if ($flash == 1){ ?>

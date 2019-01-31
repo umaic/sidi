@@ -21,7 +21,7 @@ else{*/
 		<li>&raquo;&nbsp;<a href="admin/index.php?m_g=admin">Administración</a></li>
 	<? } ?>
 	<li>|</li>
-	<li>&raquo;&nbsp;<a href="index.php?m_g=consulta&m_e=home">Inicio</a></li>
+	<li>&raquo;&nbsp;<a href="https://sidi.umaic.org">Inicio</a></li>
 	<li>&raquo;&nbsp;<a href="admin/index.php?accion=logout">Cerrar sesión</a></li>
 	<?
 //}

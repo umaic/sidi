@@ -10,7 +10,7 @@ if ($_SESSION["m_g"] == "admin"){
 	echo '<ul class="menulist" id="listMenuRoot">';
 	?>
 		<li><a href="/sissh/admin/index.php?accion=logout">Logout</a>
-		<li><a href="/sissh/index.php?m_g=consulta&m_e=home">Home</a></li>
+		<li><a href="https://sidi.umaic.org">Inicio</a></li>
 		<li>|</li>
 		<?
 		if (in_array(28,$perfil->id_modulo)){
@@ -329,7 +329,7 @@ else if ($_SESSION["m_g"] == "alimentacion"){
 	echo '<ul class="menulist" id="listMenuRoot">';
 	?>
 		<li><a href="/sissh/admin/index.php?accion=logout">Logout</a>
-		<li><a href="/sissh/index.php?m_g=consulta&m_e=home">Home</a></li>
+		<li><a href="https://sidi.umaic.org">Inicio</a></li>
 		<li><a href="/sissh/admin/index.php?m_g=alimentacion">Inicio Alimentaci&oacute;n</a></li>
 		<li>|</li>
 		<?
@@ -465,7 +465,7 @@ else if ($_SESSION["m_g"] == "consulta"){
         <?php
         } ?>
 		<li>|</li>
-		<li><a href="/sissh/index.php?m_g=consulta&m_e=home">Inicio</a></li>
+		<li><a href="https://sidi.umaic.org">Inicio</a></li>
 		<li><a href="index.php?accion=logout">Cerrar sesión</a>
     </ul>
     <?php

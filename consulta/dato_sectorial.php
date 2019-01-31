@@ -280,7 +280,7 @@ if (!isset($_GET["method"])){
 	<table align='center' cellspacing="1" cellpadding="5" border="0" width="900">
 		<tr class='pathway'>
 			<td colspan=4>
-				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Datos Sectoriales
+				&nbsp;<img src='images/user-home.png'>&nbsp;<a href='https://sidi.umaic.org'>Inicio</a> &gt; <a href="index.php?m_g=consulta">Reportes</a> &gt; Datos Sectoriales
 			</td>
 		</tr>
 		<tr>

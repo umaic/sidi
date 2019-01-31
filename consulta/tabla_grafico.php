@@ -72,7 +72,7 @@ if (!isset($_POST["submit"]) && !isset($_POST["pdf"])){
 	<!-- <tr><td align='left' class='titulo_pagina' colspan=8><img src="images/home/gra_resum_small.jpg">&nbsp;Gráficas y Resumenes</td></tr> -->
 	<tr class='pathway'>
 		<td colspan=4>
-			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a> &gt; Gráficas y Resúmenes
+			&nbsp;<img src='images/user-home.png'>&nbsp;<a href='https://sidi.umaic.org'>Inicio</a> &gt; Gráficas y Resúmenes
 		</td>
 		<td colspan=6 align='right'>
 			<input type='hidden' id="debug_info">

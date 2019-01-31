@@ -1053,7 +1053,7 @@ Class SisshDAO {
 			<table cellpadding="5" cellspacing="1" width="1000">
 				<tr class='pathway'>
 					<td colspan=4>
-						&nbsp;<img src='images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Inicio</a>
+						&nbsp;<img src='images/user-home.png'>&nbsp;<a href='https://sidi.umaic.org'>Inicio</a>
 						&gt; <a href='index.php?m_g=consulta&m_e=minificha&accion=generar&class=Minificha'>Perfil Geográfico</a>
 						&gt; Perfil <?= $ubicacion->nombre ?>
 					</td>

@@ -53,7 +53,7 @@ if (isset($_GET["accion"]) && $_GET["accion"] == "actualizar"){
   <table border="0" cellpadding="3" cellspacing="1" align="center" width="90%">
 		<tr class='pathway'>
 			<td colspan=4>
-				&nbsp;<img src='../images/user-home.png'>&nbsp;<a href='index.php?m_g=consulta&m_e=home'>Home</a> &gt; <a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Contactos</a>
+				&nbsp;<img src='../images/user-home.png'>&nbsp;<a href='https://sidi.umaic.org'>Inicio</a> &gt; <a href="index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Contactos</a>
 			</td>
 		</tr>
       <tr class="titulo_lista"><td align="center">
