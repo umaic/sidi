@@ -114,13 +114,13 @@ $perfil = $perfil_dao->GetAllArray('ID_TIPO_USUARIO = '.$_SESSION["id_tipo_usuar
 	<?
 	if (in_array(10,$perfil->id_modulo)){	?>
 		<!-- PROYECTOS -->
-        <div class="modulo">
+        <!-- div class="modulo">
             <h1>Proyectos</h1>
             <ul>
                 <li><img src="images/home/insertar.png">&nbsp;<a href="index.php?m_e=p4w&accion=insertar&m_g=consulta">Insertar</a>
                 <li><img src="images/home/consultar.png">&nbsp;<a href="index.php?m_e=p4w&m_g=consulta&accion=listar&class=P4wDAO&method=Dashboard&param=&si_proy=4w">Consultar</a></li>
             </ul>
-        </div>
+        </div -->
     <? } ?>
     <div class="clear"></div>
 </div>

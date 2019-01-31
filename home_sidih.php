@@ -36,7 +36,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
     </div>
     <div id="home_item" class="">
     <div class="row">
-        <div class="col-md-6">
+        <!-- div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                      <img src="images/p4w/icn_4w_pin.png" width="17" height="20" alt="4W" class="pull-left" />
@@ -82,7 +82,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
                   </p>
                </div>
             </div>
-        </div>
+        </div -->
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
