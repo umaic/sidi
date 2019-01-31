@@ -27,7 +27,7 @@ $hostname = 'http://'.$_SERVER['SERVER_NAME'];
             <a href="<?php echo $hostname ?>/im/qr/" target="_blank">Código QR</a>
             <br />Identificador único
         </div>
-        <?php if (in_array($_SESSION['id_tipo_usuario_s'], array(1,2,15,23))) { ?>
+        <?php if (in_array($_SESSION['id_tipo_usuario_s'], array(1,2,15,23,16))) { ?>
         <div id="contactos" class="p">
             <a href="<?php echo $hostname ?>/sissh/admin/index.php?m_e=contacto&accion=listar&class=ContactoDAO&method=ListarTabla&param=">Contactos</a>
             <br />Lista de contactos
