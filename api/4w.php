@@ -17,7 +17,7 @@ $render = isset($_GET["render"]) ? $_GET["render"] : 'csv';
 $conn = MysqlDb::getInstance();
 $render_json = true;
 
-if (!isset($_GET['_c']) || $_GET['_c'] != 's1dicol-api' || !in_array($mod, array('presencia','totales','proyectos','apc'))) {
+if (!isset($_GET['_c']) || $_GET['_c'] != 's1dicol-api' || !in_array($mod, array('presencia','totales','proyectos','apc','hdx','rss','p4w'))) {
     die('¬¬');
 }
 
@@ -367,7 +367,8 @@ p.num_vic AS Victimas_del_conflicto,
 p.num_afe AS Afectados_por_Desastres,
 p.num_des AS Desmovilizados_Reinsertados,
 p.num_afr AS Afrocolombianos,
-p.num_ind AS Indigenas
+p.num_ind AS Indigenas,
+p.soportes AS URL_Soportes
 FROM proyecto p
 LEFT JOIN tipo_proy tp ON p.id_tipp=tp.id_tipp
 LEFT JOIN estado_proy ep ON p.id_estp=ep.id_estp
@@ -385,13 +386,58 @@ LEFT JOIN p4w_beneficiario pb5 ON
 (pb5.id_proy=p.id_proy AND pb5.tipo_rel=2 AND pb5.genero_p4w_b='m' AND pb5.edad_p4w_b IS NULL)
 LEFT JOIN p4w_beneficiario pb6 ON 
 (pb6.id_proy=p.id_proy AND pb6.tipo_rel=2 AND pb6.genero_p4w_b='h' AND pb6.edad_p4w_b IS NULL)
-WHERE 
+WHERE ";
+
+if (intval($_GET['v']) == 1) {
+	$sql .= "CHAR_LENGTH(p.soportes) > 0 AND ";
+}
+
+		$sql .="
 p.actua_proy >= '" .$fecha . "'";
 
 		$result = $conn->OpenRecordset($sql);
 		while ($row = $conn->FetchAssoc($result)){
-			$json[$row['Id']] = $row;
 
+
+			//CAD
+			$sql10 = "SELECT t.id_tema AS Id, REGEXP_SUBSTR(t.nom_tema, '[0-9]{5}') AS Codigo, SUBSTRING(t.nom_tema, 7) AS Nombre
+			FROM proyecto p
+			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
+			LEFT JOIN tema t ON t.id_tema=pt.id_tema
+			WHERE t.id_clasificacion=6
+			AND p.id_proy=".$row['Id'];
+			$result10 = $conn->OpenRecordset($sql10);
+
+			//No desplegar proyectos si CAD
+			if (intval($_GET['v']) == 1)
+			{
+				if ($conn->RowCount($result10) == 0)
+				{
+					continue;
+				}
+			}
+
+
+			//ODS
+			$sql11 = "SELECT t.id_tema AS Id, trim(REGEXP_SUBSTR(t.nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?')) AS Codigo, SUBSTRING(t.nom_tema, 5) AS Nombre
+			FROM proyecto p
+			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
+			LEFT JOIN tema t ON t.id_tema=pt.id_tema
+			WHERE t.id_clasificacion=7
+			AND p.id_proy=".$row['Id'];
+			$result11 = $conn->OpenRecordset($sql11);
+
+			//No desplegar proyectos si ODS
+			if (intval($_GET['v']) == 1)
+			{
+				if ($conn->RowCount($result11) == 0)
+				{
+					continue;
+				}
+			}
+
+
+			$json[$row['Id']] = $row;
 
 			//Ejecutor
 			$sql2 = "SELECT o.id_org AS Id, o.nom_org AS Nombre, nit_org AS NIT
@@ -494,31 +540,171 @@ p.actua_proy >= '" .$fecha . "'";
 				$json[$row['Id']]['Acuerdos_de_Paz'][] = $row9;
 			}
 
-			//CAD
-			$sql10 = "SELECT t.id_tema AS Id, REGEXP_SUBSTR(t.nom_tema, '[0-9]{5}') AS Codigo, SUBSTRING(t.nom_tema, 7) AS Nombre
-			FROM proyecto p
-			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
-			LEFT JOIN tema t ON t.id_tema=pt.id_tema
-			WHERE t.id_clasificacion=6
-			AND p.id_proy=".$row['Id'];
-			$result10 = $conn->OpenRecordset($sql10);
 			while ($row10 = $conn->FetchAssoc($result10))
 			{
 				$json[$row['Id']]['CAD'][] = $row10;
 			}
 
-			//ODS
-			$sql11 = "SELECT t.id_tema AS Id, trim(REGEXP_SUBSTR(t.nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?')) AS Codigo, SUBSTRING(t.nom_tema, 5) AS Nombre
-			FROM proyecto p
-			LEFT JOIN proyecto_tema pt ON pt.id_proy=p.id_proy
-			LEFT JOIN tema t ON t.id_tema=pt.id_tema
-			WHERE t.id_clasificacion=7
-			AND p.id_proy=".$row['ID'];
-			$result11 = $conn->OpenRecordset($sql11);
 			while ($row11 = $conn->FetchAssoc($result11))
 			{
 				$json[$row['Id']]['ODS'][] = $row11;
 			}
+
+		}
+
+		//$json[0] = ["_comment" => trim($sql)];
+
+
+		header('Content-type: application/json; charset=UTF-8');
+		header("Pragma: no-cache");
+		header("Expires: 0");
+
+		echo json_encode (array_values($json), JSON_UNESCAPED_UNICODE);
+
+		break;
+
+    case 'rss':
+
+        $sql = "
+SELECT id_proy AS id, nom_proy AS title, actua_proy AS pubDate
+FROM proyecto
+WHERE YEAR(actua_proy)=2018
+ORDER BY actua_proy DESC";
+
+        $result = $conn->OpenRecordset($sql);
+
+        header('Content-type: application/rss+xml; charset=UTF-8');
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $rss = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+        $rss .= "<rss version=\"2.0\">\r\n";
+        $rss .= "<channel>\r\n";
+        $rss .= "  <title>UMAIC - SIDI 4W</title>\r\n";
+        $rss .= "  <link>https://sidi.umaic.org</link>\r\n";
+        $rss .= "  <language>es-co</language>\r\n";
+        $rss .= "  <managingEditor>4w@umaic.org</managingEditor>\r\n";
+        $rss .= "  <webMaster>ict@umaic.org</webMaster>\r\n";
+        $rss .= "  <description>Proyectos 4w actualizados</description>\r\n";
+
+        while ($row = $conn->FetchAssoc($result)) {
+
+            $rss .= "  <item>\r\n";
+            $rss .= "    <title>" . htmlspecialchars(trim($row['title']), ENT_XML1, 'UTF-8') . "</title>\r\n";
+            $rss .= "    <description></description>\r\n";
+            $rss .= "    <link>http://sidi.umaic.org/sissh/admin/index.php?m_e=p4w&amp;accion=actualizar&amp;class=P4wDAO&amp;id=" . $row['id'] . "</link>\r\n";
+            $rss .= "    <pubDate>" . date("D, d M Y H:i:s O", strtotime($row['pubDate'])) . "</pubDate>\r\n";
+            $rss .= "  </item>\r\n";
+        }
+
+        $rss .= "</channel>\r\n";
+        $rss .= "</rss>\r\n";
+
+        echo $rss;
+
+
+        break;
+
+	case 'p4w':
+
+		if (empty($_GET['yyyy'])) {
+			die('Faltan yyyy');
+		}
+
+		$yyyy = intval($_GET['yyyy']);
+
+		if ($yyyy > 2055 OR $yyyy < 2004) {
+			die('Faltan yyyy');
+		}
+
+		$sql = "
+ 	SELECT
+	  id,
+      id_proy
+      ,si_proy,costo_proy
+      ,num_munic
+	  ,(costo_proy/num_munic) AS pres_x_mun
+      ,inicio_proy, fin_proy
+      ,meses_reportados
+      ,meses_calculados
+      ,srp_proy
+      ,ejecutor
+      ,sig_ejecutor
+      ,sector_humanitario
+      ,ods
+	FROM
+  	(
+
+    SELECT
+    concat(p.id_proy,m.id_mun) AS Id,
+    p.id_proy,
+    p.si_proy
+    ,(
+    	SELECT Count(id_mun) FROM mun_proy mp2 WHERE mp2.id_proy=p.id_proy
+    ) AS num_munic
+    ,m.id_mun,m.nom_mun,d.id_depto,d.nom_depto
+    ,p.costo_proy
+    ,p.inicio_proy, p.fin_proy
+    ,p.duracion_proy AS meses_reportados
+	,TIMESTAMPDIFF(MONTH, p.inicio_proy, p.fin_proy) AS meses_calculados
+    ,p.srp_proy
+    ,(
+    	SELECT o.nom_org
+					FROM proyecto p2
+					LEFT JOIN vinculorgpro vop ON vop.id_proy=p2.id_proy
+					LEFT JOIN organizacion o ON o.id_org=vop.id_org
+					WHERE vop.id_tipo_vinorgpro=1
+					AND p2.id_proy=p.id_proy
+    ) AS ejecutor
+    ,(
+    	SELECT o.sig_org
+					FROM proyecto p2
+					LEFT JOIN vinculorgpro vop ON vop.id_proy=p2.id_proy
+					LEFT JOIN organizacion o ON o.id_org=vop.id_org
+					WHERE vop.id_tipo_vinorgpro=1
+					AND p2.id_proy=p.id_proy
+    ) AS sig_ejecutor       
+    ,(
+    	SELECT GROUP_CONCAT(CONCAT(t.nom_tema,' (', pt.desc_proy_tema , ')') ORDER BY t.nom_tema ASC)
+			FROM proyecto p3
+			LEFT JOIN proyecto_tema pt ON pt.id_proy=p3.id_proy
+			LEFT JOIN tema t ON t.id_tema=pt.id_tema
+			WHERE t.id_clasificacion=2
+			AND p3.id_proy=p.id_proy
+    ) AS sector_humanitario    
+    , (
+        SELECT GROUP_CONCAT(trim(REGEXP_SUBSTR(t4.nom_tema, '[0-9]+\.?[0-9a-z]?\.?[0-9]?')) ORDER BY t4.nom_tema ASC)
+			FROM proyecto p6
+			LEFT JOIN proyecto_tema pt3 ON pt3.id_proy=p6.id_proy
+			LEFT JOIN tema t4 ON t4.id_tema=pt3.id_tema
+			WHERE t4.id_clasificacion=7
+			AND p6.id_proy=p.id_proy
+    ) AS ods
+    FROM proyecto p
+    LEFT JOIN mun_proy mp ON mp.id_proy=p.id_proy
+    LEFT JOIN municipio m ON m.id_mun=mp.id_mun
+    LEFT JOIN departamento d ON d.id_depto=m.id_depto    
+    WHERE 
+        -- p.id_proy IN (35289) AND (
+        m.id_mun IS NOT NULL AND
+    	YEAR(p.inicio_proy) = ".$yyyy." 
+    	OR YEAR(p.fin_proy) = ".$yyyy." 
+        OR (YEAR(p.inicio_proy) < ".$yyyy." AND YEAR(p.fin_proy) > ".$yyyy.")
+
+        -- )
+     
+    
+) AS t2
+  WHERE num_munic>0
+  GROUP BY id_mun,id_proy
+  ORDER BY id_mun,id_proy
+      
+
+		";
+
+		$result = $conn->OpenRecordset($sql);
+		while ($row = $conn->FetchAssoc($result)){
+			$json[$row['Id']] = $row;
 
 		}
 
