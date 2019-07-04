@@ -92,6 +92,7 @@ $value_textarea = (isset($_SESSION['string_email_contacto'])) ? $_SESSION['strin
         <h3> ( <?php echo $num_arr; ?> registros )</h3>
     </div>
     <div class="pull-right"><br />
+        <a href='../index.php?m_g=consulta&accion=consultar&class=DataStudio&reporting=1Kt8VAd3sQX5QoXCqIU5lX_Uc7AWMH2NB' class="btn btn-sm btn-primary"> Analítica</a>
         <a href='index.php?m_e=contacto&accion=insertar' class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear nuevo contacto</a>
         <a href='#' class="btn btn-primary btn-sm" onclick="location.href='../export_data.php?case=xls_session&nombre_archivo=contactos';return false;"><i class="fa fa-file-excel-o"></i> Exportar listado</a>
         <a href='../OCHA_formato_contactos.xls' class="btn btn-sm btn-primary"><i class="fa fa-download"></i> Formato para captura</a>
