@@ -253,6 +253,10 @@ else {
 				if ($class == "P4W"){
 					include('consulta/p4w.php');
 				}
+                //Datastudio
+                if ($class == "DataStudio"){
+                    include('consulta/datastudio.php');
+                }
 			}
 			else if ($accion == "generar"){
 				//MINIFICHA
